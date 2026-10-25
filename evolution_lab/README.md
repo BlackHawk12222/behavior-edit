@@ -97,7 +97,7 @@ initialization and warm-up can dominate first-use timings.
 To evaluate an adapter separately:
 
 ~~~sh
-python -m evolution_lab run --limit 3 --adapter results/evolution_lab/adapters/RUN_ID/adapter
+python -m evolution_lab run --limit 3 --precision float32 --adapter results/evolution_lab/adapters/RUN_ID/adapter
 ~~~
 
 Substitute the actual RUN_ID printed by the training command. This is a
@@ -296,3 +296,5 @@ requires an exact match with the recorded output; a mismatch stops the run.
 The report contrasts LoRA against this stronger input-only control. Longer
 context costs are not equivalent to training or inference compute budgets, so
 these are behavioral comparisons, not cost/latency efficiency claims.
+
+For standalone `run --adapter`, match the original `--precision` and `--revision`; `run` defaults to automatic inference precision, while training defaults to float32. The frozen-checkpoint command enforces the recorded precision automatically.

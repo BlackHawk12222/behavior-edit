@@ -41,6 +41,7 @@ def build_parser():
     run.add_argument("--revision", default="main", help="Use a commit SHA for strict reproducibility")
     run.add_argument("--adapter", type=Path, default=None, help="Optional PEFT adapter directory")
     run.add_argument("--device", default="auto", choices=["auto", "mps", "cuda", "cpu"])
+    run.add_argument("--precision", choices=["auto", "float32", "float16"], default="auto", help="Match training precision when reloading adapters")
     run.add_argument("--conditions", nargs="+", choices=sorted(CONDITIONS), default=["baseline", "concise"])
     run.add_argument("--limit", type=int, default=None, help="Restrict tasks for a quick smoke run")
     run.add_argument("--repeats", type=int, default=1)
@@ -188,7 +189,7 @@ def main(argv=None):
     torch.manual_seed(args.seed)
     model = LocalModel(
         args.model, revision=args.revision, device=args.device,
-        adapter_path=args.adapter,
+        adapter_path=args.adapter, precision=args.precision,
     )
 
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
@@ -212,6 +213,7 @@ def main(argv=None):
                         "requested_revision": args.revision,
                         "resolved_revision": model.resolved_revision,
                         "device": model.device,
+                        "precision": model.precision,
                         "torch_version": torch.__version__,
                         "transformers_version": transformers.__version__,
                         "platform": platform.platform(),
@@ -242,6 +244,7 @@ def main(argv=None):
         "model_id": args.model,
         "adapter": str(args.adapter) if args.adapter else None,
         "resolved_revision": model.resolved_revision,
+        "precision": model.precision,
         "observations": len(records),
         "by_condition": summarize(records),
         "note": "These objective tasks measure compliance/accuracy, NOT personality.",
