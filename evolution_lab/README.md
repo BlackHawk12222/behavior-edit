@@ -1,5 +1,7 @@
 # Model Evolution Lab — Apple Silicon experimental path (v0.3.0)
 
+[Research guide](RESEARCH_GUIDE.md) · [Measured results](reports/pilot-v1.md) · [Experiment registry](experiment_registry.json)
+
 This module extends the **Behavior Editing** research repository with an independent,
 small-model experimental workflow suitable for investigating on Apple Silicon Macs,
 including a MacBook Neo with 8 GB unified memory.
