@@ -106,6 +106,10 @@
     {
       "registered_at_utc": "2026-10-25T19:24:40+00:00",
       "reason": "Documented the progress-log deviation and changed case-eval logging so future campaigns reveal only completed counts, not correctness labels. The already-running process cannot be retroactively silenced; candidate and protocol remain frozen."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:51:03Z",
+      "reason": "The first mixture case-eval preflight rejected the adapter because it stores the local cache snapshot path as model_id while the command used the Hugging Face model name. Preflight failed before loading the model or generating responses. Retried with the local snapshot directory for the same pinned Qwen/Qwen2.5-0.5B-Instruct revision 7ae557604adf67be50417f59c2c2f167def9a775. No weights, dataset, cases, arms, prompts, decoding, or metrics changed."
     }
   ],
   "protocol_deviation": {
