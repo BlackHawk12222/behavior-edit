@@ -257,3 +257,25 @@ Completed adapters now receive file hashes at the end of development; frozen
 tests reject changed checkpoint files. Early exploratory runs made before this
 integrity field existed are explicitly marked as legacy when evaluated by the
 new command. Hashes establish artifact identity, not causal validity by themselves.
+
+### Simple adapter mixture baseline
+
+```sh
+python -m evolution_lab mixture \
+  results/evolution_lab/experiments/JSON_RUN_ID \
+  results/evolution_lab/experiments/CONCISE_RUN_ID --device auto
+```
+
+This combines two compatible saved adapters with fixed coefficients 0.5 / 0.5.
+PEFT concatenation constructs exactly `0.5 * delta_1 + 0.5 * delta_2`, verified by
+a tensor integration test. It evaluates the base, each constituent adapter and
+the mixture on the union of their development targets and preservation probes.
+Per-behavior scores expose interference that a single aggregate can hide.
+
+Concatenation uses the **sum of the source ranks** (two rank-4 adapters give
+rank 8). It is a nonlearned composition diagnostic, not evidence that mixing
+beats an equally budgeted trained adapter. Coefficients are not fitted, no
+architecture grows, and there is no hypernetwork. An independently held-out
+mixture evaluation and rank-budget-matched baseline would be required before
+any stronger claim. See the official [PEFT model-merging guide](https://huggingface.co/docs/peft/developer_guides/model_merging)
+for the underlying adapter-combination API.

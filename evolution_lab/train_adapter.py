@@ -88,7 +88,7 @@ def eval_phase(local_model, tasks, phase, token_limit):
 
 
 
-def lora_delta_stats(model, torch):
+def lora_delta_stats(model, torch, adapter_name="default"):
     """Compute the effective LoRA ΔW norm per adapted module, on CPU.
 
     A trained adapter is saved separately by PEFT. These norms are metadata,
@@ -101,16 +101,16 @@ def lora_delta_stats(model, torch):
         scales = getattr(module, "scaling", None)
         if a_layers is None or b_layers is None or scales is None:
             continue
-        if "default" not in a_layers or "default" not in b_layers:
+        if adapter_name not in a_layers or adapter_name not in b_layers:
             continue
         with torch.no_grad():
-            a = a_layers["default"].weight.detach().to(
+            a = a_layers[adapter_name].weight.detach().to(
                 device="cpu", dtype=torch.float32
             )
-            b = b_layers["default"].weight.detach().to(
+            b = b_layers[adapter_name].weight.detach().to(
                 device="cpu", dtype=torch.float32
             )
-            scale = float(scales["default"])
+            scale = float(scales[adapter_name])
             delta = (b @ a) * scale
             layers.append({
                 "name": name,

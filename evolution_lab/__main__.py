@@ -100,11 +100,19 @@ def build_parser():
     catalog = sub.add_parser("catalog", help="Audit and export measured adapter features and dev/test outcomes")
     catalog.add_argument("study_dir", type=Path)
     catalog.add_argument("--output-dir", type=Path, required=True)
+    mixture = sub.add_parser("mixture", help="Evaluate a fixed equal-weight mixture on development data only")
+    mixture.add_argument("run_dirs", nargs=2, type=Path)
+    mixture.add_argument("--suite", type=Path, default=SUITE_FILE)
+    mixture.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    mixture.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/mixtures"))
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    if args.command == "mixture":
+        from .mixture import evaluate_mixture
+        return evaluate_mixture(args)
     if args.command == "catalog":
         from .catalog import build_catalog, summarize_catalog
         from .experiment import write_json

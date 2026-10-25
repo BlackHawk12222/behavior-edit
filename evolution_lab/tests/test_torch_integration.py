@@ -70,3 +70,22 @@ class TensorTests(unittest.TestCase):
         self.assertGreater((batch['labels']!=-100).sum(),0)
         with self.assertRaisesRegex(ValueError,'truncated'):
             supervised_batch(Tokenizer(),{'id':'one','prompt':'Hi','answer':'ok'},16,'cpu')
+
+    def test_equal_mixture_is_exact_sum_of_effective_deltas(self):
+        from evolution_lab.mixture import equal_mixture
+        config=LoraConfig(task_type=TaskType.CAUSAL_LM,r=2,lora_alpha=4,
+                          lora_dropout=0.,target_modules=['q_proj','v_proj'],bias='none')
+        model=get_peft_model(self.base,config,adapter_name='first')
+        model.add_adapter('second',config)
+        with torch.no_grad():
+            for module in model.modules():
+                if hasattr(module,'lora_B'):
+                    for layer in module.lora_B.values():layer.weight.normal_()
+        originals={name:.5*module.get_delta_weight('first')+.5*module.get_delta_weight('second')
+                   for name,module in model.named_modules() if hasattr(module,'lora_A')}
+        equal_mixture(model,['first','second'])
+        self.assertEqual(model.peft_config['mixture'].r,4)
+        for name,module in model.named_modules():
+            if name in originals:
+                self.assertTrue(torch.allclose(module.get_delta_weight('mixture'),originals[name],atol=1e-6))
+        self.assertEqual(lora_delta_stats(model,torch,'mixture')['adapted_modules'],2)
