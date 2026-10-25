@@ -1,0 +1,58 @@
+[
+  {
+    "id": "arithmetic_add",
+    "category": "accuracy",
+    "kind": "exact",
+    "prompt": "What is 17 + 25? Reply with digits only.",
+    "target": "42"
+  },
+  {
+    "id": "arithmetic_multiply",
+    "category": "accuracy",
+    "kind": "exact",
+    "prompt": "What is 6 times 7? Reply with digits only.",
+    "target": "42"
+  },
+  {
+    "id": "sort_numbers",
+    "category": "format",
+    "kind": "exact",
+    "prompt": "Sort 8, 3, 5 ascending. Reply with comma-separated digits and no spaces.",
+    "target": "3,5,8"
+  },
+  {
+    "id": "json_only",
+    "category": "format",
+    "kind": "json",
+    "prompt": "Return only a JSON object with keys ok (true) and count (3).",
+    "target": {"ok": true, "count": 3}
+  },
+  {
+    "id": "lowercase_only",
+    "category": "format",
+    "kind": "exact",
+    "prompt": "Reply with precisely the single lowercase word ready.",
+    "target": "ready"
+  },
+  {
+    "id": "brief_advice",
+    "category": "brevity",
+    "kind": "max_words",
+    "prompt": "Give one practical tip for backing up files, using at most 12 words.",
+    "max_words": 12
+  },
+  {
+    "id": "single_word",
+    "category": "format",
+    "kind": "exact",
+    "prompt": "Write only the capital of France. Do not include punctuation.",
+    "target": "Paris"
+  },
+  {
+    "id": "acknowledgement",
+    "category": "compliance",
+    "kind": "contains",
+    "prompt": "In one sentence, acknowledge that you received this message. Include the word received.",
+    "target": "received"
+  }
+]

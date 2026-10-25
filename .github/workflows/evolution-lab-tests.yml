@@ -1,0 +1,24 @@
+name: Evolution Lab pure-Python checks
+
+on:
+  push:
+    paths:
+      - "evolution_lab/**"
+      - ".github/workflows/evolution-lab-tests.yml"
+  pull_request:
+    paths:
+      - "evolution_lab/**"
+      - ".github/workflows/evolution-lab-tests.yml"
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate benchmark file
+        run: python -m evolution_lab validate
+      - name: Run unit tests without installing ML packages
+        run: python -m unittest discover -s evolution_lab/tests -v

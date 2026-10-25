@@ -1,3 +1,7 @@
+> **Experimental Apple Silicon path (fork):** [Model Evolution Lab](evolution_lab/README.md)
+> adds a small, objective behavior-testing tool with automatic MPS/CPU selection.
+> The original Behavior Editing research scripts remain unchanged.
+
 # Agent Ethical Behavior Editing
 **Repository Overview**: This repository contains the code, data, and experimental results for the paper *"Model Editing as a Double-Edged Sword: Steering Agent Ethical Behavior Toward Beneficence or Harm"* [AAAI'26 Oral]
 

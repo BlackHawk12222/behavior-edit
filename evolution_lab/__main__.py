@@ -1,0 +1,142 @@
+"""Run an offline-evaluable, reproducible behavior study.
+
+Example: python -m evolution_lab run --limit 3 --device auto
+"""
+
+import argparse
+import json
+import platform
+import random
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+from . import __version__
+from .metrics import grade, summarize, validate_tasks
+
+TASK_FILE = Path(__file__).with_name("tasks.json")
+CONDITIONS = {
+    "baseline": "You are a helpful assistant.",
+    "concise": "You are a concise assistant. Follow output constraints exactly.",
+    "formal": "You are a formal assistant. Follow output constraints exactly.",
+}
+
+
+def read_tasks(path):
+    with Path(path).open("r", encoding="utf-8") as handle:
+        return validate_tasks(json.load(handle))
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(
+        prog="python -m evolution_lab",
+        description="Independent local behavior lab; upstream research code is unchanged.",
+    )
+    sub = parser.add_subparsers(dest="command", required=True)
+    check = sub.add_parser("validate", help="Validate task JSON without loading a model")
+    check.add_argument("--tasks", type=Path, default=TASK_FILE)
+    run = sub.add_parser("run", help="Run controlled evaluations with a local model")
+    run.add_argument("--tasks", type=Path, default=TASK_FILE)
+    run.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
+    run.add_argument("--revision", default="main", help="Use a commit SHA for strict reproducibility")
+    run.add_argument("--device", default="auto", choices=["auto", "mps", "cuda", "cpu"])
+    run.add_argument("--conditions", nargs="+", choices=sorted(CONDITIONS), default=["baseline", "concise"])
+    run.add_argument("--limit", type=int, default=None, help="Restrict tasks for a quick smoke run")
+    run.add_argument("--repeats", type=int, default=1)
+    run.add_argument("--seed", type=int, default=42)
+    run.add_argument("--max-new-tokens", type=int, default=48)
+    run.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab"))
+    return parser
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+    try:
+        tasks = read_tasks(args.tasks)
+    except (ValueError, OSError) as error:
+        print(f"Task validation failed: {error}", file=sys.stderr)
+        return 2
+
+    if args.command == "validate":
+        print(f"Valid: {len(tasks)} tasks from {args.tasks}")
+        return 0
+
+    if args.limit is not None and args.limit < 1:
+        print("--limit must be positive", file=sys.stderr)
+        return 2
+    if args.repeats < 1 or args.max_new_tokens < 1:
+        print("--repeats and --max-new-tokens must be positive", file=sys.stderr)
+        return 2
+    if args.limit is not None:
+        tasks = tasks[:args.limit]
+
+    import torch
+    import transformers
+    from .runner import LocalModel
+
+    random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    model = LocalModel(args.model, revision=args.revision, device=args.device)
+
+    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    result_path = args.output_dir / f"{run_id}.jsonl"
+    summary_path = args.output_dir / f"{run_id}_summary.json"
+    records = []
+
+    with result_path.open("w", encoding="utf-8") as handle:
+        for condition in args.conditions:
+            for repetition in range(args.repeats):
+                for task in tasks:
+                    response, tokens, elapsed = model.generate(
+                        CONDITIONS[condition], task["prompt"], args.max_new_tokens
+                    )
+                    record = {
+                        "run_id": run_id,
+                        "lab_version": __version__,
+                        "model_id": args.model,
+                        "requested_revision": args.revision,
+                        "resolved_revision": model.resolved_revision,
+                        "device": model.device,
+                        "torch_version": torch.__version__,
+                        "transformers_version": transformers.__version__,
+                        "platform": platform.platform(),
+                        "seed": args.seed,
+                        "decoding": "greedy",
+                        "max_new_tokens": args.max_new_tokens,
+                        "condition": condition,
+                        "system_prompt": CONDITIONS[condition],
+                        "repetition": repetition,
+                        "task_id": task["id"],
+                        "task": task,
+                        "response": response,
+                        "generated_tokens": tokens,
+                        "latency_seconds": round(elapsed, 4),
+                        "metrics": grade(task, response),
+                    }
+                    records.append(record)
+                    handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+                    handle.flush()
+                    print(
+                        f"{condition:8}  {task['id']:18} "
+                        f"passed={record['metrics']['passed']}  "
+                        f"time={elapsed:.2f}s"
+                    )
+
+    report = {
+        "run_id": run_id,
+        "model_id": args.model,
+        "resolved_revision": model.resolved_revision,
+        "observations": len(records),
+        "by_condition": summarize(records),
+        "note": "These objective tasks measure compliance/accuracy, NOT personality.",
+    }
+    summary_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(report["by_condition"], indent=2))
+    print(f"Results: {result_path}")
+    print(f"Summary: {summary_path}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
