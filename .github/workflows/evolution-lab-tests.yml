@@ -37,7 +37,7 @@ jobs:
           python -m pip install 'torch>=2.5,<3' --index-url https://download.pytorch.org/whl/cpu
           python -m pip install 'transformers>=4.49,<5' 'peft>=0.14,<0.19' 'accelerate>=1,<2' safetensors
       - name: Require tensor dependencies (avoid silent skipped tests)
-        run: python -c 'import torch, transformers, peft'
+        run: python -c 'import torch; from transformers import LlamaConfig, LlamaForCausalLM; from peft import LoraConfig, TaskType, get_peft_model, PeftModel'
       - name: Run offline tensor integration tests
         env:
           HF_HUB_OFFLINE: "1"
