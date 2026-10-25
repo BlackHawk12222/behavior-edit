@@ -1,0 +1,8 @@
+[
+  {
+    "step": 1,
+    "example_id": "train_json_format_07",
+    "loss": 1.0187140703201294,
+    "gradient_norm_before_clip": 5.956591606140137
+  }
+]

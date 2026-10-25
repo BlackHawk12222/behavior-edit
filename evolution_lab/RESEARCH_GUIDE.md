@@ -244,3 +244,34 @@ campaigns, add independently checked operation families and explicit cross-
 family adversarial checks; then report prompt-control, random-edit, LoRA and
 preservation results using development-only selection and fresh untouched
 confirmation families. Do not call this dataset 100,000 tests of a model.
+
+### F008 — New MPS development smoke did not improve the target behavior
+
+Status: direct host observation; development-only, no promotion evidence.
+
+On 2026-10-25, the 8 GB Apple A18 Pro Mac completed a one-update float32 MPS
+JSON-format LoRA smoke run on Qwen2.5-0.5B-Instruct revision
+`7ae557604adf67be50417f59c2c2f167def9a775` (Python 3.11.17, PyTorch 2.14.1,
+Transformers 4.57.6, PEFT 0.18.1). The two JSON target items remained 0/2 for
+base, explicit prompt, zero adapter, trained LoRA, and norm-matched random
+adapter. The base passed both arithmetic locality probes. LoRA and random
+remained 2/2; the explicit prompt fell to 1/2 after answering 23 + 7 with 20.
+The zero adapter reproduced base responses exactly. The one LoRA update had a
+finite recorded loss (1.0187) and gradient norm (5.9566); that establishes run
+completion, not a useful edit.
+
+Only four unique questions were evaluated, from one JSON family and one
+arithmetic family. Uncertainty is wide, and no independent test set was used.
+This is a reproducible engineering/hardware observation and a negative target
+result: the candidate did not improve JSON compliance, while the prompt control
+showed a small-sample locality regression. It does not establish that LoRA
+preserves capabilities generally or that prompting is worse. Do not tune or
+promote from this run; the candidate remains an unpromoted diagnostic.
+
+Raw observations, reports, training record, LoRA/random checkpoints, delta
+features, environment metadata and SHA-256 import index are preserved in
+`evidence/pilot_v1/mps_validation/casegen_smoke_20261025/`. The run is tagged
+`smoke_only`; its model revision, suite and task hashes are in `manifest.json`.
+The attached shell transcript reported 47 passing software tests separately;
+those are not model questions. Do not add these four prompts to the 100,000
+procedurally generated questions: they are from the existing diagnostic suite.

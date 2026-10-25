@@ -1,0 +1,19 @@
+{
+  "source_run_id": "20261025T121613_955452Z",
+  "source_git_commit": "cba3b5506915cfc8fd552e628ffc60c1416b545a",
+  "copied_files_sha256": {
+    "adapter_lora/README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+    "adapter_lora/adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+    "adapter_lora/adapter_model.safetensors": "d057177c36f267ef99c7fc176a5e260ffdb461b18eb3ea0f695fdfc495f79b55",
+    "adapter_random/README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+    "adapter_random/adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+    "adapter_random/adapter_model.safetensors": "2abce1b1d011f3130c2cb27864b34dad4598ac8a56bb2d672d952e8e7d700844",
+    "delta_lora.json": "d6bf55d931ca1f6f26323169d355eb52039ae0036bb5b392ae74215e1e2f49c9",
+    "delta_random.json": "2fb03ab7f98b9f42c475a2a015fc2ea65427b510b53c177a05ab8581ba66ba6a",
+    "manifest.json": "dc92a3d9eb5917e0a9bcbeaf3ab1e3f7d812acf573309199f6bf91353d8dc496",
+    "observations.jsonl": "c7531f8a1f6c9a3baac4aea022f36dd75f843965c67cc04cb82e7f88f9428637",
+    "report.json": "a5fbac1dcf308d1d26df626876fad9c35999bb69099ddfebbf535f1e5095bbc3",
+    "training.json": "dc21710aa10d97907c46a57dee58cb9585dba8e37871f2d2b80c2733a6f78efa"
+  },
+  "note": "Raw MPS development-smoke evidence copied unchanged; import_manifest.json does not hash itself."
+}

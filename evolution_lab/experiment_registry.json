@@ -37,6 +37,37 @@
       "summary": "Deterministic no-replacement operand enumeration, four paraphrases per arithmetic fact kept together by split, split-isolated resumable shards, deduplication and answer-key validation. Infrastructure only; no behavior claim.",
       "confirmation_consumed": false,
       "eligible_for_final_confirmation": false
+    },
+    {
+      "id": "mps-dev-smoke-20261025",
+      "status": "complete-development-smoke-no-target-gain",
+      "source_run_id": "20261025T121613_955452Z",
+      "evidence": "evolution_lab/evidence/pilot_v1/mps_validation/casegen_smoke_20261025/manifest.json",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "mps",
+      "precision": "float32",
+      "unique_questions": 4,
+      "model_generations": 20,
+      "training_updates": 1,
+      "software_tests_reported_separately": 47,
+      "target_json_passes": {
+        "base": "0/2",
+        "prompt": "0/2",
+        "zero": "0/2",
+        "lora": "0/2",
+        "random": "0/2"
+      },
+      "locality_arithmetic_passes": {
+        "base": "2/2",
+        "prompt": "1/2",
+        "zero": "2/2",
+        "lora": "2/2",
+        "random": "2/2"
+      },
+      "summary": "One-step real-MPS development smoke. No JSON target gain; prompt-only condition produced one arithmetic miss, while LoRA/random/zero retained 2/2 locality. Four questions, one family per role, no independent test.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

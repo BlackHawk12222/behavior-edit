@@ -1,0 +1,614 @@
+{
+  "prompt": {
+    "target": {
+      "task_count": 2,
+      "before_passed": 0,
+      "after_passed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 0,
+      "unchanged_fail": 2,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "json_format": {
+          "tasks": 2,
+          "before_passed": 0,
+          "after_passed": 0,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_json_format_00",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        },
+        {
+          "task_id": "dev_json_format_01",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        }
+      ],
+      "before_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "after_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    },
+    "locality": {
+      "task_count": 2,
+      "before_passed": 2,
+      "after_passed": 1,
+      "improved": 0,
+      "regressed": 1,
+      "unchanged_pass": 1,
+      "unchanged_fail": 0,
+      "response_changed": 1,
+      "pass_rate_delta": -0.5,
+      "per_category": {
+        "arithmetic": {
+          "tasks": 2,
+          "before_passed": 2,
+          "after_passed": 1,
+          "improved": 0,
+          "regressed": 1,
+          "response_changed": 1
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_arithmetic_0",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": false,
+          "response_changed": true,
+          "status": "regressed"
+        },
+        {
+          "task_id": "dev_arithmetic_1",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        }
+      ],
+      "before_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "after_wilson95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    }
+  },
+  "zero": {
+    "target": {
+      "task_count": 2,
+      "before_passed": 0,
+      "after_passed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 0,
+      "unchanged_fail": 2,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "json_format": {
+          "tasks": 2,
+          "before_passed": 0,
+          "after_passed": 0,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_json_format_00",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        },
+        {
+          "task_id": "dev_json_format_01",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        }
+      ],
+      "before_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "after_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    },
+    "locality": {
+      "task_count": 2,
+      "before_passed": 2,
+      "after_passed": 2,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 2,
+      "unchanged_fail": 0,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "arithmetic": {
+          "tasks": 2,
+          "before_passed": 2,
+          "after_passed": 2,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_arithmetic_0",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        },
+        {
+          "task_id": "dev_arithmetic_1",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        }
+      ],
+      "before_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "after_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    }
+  },
+  "lora": {
+    "target": {
+      "task_count": 2,
+      "before_passed": 0,
+      "after_passed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 0,
+      "unchanged_fail": 2,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "json_format": {
+          "tasks": 2,
+          "before_passed": 0,
+          "after_passed": 0,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_json_format_00",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        },
+        {
+          "task_id": "dev_json_format_01",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        }
+      ],
+      "before_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "after_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    },
+    "locality": {
+      "task_count": 2,
+      "before_passed": 2,
+      "after_passed": 2,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 2,
+      "unchanged_fail": 0,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "arithmetic": {
+          "tasks": 2,
+          "before_passed": 2,
+          "after_passed": 2,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_arithmetic_0",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        },
+        {
+          "task_id": "dev_arithmetic_1",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        }
+      ],
+      "before_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "after_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    }
+  },
+  "random": {
+    "target": {
+      "task_count": 2,
+      "before_passed": 0,
+      "after_passed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 0,
+      "unchanged_fail": 2,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "json_format": {
+          "tasks": 2,
+          "before_passed": 0,
+          "after_passed": 0,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_json_format_00",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        },
+        {
+          "task_id": "dev_json_format_01",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        }
+      ],
+      "before_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "after_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    },
+    "locality": {
+      "task_count": 2,
+      "before_passed": 2,
+      "after_passed": 2,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 2,
+      "unchanged_fail": 0,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "arithmetic": {
+          "tasks": 2,
+          "before_passed": 2,
+          "after_passed": 2,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_arithmetic_0",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        },
+        {
+          "task_id": "dev_arithmetic_1",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        }
+      ],
+      "before_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "after_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    }
+  },
+  "lora_vs_prompt": {
+    "target": {
+      "task_count": 2,
+      "before_passed": 0,
+      "after_passed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 0,
+      "unchanged_fail": 2,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "json_format": {
+          "tasks": 2,
+          "before_passed": 0,
+          "after_passed": 0,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_json_format_00",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        },
+        {
+          "task_id": "dev_json_format_01",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        }
+      ],
+      "before_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "after_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    },
+    "locality": {
+      "task_count": 2,
+      "before_passed": 1,
+      "after_passed": 2,
+      "improved": 1,
+      "regressed": 0,
+      "unchanged_pass": 1,
+      "unchanged_fail": 0,
+      "response_changed": 1,
+      "pass_rate_delta": 0.5,
+      "per_category": {
+        "arithmetic": {
+          "tasks": 2,
+          "before_passed": 1,
+          "after_passed": 2,
+          "improved": 1,
+          "regressed": 0,
+          "response_changed": 1
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_arithmetic_0",
+          "category": "arithmetic",
+          "before_passed": false,
+          "after_passed": true,
+          "response_changed": true,
+          "status": "improved"
+        },
+        {
+          "task_id": "dev_arithmetic_1",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        }
+      ],
+      "before_wilson95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "after_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    }
+  },
+  "lora_vs_random": {
+    "target": {
+      "task_count": 2,
+      "before_passed": 0,
+      "after_passed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 0,
+      "unchanged_fail": 2,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "json_format": {
+          "tasks": 2,
+          "before_passed": 0,
+          "after_passed": 0,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_json_format_00",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        },
+        {
+          "task_id": "dev_json_format_01",
+          "category": "json_format",
+          "before_passed": false,
+          "after_passed": false,
+          "response_changed": false,
+          "status": "unchanged_fail"
+        }
+      ],
+      "before_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "after_wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    },
+    "locality": {
+      "task_count": 2,
+      "before_passed": 2,
+      "after_passed": 2,
+      "improved": 0,
+      "regressed": 0,
+      "unchanged_pass": 2,
+      "unchanged_fail": 0,
+      "response_changed": 0,
+      "pass_rate_delta": 0.0,
+      "per_category": {
+        "arithmetic": {
+          "tasks": 2,
+          "before_passed": 2,
+          "after_passed": 2,
+          "improved": 0,
+          "regressed": 0,
+          "response_changed": 0
+        }
+      },
+      "per_task": [
+        {
+          "task_id": "dev_arithmetic_0",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        },
+        {
+          "task_id": "dev_arithmetic_1",
+          "category": "arithmetic",
+          "before_passed": true,
+          "after_passed": true,
+          "response_changed": false,
+          "status": "unchanged_pass"
+        }
+      ],
+      "before_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "after_wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "paired_family_bootstrap95": null,
+      "family_count": 1,
+      "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+    }
+  }
+}
