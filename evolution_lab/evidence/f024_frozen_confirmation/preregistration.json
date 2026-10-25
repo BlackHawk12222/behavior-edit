@@ -110,6 +110,10 @@
     {
       "registered_at_utc": "2026-10-25T19:51:03Z",
       "reason": "The first mixture case-eval preflight rejected the adapter because it stores the local cache snapshot path as model_id while the command used the Hugging Face model name. Preflight failed before loading the model or generating responses. Retried with the local snapshot directory for the same pinned Qwen/Qwen2.5-0.5B-Instruct revision 7ae557604adf67be50417f59c2c2f167def9a775. No weights, dataset, cases, arms, prompts, decoding, or metrics changed."
+    },
+    {
+      "registered_at_utc": "2026-10-25T20:21:03Z",
+      "reason": "The first arithmetic case-eval preflight used the archived adapter checkpoint directory, which does not include the sibling completed training manifest required by source validation. It failed before loading the model or generating responses. The retry uses the exact original completed training run recorded in this preregistration; its checkpoint hash matches the archived candidate evidence. No candidate tensors, questions, arms, prompts, decoding, or metrics changed."
     }
   ],
   "protocol_deviation": {
