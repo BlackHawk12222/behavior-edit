@@ -10,7 +10,7 @@ import random
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .metrics import grade, summarize
+from .metrics import compare_before_after, grade, summarize
 from .runner import LocalModel
 
 BASE_SYSTEM = "You are a helpful assistant."
@@ -83,6 +83,50 @@ def eval_phase(local_model, tasks, phase, token_limit):
     return records
 
 
+
+def lora_delta_stats(model, torch):
+    """Compute the effective LoRA ΔW norm per adapted module, on CPU.
+
+    A trained adapter is saved separately by PEFT. These norms are metadata,
+    not a substitute for its tensors or proof of behavioral change.
+    """
+    layers = []
+    for name, module in model.named_modules():
+        a_layers = getattr(module, "lora_A", None)
+        b_layers = getattr(module, "lora_B", None)
+        scales = getattr(module, "scaling", None)
+        if a_layers is None or b_layers is None or scales is None:
+            continue
+        if "default" not in a_layers or "default" not in b_layers:
+            continue
+        with torch.no_grad():
+            a = a_layers["default"].weight.detach().to(
+                device="cpu", dtype=torch.float32
+            )
+            b = b_layers["default"].weight.detach().to(
+                device="cpu", dtype=torch.float32
+            )
+            scale = float(scales["default"])
+            delta = (b @ a) * scale
+            layers.append({
+                "name": name,
+                "matrix_shape": list(delta.shape),
+                "rank": int(a.shape[0]),
+                "scale": scale,
+                "delta_frobenius_norm": float(torch.linalg.vector_norm(delta).item()),
+                "delta_max_abs": float(delta.abs().max().item()),
+            })
+    if not layers:
+        raise RuntimeError("No LoRA matrices were found for measuring weight deltas")
+    return {
+        "adapted_modules": len(layers),
+        "delta_global_frobenius_norm": math.sqrt(
+            sum(layer["delta_frobenius_norm"] ** 2 for layer in layers)
+        ),
+        "layers": layers,
+    }
+
+
 def train_adapter(args, tasks):
     if (
         args.steps < 1 or args.rank < 1 or args.max_length < 16
@@ -144,6 +188,8 @@ def train_adapter(args, tasks):
     local_model.model.config.use_cache = True
     after = eval_phase(local_model, held_out, "after", args.max_new_tokens)
     records = baseline + after
+    comparison = compare_before_after(baseline, after)
+    delta_stats = lora_delta_stats(local_model.model, torch)
 
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
     save_dir = args.output_dir / run_id
@@ -151,6 +197,9 @@ def train_adapter(args, tasks):
     save_dir.mkdir(parents=True, exist_ok=False)
     local_model.model.save_pretrained(str(adapter_dir), safe_serialization=True)
 
+    (save_dir / "delta_stats.json").write_text(
+        json.dumps(delta_stats, indent=2) + "\n", encoding="utf-8"
+    )
     with (save_dir / "comparison.jsonl").open("w", encoding="utf-8") as handle:
         for record in records:
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
@@ -168,6 +217,13 @@ def train_adapter(args, tasks):
         "max_length": args.max_length,
         "loss_history": loss_history,
         "evaluation": summarize(records),
+        "comparison": comparison,
+        "trainable_parameters": sum(p.numel() for p in parameters),
+        "weight_deltas": {
+            "adapted_modules": delta_stats["adapted_modules"],
+            "global_frobenius_norm": delta_stats["delta_global_frobenius_norm"],
+            "stats_path": str(save_dir / "delta_stats.json"),
+        },
         "adapter_path": str(adapter_dir),
         "warning": "Small proof of concept only: no evidence of personality editing or generalization.",
     }
@@ -176,4 +232,13 @@ def train_adapter(args, tasks):
     )
     print(f"\nAdapter saved: {adapter_dir}")
     print(f"Before/after scores: {json.dumps(summary['evaluation'], indent=2)}")
+    print(
+        "Behavior changes: "
+        f"{comparison['improved']} improved, {comparison['regressed']} regressed, "
+        f"{comparison['response_changed']} responses changed / {comparison['task_count']} tasks"
+    )
+    print(
+        f"LoRA: {delta_stats['adapted_modules']} modules, "
+        f"{summary['trainable_parameters']:,} trainable parameters"
+    )
     return 0

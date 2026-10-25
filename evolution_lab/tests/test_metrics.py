@@ -5,7 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from evolution_lab.__main__ import TASK_FILE, main, read_tasks
-from evolution_lab.metrics import grade, summarize, validate_tasks
+from evolution_lab.metrics import compare_before_after, grade, summarize, validate_tasks
 from evolution_lab.runner import select_device
 from evolution_lab.train_adapter import read_examples
 
@@ -55,6 +55,51 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(result["a"]["observations"], 2)
         self.assertEqual(result["a"]["pass_rate"], 0.5)
         self.assertEqual(result["a"]["mean_latency_seconds"], 2)
+
+    def test_compare_phases_tracks_changes_and_regressions(self):
+        cases = [
+            ("a", "format", False, True, "wrong", "right"),
+            ("b", "math", True, False, "42", "fourty-two"),
+            ("c", "format", True, True, "yes", "sure"),
+            ("d", "math", False, False, "?", "?"),
+        ]
+        before, after = [], []
+        for identifier, category, a, b, old, new in cases:
+            task = {"id": identifier, "category": category}
+            before.append({
+                "task_id": identifier, "task": task,
+                "response": old, "metrics": {"passed": a},
+            })
+            after.append({
+                "task_id": identifier, "task": task,
+                "response": new, "metrics": {"passed": b},
+            })
+        report = compare_before_after(before, after)
+        self.assertEqual(report["task_count"], 4)
+        self.assertEqual(report["improved"], 1)
+        self.assertEqual(report["regressed"], 1)
+        self.assertEqual(report["unchanged_pass"], 1)
+        self.assertEqual(report["unchanged_fail"], 1)
+        self.assertEqual(report["response_changed"], 3)
+        self.assertEqual(report["pass_rate_delta"], 0)
+        self.assertEqual(report["per_category"]["format"]["improved"], 1)
+        self.assertEqual(report["per_category"]["math"]["regressed"], 1)
+
+    def test_compare_phases_rejects_unpaired_tasks(self):
+        row = {
+            "task_id": "a", "task": {"id": "a"}, "response": "ok",
+            "metrics": {"passed": True},
+        }
+        with self.assertRaisesRegex(ValueError, "same nonempty task IDs"):
+            compare_before_after([row], [])
+
+    def test_compare_phases_rejects_duplicate_tasks(self):
+        row = {
+            "task_id": "a", "task": {"id": "a"}, "response": "ok",
+            "metrics": {"passed": True},
+        }
+        with self.assertRaisesRegex(ValueError, "Repeated task ID"):
+            compare_before_after([row, row], [row])
 
     def test_validate_command_needs_no_ml_dependencies(self):
         self.assertEqual(main(["validate"]), 0)

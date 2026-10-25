@@ -76,3 +76,84 @@ def summarize(records):
             ),
         }
     return report
+
+
+
+def compare_before_after(before_rows, after_rows):
+    """Pair evaluations by task, reporting gains, regressions and locality.
+
+    Only meaningful when the *same* task prompts, generation settings, and
+    model checkpoint are used before and after an edit.
+    """
+    def index_unique(rows, phase):
+        indexed = {}
+        for row in rows:
+            task_id = row["task_id"]
+            if task_id in indexed:
+                raise ValueError(f"Repeated task ID in {phase} evaluation: {task_id}")
+            indexed[task_id] = row
+        return indexed
+
+    before = index_unique(before_rows, "before")
+    after = index_unique(after_rows, "after")
+    if not before or before.keys() != after.keys():
+        raise ValueError("Before/after evaluations must contain the same nonempty task IDs")
+
+    totals = {
+        "task_count": len(before),
+        "before_passed": 0,
+        "after_passed": 0,
+        "improved": 0,
+        "regressed": 0,
+        "unchanged_pass": 0,
+        "unchanged_fail": 0,
+        "response_changed": 0,
+    }
+    per_category = defaultdict(lambda: {
+        "tasks": 0,
+        "before_passed": 0,
+        "after_passed": 0,
+        "improved": 0,
+        "regressed": 0,
+        "response_changed": 0,
+    })
+    task_rows = []
+    for task_id in sorted(before):
+        a, b = before[task_id], after[task_id]
+        if a["task"] != b["task"]:
+            raise ValueError(f"Task definition changed between phases: {task_id}")
+        was_ok = bool(a["metrics"]["passed"])
+        now_ok = bool(b["metrics"]["passed"])
+        changed = a["response"].strip() != b["response"].strip()
+        status = (
+            "improved" if not was_ok and now_ok else
+            "regressed" if was_ok and not now_ok else
+            "unchanged_pass" if was_ok else "unchanged_fail"
+        )
+        category = a["task"].get("category", "uncategorized")
+        totals["before_passed"] += int(was_ok)
+        totals["after_passed"] += int(now_ok)
+        totals[status] += 1
+        totals["response_changed"] += int(changed)
+        cats = per_category[category]
+        cats["tasks"] += 1
+        cats["before_passed"] += int(was_ok)
+        cats["after_passed"] += int(now_ok)
+        cats["response_changed"] += int(changed)
+        if status in {"improved", "regressed"}:
+            cats[status] += 1
+        task_rows.append({
+            "task_id": task_id,
+            "category": category,
+            "before_passed": was_ok,
+            "after_passed": now_ok,
+            "response_changed": changed,
+            "status": status,
+        })
+
+    totals["pass_rate_delta"] = (
+        totals["after_passed"] - totals["before_passed"]
+    ) / totals["task_count"]
+    totals["per_category"] = dict(sorted(per_category.items()))
+    totals["per_task"] = task_rows
+    return totals

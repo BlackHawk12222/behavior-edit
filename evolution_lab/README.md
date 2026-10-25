@@ -1,4 +1,4 @@
-# Model Evolution Lab — Apple Silicon experimental path (v0.1)
+# Model Evolution Lab — Apple Silicon experimental path (v0.2.1)
 
 This module extends the **Behavior Editing** research repository with an independent,
 small-model experimental workflow suitable for investigating on Apple Silicon Macs,
@@ -58,19 +58,43 @@ held-out, balanced test sets, repeated seeds, and confidence intervals.
 
 ## Optional: editing model weights with LoRA (experimental v0.2)
 
-This training path is **experimental and not yet tested on a physical MacBook
-Neo**. It uses short supervised examples and small rank-4 adapters, with
-training and evaluation prompts separated. Run with other programs closed if
-memory is limited. If MPS errors or memory limits occur, try CPU with a low
-step count or use a machine with more RAM.
+**MacBook Neo hardware report (October 25, 2026):** A user tested this
+experimental path on an 8 GB Apple Silicon MacBook Neo with Python 3.11.17,
+PyTorch 2.14.1, Transformers 4.57.6 and PEFT 0.18.1. The reported
+one-step and four-step LoRA runs completed on MPS; the initial inference
+run and all 14 unit tests also passed. This is one device report, not a
+cross-version compatibility guarantee.
+
+The adapters were trained from short supervised examples at rank 4; training
+and evaluation prompts were separate. The two arithmetic tests already passed
+before editing and still passed afterwards. **No improvement claim follows
+from those results.** Run with other programs closed if memory is limited.
+If MPS errors occur, try CPU with a low step count or use more RAM.
 
 ~~~sh
 python -m pip install -r evolution_lab/requirements-train-mac.txt
 python -m evolution_lab train --device auto --steps 4 --eval-limit 2
 ~~~
 
-The output directory will contain `adapter/`, `summary.json`, and
-`comparison.jsonl`. To evaluate an adapter separately:
+The output directory contains `adapter/`, `summary.json`,
+`comparison.jsonl` and `delta_stats.json`. The last file records
+the Frobenius norm of each effective LoRA weight delta, alongside
+layer names. The summary distinguishes improved, regressed, unchanged,
+and changed-response outcomes by task and category.
+
+For a more informative follow-up, evaluate all eight held-out tests,
+rather than just the first two already-correct arithmetic questions:
+
+~~~sh
+python -m evolution_lab train --device auto --steps 4 --eval-limit 8
+~~~
+
+Loss values from different training examples are **not a learning curve**;
+a large step-to-step swing alone doesn't prove instability.
+Do not infer faster generation from first-call versus later-call latency:
+initialization and warm-up can dominate first-use timings.
+
+To evaluate an adapter separately:
 
 ~~~sh
 python -m evolution_lab run --limit 3 --adapter results/evolution_lab/adapters/RUN_ID/adapter
@@ -96,8 +120,9 @@ test sets, additional seeds, and general capability/locality checks.
 
 ## Caveats
 
-- MacBook Neo physical-hardware compatibility has **not** yet been verified.
-  MPS uses shared/unified memory; other running apps affect memory headroom.
+- One MacBook Neo report confirms a small LoRA run works on MPS.
+  Larger experiments and version combinations remain unverified.
+  MPS uses shared/unified memory; other apps affect memory headroom.
 - CUDA-specific upstream scripts should not be invoked on Apple Silicon.
 - Avoid synthetic training examples that are inaccurate or unsafe.
 - Keep original evaluation tasks out of training data, and distinguish

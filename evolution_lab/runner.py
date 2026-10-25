@@ -40,7 +40,7 @@ class LocalModel:
         self.model = AutoModelForCausalLM.from_pretrained(
             model_id,
             revision=revision,
-            torch_dtype=dtype,
+            dtype=dtype,
             low_cpu_mem_usage=True,
             attn_implementation="eager",
             trust_remote_code=False,
