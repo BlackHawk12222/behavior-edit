@@ -223,10 +223,10 @@ generation of the same shard was idempotent; independent shards reconstructed
 the same ordered cases as a single generation; all 100,000 normalized prompts
 were unique and all answer keys re-solved exactly. Evidence and checksums are
 in `evidence/casegen_v3/manifest.json`. These are generated question records,
-not model responses, experiments, or evidence of improvement. The current
-session could not access MPS (`torch.backends.mps.is_available()` was false),
-and no model inference was run. The previous host-specific MPS record F006
-remains historical evidence only.
+not model responses, experiments, or evidence of improvement. At the time this
+infrastructure result was first recorded, its execution process could not
+access MPS and ran no inference. A later direct host check found MPS available;
+the separate MPS smoke result is F008.
 
 Reproduce from the repository root:
 
@@ -275,3 +275,58 @@ features, environment metadata and SHA-256 import index are preserved in
 The attached shell transcript reported 47 passing software tests separately;
 those are not model questions. Do not add these four prompts to the 100,000
 procedurally generated questions: they are from the existing diagnostic suite.
+
+### F009 — Generated-case campaigns now have an objective paired evaluator
+
+Status: implementation and software verification complete; no generated-case
+model responses collected yet.
+
+`python -m evolution_lab case-eval` evaluates fixed generated cases locally and
+stores one raw record per case and condition. It grades arithmetic value from
+the trusted integer answer key, separately tracks single-integer formatting,
+and compares arms on identical question IDs with a paired family bootstrap.
+Candidate LoRA runs require the base, explicit prompt, LoRA, and norm-matched
+random arms. Adapter files must match the source experiment's recorded hashes,
+base model, immutable revision and training settings; random delta norms must
+match LoRA per layer within 0.01%. Every run records the dataset and subset
+fingerprints, adapter hashes, model revision, prompts, raw outputs, token counts,
+latencies, grades and uncertainty summaries.
+
+Runs checkpoint JSONL responses and can resume only when the complete run
+specification is identical. The development split is the default. Confirmation
+requires explicit `--allow-confirmation`; any consumed confirmation questions
+must be retired from subsequent selection. `--offset` plus `--limit` permits
+bounded slices in stable split order so campaigns can add generations in
+checkpointed stages instead of loading all possible cases at once. Repeated
+responses count as generations, while the distinct case IDs count as unique
+questions.
+
+Verification: 54 software tests passed, including mocked interruption/resume,
+duplicate-safe ledger behavior, split selection, exact answer grading,
+per-layer norm-match rejection, and adapter/source-hash checks. The 100,000-case
+dataset still validates with 70,036 train, 14,984 dev, and 14,980 confirmation
+questions. No model generations were made through this evaluator. MPS is
+available on the direct Mac host, but the separate fixed MPS reproduction study
+was still marked running at the time of this implementation, so this work did
+not launch a competing model job. MPS availability does not itself verify the
+new evaluator's model-loading path.
+
+Example, using the pinned Qwen revision and a bounded development slice:
+
+```sh
+python -m evolution_lab case-eval evolution_lab/evidence/casegen_v3 \
+  --split dev --revision 7ae557604adf67be50417f59c2c2f167def9a775 \
+  --arms base prompt --limit 32 --output-dir results/evolution_lab/case-dev-000
+```
+
+For a trained adapter, provide the paired adapter directories and the two
+effective-delta JSON files from the same complete experiment, and select all
+four control arms. Resume an interrupted campaign by repeating its exact
+command with `--resume`.
+
+Limits and next falsification: answer extraction currently grades integer
+arithmetic only; it is not a broad reasoning measure. The system still needs a
+small real-model development-slice run after the active fixed study completes,
+then an independently authored task family and fresh confirmation before any
+weight-edit conclusion. Millions of generated records are not millions of
+model generations, and no case-evaluation campaign result is yet in evidence.

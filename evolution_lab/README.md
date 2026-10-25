@@ -74,6 +74,30 @@ report model generations separately from unique prompts, repeats, cache hits,
 and software tests. See the [research guide](RESEARCH_GUIDE.md) for the first
 100,000-case infrastructure census and its limits.
 
+To collect paired local-model answers, use a development split and an immutable
+model revision. The runner records every raw answer, separates arithmetic
+correctness from integer-only formatting, checkpoints its JSONL ledger, and
+resumes only when the dataset, model, arms, prompts, and adapter hashes match.
+An adapter comparison requires base, explicit prompt, LoRA, and norm-matched
+random arms in the same run. Confirmation requires a separate explicit flag;
+once inspected, those cases must be retired from future tuning.
+
+~~~sh
+python -m evolution_lab case-eval evolution_lab/evidence/casegen_v3 \
+  --split dev --revision MODEL_COMMIT_SHA --arms base prompt \
+  --limit 32 --output-dir results/evolution_lab/case-campaign-dev
+~~~
+
+For an interrupted run, repeat the same command with `--resume`. Add
+`--adapter PATH/adapter_lora --random-adapter PATH/adapter_random \
+--adapter-delta PATH/delta_lora.json --random-delta PATH/delta_random.json \
+--arms base prompt adapter random` to evaluate candidate weights against the
+same questions and matched controls. The adapter arms must come from the same
+complete experiment, match the requested base revision, and have per-layer
+effective delta norms within 0.01%.
+The runner never trains or self-grades; candidate promotion still needs
+independent confirmation and capability/locality checks.
+
 Use a Hugging Face commit SHA instead of `main` for reproducible comparisons.
 Treat 8 tasks as a smoke test. Reliable conclusions require much larger,
 held-out, balanced test sets, repeated seeds, and confidence intervals.

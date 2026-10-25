@@ -68,6 +68,30 @@
       "summary": "One-step real-MPS development smoke. No JSON target gain; prompt-only condition produced one arithmetic miss, while LoRA/random/zero retained 2/2 locality. Four questions, one family per role, no independent test.",
       "confirmation_consumed": false,
       "eligible_for_promotion": false
+    },
+    {
+      "id": "case-eval-v1",
+      "status": "implementation-verified-no-model-results",
+      "entrypoint": "python -m evolution_lab case-eval",
+      "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "unique_questions_generated": 100000,
+      "model_generations": 0,
+      "software_tests_passed": 54,
+      "features": [
+        "trusted arithmetic answer grading",
+        "separate integer-format metric",
+        "paired base/prompt/LoRA/norm-matched-random arms",
+        "source manifest and checkpoint hash verification",
+        "layerwise effective-delta norm matching",
+        "resumable JSONL response records",
+        "bounded stable-offset evaluation slices",
+        "explicit confirmation opt-in"
+      ],
+      "mps_available": true,
+      "model_run_skipped_due_to_existing_active_study": true,
+      "summary": "Evaluator and guards are unit-verified. No behavior claim; first real-model development slice remains to be run after the active MPS reproduction study completes.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

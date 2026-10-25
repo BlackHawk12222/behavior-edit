@@ -41,6 +41,26 @@ def build_parser():
     cases.add_argument("--count", type=int, default=1000)
     cases.add_argument("--output", type=Path, required=True)
     cases.add_argument("--validate-only", action="store_true", help="Validate an existing generated dataset")
+    case_eval = sub.add_parser("case-eval", help="Run a paired, resumable local campaign on generated cases")
+    case_eval.add_argument("dataset", type=Path)
+    case_eval.add_argument("--split", choices=["dev", "confirmation"], default="dev")
+    case_eval.add_argument("--allow-confirmation", action="store_true", help="Required to consume the final confirmation split")
+    case_eval.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
+    case_eval.add_argument("--revision", required=True, help="Immutable 40-character model commit SHA")
+    case_eval.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    case_eval.add_argument("--precision", choices=["auto", "float32", "float16"], default="auto")
+    case_eval.add_argument("--arms", nargs="+", choices=["base", "prompt", "adapter", "random"], default=["base", "prompt"])
+    case_eval.add_argument("--adapter", type=Path)
+    case_eval.add_argument("--random-adapter", type=Path)
+    case_eval.add_argument("--adapter-delta", type=Path, help="Measured effective-delta stats for the LoRA checkpoint")
+    case_eval.add_argument("--random-delta", type=Path, help="Measured effective-delta stats for the random checkpoint")
+    case_eval.add_argument("--prompt-system", default="You are a helpful assistant. Solve the arithmetic problem carefully and reply with one integer.")
+    case_eval.add_argument("--max-new-tokens", type=int, default=32)
+    case_eval.add_argument("--limit", type=int, help="Bound this campaign to N cases from the selected split")
+    case_eval.add_argument("--offset", type=int, default=0, help="Skip this many cases within the selected split for bounded shards")
+    case_eval.add_argument("--checkpoint-every", type=int, default=10)
+    case_eval.add_argument("--output-dir", type=Path, required=True)
+    case_eval.add_argument("--resume", action="store_true", help="Continue only if the saved run specification matches exactly")
     run = sub.add_parser("run", help="Run controlled evaluations with a local model")
     run.add_argument("--tasks", type=Path, default=TASK_FILE)
     run.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
@@ -132,6 +152,13 @@ def main(argv=None):
             return 0
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"Case dataset validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "case-eval":
+        from .case_eval import evaluate_cases
+        try:
+            return evaluate_cases(args)
+        except (ValueError, OSError, KeyError, TypeError, FileExistsError, FileNotFoundError, RuntimeError) as error:
+            print(f"Case campaign failed: {error}", file=sys.stderr)
             return 2
     if args.command == "fewshot-control":
         from .fewshot import evaluate_fewshot
