@@ -859,6 +859,75 @@
       "candidate_quarantined": true,
       "current_process_mps_available": false,
       "summary": "Zeroing upper-half edits reduced sentence completion by 15.1 points and overall completion by 14.3 points relative to the full seed-44 adapter on previously exposed development cases. V-projection removal reduced completion modestly and arithmetic by 37.5 points. Arithmetic losses were measured on only 64 questions and do not establish broad capability loss. All evidence remains checkpoint-specific and development-only; do not transfer to Astra."
+    },
+    {
+      "id": "completion-v2-seed44-arithmetic-confirmation-f019",
+      "status": "narrow-held-out-arithmetic-signal-confirmed-development-score-overstated-candidate-quarantined",
+      "hypothesis": "The F017 seed-44 task-balanced completion LoRA arithmetic score will exceed base, task-matched prompt and norm-matched random on unseen confirmation families.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "source_training_run": "20261025T144111_942272Z",
+      "source_training_seed": 44,
+      "device": "cpu",
+      "precision": "float32",
+      "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "dataset_seed": 42,
+      "split": "confirmation",
+      "family_selection": {
+        "method": "sha256-rank-whole-families-v1",
+        "family_seed": 20261025,
+        "families": 32,
+        "questions": 128,
+        "case_id_overlap_with_archived_ledgers": 0
+      },
+      "arms": {
+        "base": "53/128",
+        "prompt": "78/128",
+        "completion_lora": "107/128",
+        "norm_matched_random": "53/128"
+      },
+      "paired_contrasts": {
+        "lora_minus_prompt": {
+          "correctness_rate_delta": 0.2265625,
+          "improved": 43,
+          "regressed": 14,
+          "family_bootstrap95": [
+            0.1484375,
+            0.296875
+          ]
+        },
+        "lora_minus_base": {
+          "correctness_rate_delta": 0.421875,
+          "improved": 62,
+          "regressed": 8,
+          "family_bootstrap95": [
+            0.3359375,
+            0.5078125
+          ]
+        },
+        "lora_minus_random": {
+          "correctness_rate_delta": 0.421875,
+          "improved": 61,
+          "regressed": 7,
+          "family_bootstrap95": [
+            0.3359375,
+            0.5
+          ]
+        }
+      },
+      "development_reference": "61/64 arithmetic questions (95.3%) on previously inspected development families; confirmation score was 83.6%, a descriptive -11.7 points across different question sets.",
+      "model_generations": 512,
+      "unique_questions": 128,
+      "families": 32,
+      "software_tests": 78,
+      "evidence": "evolution_lab/evidence/casegen_v3/evaluations/seed44_balanced_arithmetic_confirmation_f019/import_manifest.json",
+      "confirmation_consumed": true,
+      "retired_families": true,
+      "eligible_for_general_promotion": false,
+      "candidate_quarantined": true,
+      "current_process_mps_available": false,
+      "summary": "On 32 preregistered hash-selected arithmetic confirmation families, the frozen adapter beat prompt, base and norm-matched random controls. Its 83.6% score was below the 95.3% arithmetic development score. This confirms one narrow signal while exposing development overestimation; it does not establish broader capabilities or phrase/sentence transfer. Do not tune on these selected families.",
+      "eligible_for_promotion": false
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

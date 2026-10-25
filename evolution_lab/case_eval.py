@@ -153,7 +153,8 @@ def paired_arm_contrast(rows: list[dict], reference_arm: str,
     }
 
 
-def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int = 0) -> tuple[dict, list[dict]]:
+def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int = 0,
+               family_limit: int | None = None, family_seed: int | None = None) -> tuple[dict, list[dict]]:
     dataset = Path(dataset)
     source_manifest = json.loads((dataset / "manifest.json").read_text())
     generator = source_manifest.get("generator")
@@ -176,6 +177,37 @@ def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int 
             continue
         rows.extend(json.loads(line) for line in (dataset / shard["file"]).read_text().splitlines() if line)
     rows.sort(key=lambda row: row["index"])
+    selection = None
+    if family_limit is not None:
+        if family_limit < 1:
+            raise ValueError("Family sample size must be positive")
+        if family_seed is None:
+            raise ValueError("Family sampling requires --family-seed")
+        if limit is not None or offset != 0:
+            raise ValueError("Family sampling cannot be combined with --limit or --offset")
+        by_family: dict[str, list[dict]] = {}
+        for row in rows:
+            by_family.setdefault(row["family"], []).append(row)
+        if family_limit > len(by_family):
+            raise ValueError(
+                f"Requested {family_limit} families, but split {split!r} has only {len(by_family)}"
+            )
+        selected = sorted(
+            by_family,
+            key=lambda family: hashlib.sha256(
+                f"case-eval-family-sample-v1:{family_seed}:{family}".encode()
+            ).hexdigest(),
+        )[:family_limit]
+        selected_set = set(selected)
+        rows = [row for row in rows if row["family"] in selected_set]
+        selection = {
+            "method": "sha256-rank-whole-families-v1",
+            "family_limit": family_limit,
+            "family_seed": family_seed,
+            "selected_families": selected,
+        }
+    elif family_seed is not None:
+        raise ValueError("--family-seed requires --family-limit")
     if offset < 0 or (limit is not None and limit < 1):
         raise ValueError("Case offset must be nonnegative and limit positive")
     rows = rows[offset:offset + limit if limit is not None else None]
@@ -183,7 +215,7 @@ def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int 
         raise ValueError(f"No cases found for split {split!r}")
     if any(normalized_question(row["prompt"]) == "" or row["answer"] != answer_for(row) for row in rows):
         raise ValueError("Selected dataset rows failed prompt or answer-key validation")
-    return {"manifest": source_manifest, "census": census}, rows
+    return {"manifest": source_manifest, "census": census, "selection": selection}, rows
 
 
 def validate_norm_match(adapter_delta: Path, random_delta: Path, tolerance: float = 1e-4) -> dict:
@@ -431,6 +463,10 @@ def _evaluate_cases_locked(args) -> int:
         raise ValueError("--limit must be positive")
     if args.offset < 0:
         raise ValueError("--offset must be nonnegative")
+    family_limit = getattr(args, "family_limit", None)
+    family_seed = getattr(args, "family_seed", None)
+    if family_limit is not None and family_limit < 1:
+        raise ValueError("--family-limit must be positive")
     if args.checkpoint_every < 1 or args.max_new_tokens < 1:
         raise ValueError("--checkpoint-every and --max-new-tokens must be positive")
     if not re.fullmatch(r"[0-9a-fA-F]{40}", args.revision):
@@ -461,7 +497,9 @@ def _evaluate_cases_locked(args) -> int:
             raise ValueError("LoRA campaigns require --adapter-delta and --random-delta evidence")
         norm_match = validate_norm_match(args.adapter_delta, args.random_delta)
 
-    source, cases = load_cases(args.dataset, args.split, args.limit, args.offset)
+    source, cases = load_cases(
+        args.dataset, args.split, args.limit, args.offset, family_limit, family_seed
+    )
     dataset_generator = source["manifest"]["generator"]
     prompt_system = args.prompt_system or default_prompt_system(dataset_generator)
     adapter_hashes = {
@@ -494,6 +532,7 @@ def _evaluate_cases_locked(args) -> int:
         "case_fingerprint": case_fingerprint,
         "unique_questions": len(cases),
         "split_offset": args.offset,
+        "family_sampling": source.get("selection"),
         "model_id": args.model,
         "requested_revision": args.revision.lower(),
         "requested_device": args.device,

@@ -528,6 +528,26 @@ completion plus arithmetic locality. Removing upper-half edits reduced this
 checkpoint's sentence score on exposed development data. Removing v-projection
 edits reduced the arithmetic score. These are checkpoint-specific development
 signals; no candidate is promoted. The 24 phrase questions span only six
-families, and all confirmation sets remain unavailable for further tuning. See
+families. F019 later evaluated one frozen adapter on a preregistered 32-family
+arithmetic confirmation sample. Those families are retired, and no confirmation
+data may be used for tuning. See
 the [research guide](RESEARCH_GUIDE.md#f018--component-ablations-identify-checkpoint-specific-dependencies-with-a-v-projection-and-upper-layer-signal)
 and checksummed [F018 evidence](evidence/completion_v2/evaluations/adapter_component_ablation_seed44_dev/).
+
+### Select reproducible whole-family evaluation samples
+
+When evaluating a bounded subset, use `--family-limit` and `--family-seed` to
+select complete families by stable SHA-256 rank. This keeps all paraphrases of
+a trusted fact together and records the selected family IDs in `run.json`.
+Family sampling cannot be combined with case-level `--limit` or `--offset`.
+
+F019 used this method to check the frozen seed-44 completion adapter on 32
+previously untested arithmetic confirmation families (128 prompts). It scored
+107/128, versus 78/128 for the task-matched prompt and 53/128 for both base and
+norm-matched random; adapter-minus-prompt was +22.7 points (paired 95% family
+interval +14.8 to +29.7). The development score was higher at 61/64, so the
+confirmation result supports a narrow arithmetic effect while showing a
+material development-to-confirmation gap. This does not confirm phrase or
+sentence behavior, and the selected arithmetic families are retired. See the
+[research guide](RESEARCH_GUIDE.md#f019--a-completion-trained-adapter-generalized-its-arithmetic-signal-to-fresh-confirmation-families-with-a-development-to-confirmation-drop)
+and [F019 evidence](evidence/casegen_v3/evaluations/seed44_balanced_arithmetic_confirmation_f019/).

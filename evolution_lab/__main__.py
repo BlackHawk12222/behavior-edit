@@ -97,6 +97,8 @@ def build_parser():
     case_eval.add_argument("--max-new-tokens", type=int, default=32)
     case_eval.add_argument("--limit", type=int, help="Bound this campaign to N cases from the selected split")
     case_eval.add_argument("--offset", type=int, default=0, help="Skip this many cases within the selected split for bounded shards")
+    case_eval.add_argument("--family-limit", type=int, help="Select N complete families using stable hash ranking")
+    case_eval.add_argument("--family-seed", type=int, help="Seed for reproducible whole-family sampling; requires --family-limit")
     case_eval.add_argument("--checkpoint-every", type=int, default=10)
     case_eval.add_argument("--output-dir", type=Path, required=True)
     case_eval.add_argument("--resume", action="store_true", help="Continue only if the saved run specification matches exactly")

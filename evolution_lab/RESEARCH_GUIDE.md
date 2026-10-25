@@ -893,3 +893,56 @@ arithmetic result. **Not supported:** q-projection removal did not materially
 reduce aggregate completion, and lower-half removal did not reduce it. **Open:**
 seed replication, equal-norm ablations, independent held-out verification,
 additional behavior families, and transfer beyond Qwen2.5-0.5B-Instruct.
+
+
+### F019 — A completion-trained adapter generalized its arithmetic signal to fresh confirmation families, with a development-to-confirmation drop
+
+Status: one preregistered held-out verification of the frozen seed-44 adapter's
+arithmetic behavior. The selected families are now retired. The adapter remains
+quarantined because this is one task, one seed and one small model.
+
+Before inference, the evaluation froze the F017 seed-44 task-balanced LoRA and
+random control, pinned Qwen2.5-0.5B-Instruct revision
+`7ae557604adf67be50417f59c2c2f167def9a775`, and selected 32 whole families
+from the untouched `casegen_v3` confirmation split by SHA-256 rank using seed
+20261025. Selection did not use answers or model scores; every family supplied
+all four paraphrases. The 128 selected case IDs had no overlap with archived
+casegen response ledgers. The four arms were base, task-matched prompt,
+seed-44 LoRA and its per-layer norm-matched random control. Greedy decoding and
+trusted integer answer keys were used. No model, prompt or adapter changes are
+allowed based on these results.
+
+The frozen adapter scored 107/128 (83.6%), compared with 78/128 (60.9%) for the
+explicit prompt, 53/128 (41.4%) for base and 53/128 for the random control.
+The paired adapter-minus-prompt contrast was +22.7 percentage points (43
+improved, 14 regressed; 95% family-bootstrap interval +14.8 to +29.7). Against
+base it was +42.2 points (62 improved, 8 regressed; interval +33.6 to +50.8).
+The adapter's strict single-integer format score was 83/128; correctness and
+format are separate metrics.
+
+This independently supports an arithmetic effect on the selected fresh
+families for this one adapter. It also tempers F017's 61/64 (95.3%) arithmetic
+development score: confirmation was 83.6%, an 11.7-point descriptive gap
+across different question sets. The gap is not a paired estimate, and neither
+score establishes broad reasoning or capability gains. No phrase or sentence
+confirmation was run here; the v2 text confirmation is already retired. Keep
+the adapter quarantined until fresh phrase/sentence verification, replication
+across training seeds, and broader locality/capability checks.
+
+The evaluator now supports `--family-limit N --family-seed S` to select whole
+families by stable SHA-256 rank. The exact family IDs, case fingerprint,
+pre-registration, all 512 raw generations, paired report, run specification and
+checksums are in
+`evidence/casegen_v3/evaluations/seed44_balanced_arithmetic_confirmation_f019/`.
+The run used CPU float32; Torch's MPS backend was built but unavailable in this
+process. The full suite passed 78 tests before the campaign.
+
+Reproduce the family selection and campaign with the F019 parameters in
+`run.json` and the recorded candidate paths in the F017 evidence. The
+confirmation opt-in is explicit. The selected families have already been
+inspected and must never be used to tune or retest another candidate.
+**Confirmed narrowly:** the frozen adapter beat prompt, base and random controls
+on these 32 arithmetic families. **Tentative:** the edit may encode a
+transferable arithmetic-output bias on this model. **Failed:** the development
+score did not reproduce at the same level. **Open:** fresh phrase/sentence
+confirmation, training-seed replication and transfer to other models.

@@ -42,6 +42,7 @@ class CaseEvaluationTests(unittest.TestCase):
     def args(self, output, split="dev", allow_confirmation=False, resume=False):
         return SimpleNamespace(
             split=split, allow_confirmation=allow_confirmation, limit=None,
+            family_limit=None, family_seed=None,
             checkpoint_every=2, max_new_tokens=8,
             revision="a" * 40, arms=["base", "prompt"], adapter=None,
             random_adapter=None, adapter_delta=None, random_delta=None,
@@ -87,6 +88,30 @@ class CaseEvaluationTests(unittest.TestCase):
             _, all_rows = case_eval.load_cases(Path(directory), "dev")
             self.assertEqual([row["case_id"] for row in rows], [row["case_id"] for row in all_rows[4:8]])
             self.assertEqual(source["manifest"]["generator"], "arithmetic-v3")
+
+    def test_family_sampling_is_stable_whole_family_and_prevents_conflicting_bounds(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write_shard(root, seed=7, start=0, count=2000)
+            source, first = case_eval.load_cases(
+                root, "confirmation", family_limit=12, family_seed=20261025
+            )
+            source_again, again = case_eval.load_cases(
+                root, "confirmation", family_limit=12, family_seed=20261025
+            )
+            self.assertEqual([row["case_id"] for row in first], [row["case_id"] for row in again])
+            self.assertEqual(source["selection"], source_again["selection"])
+            self.assertEqual(len(source["selection"]["selected_families"]), 12)
+            self.assertEqual(len({row["family"] for row in first}), 12)
+            self.assertEqual(len(first), 48)
+            self.assertTrue(all(row["split"] == "confirmation" for row in first))
+            self.assertTrue(all(sum(r["family"] == family for r in first) == 4
+                                for family in source["selection"]["selected_families"]))
+            with self.assertRaisesRegex(ValueError, "requires --family-seed"):
+                case_eval.load_cases(root, "confirmation", family_limit=2)
+            with self.assertRaisesRegex(ValueError, "cannot be combined"):
+                case_eval.load_cases(root, "confirmation", limit=8, family_limit=2,
+                                     family_seed=1)
 
     def test_adapter_campaign_requires_all_primary_controls(self):
         with tempfile.TemporaryDirectory() as directory:
