@@ -1,0 +1,27 @@
+Loading Qwen/Qwen2.5-0.5B-Instruct@7ae557604adf67be50417f59c2c2f167def9a775 on mps (torch.float16)...
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+base       dev_json_format_00: False
+base       dev_json_format_01: False
+base       dev_arithmetic_0: True
+base       dev_arithmetic_1: True
+prompt     dev_json_format_00: False
+prompt     dev_json_format_01: False
+prompt     dev_arithmetic_0: False
+prompt     dev_arithmetic_1: True
+zero       dev_json_format_00: False
+zero       dev_json_format_01: False
+zero       dev_arithmetic_0: True
+zero       dev_arithmetic_1: True
+train 1/2: loss=1.02937
+train 2/2: loss=0.67034
+/Users/archerjohnson/behavior-edit/.venv/lib/python3.11/site-packages/peft/utils/save_and_load.py:295: UserWarning: Could not find a config file in Qwen/Qwen2.5-0.5B-Instruct - will assume that the vocabulary was not modified.
+  warnings.warn(
+lora       dev_json_format_00: False
+lora       dev_json_format_01: False
+lora       dev_arithmetic_0: True
+lora       dev_arithmetic_1: True
+random     dev_json_format_00: False
+random     dev_json_format_01: False
+random     dev_arithmetic_0: True
+random     dev_arithmetic_1: True
+Experiment saved: results/evolution_lab/mps_validation/float16_smoke/20261025T043151_343674Z

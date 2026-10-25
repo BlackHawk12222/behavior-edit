@@ -1,0 +1,14 @@
+[
+  {
+    "step": 1,
+    "example_id": "train_json_format_07",
+    "loss": 1.029374599456787,
+    "gradient_norm_before_clip": 6.006928443908691
+  },
+  {
+    "step": 2,
+    "example_id": "train_json_format_09",
+    "loss": 0.6703397035598755,
+    "gradient_norm_before_clip": 5.750658988952637
+  }
+]

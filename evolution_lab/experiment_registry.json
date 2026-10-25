@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "studies": [
+    {
+      "id": "pilot-v1",
+      "status": "complete",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "primary_study": "evolution_lab/evidence/pilot_v1/study.json",
+      "counts": "evolution_lab/evidence/pilot_v1/counts.json",
+      "catalog": "evolution_lab/evidence/pilot_v1/adapter_behavior.jsonl",
+      "followups": "evolution_lab/evidence/pilot_v1/followups",
+      "hardware_validation": "evolution_lab/evidence/pilot_v1/mps_validation",
+      "report": "evolution_lab/reports/pilot-v1.md",
+      "guide": "evolution_lab/RESEARCH_GUIDE.md",
+      "summary": "Three JSON seeds gained target compliance with preservation regressions; concise gains were small and beaten by stronger prompting; exact-instruction effects were inconsistent. No adapter cleared the full gate.",
+      "final_test_exposed": true,
+      "eligible_for_future_final_confirmation": false
+    }
+  ],
+  "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts."
+}

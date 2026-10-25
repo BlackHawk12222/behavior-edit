@@ -1,0 +1,490 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "kind": "all_training_examples_prompt_control",
+  "source_manifest_sha256": "d4b9b4c40b9529ee6b43f1da6b281c38ee702f589831fa4694234172bcee18c9",
+  "source_run": "results/evolution_lab/pilot_v1/02_exact_instruction_42/test/20261025T041040_376275Z",
+  "split": "test",
+  "behavior": "exact_instruction",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "2fcaf3b925ad78406f6456f3bcb7b40878815c6f",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "TOKENIZERS_PARALLELISM": "false",
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "demonstrations": [
+    {
+      "id": "train_exact_instruction_00",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word apple. No other text.",
+      "answer": "apple"
+    },
+    {
+      "id": "train_exact_instruction_01",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word birch. No other text.",
+      "answer": "birch"
+    },
+    {
+      "id": "train_exact_instruction_02",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word cedar. No other text.",
+      "answer": "cedar"
+    },
+    {
+      "id": "train_exact_instruction_03",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word daisy. No other text.",
+      "answer": "daisy"
+    },
+    {
+      "id": "train_exact_instruction_04",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word elm. No other text.",
+      "answer": "elm"
+    },
+    {
+      "id": "train_exact_instruction_05",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word fern. No other text.",
+      "answer": "fern"
+    },
+    {
+      "id": "train_exact_instruction_06",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word grape. No other text.",
+      "answer": "grape"
+    },
+    {
+      "id": "train_exact_instruction_07",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word hazel. No other text.",
+      "answer": "hazel"
+    },
+    {
+      "id": "train_exact_instruction_08",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word iris. No other text.",
+      "answer": "iris"
+    },
+    {
+      "id": "train_exact_instruction_09",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word jade. No other text.",
+      "answer": "jade"
+    },
+    {
+      "id": "train_exact_instruction_10",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word kelp. No other text.",
+      "answer": "kelp"
+    },
+    {
+      "id": "train_exact_instruction_11",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word lily. No other text.",
+      "answer": "lily"
+    },
+    {
+      "id": "train_exact_instruction_12",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word moss. No other text.",
+      "answer": "moss"
+    },
+    {
+      "id": "train_exact_instruction_13",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word nut. No other text.",
+      "answer": "nut"
+    },
+    {
+      "id": "train_exact_instruction_14",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word oak. No other text.",
+      "answer": "oak"
+    },
+    {
+      "id": "train_exact_instruction_15",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word pine. No other text.",
+      "answer": "pine"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "test_exact_instruction_00",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [falcon] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "falcon",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_01",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [otter] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "otter",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_02",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [badger] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "badger",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_03",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [heron] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "heron",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_04",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [lynx] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "lynx",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_05",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [panda] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "panda",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_06",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [raven] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "raven",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_07",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [seal] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "seal",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_08",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [tiger] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "tiger",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_09",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [whale] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "whale",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_10",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [yak] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "yak",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_11",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [zebra] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "zebra",
+      "role": "target"
+    },
+    {
+      "id": "test_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 43 + 7. Answer with digits only.",
+      "target": "50",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 44 + 8. Answer with digits only.",
+      "target": "52",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 45 + 9. Answer with digits only.",
+      "target": "54",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 46 + 10. Answer with digits only.",
+      "target": "56",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 47 + 11. Answer with digits only.",
+      "target": "58",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 48 + 12. Answer with digits only.",
+      "target": "60",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 49 + 13. Answer with digits only.",
+      "target": "62",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 50 + 14. Answer with digits only.",
+      "target": "64",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Canada? Reply with just the answer, without punctuation.",
+      "target": "Ottawa",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a hexagon have? Reply with just the answer, without punctuation.",
+      "target": "6",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the largest planet in our solar system? Reply with just the answer, without punctuation.",
+      "target": "Jupiter",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for gold? Reply with just the answer, without punctuation.",
+      "target": "Au",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 29, 22, 25 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "22,25,29",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 30, 23, 26 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "23,26,30",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 31, 24, 27 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "24,27,31",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 32, 25, 28 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "25,28,32",
+      "role": "locality"
+    }
+  ],
+  "max_new_tokens": 48,
+  "warning": "Retrospective stronger prompt baseline. Uses all 16 training demonstrations as actual user/assistant turns; no evaluation answers included. Prompting changes input, not model weights. Base responses must reproduce reference."
+}

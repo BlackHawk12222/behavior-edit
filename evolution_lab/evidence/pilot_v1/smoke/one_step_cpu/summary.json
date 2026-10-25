@@ -1,0 +1,109 @@
+{
+  "run_id": "20261025T035511_218077Z",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "26b1a9777d9e29d5ef6ad168d4450b9cdacf70c1",
+    "git_dirty": true
+  },
+  "precision": "torch.float32",
+  "data_hashes": {
+    "training": "b24562512b950162891c2d6d9004cfb35d6f0e1b95ddb79872e2074d3692ad6a",
+    "evaluation": "9b227c4192224c90075b64c7041e13e830a6e9add311b27e7aa44d1ba179b64e"
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "seed": 42,
+  "train_example_ids": [
+    "train_exact_01",
+    "train_json_01",
+    "train_arith_03",
+    "train_exact_02",
+    "train_brevity_01",
+    "train_json_02",
+    "train_misc_01",
+    "train_sort_01",
+    "train_sort_02",
+    "train_arith_01",
+    "train_arith_02",
+    "train_brevity_02"
+  ],
+  "steps": 1,
+  "rank": 4,
+  "learning_rate": 0.0005,
+  "max_length": 128,
+  "loss_history": [
+    2.523466
+  ],
+  "evaluation": {
+    "after": {
+      "observations": 2,
+      "passed": 2,
+      "pass_rate": 1.0,
+      "mean_latency_seconds": 0.22305
+    },
+    "before": {
+      "observations": 2,
+      "passed": 2,
+      "pass_rate": 1.0,
+      "mean_latency_seconds": 0.45730000000000004
+    }
+  },
+  "comparison": {
+    "task_count": 2,
+    "before_passed": 2,
+    "after_passed": 2,
+    "improved": 0,
+    "regressed": 0,
+    "unchanged_pass": 2,
+    "unchanged_fail": 0,
+    "response_changed": 0,
+    "pass_rate_delta": 0.0,
+    "per_category": {
+      "accuracy": {
+        "tasks": 2,
+        "before_passed": 2,
+        "after_passed": 2,
+        "improved": 0,
+        "regressed": 0,
+        "response_changed": 0
+      }
+    },
+    "per_task": [
+      {
+        "task_id": "arithmetic_add",
+        "category": "accuracy",
+        "before_passed": true,
+        "after_passed": true,
+        "response_changed": false,
+        "status": "unchanged_pass"
+      },
+      {
+        "task_id": "arithmetic_multiply",
+        "category": "accuracy",
+        "before_passed": true,
+        "after_passed": true,
+        "response_changed": false,
+        "status": "unchanged_pass"
+      }
+    ]
+  },
+  "trainable_parameters": 270336,
+  "weight_deltas": {
+    "adapted_modules": 48,
+    "global_frobenius_norm": 0.18061178180172008,
+    "stats_path": "results/evolution_lab/adapters/20261025T035511_218077Z/delta_stats.json"
+  },
+  "adapter_path": "results/evolution_lab/adapters/20261025T035511_218077Z/adapter",
+  "warning": "Small proof of concept only: no evidence of personality editing or generalization."
+}

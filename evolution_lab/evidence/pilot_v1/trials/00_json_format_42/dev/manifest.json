@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "run_id": "20261025T035731_973055Z",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "26b1a9777d9e29d5ef6ad168d4450b9cdacf70c1",
+    "git_dirty": true
+  },
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "requested_revision": "main",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "seed": 42,
+  "suite_id": "behavior-diagnostics-v1",
+  "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+  "training_sha256": "28e11cef1e9bac6b9b61fbaa710f58ac8dcccb172f24dfdc0c623d67e3c3c62c",
+  "evaluation_sha256": "cb36f6dbac2a4d2432b4249c1108b9d0e270f6e1f6cb20a34281f8592d605118",
+  "behavior": "json_format",
+  "split": "dev",
+  "smoke_only": false,
+  "settings": {
+    "steps": 16,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "decoding": "greedy",
+    "lora_alpha": 8,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0
+  },
+  "training_ids": [
+    "train_json_format_00",
+    "train_json_format_01",
+    "train_json_format_02",
+    "train_json_format_03",
+    "train_json_format_04",
+    "train_json_format_05",
+    "train_json_format_06",
+    "train_json_format_07",
+    "train_json_format_08",
+    "train_json_format_09",
+    "train_json_format_10",
+    "train_json_format_11",
+    "train_json_format_12",
+    "train_json_format_13",
+    "train_json_format_14",
+    "train_json_format_15"
+  ],
+  "tasks": [
+    {
+      "id": "dev_json_format_00",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item quartz as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "quartz",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_01",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item ruby as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "ruby",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_02",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item sapphire as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "sapphire",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_03",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item topaz as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "topaz",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_04",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item amber as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "amber",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_05",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item bronze as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "bronze",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_06",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item copper as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "copper",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_07",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item silver as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "silver",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 23 + 7. Answer with digits only.",
+      "target": "30",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 24 + 8. Answer with digits only.",
+      "target": "32",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 25 + 9. Answer with digits only.",
+      "target": "34",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 26 + 10. Answer with digits only.",
+      "target": "36",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 27 + 11. Answer with digits only.",
+      "target": "38",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 28 + 12. Answer with digits only.",
+      "target": "40",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 29 + 13. Answer with digits only.",
+      "target": "42",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 30 + 14. Answer with digits only.",
+      "target": "44",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Japan? Reply with just the answer, without punctuation.",
+      "target": "Tokyo",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a triangle have? Reply with just the answer, without punctuation.",
+      "target": "3",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What planet is known as the Red Planet? Reply with just the answer, without punctuation.",
+      "target": "Mars",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for oxygen? Reply with just the answer, without punctuation.",
+      "target": "O",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 9, 2, 5 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "2,5,9",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 10, 3, 6 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "3,6,10",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 11, 4, 7 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "4,7,11",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 12, 5, 8 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "5,8,12",
+      "role": "locality"
+    }
+  ],
+  "controls": [
+    "base",
+    "prompt",
+    "zero",
+    "lora",
+    "random"
+  ],
+  "warning": "Diagnostic only. Test results must not be used to tune this benchmark. No personality, intelligence, or generalized improvement claim.",
+  "zero_control_identical": true
+}

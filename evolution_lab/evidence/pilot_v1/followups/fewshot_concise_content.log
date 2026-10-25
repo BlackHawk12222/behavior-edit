@@ -1,0 +1,31 @@
+Loading Qwen/Qwen2.5-0.5B-Instruct@7ae557604adf67be50417f59c2c2f167def9a775 on cpu (torch.float32)...
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+fewshot16 test_concise_content_00: True
+fewshot16 test_concise_content_01: True
+fewshot16 test_concise_content_02: True
+fewshot16 test_concise_content_03: False
+fewshot16 test_concise_content_04: True
+fewshot16 test_concise_content_05: True
+fewshot16 test_concise_content_06: True
+fewshot16 test_concise_content_07: True
+fewshot16 test_concise_content_08: False
+fewshot16 test_concise_content_09: True
+fewshot16 test_concise_content_10: True
+fewshot16 test_concise_content_11: True
+fewshot16 test_arithmetic_0: False
+fewshot16 test_arithmetic_1: True
+fewshot16 test_arithmetic_2: True
+fewshot16 test_arithmetic_3: True
+fewshot16 test_arithmetic_4: True
+fewshot16 test_arithmetic_5: True
+fewshot16 test_arithmetic_6: True
+fewshot16 test_arithmetic_7: True
+fewshot16 test_facts_0: True
+fewshot16 test_facts_1: True
+fewshot16 test_facts_2: True
+fewshot16 test_facts_3: True
+fewshot16 test_reasoning_0: False
+fewshot16 test_reasoning_1: False
+fewshot16 test_reasoning_2: False
+fewshot16 test_reasoning_3: False
+Few-shot control saved: results/evolution_lab/pilot_followups/fewshot_concise_content/20261025T042643_593178Z

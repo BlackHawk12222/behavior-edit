@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "run_id": "20261025T043151_343674Z",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "415cdad60938988fec12e5666d08f2759a17e708",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "TOKENIZERS_PARALLELISM": "false",
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "mps",
+  "precision": "torch.float16",
+  "seed": 42,
+  "suite_id": "behavior-diagnostics-v1",
+  "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+  "training_sha256": "28e11cef1e9bac6b9b61fbaa710f58ac8dcccb172f24dfdc0c623d67e3c3c62c",
+  "evaluation_sha256": "c4a8473e6e1a6b95e24bcb8b0e94bc1edaa78033c60323f32265fb680ec6b958",
+  "behavior": "json_format",
+  "split": "dev",
+  "smoke_only": true,
+  "settings": {
+    "steps": 2,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "decoding": "greedy",
+    "lora_alpha": 8,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0
+  },
+  "training_ids": [
+    "train_json_format_00",
+    "train_json_format_01",
+    "train_json_format_02",
+    "train_json_format_03",
+    "train_json_format_04",
+    "train_json_format_05",
+    "train_json_format_06",
+    "train_json_format_07",
+    "train_json_format_08",
+    "train_json_format_09",
+    "train_json_format_10",
+    "train_json_format_11",
+    "train_json_format_12",
+    "train_json_format_13",
+    "train_json_format_14",
+    "train_json_format_15"
+  ],
+  "tasks": [
+    {
+      "id": "dev_json_format_00",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item quartz as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "quartz",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_json_format_01",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item ruby as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "ruby",
+        "available": true
+      },
+      "role": "target"
+    },
+    {
+      "id": "dev_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 23 + 7. Answer with digits only.",
+      "target": "30",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 24 + 8. Answer with digits only.",
+      "target": "32",
+      "role": "locality"
+    }
+  ],
+  "controls": [
+    "base",
+    "prompt",
+    "zero",
+    "lora",
+    "random"
+  ],
+  "warning": "Diagnostic only. Test results must not be used to tune this benchmark. No personality, intelligence, or generalized improvement claim.",
+  "adapter_hashes": {
+    "lora": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "867b7f9aaedc0ec9b3dc5aaeaf81daef2b86eefe1db7117c60817765dd44ca21"
+    },
+    "random": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "c12521e3a6a23238a0357651bbca3b942e34b42d1fcdd4d36abc983911c6c56c"
+    }
+  },
+  "zero_control_identical": true
+}

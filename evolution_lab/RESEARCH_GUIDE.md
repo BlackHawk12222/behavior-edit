@@ -125,6 +125,51 @@ Evidence: `evidence/pilot_v1/followups/mixture/`.
 Next falsification: fixed coefficients and a matched-rank comparator on new
 families, with selection confined to development data.
 
+### F005 — Stronger prompting can outperform a targeted adapter
+
+Status: measured retrospective input-only control; one model and diagnostic.
+
+Using all 16 behavior training examples as actual user/assistant demonstration
+turns, concise-content test passes rose from 6/12 to 10/12, versus 8/12 for
+the trained concise adapters. Preservation remained 11/16. Exact-instruction
+prompting remained at 3/12 while preservation reached 12/16. Strict JSON remained
+0/12, with Markdown fences violating the output constraint; preservation was
+10/16 versus an 11/16 base. Every plain-base reference response was regenerated
+and required to match exactly before the historical adapter comparison.
+
+Supports: prompt-only controls must be strong and task-specific; a weight edit
+is not automatically the most useful way to request a behavior. Prompt changes
+can also affect preservation. Does not establish a general winner, equivalent
+compute cost, or a universal limit of prompting. The comparison was designed
+after inspecting the initial CPU results and is explicitly retrospective.
+
+Evidence: `evidence/pilot_v1/followups/fewshot_json_format/`,
+`fewshot_concise_content/`, and `fewshot_exact_instruction/`.
+Reproduce with `python -m evolution_lab fewshot-control TEST_RUN_DIR`.
+
+### F006 — This version completed fresh MPS training and reload checks
+
+Status: direct hardware evidence on one host and package combination.
+
+The 8 GB Apple A18 Pro host (`Mac17,5`, macOS 27.2) completed a full 16-step
+float32 MPS JSON experiment and frozen adapter test. Test scores were 0/12 →
+12/12 on target probes and 11/16 → 9/16 on preservation probes. A two-step
+float16 frozen-base smoke check with float32 adapter parameters also completed.
+Losses, gradients and adapter parameters remained finite; zero-adapter and
+random-norm integrity checks passed. Saved checkpoints reloaded successfully.
+
+This checks hardware portability after inspecting CPU results; it is not a new
+independent scientific holdout. Peak memory was not measured, and two half-base
+training steps do not establish long-run numerical stability or compatibility
+across OS/package versions. Evidence: `evidence/pilot_v1/mps_validation/`.
+
+The initial evidence census contains 2,092 recorded model responses, 94 unique
+evaluation questions and 131 logged Qwen training updates. Software verification
+is separate: 43 tests, including four real-tensor tests. These counts are not
+millions of questions. The frozen census is `evidence/pilot_v1/counts.json`;
+future cumulative totals must deduplicate across studies rather than simply
+sum response counts.
+
 ## What remains unknown
 
 Effective delta norms are useful descriptors, not causal explanations. Seven

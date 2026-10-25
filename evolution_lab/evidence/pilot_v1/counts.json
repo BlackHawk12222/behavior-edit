@@ -1,0 +1,8 @@
+{
+  "recorded_model_responses": 2092,
+  "unique_evaluation_prompts": 94,
+  "unique_task_ids": 94,
+  "logged_training_updates": 131,
+  "software_tests": 43,
+  "note": "Repeated questions across conditions, devices and seeds remain distinct response records, not new independent questions. Few-shot base-reference regenerations are checks rather than additional recorded observations. No millions-of-tests claim."
+}
