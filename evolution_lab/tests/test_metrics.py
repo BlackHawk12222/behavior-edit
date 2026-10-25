@@ -7,11 +7,19 @@ from types import SimpleNamespace
 from evolution_lab.__main__ import TASK_FILE, main, read_tasks
 from evolution_lab.metrics import grade, summarize, validate_tasks
 from evolution_lab.runner import select_device
+from evolution_lab.train_adapter import read_examples
 
 
 class ScoringTests(unittest.TestCase):
     def test_shipped_tasks_are_valid(self):
         self.assertGreaterEqual(len(read_tasks(TASK_FILE)), 5)
+
+    def test_training_examples_are_valid_and_holdout(self):
+        path = TASK_FILE.with_name("adapter_examples.json")
+        examples = read_examples(path)
+        self.assertGreater(len(examples), 5)
+        eval_prompts = {t["prompt"] for t in read_tasks(TASK_FILE)}
+        self.assertFalse(any(e["prompt"] in eval_prompts for e in examples))
 
     def test_exact_is_strict_about_extra_text(self):
         task = {"kind": "exact", "target": "42"}

@@ -39,6 +39,7 @@ def build_parser():
     run.add_argument("--tasks", type=Path, default=TASK_FILE)
     run.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
     run.add_argument("--revision", default="main", help="Use a commit SHA for strict reproducibility")
+    run.add_argument("--adapter", type=Path, default=None, help="Optional PEFT adapter directory")
     run.add_argument("--device", default="auto", choices=["auto", "mps", "cuda", "cpu"])
     run.add_argument("--conditions", nargs="+", choices=sorted(CONDITIONS), default=["baseline", "concise"])
     run.add_argument("--limit", type=int, default=None, help="Restrict tasks for a quick smoke run")
@@ -46,6 +47,20 @@ def build_parser():
     run.add_argument("--seed", type=int, default=42)
     run.add_argument("--max-new-tokens", type=int, default=48)
     run.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab"))
+    train = sub.add_parser("train", help="Train a tiny, optional LoRA behavior adapter")
+    train.add_argument("--tasks", type=Path, default=TASK_FILE)
+    train.add_argument("--examples", type=Path, default=Path(__file__).with_name("adapter_examples.json"))
+    train.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
+    train.add_argument("--revision", default="main")
+    train.add_argument("--device", default="auto", choices=["auto", "mps", "cuda", "cpu"])
+    train.add_argument("--steps", type=int, default=8)
+    train.add_argument("--rank", type=int, default=4)
+    train.add_argument("--learning-rate", type=float, default=0.0005)
+    train.add_argument("--max-length", type=int, default=128)
+    train.add_argument("--max-new-tokens", type=int, default=48)
+    train.add_argument("--eval-limit", type=int, default=4)
+    train.add_argument("--seed", type=int, default=42)
+    train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/adapters"))
     return parser
 
 
@@ -60,6 +75,9 @@ def main(argv=None):
     if args.command == "validate":
         print(f"Valid: {len(tasks)} tasks from {args.tasks}")
         return 0
+    if args.command == "train":
+        from .train_adapter import train_adapter
+        return train_adapter(args, tasks)
 
     if args.limit is not None and args.limit < 1:
         print("--limit must be positive", file=sys.stderr)
@@ -76,7 +94,10 @@ def main(argv=None):
 
     random.seed(args.seed)
     torch.manual_seed(args.seed)
-    model = LocalModel(args.model, revision=args.revision, device=args.device)
+    model = LocalModel(
+        args.model, revision=args.revision, device=args.device,
+        adapter_path=args.adapter,
+    )
 
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -95,6 +116,7 @@ def main(argv=None):
                         "run_id": run_id,
                         "lab_version": __version__,
                         "model_id": args.model,
+                        "adapter": str(args.adapter) if args.adapter else None,
                         "requested_revision": args.revision,
                         "resolved_revision": model.resolved_revision,
                         "device": model.device,
@@ -126,6 +148,7 @@ def main(argv=None):
     report = {
         "run_id": run_id,
         "model_id": args.model,
+        "adapter": str(args.adapter) if args.adapter else None,
         "resolved_revision": model.resolved_revision,
         "observations": len(records),
         "by_condition": summarize(records),

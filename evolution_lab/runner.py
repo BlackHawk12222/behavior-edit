@@ -23,7 +23,7 @@ def select_device(torch, requested="auto"):
 
 
 class LocalModel:
-    def __init__(self, model_id, revision="main", device="auto"):
+    def __init__(self, model_id, revision="main", device="auto", adapter_path=None):
         # Lazy imports: task validation and unit tests work without PyTorch.
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -46,9 +46,14 @@ class LocalModel:
             trust_remote_code=False,
             use_safetensors=True,
         )
+        self.resolved_revision = getattr(self.model.config, "_commit_hash", None) or revision
+        if adapter_path is not None:
+            from peft import PeftModel
+            self.model = PeftModel.from_pretrained(
+                self.model, str(adapter_path), is_trainable=False
+            )
         self.model.to(self.device)
         self.model.eval()
-        self.resolved_revision = getattr(self.model.config, "_commit_hash", None) or revision
 
     def generate(self, system_prompt, user_prompt, max_new_tokens=48):
         messages = [

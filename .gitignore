@@ -27,3 +27,6 @@ code/agent_editor.py
 code/result_summary_full.ipynb
 code/result_summary_old.ipynb
 code/result_proprietary.ipynb
+# Local AI Evolution Lab outputs
+.venv/
+results/evolution_lab/

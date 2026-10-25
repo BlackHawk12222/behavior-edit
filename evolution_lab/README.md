@@ -56,11 +56,37 @@ Use a Hugging Face commit SHA instead of \`main\` for reproducible comparisons.
 Treat 8 tasks as a smoke test. Reliable conclusions require much larger,
 held-out, balanced test sets, repeated seeds, and confidence intervals.
 
+## Optional: editing model weights with LoRA (experimental v0.2)
+
+This training path is **experimental and not yet tested on a physical MacBook
+Neo**. It uses short supervised examples and small rank-4 adapters, with
+training and evaluation prompts separated. Run with other programs closed if
+memory is limited. If MPS errors or memory limits occur, try CPU with a low
+step count or use a machine with more RAM.
+
+~~~sh
+python -m pip install -r evolution_lab/requirements-train-mac.txt
+python -m evolution_lab train --device auto --steps 4 --eval-limit 2
+~~~
+
+The output directory will contain `adapter/`, `summary.json`, and
+`comparison.jsonl`. To evaluate an adapter separately:
+
+~~~sh
+python -m evolution_lab run --limit 3 --adapter results/evolution_lab/adapters/RUN_ID/adapter
+~~~
+
+Substitute the actual RUN_ID printed by the training command. This is a
+**weight-changing** LoRA experiment. It does not yet learn how to predict
+edits, does not test human personality, and is not proof of improvement.
+The before/after metrics are only illustrative until we run larger held-out
+test sets, additional seeds, and general capability/locality checks.
+
 ## Roadmap
 
 1. **v0.1**: local, objective evaluations and Apple MPS device support.
-2. **v0.2**: optional small-model LoRA editing, pre-/post-edit and locality
-   tests, with no GPU-only assumptions. Reuse concepts from upstream.
+2. **v0.2**: optional small-model LoRA editing and small held-out
+   pre-/post-edit tests. More comprehensive locality tests are pending. Reuse concepts from upstream.
 3. **v0.3**: collect weight-delta metadata; compare edits across layers
    and behavior targets using held-out evaluations.
 4. **v0.4**: train a predictor of useful low-rank updates; benchmark against
