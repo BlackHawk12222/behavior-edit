@@ -81,11 +81,31 @@ def build_parser():
     experiment.add_argument("--seed", type=int, default=42)
     experiment.add_argument("--limit-per-role", type=int, help="Smoke run: limit target and locality probes equally")
     experiment.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/experiments"))
+    frozen = sub.add_parser("test-checkpoint", help="Evaluate a frozen dev experiment on independent test families")
+    frozen.add_argument("run_dir", type=Path)
+    frozen.add_argument("--suite", type=Path, default=SUITE_FILE)
+    frozen.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    frozen.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/test"))
+    evidence = sub.add_parser("verify-hypothesis", help="Audit raw dev/test records and check a narrow behavioral claim")
+    evidence.add_argument("dev_dir", type=Path)
+    evidence.add_argument("test_dir", type=Path)
+    evidence.add_argument("--min-gain", type=float, default=.25)
+    evidence.add_argument("--max-regressions", type=int, default=0)
+    evidence.add_argument("--output", type=Path)
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    if args.command == "verify-hypothesis":
+        from .evidence import verify_hypothesis
+        result = verify_hypothesis(args.dev_dir, args.test_dir, args.min_gain, args.max_regressions)
+        rendered = json.dumps(result, indent=2) + "\n"
+        if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(rendered)
+        print(rendered)
+        return 0
     if args.command == "benchmark":
         from .benchmark import load_suite, describe
         try:
@@ -94,6 +114,9 @@ def main(argv=None):
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"Benchmark validation failed: {error}", file=sys.stderr)
             return 2
+    if args.command == "test-checkpoint":
+        from .checkpoint_eval import evaluate_checkpoint
+        return evaluate_checkpoint(args)
     if args.command == "experiment":
         from .experiment import run_experiment
         return run_experiment(args)

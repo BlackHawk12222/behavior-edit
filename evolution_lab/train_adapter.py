@@ -203,6 +203,7 @@ def train_adapter(args, tasks):
     save_dir = args.output_dir / run_id
     adapter_dir = save_dir / "adapter"
     save_dir.mkdir(parents=True, exist_ok=False)
+    local_model.model.peft_config["default"].revision = local_model.resolved_revision
     local_model.model.save_pretrained(str(adapter_dir), safe_serialization=True)
 
     (save_dir / "delta_stats.json").write_text(

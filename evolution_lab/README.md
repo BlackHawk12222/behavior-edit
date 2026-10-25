@@ -201,3 +201,28 @@ verify zero-adapter equivalence, finite training updates, frozen base weights,
 per-layer random norm matching, state restoration, saved adapter reload, and
 assistant-only token masking. They skip when ML packages are unavailable.
 They test engineering behavior, not Qwen quality or Mac GPU compatibility.
+
+### Frozen test and auditable hypotheses
+
+```sh
+python -m evolution_lab test-checkpoint results/evolution_lab/experiments/RUN_ID --device auto
+python -m evolution_lab verify-hypothesis \
+  results/evolution_lab/experiments/RUN_ID \
+  results/evolution_lab/test/TEST_RUN_ID \
+  --output results/evolution_lab/hypothesis.json
+```
+
+`test-checkpoint` requires a complete, non-smoke development run and the same
+suite fingerprint. It reloads both saved LoRA and random checkpoints at the
+immutable recorded base-model revision, uses the original precision and decoding,
+and records checkpoint file hashes. There is no further training. Run this after
+freezing the training budget, not as part of an adaptive test-score search.
+
+`verify-hypothesis` regrades raw outputs, rejects missing/duplicate observations,
+and checks that the test refers to the exact development manifest. Its default
+retrospective gate requires at least a 25 percentage-point target gain, strict
+target superiority to prompt and random controls, and no locality pass-to-fail
+changes. A passing result is named `replicated_on_this_diagnostic`; this is not a
+statistical significance test, automatic model promotion, or a learned editing
+law. With one seed or one content family, that limitation is substantial. Keep
+failed hypotheses and all seed results in the experiment registry as well.

@@ -15,6 +15,10 @@ def load_suite(path=SUITE_FILE):
     train, tasks = suite['training'], validate_tasks(suite['tasks'])
     if not isinstance(train, list) or not train:
         raise ValueError('Training examples must be a nonempty list')
+    for row in train:
+        if not isinstance(row, dict) or any(not isinstance(row.get(k), str) or not row[k].strip()
+                                            for k in ('id', 'prompt', 'answer')):
+            raise ValueError('Invalid training example')
     ids, prompts, families = set(), set(), {}
     for row in train + tasks:
         if row.get('behavior') not in (*BEHAVIORS, 'preservation'):
