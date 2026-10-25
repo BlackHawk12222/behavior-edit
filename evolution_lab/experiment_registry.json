@@ -558,6 +558,61 @@
       "eligible_for_promotion": false,
       "candidate_quarantined": true,
       "summary": "A separate arithmetic development locality slice showed clear regression under the completion adapter, while norm-matched random stayed near base. The adapter was not evaluated on the retired completion confirmation set."
+    },
+    {
+      "id": "completion-v2-new-vocabulary-confirmation-20261025",
+      "status": "spent-posthoc-corrected-prompt; candidate-quarantined",
+      "generator": "phrase-sentence-completion-v2-new-vocabulary",
+      "dataset": "evolution_lab/evidence/completion_v2/manifest.json",
+      "dataset_unique_cases": 2208,
+      "dataset_split_counts": {
+        "train": 1544,
+        "dev": 328,
+        "confirmation": 336
+      },
+      "dataset_task_counts": {
+        "phrase_completion": 160,
+        "sentence_completion": 2048
+      },
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "adapter_training_source": "completion v1 train split, seed 42, 64 updates, rank 4, alpha 8, q_proj/v_proj; frozen candidate from F014",
+      "confirmation_unique_questions": 336,
+      "confirmation_families": 45,
+      "model_generations": 2016,
+      "arms": {
+        "base": "169/336",
+        "task_matched_prompt": "219/336",
+        "frozen_completion_lora": "289/336",
+        "layerwise_norm_matched_random": "169/336"
+      },
+      "lora_vs_prompt": {
+        "improved": 96,
+        "regressed": 26,
+        "correctness_rate_delta": 0.20833333333333334,
+        "family_bootstrap95": [
+          0.1517857142857143,
+          0.2648809523809524
+        ]
+      },
+      "subtask_results": {
+        "lora_phrase": "12/24",
+        "prompt_phrase": "18/24",
+        "base_phrase": "21/24",
+        "random_phrase": "21/24",
+        "lora_sentence": "277/312",
+        "prompt_sentence": "201/312",
+        "base_sentence": "148/312",
+        "random_sentence": "148/312"
+      },
+      "prompt_control_correction": "Initial run used arithmetic-only system prompt due v2 not being recognized; original responses are preserved and excluded. Corrected prompt and repeated base were run post-hoc on the same spent holdout; base matched exactly 336/336.",
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/new_vocabulary_confirmation_spent/import_manifest.json",
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "A frozen v1 LoRA transferred strongly on new-vocabulary agreement sentences against base, corrected prompt and norm-matched random, but phrase completion dropped to 12/24 and an earlier arithmetic development locality test fell to 30/64. One small model, one adapter seed, post-hoc prompt correction and spent holdout; no promotion."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

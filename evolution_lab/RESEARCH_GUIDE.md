@@ -613,3 +613,71 @@ families; then test a new adapter across base, strong prompt, norm-matched
 random, fixed mixture, and non-completion capability probes. Ablate q/v and
 layer groups only after the broader protocol is frozen, and use a fresh
 confirmation family pool for any candidate-selection claim.
+
+
+### F015 — Completion LoRA transfers agreement to new words but harms phrase completion
+
+Status: strong exploratory transfer signal on one consumed confirmation set; the
+candidate remains quarantined. The explicit-prompt arm required a post-hoc
+correction, so a fresh confirmation set is required before treating this as an
+independent result.
+
+The v2 generator creates 2,208 unique items across 296 families: 160 phrase
+completions and 2,048 subject–verb agreement completions. Family-level splits
+are 1,544 train, 328 development and 336 confirmation items. The v2 phrase
+families, subject nouns and verb roots do not overlap the v1 training inventory.
+Only v2 training families may be used for a future v2-trained candidate; this
+experiment instead froze the v1 rank-4 q/v LoRA and its layerwise norm-matched
+random control. The confirmation split was not used for training or selection.
+
+On the 336 confirmation items, the frozen LoRA scored 289/336 (86.0%), base
+169/336 (50.3%), and the random edit 169/336 (50.3%). After correcting the
+prompt-system selection bug, explicit completion prompting scored 219/336
+(65.2%). Paired family-bootstrap differences were +35.7 percentage points
+versus base (95% interval +30.4 to +40.5), +35.7 versus random (+31.0 to
++40.2), and +20.8 versus the corrected prompt (+15.2 to +26.5). The initial
+run mistakenly used an arithmetic instruction for the prompt arm; its prompt
+responses and comparisons are preserved but excluded. Repeated base responses
+matched exactly across the initial and corrected runs (336/336).
+
+The aggregate is dominated by sentence grammar: LoRA scored 277/312, compared
+with 201/312 for corrected prompting, 148/312 for base and 148/312 for random.
+The sentence-only adapter-minus-prompt interval was +18.6 to +30.1 points.
+Phrase results ran the other way: LoRA scored 12/24 versus 18/24 for corrected
+prompting and 21/24 for both base and random; its phrase-only difference versus
+prompt was −41.7 to −8.3 points. That is only six phrase families, so its
+interval is unstable, but the measured regression is material. The adapter also
+previously reduced arithmetic development accuracy from 44/64 to 30/64. It
+remains quarantined; no weights were merged into the base.
+
+This supports a narrow hypothesis: the v1 learned edit can transfer a
+subject–verb agreement behavior across the measured unseen noun and verb
+inventory, beyond these prompt and norm-matched-random controls. It does not
+show a broad language improvement, a stable personality trait, layer-specific
+causality, or transfer to Astra. The v2 confirmation split is now retired
+because the first prompt arm was inspected before the defect was fixed and the
+corrected prompt was rerun afterward. No nonlearned adapter mixture was tested.
+The severe phrase-completion loss and the arithmetic locality failure prevent
+promotion.
+
+Reproduce dataset generation and validation with:
+
+```sh
+python -m evolution_lab generate-completions-v2 --seed 43 --start 0 --count 2208 \
+  --output evolution_lab/evidence/completion_v2
+python -m evolution_lab generate-completions-v2 --validate-only \
+  --output evolution_lab/evidence/completion_v2
+```
+
+Raw initial and corrected ledgers, pairwise family-bootstrap contrasts, repeated
+base comparison and SHA-256 manifest are in
+`evidence/completion_v2/evaluations/new_vocabulary_confirmation_spent/`.
+The corrected run used 336 completion-correct prompt generations and 336
+repeated base generations. Combined with the initial four-arm campaign this is
+2,016 model generations on 336 unique prompts, not 2,016 independent questions.
+
+Next falsification: build a fresh seed with new phrase, noun and verb families;
+freeze the scoring protocol and task-matched prompt before any model run; compare
+base, prompt, the frozen LoRA, norm-matched random, a rank-budget-matched
+nonlearned mixture and at least one new training seed. Add broader non-completion
+capability and locality probes. Do not tune the candidate on the spent v2 split.

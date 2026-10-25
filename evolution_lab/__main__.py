@@ -47,6 +47,12 @@ def build_parser():
     completions.add_argument("--count", type=int, default=672)
     completions.add_argument("--output", type=Path, required=True)
     completions.add_argument("--validate-only", action="store_true", help="Validate an existing completion dataset")
+    completions_v2 = sub.add_parser("generate-completions-v2", help="Generate new-vocabulary phrase and sentence families")
+    completions_v2.add_argument("--seed", type=int, default=43)
+    completions_v2.add_argument("--start", type=int, default=0)
+    completions_v2.add_argument("--count", type=int, default=2208)
+    completions_v2.add_argument("--output", type=Path, required=True)
+    completions_v2.add_argument("--validate-only", action="store_true", help="Validate an existing v2 completion dataset")
     case_train = sub.add_parser("train-cases", help="Train LoRA and norm-matched random controls on generated training cases")
     case_train.add_argument("dataset", type=Path)
     case_train.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
@@ -181,6 +187,17 @@ def main(argv=None):
             return 0
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"Completion dataset validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "generate-completions-v2":
+        from .completiongen_v2 import validate_dataset, write_shard
+        try:
+            if not args.validate_only:
+                manifest = write_shard(args.output, args.seed, args.start, args.count)
+                print(json.dumps({"shards": len(manifest["shards"]), "unique_cases": manifest["unique_cases"]}, indent=2))
+            print(json.dumps(validate_dataset(args.output), indent=2))
+            return 0
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            print(f"V2 completion dataset validation failed: {error}", file=sys.stderr)
             return 2
     if args.command == "train-cases":
         from .case_training import train_case_adapters

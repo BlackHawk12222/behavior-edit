@@ -11,6 +11,20 @@ from evolution_lab.provenance import checkpoint_hashes
 
 
 class CaseEvaluationTests(unittest.TestCase):
+    def test_default_prompt_is_task_matched_for_both_completion_versions(self):
+        for generator in (
+            "phrase-sentence-completion-v1",
+            "phrase-sentence-completion-v2-new-vocabulary",
+        ):
+            self.assertEqual(
+                case_eval.default_prompt_system(generator),
+                case_eval.COMPLETION_PROMPT_SYSTEM,
+            )
+        self.assertEqual(
+            case_eval.default_prompt_system("arithmetic-v3"),
+            case_eval.ARITHMETIC_PROMPT_SYSTEM,
+        )
+
     def test_arithmetic_value_is_separate_from_format(self):
         prose = case_eval.grade_answer("58", "The sum of 20 and 38 is 58.")
         self.assertTrue(prose["correct"])

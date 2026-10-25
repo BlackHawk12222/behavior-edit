@@ -77,6 +77,13 @@ def grade_case(case: dict, response: str) -> dict:
     return grade_answer(case["answer"], response)
 
 
+def default_prompt_system(dataset_generator: str) -> str:
+    """Choose a task-matched system prompt for the explicit-prompt control."""
+    if dataset_generator.startswith("phrase-sentence-completion-"):
+        return COMPLETION_PROMPT_SYSTEM
+    return ARITHMETIC_PROMPT_SYSTEM
+
+
 def paired_arm_contrast(rows: list[dict], reference_arm: str,
                         candidate_arm: str, seed: int = 42) -> dict:
     """Compare two arms on matched cases with family-stratified uncertainty."""
@@ -155,6 +162,10 @@ def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int 
         answer_for = solve
     elif generator == "phrase-sentence-completion-v1":
         from .completiongen import solve as solve_completion, validate_dataset as validate_completion_dataset
+        census = validate_completion_dataset(dataset)
+        answer_for = solve_completion
+    elif generator == "phrase-sentence-completion-v2-new-vocabulary":
+        from .completiongen_v2 import solve as solve_completion, validate_dataset as validate_completion_dataset
         census = validate_completion_dataset(dataset)
         answer_for = solve_completion
     else:
@@ -452,11 +463,7 @@ def _evaluate_cases_locked(args) -> int:
 
     source, cases = load_cases(args.dataset, args.split, args.limit, args.offset)
     dataset_generator = source["manifest"]["generator"]
-    prompt_system = args.prompt_system or (
-        COMPLETION_PROMPT_SYSTEM
-        if dataset_generator == "phrase-sentence-completion-v1"
-        else ARITHMETIC_PROMPT_SYSTEM
-    )
+    prompt_system = args.prompt_system or default_prompt_system(dataset_generator)
     adapter_hashes = {
         arm: checkpoint_hashes(path)
         for arm, path in (("adapter", args.adapter), ("random", args.random_adapter))

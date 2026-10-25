@@ -422,3 +422,36 @@ random, but phrase completion fell to 13/24 and arithmetic locality fell from
 44/64 to 30/64. The adapter is quarantined; its confirmation families were not
 reused. See F014 and the complete training/checkpoint/response evidence under
 `evidence/completion_v1/evaluations/lora_seed42_steps64_dev/`.
+
+
+### New-vocabulary phrase and sentence completion benchmark
+
+`generate-completions-v2` adds 2,208 deterministic cases across separate
+phrase and sentence-agreement families with family-level train, dev and
+confirmation splits. Its phrase families, subject nouns and verb roots are
+disjoint from v1. Trusted answer keys are generated from the phrase table and
+grammatical number; the model never supplies its own grade.
+
+```sh
+python -m evolution_lab generate-completions-v2 --seed 43 --start 0 --count 2208 \
+  --output evolution_lab/evidence/completion_v2
+python -m evolution_lab generate-completions-v2 --validate-only \
+  --output evolution_lab/evidence/completion_v2
+```
+
+The seed-43 confirmation evaluation is spent. Its first prompt-control run
+accidentally used an arithmetic-only system instruction. The evaluator now
+selects the task-matched completion prompt for all completion generator
+versions, with a regression test. The corrected prompt was rerun on the same
+confirmation set and is explicitly post-hoc, so it is not a fresh independent
+confirmation. The frozen v1 LoRA reached 289/336 overall but only 12/24 phrase
+items; corrected prompting reached 219/336 and 18/24 phrase items. The LoRA
+also caused a separate arithmetic locality regression and remains quarantined.
+See research finding F015 and the complete checksummed evidence in
+`evidence/completion_v2/evaluations/new_vocabulary_confirmation_spent/`.
+
+For any fresh experiment, generate a new seed or new inventory and freeze the
+prompt-control wording before consuming confirmation. Use `case-eval` with
+`--arms base prompt adapter random` and `--allow-confirmation` only once. A
+repeated prompt or cached response is not a new unique question; keep the number
+of generations separate from unique prompts and software tests.

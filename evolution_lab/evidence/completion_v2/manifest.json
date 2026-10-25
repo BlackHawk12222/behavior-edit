@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "generator": "phrase-sentence-completion-v2-new-vocabulary",
+  "seed": 43,
+  "shards": [
+    {
+      "file": "completion-v2-cases-confirmation-43-0000000-0002208.jsonl",
+      "start": 0,
+      "count": 336,
+      "split": "confirmation",
+      "sha256": "12762d32e1dba5a5a6d9c859efa6e7f11468359119cfe9b5e0b92d2d5a40d587"
+    },
+    {
+      "file": "completion-v2-cases-dev-43-0000000-0002208.jsonl",
+      "start": 0,
+      "count": 328,
+      "split": "dev",
+      "sha256": "b1a7026059086c681902331a44b11ebb2f36fb5b2407f11f4118036f4e626d62"
+    },
+    {
+      "file": "completion-v2-cases-train-43-0000000-0002208.jsonl",
+      "start": 0,
+      "count": 1544,
+      "split": "train",
+      "sha256": "e7987111a618786cc74e13521c12e434641e5877a386b742d95e75382ea23e8c"
+    }
+  ],
+  "unique_cases": 2208
+}
