@@ -32,6 +32,9 @@ def execute_study(args):
         journal={'schema_version':1,'spec':spec,'spec_sha256':fingerprint(spec),
                  'environment':environment(),'status':'running','trials':[]}
         write_json(path,journal)
+    journal['status']='running'
+    journal.pop('error',None)
+    write_json(path,journal)
     try:
         for i,trial in enumerate(spec['trials']):
             if i<len(journal['trials']) and journal['trials'][i]['status']=='complete':
@@ -47,6 +50,10 @@ def execute_study(args):
             write_json(path,journal)
             dev_dir=item.get('dev_dir')
             # reuse_dev is a local cache hint; a clean checkout trains the same trial.
+            completed=[p.parent for p in (trial_dir/'dev').glob('*/manifest.json')
+                       if json.loads(p.read_text()).get('status')=='complete']
+            if len(completed)>1:raise ValueError('Multiple completed development runs; inspect before resuming')
+            if not dev_dir and completed:dev_dir=str(completed[0])
             cached=trial.get('reuse_dev')
             if not dev_dir and cached and Path(cached).exists():
                 dev_dir=cached
@@ -78,6 +85,10 @@ def execute_study(args):
                 dev_dir=str(candidates[0])
             item['dev_dir']=str(dev_dir);write_json(path,journal)
             test_dir=item.get('test_dir')
+            completed=[p.parent for p in (trial_dir/'test').glob('*/manifest.json')
+                       if json.loads(p.read_text()).get('status')=='complete']
+            if len(completed)>1:raise ValueError('Multiple completed test runs; inspect before resuming')
+            if not test_dir and completed:test_dir=str(completed[0])
             if not test_dir:
                 with (trial_dir/'test.log').open('a') as stream:
                     subprocess.run([sys.executable,'-u','-m','evolution_lab','test-checkpoint',str(dev_dir),
@@ -89,6 +100,7 @@ def execute_study(args):
                 if len(candidates)!=1:raise ValueError('Expected exactly one completed frozen test')
                 test_dir=str(candidates[0])
                 item['test_dir']=test_dir;write_json(path,journal)
+            item['test_dir']=str(test_dir);write_json(path,journal)
             evidence=verify_hypothesis(dev_dir,test_dir)
             write_json(trial_dir/'hypothesis.json',evidence)
             item.update(status='complete',result=evidence['result'])
