@@ -81,6 +81,8 @@ resumes only when the dataset, model, arms, prompts, and adapter hashes match.
 An adapter comparison requires base, explicit prompt, LoRA, and norm-matched
 random arms in the same run. Confirmation requires a separate explicit flag;
 once inspected, those cases must be retired from future tuning.
+An exclusive campaign lock prevents concurrent runs from duplicating model
+generations in the same output directory.
 
 ~~~sh
 python -m evolution_lab case-eval evolution_lab/evidence/casegen_v3 \
@@ -95,6 +97,8 @@ For an interrupted run, repeat the same command with `--resume`. Add
 same questions and matched controls. The adapter arms must come from the same
 complete experiment, match the requested base revision, and have per-layer
 effective delta norms within 0.01%.
+The effective deltas are recomputed from the loaded adapter tensors and checked
+against the supplied sidecars before any generation starts.
 The runner never trains or self-grades; candidate promotion still needs
 independent confirmation and capability/locality checks.
 

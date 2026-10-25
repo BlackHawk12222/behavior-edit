@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import hashlib
+import fcntl
 import json
 import os
 import random
 import re
 import time
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -88,6 +90,31 @@ def validate_norm_match(adapter_delta: Path, random_delta: Path, tolerance: floa
     }
 
 
+def validate_delta_report(recorded_path: Path, actual: dict, tolerance: float = 1e-5) -> dict:
+    """Bind saved delta metadata to the effective tensors loaded for this run."""
+    recorded = json.loads(Path(recorded_path).read_text())
+    expected_layers = {row["name"]: row for row in recorded["layers"]}
+    actual_layers = {row["name"]: row for row in actual["layers"]}
+    if not expected_layers or expected_layers.keys() != actual_layers.keys():
+        raise ValueError("Recorded delta report does not match loaded adapter modules")
+    errors = {}
+    for name, expected in expected_layers.items():
+        observed = actual_layers[name]
+        for field in ("matrix_shape", "rank", "scale"):
+            if expected[field] != observed[field]:
+                raise ValueError(f"Recorded and loaded delta metadata differ for {name}: {field}")
+        norm = float(expected["delta_frobenius_norm"])
+        observed_norm = float(observed["delta_frobenius_norm"])
+        errors[name] = abs(norm - observed_norm) / max(abs(norm), 1e-12)
+    global_norm = float(recorded["delta_global_frobenius_norm"])
+    actual_global = float(actual["delta_global_frobenius_norm"])
+    global_error = abs(global_norm - actual_global) / max(abs(global_norm), 1e-12)
+    maximum_error = max([global_error, *errors.values()])
+    if maximum_error > tolerance:
+        raise ValueError(f"Saved delta stats do not match loaded adapter tensors: {maximum_error:.3g} relative error")
+    return {"maximum_relative_error": maximum_error, "tolerance_relative": tolerance}
+
+
 def validate_adapter_source(path: Path, arm: str, model_id: str, revision: str) -> dict:
     path = Path(path)
     manifest_path = path.parent / "manifest.json"
@@ -128,6 +155,23 @@ def _file_sha256(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def _text_sha256(value: str) -> str:
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+
+@contextmanager
+def _campaign_lock(path: Path):
+    with Path(path).open("a+") as lock:
+        try:
+            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as error:
+            raise RuntimeError("Another process already owns this case-evaluation campaign") from error
+        try:
+            yield
+        finally:
+            fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
+
+
 def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
     by_arm = {arm: [row for row in rows if row["arm"] == arm] for arm in arms}
     summaries = {}
@@ -139,6 +183,7 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
         summaries[arm] = {
             "model_generations": n,
             "unique_questions": len({row["case_id"] for row in records}),
+            "unique_normalized_prompts": len({row.get("normalized_prompt_sha256", _text_sha256(normalized_question(row["prompt"]))) for row in records}),
             "correct": correct,
             "accuracy": correct / n if n else None,
             "wilson95_descriptive": wilson(correct, n) if n else None,
@@ -190,6 +235,13 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
 
 
 def evaluate_cases(args) -> int:
+    output = Path(args.output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    with _campaign_lock(output / ".case-eval.lock"):
+        return _evaluate_cases_locked(args)
+
+
+def _evaluate_cases_locked(args) -> int:
     if args.split == "confirmation" and not args.allow_confirmation:
         raise ValueError("Confirmation cases require the explicit --allow-confirmation flag")
     if args.limit is not None and args.limit < 1:
@@ -243,7 +295,8 @@ def evaluate_cases(args) -> int:
             if adapter_sources["adapter"].get(key) != adapter_sources["random"].get(key):
                 raise ValueError(f"LoRA and random adapters must share their source experiment ({key} differs)")
     case_fingerprint = fingerprint([
-        {"case_id": row["case_id"], "prompt": row["prompt"], "answer": row["answer"], "family": row["family"]}
+        {"case_id": row["case_id"], "prompt": row["prompt"], "answer": row["answer"],
+         "family": row["family"], "normalized_prompt_sha256": _text_sha256(normalized_question(row["prompt"]))}
         for row in cases
     ])
     spec = {
@@ -275,18 +328,18 @@ def evaluate_cases(args) -> int:
     output = Path(args.output_dir)
     run_path = output / "run.json"
     observations_path = output / "observations.jsonl"
-    if output.exists():
+    if run_path.exists():
         if not args.resume:
             raise FileExistsError(f"Output already exists; use --resume to continue: {output}")
-        if not run_path.is_file():
-            raise ValueError("Cannot resume: run.json is missing")
         run = json.loads(run_path.read_text())
         if run.get("spec_sha256") != spec_hash or run.get("spec") != spec:
             raise ValueError("Resume specification differs from the existing campaign")
     else:
         if args.resume:
             raise FileNotFoundError(f"Cannot resume missing campaign: {output}")
-        output.mkdir(parents=True, exist_ok=False)
+        unexpected = [path.name for path in output.iterdir() if path.name != ".case-eval.lock"]
+        if unexpected:
+            raise FileExistsError(f"Output directory contains unrelated files: {output}")
         run = {
             "run_id": datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ"),
             "spec": spec,
@@ -314,6 +367,31 @@ def evaluate_cases(args) -> int:
     run.update(status="running", actual_model=actual)
     _atomic_json(run_path, run)
 
+    verified_deltas = {}
+    if "adapter" in arms:
+        try:
+            from peft import PeftModel
+            from .train_adapter import lora_delta_stats
+            local.model = PeftModel.from_pretrained(
+                local.model, str(args.adapter), adapter_name="adapter", is_trainable=False,
+            )
+            local.model.load_adapter(str(args.random_adapter), adapter_name="random", is_trainable=False)
+            local.model.set_adapter("adapter")
+            local.model.eval()
+            for arm, adapter_name, delta_path in (
+                ("adapter", "adapter", args.adapter_delta),
+                ("random", "random", args.random_delta),
+            ):
+                measured = lora_delta_stats(local.model, local.torch, adapter_name=adapter_name)
+                check = validate_delta_report(delta_path, measured)
+                verified_deltas[arm] = {"stats": measured, "sidecar_check": check}
+        except BaseException as error:
+            run.update(status="adapter_validation_failed", error=f"{type(error).__name__}: {error}")
+            _atomic_json(run_path, run)
+            raise
+        run["verified_delta_stats"] = verified_deltas
+        _atomic_json(run_path, run)
+
     existing: dict[tuple[str, str], dict] = {}
     if observations_path.exists():
         for line in observations_path.read_text().splitlines():
@@ -332,40 +410,34 @@ def evaluate_cases(args) -> int:
         if row.get("metrics") != grade_answer(case["answer"], row.get("response", "")):
             raise ValueError("Cached objective grade is inconsistent with the raw response")
 
-    adapter_names = set()
     records_written = len(existing)
     completed_by_arm = {arm: sum(key[0] == arm for key in existing) for arm in arms}
     started = time.monotonic()
     try:
         with observations_path.open("a", encoding="utf-8") as stream:
             for arm in arms:
-                if arm in {"adapter", "random"} and arm not in adapter_names:
-                    from peft import PeftModel
-                    adapter_path = args.adapter if arm == "adapter" else args.random_adapter
-                    adapter_name = arm
-                    if not adapter_names:
-                        local.model = PeftModel.from_pretrained(
-                            local.model, str(adapter_path), adapter_name=adapter_name,
-                            is_trainable=False,
-                        )
-                    else:
-                        local.model.load_adapter(str(adapter_path), adapter_name=adapter_name,
-                                                 is_trainable=False)
-                    adapter_names.add(adapter_name)
-                    local.model.set_adapter(adapter_name)
+                if arm in {"adapter", "random"}:
+                    local.model.set_adapter(arm)
                     local.model.eval()
                 for case in cases:
                     key = (arm, case["case_id"])
                     if key in existing:
                         continue
                     system_prompt = args.prompt_system if arm == "prompt" else BASE_SYSTEM
-                    response, tokens, latency = local.generate(
-                        system_prompt, case["prompt"], args.max_new_tokens
-                    )
+                    if "adapter" in arms and arm in {"base", "prompt"}:
+                        with local.model.disable_adapter():
+                            response, tokens, latency = local.generate(
+                                system_prompt, case["prompt"], args.max_new_tokens
+                            )
+                    else:
+                        response, tokens, latency = local.generate(
+                            system_prompt, case["prompt"], args.max_new_tokens
+                        )
                     row = {
                         "case_id": case["case_id"], "family": case["family"],
                         "split": case["split"], "arm": arm,
                         "prompt": case["prompt"], "answer_key": case["answer"],
+                        "normalized_prompt_sha256": _text_sha256(normalized_question(case["prompt"])),
                         "response": response, "metrics": grade_answer(case["answer"], response),
                         "generated_tokens": tokens, "latency_seconds": latency,
                         "resolved_revision": local.resolved_revision,

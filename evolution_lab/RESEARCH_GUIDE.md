@@ -292,18 +292,24 @@ match LoRA per layer within 0.01%. Every run records the dataset and subset
 fingerprints, adapter hashes, model revision, prompts, raw outputs, token counts,
 latencies, grades and uncertainty summaries.
 
+For candidate runs, the evaluator recomputes effective delta norms from the
+loaded PEFT tensors and checks each checkpoint against its recorded sidecar
+before generating answers. Base and prompt arms run with adapters disabled on
+the same loaded model; LoRA and random arms activate their named adapters.
+
 Runs checkpoint JSONL responses and can resume only when the complete run
-specification is identical. The development split is the default. Confirmation
+specification is identical. An exclusive process lock rejects simultaneous
+campaigns on the same output directory. The development split is the default. Confirmation
 requires explicit `--allow-confirmation`; any consumed confirmation questions
 must be retired from subsequent selection. `--offset` plus `--limit` permits
 bounded slices in stable split order so campaigns can add generations in
 checkpointed stages instead of loading all possible cases at once. Repeated
-responses count as generations, while the distinct case IDs count as unique
-questions.
+responses count as generations, while distinct case IDs count as unique
+questions and normalized prompt hashes support cross-run prompt deduplication.
 
-Verification: 54 software tests passed, including mocked interruption/resume,
+Verification: 56 software tests passed, including mocked interruption/resume,
 duplicate-safe ledger behavior, split selection, exact answer grading,
-per-layer norm-match rejection, and adapter/source-hash checks. The 100,000-case
+per-layer norm-match rejection, loaded-delta sidecar checks, and adapter/source-hash checks. The 100,000-case
 dataset still validates with 70,036 train, 14,984 dev, and 14,980 confirmation
 questions. No model generations were made through this evaluator. MPS is
 available on the direct Mac host, but the separate fixed MPS reproduction study

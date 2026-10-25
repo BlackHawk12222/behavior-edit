@@ -76,14 +76,17 @@
       "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
       "unique_questions_generated": 100000,
       "model_generations": 0,
-      "software_tests_passed": 54,
+      "software_tests_passed": 56,
       "features": [
         "trusted arithmetic answer grading",
         "separate integer-format metric",
         "paired base/prompt/LoRA/norm-matched-random arms",
         "source manifest and checkpoint hash verification",
         "layerwise effective-delta norm matching",
+        "effective deltas recomputed from loaded tensors",
         "resumable JSONL response records",
+        "exclusive per-campaign process lock",
+        "normalized prompt hashes for cross-run deduplication",
         "bounded stable-offset evaluation slices",
         "explicit confirmation opt-in"
       ],

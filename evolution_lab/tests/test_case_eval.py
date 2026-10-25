@@ -48,6 +48,14 @@ class CaseEvaluationTests(unittest.TestCase):
                 case_eval.evaluate_cases(args)
             loader.assert_not_called()
 
+    def test_campaign_lock_rejects_a_second_process(self):
+        with tempfile.TemporaryDirectory() as directory:
+            lock = Path(directory) / ".case-eval.lock"
+            with case_eval._campaign_lock(lock):
+                with self.assertRaisesRegex(RuntimeError, "already owns"):
+                    with case_eval._campaign_lock(lock):
+                        pass
+
     def test_dataset_bridge_selects_only_requested_split_in_stable_order(self):
         with tempfile.TemporaryDirectory() as directory:
             write_shard(Path(directory), seed=7, start=0, count=500)
@@ -80,6 +88,22 @@ class CaseEvaluationTests(unittest.TestCase):
             right.write_text(json.dumps({"delta_global_frobenius_norm": 4.0, "layers": [mismatched]}))
             with self.assertRaisesRegex(ValueError, "not norm-matched"):
                 case_eval.validate_norm_match(left, right)
+
+    def test_saved_delta_sidecar_must_match_loaded_effective_weights(self):
+        layer = {"name": "layer.q_proj", "matrix_shape": [2, 2], "rank": 1,
+                 "scale": 2.0, "delta_frobenius_norm": 3.0, "delta_max_abs": 1.0}
+        with tempfile.TemporaryDirectory() as directory:
+            report = Path(directory) / "delta.json"
+            report.write_text(json.dumps({"delta_global_frobenius_norm": 3.0, "layers": [layer]}))
+            result = case_eval.validate_delta_report(report, {
+                "delta_global_frobenius_norm": 3.0, "layers": [dict(layer)],
+            })
+            self.assertEqual(result["maximum_relative_error"], 0.0)
+            with self.assertRaisesRegex(ValueError, "do not match loaded adapter"):
+                case_eval.validate_delta_report(report, {
+                    "delta_global_frobenius_norm": 4.0,
+                    "layers": [dict(layer, delta_frobenius_norm=4.0)],
+                })
 
     def test_adapter_source_is_bound_to_checkpoint_hash_and_model_revision(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -137,6 +161,7 @@ class CaseEvaluationTests(unittest.TestCase):
             self.assertTrue(all(row["metrics"]["correct"] for row in rows))
             report = json.loads((output / "report.json").read_text())
             self.assertEqual(report["arms"]["base"]["unique_questions"], 2)
+            self.assertEqual(report["arms"]["base"]["unique_normalized_prompts"], 2)
             self.assertEqual(report["paired_vs_base"]["prompt"]["paired_questions"], 2)
             journal = json.loads((output / "run.json").read_text())
             self.assertEqual(journal["status"], "complete")
