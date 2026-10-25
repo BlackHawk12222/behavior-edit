@@ -1,0 +1,1504 @@
+{
+  "schema_version": 1,
+  "suite_id": "behavior-diagnostics-v1",
+  "training": [
+    {
+      "id": "train_json_format_00",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to apple and count equal to 1.",
+      "answer": "{\"name\":\"apple\",\"count\":1}"
+    },
+    {
+      "id": "train_exact_instruction_00",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word apple. No other text.",
+      "answer": "apple"
+    },
+    {
+      "id": "train_json_format_01",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to birch and count equal to 2.",
+      "answer": "{\"name\":\"birch\",\"count\":2}"
+    },
+    {
+      "id": "train_exact_instruction_01",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word birch. No other text.",
+      "answer": "birch"
+    },
+    {
+      "id": "train_json_format_02",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to cedar and count equal to 3.",
+      "answer": "{\"name\":\"cedar\",\"count\":3}"
+    },
+    {
+      "id": "train_exact_instruction_02",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word cedar. No other text.",
+      "answer": "cedar"
+    },
+    {
+      "id": "train_json_format_03",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to daisy and count equal to 4.",
+      "answer": "{\"name\":\"daisy\",\"count\":4}"
+    },
+    {
+      "id": "train_exact_instruction_03",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word daisy. No other text.",
+      "answer": "daisy"
+    },
+    {
+      "id": "train_json_format_04",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to elm and count equal to 5.",
+      "answer": "{\"name\":\"elm\",\"count\":5}"
+    },
+    {
+      "id": "train_exact_instruction_04",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word elm. No other text.",
+      "answer": "elm"
+    },
+    {
+      "id": "train_json_format_05",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to fern and count equal to 6.",
+      "answer": "{\"name\":\"fern\",\"count\":6}"
+    },
+    {
+      "id": "train_exact_instruction_05",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word fern. No other text.",
+      "answer": "fern"
+    },
+    {
+      "id": "train_json_format_06",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to grape and count equal to 7.",
+      "answer": "{\"name\":\"grape\",\"count\":7}"
+    },
+    {
+      "id": "train_exact_instruction_06",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word grape. No other text.",
+      "answer": "grape"
+    },
+    {
+      "id": "train_json_format_07",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to hazel and count equal to 8.",
+      "answer": "{\"name\":\"hazel\",\"count\":8}"
+    },
+    {
+      "id": "train_exact_instruction_07",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word hazel. No other text.",
+      "answer": "hazel"
+    },
+    {
+      "id": "train_json_format_08",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to iris and count equal to 9.",
+      "answer": "{\"name\":\"iris\",\"count\":9}"
+    },
+    {
+      "id": "train_exact_instruction_08",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word iris. No other text.",
+      "answer": "iris"
+    },
+    {
+      "id": "train_json_format_09",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to jade and count equal to 10.",
+      "answer": "{\"name\":\"jade\",\"count\":10}"
+    },
+    {
+      "id": "train_exact_instruction_09",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word jade. No other text.",
+      "answer": "jade"
+    },
+    {
+      "id": "train_json_format_10",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to kelp and count equal to 11.",
+      "answer": "{\"name\":\"kelp\",\"count\":11}"
+    },
+    {
+      "id": "train_exact_instruction_10",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word kelp. No other text.",
+      "answer": "kelp"
+    },
+    {
+      "id": "train_json_format_11",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to lily and count equal to 12.",
+      "answer": "{\"name\":\"lily\",\"count\":12}"
+    },
+    {
+      "id": "train_exact_instruction_11",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word lily. No other text.",
+      "answer": "lily"
+    },
+    {
+      "id": "train_json_format_12",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to moss and count equal to 13.",
+      "answer": "{\"name\":\"moss\",\"count\":13}"
+    },
+    {
+      "id": "train_exact_instruction_12",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word moss. No other text.",
+      "answer": "moss"
+    },
+    {
+      "id": "train_json_format_13",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to nut and count equal to 14.",
+      "answer": "{\"name\":\"nut\",\"count\":14}"
+    },
+    {
+      "id": "train_exact_instruction_13",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word nut. No other text.",
+      "answer": "nut"
+    },
+    {
+      "id": "train_json_format_14",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to oak and count equal to 15.",
+      "answer": "{\"name\":\"oak\",\"count\":15}"
+    },
+    {
+      "id": "train_exact_instruction_14",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word oak. No other text.",
+      "answer": "oak"
+    },
+    {
+      "id": "train_json_format_15",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to pine and count equal to 16.",
+      "answer": "{\"name\":\"pine\",\"count\":16}"
+    },
+    {
+      "id": "train_exact_instruction_15",
+      "behavior": "exact_instruction",
+      "split": "train",
+      "family": "train_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Reply with exactly the lowercase word pine. No other text.",
+      "answer": "pine"
+    },
+    {
+      "id": "train_concise_content_00",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to organize homework. Use at most 8 words and include the word checklist.",
+      "answer": "Use a daily checklist."
+    },
+    {
+      "id": "train_concise_content_01",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to clean a desk. Use at most 8 words and include the word away.",
+      "answer": "Put unused items away."
+    },
+    {
+      "id": "train_concise_content_02",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to save battery. Use at most 8 words and include the word brightness.",
+      "answer": "Lower screen brightness."
+    },
+    {
+      "id": "train_concise_content_03",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to remember a meeting. Use at most 8 words and include the word reminder.",
+      "answer": "Set a calendar reminder."
+    },
+    {
+      "id": "train_concise_content_04",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to protect a password. Use at most 8 words and include the word manager.",
+      "answer": "Use a password manager."
+    },
+    {
+      "id": "train_concise_content_05",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to save writing. Use at most 8 words and include the word save.",
+      "answer": "Save your document frequently."
+    },
+    {
+      "id": "train_concise_content_06",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to find a file. Use at most 8 words and include the word search.",
+      "answer": "Search by filename."
+    },
+    {
+      "id": "train_concise_content_07",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to plan a day. Use at most 8 words and include the word tasks.",
+      "answer": "List your tasks."
+    },
+    {
+      "id": "train_concise_content_08",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to sleep regularly. Use at most 8 words and include the word bedtime.",
+      "answer": "Keep a consistent bedtime."
+    },
+    {
+      "id": "train_concise_content_09",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to read comfortably. Use at most 8 words and include the word light.",
+      "answer": "Use adequate light."
+    },
+    {
+      "id": "train_concise_content_10",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to stay hydrated. Use at most 8 words and include the word water.",
+      "answer": "Drink water regularly."
+    },
+    {
+      "id": "train_concise_content_11",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to learn vocabulary. Use at most 8 words and include the word review.",
+      "answer": "Review words daily."
+    },
+    {
+      "id": "train_concise_content_12",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to avoid losing keys. Use at most 8 words and include the word place.",
+      "answer": "Use a fixed place."
+    },
+    {
+      "id": "train_concise_content_13",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to protect photos. Use at most 8 words and include the word back.",
+      "answer": "Back up your photos."
+    },
+    {
+      "id": "train_concise_content_14",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to rest your eyes. Use at most 8 words and include the word breaks.",
+      "answer": "Take screen breaks."
+    },
+    {
+      "id": "train_concise_content_15",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "train",
+      "family": "train_concise_domains",
+      "prompt": "Give one practical way to organize notes. Use at most 8 words and include the word headings.",
+      "answer": "Add descriptive headings."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "dev_json_format_00",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item quartz as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "quartz",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_00",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is QUARTZ. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "quartz"
+    },
+    {
+      "id": "dev_json_format_01",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item ruby as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "ruby",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_01",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is RUBY. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "ruby"
+    },
+    {
+      "id": "dev_json_format_02",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item sapphire as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "sapphire",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_02",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is SAPPHIRE. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "sapphire"
+    },
+    {
+      "id": "dev_json_format_03",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item topaz as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "topaz",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_03",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is TOPAZ. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "topaz"
+    },
+    {
+      "id": "dev_json_format_04",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item amber as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "amber",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_04",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is AMBER. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "amber"
+    },
+    {
+      "id": "dev_json_format_05",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item bronze as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "bronze",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_05",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is BRONZE. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "bronze"
+    },
+    {
+      "id": "dev_json_format_06",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item copper as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "copper",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_06",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is COPPER. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "copper"
+    },
+    {
+      "id": "dev_json_format_07",
+      "behavior": "json_format",
+      "split": "dev",
+      "family": "dev_json_format_schema",
+      "category": "json_format",
+      "prompt": "Encode item silver as a JSON object: label is the item, available is true. No surrounding prose.",
+      "kind": "json",
+      "target": {
+        "label": "silver",
+        "available": true
+      }
+    },
+    {
+      "id": "dev_exact_instruction_07",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is SILVER. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "silver"
+    },
+    {
+      "id": "test_json_format_00",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"falcon\"; priority is 2.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "falcon"
+        ],
+        "priority": 2
+      }
+    },
+    {
+      "id": "test_exact_instruction_00",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [falcon] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "falcon"
+    },
+    {
+      "id": "test_json_format_01",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"otter\"; priority is 3.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "otter"
+        ],
+        "priority": 3
+      }
+    },
+    {
+      "id": "test_exact_instruction_01",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [otter] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "otter"
+    },
+    {
+      "id": "test_json_format_02",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"badger\"; priority is 4.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "badger"
+        ],
+        "priority": 4
+      }
+    },
+    {
+      "id": "test_exact_instruction_02",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [badger] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "badger"
+    },
+    {
+      "id": "test_json_format_03",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"heron\"; priority is 5.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "heron"
+        ],
+        "priority": 5
+      }
+    },
+    {
+      "id": "test_exact_instruction_03",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [heron] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "heron"
+    },
+    {
+      "id": "test_json_format_04",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"lynx\"; priority is 6.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "lynx"
+        ],
+        "priority": 6
+      }
+    },
+    {
+      "id": "test_exact_instruction_04",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [lynx] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "lynx"
+    },
+    {
+      "id": "test_json_format_05",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"panda\"; priority is 7.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "panda"
+        ],
+        "priority": 7
+      }
+    },
+    {
+      "id": "test_exact_instruction_05",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [panda] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "panda"
+    },
+    {
+      "id": "test_json_format_06",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"raven\"; priority is 8.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "raven"
+        ],
+        "priority": 8
+      }
+    },
+    {
+      "id": "test_exact_instruction_06",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [raven] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "raven"
+    },
+    {
+      "id": "test_json_format_07",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"seal\"; priority is 9.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "seal"
+        ],
+        "priority": 9
+      }
+    },
+    {
+      "id": "test_exact_instruction_07",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [seal] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "seal"
+    },
+    {
+      "id": "test_json_format_08",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"tiger\"; priority is 10.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "tiger"
+        ],
+        "priority": 10
+      }
+    },
+    {
+      "id": "test_exact_instruction_08",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [tiger] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "tiger"
+    },
+    {
+      "id": "test_json_format_09",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"whale\"; priority is 11.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "whale"
+        ],
+        "priority": 11
+      }
+    },
+    {
+      "id": "test_exact_instruction_09",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [whale] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "whale"
+    },
+    {
+      "id": "test_json_format_10",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"yak\"; priority is 12.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "yak"
+        ],
+        "priority": 12
+      }
+    },
+    {
+      "id": "test_exact_instruction_10",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [yak] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "yak"
+    },
+    {
+      "id": "test_json_format_11",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"zebra\"; priority is 13.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "zebra"
+        ],
+        "priority": 13
+      }
+    },
+    {
+      "id": "test_exact_instruction_11",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [zebra] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "zebra"
+    },
+    {
+      "id": "dev_concise_content_00",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to avoid wet feet outdoors. Use at most 8 words and include the word waterproof.",
+      "kind": "bounded_contains",
+      "required": [
+        "waterproof"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_concise_content_01",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to keep food cold. Use at most 8 words and include the word refrigerator.",
+      "kind": "bounded_contains",
+      "required": [
+        "refrigerator"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_concise_content_02",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to measure time. Use at most 8 words and include the word clock.",
+      "kind": "bounded_contains",
+      "required": [
+        "clock"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_concise_content_03",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to see distant stars. Use at most 8 words and include the word telescope.",
+      "kind": "bounded_contains",
+      "required": [
+        "telescope"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_concise_content_04",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to carry books. Use at most 8 words and include the word backpack.",
+      "kind": "bounded_contains",
+      "required": [
+        "backpack"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_concise_content_05",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to dry hands. Use at most 8 words and include the word towel.",
+      "kind": "bounded_contains",
+      "required": [
+        "towel"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_concise_content_06",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to open a locked door. Use at most 8 words and include the word key.",
+      "kind": "bounded_contains",
+      "required": [
+        "key"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_concise_content_07",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "dev",
+      "family": "dev_concise_domains",
+      "prompt": "Give one practical way to measure length. Use at most 8 words and include the word ruler.",
+      "kind": "bounded_contains",
+      "required": [
+        "ruler"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_00",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to cut paper. Use at most 8 words and include the word scissors.",
+      "kind": "bounded_contains",
+      "required": [
+        "scissors"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_01",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to sweep a floor. Use at most 8 words and include the word broom.",
+      "kind": "bounded_contains",
+      "required": [
+        "broom"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_02",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to erase pencil marks. Use at most 8 words and include the word eraser.",
+      "kind": "bounded_contains",
+      "required": [
+        "eraser"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_03",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to water a plant. Use at most 8 words and include the word watering.",
+      "kind": "bounded_contains",
+      "required": [
+        "watering"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_04",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to keep rain off your head. Use at most 8 words and include the word umbrella.",
+      "kind": "bounded_contains",
+      "required": [
+        "umbrella"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_05",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to weigh a parcel. Use at most 8 words and include the word scale.",
+      "kind": "bounded_contains",
+      "required": [
+        "scale"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_06",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to see tiny cells. Use at most 8 words and include the word microscope.",
+      "kind": "bounded_contains",
+      "required": [
+        "microscope"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_07",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to secure a bicycle. Use at most 8 words and include the word lock.",
+      "kind": "bounded_contains",
+      "required": [
+        "lock"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_08",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to paint a wall. Use at most 8 words and include the word roller.",
+      "kind": "bounded_contains",
+      "required": [
+        "roller"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_09",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to stir soup. Use at most 8 words and include the word spoon.",
+      "kind": "bounded_contains",
+      "required": [
+        "spoon"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_10",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to read in darkness. Use at most 8 words and include the word lamp.",
+      "kind": "bounded_contains",
+      "required": [
+        "lamp"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "test_concise_content_11",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to join pieces of paper. Use at most 8 words and include the word glue.",
+      "kind": "bounded_contains",
+      "required": [
+        "glue"
+      ],
+      "max_words": 8
+    },
+    {
+      "id": "dev_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 23 + 7. Answer with digits only.",
+      "target": "30"
+    },
+    {
+      "id": "dev_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 24 + 8. Answer with digits only.",
+      "target": "32"
+    },
+    {
+      "id": "dev_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 25 + 9. Answer with digits only.",
+      "target": "34"
+    },
+    {
+      "id": "dev_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 26 + 10. Answer with digits only.",
+      "target": "36"
+    },
+    {
+      "id": "dev_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 27 + 11. Answer with digits only.",
+      "target": "38"
+    },
+    {
+      "id": "dev_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 28 + 12. Answer with digits only.",
+      "target": "40"
+    },
+    {
+      "id": "dev_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 29 + 13. Answer with digits only.",
+      "target": "42"
+    },
+    {
+      "id": "dev_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 30 + 14. Answer with digits only.",
+      "target": "44"
+    },
+    {
+      "id": "dev_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Japan? Reply with just the answer, without punctuation.",
+      "target": "Tokyo"
+    },
+    {
+      "id": "dev_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a triangle have? Reply with just the answer, without punctuation.",
+      "target": "3"
+    },
+    {
+      "id": "dev_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What planet is known as the Red Planet? Reply with just the answer, without punctuation.",
+      "target": "Mars"
+    },
+    {
+      "id": "dev_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for oxygen? Reply with just the answer, without punctuation.",
+      "target": "O"
+    },
+    {
+      "id": "dev_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 9, 2, 5 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "2,5,9"
+    },
+    {
+      "id": "dev_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 10, 3, 6 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "3,6,10"
+    },
+    {
+      "id": "dev_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 11, 4, 7 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "4,7,11"
+    },
+    {
+      "id": "dev_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 12, 5, 8 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "5,8,12"
+    },
+    {
+      "id": "test_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 43 + 7. Answer with digits only.",
+      "target": "50"
+    },
+    {
+      "id": "test_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 44 + 8. Answer with digits only.",
+      "target": "52"
+    },
+    {
+      "id": "test_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 45 + 9. Answer with digits only.",
+      "target": "54"
+    },
+    {
+      "id": "test_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 46 + 10. Answer with digits only.",
+      "target": "56"
+    },
+    {
+      "id": "test_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 47 + 11. Answer with digits only.",
+      "target": "58"
+    },
+    {
+      "id": "test_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 48 + 12. Answer with digits only.",
+      "target": "60"
+    },
+    {
+      "id": "test_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 49 + 13. Answer with digits only.",
+      "target": "62"
+    },
+    {
+      "id": "test_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 50 + 14. Answer with digits only.",
+      "target": "64"
+    },
+    {
+      "id": "test_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Canada? Reply with just the answer, without punctuation.",
+      "target": "Ottawa"
+    },
+    {
+      "id": "test_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a hexagon have? Reply with just the answer, without punctuation.",
+      "target": "6"
+    },
+    {
+      "id": "test_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the largest planet in our solar system? Reply with just the answer, without punctuation.",
+      "target": "Jupiter"
+    },
+    {
+      "id": "test_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for gold? Reply with just the answer, without punctuation.",
+      "target": "Au"
+    },
+    {
+      "id": "test_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 29, 22, 25 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "22,25,29"
+    },
+    {
+      "id": "test_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 30, 23, 26 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "23,26,30"
+    },
+    {
+      "id": "test_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 31, 24, 27 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "24,27,31"
+    },
+    {
+      "id": "test_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 32, 25, 28 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "25,28,32"
+    }
+  ]
+}

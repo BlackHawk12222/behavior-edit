@@ -53,6 +53,7 @@ def build_parser():
     train.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
     train.add_argument("--revision", default="main")
     train.add_argument("--device", default="auto", choices=["auto", "mps", "cuda", "cpu"])
+    train.add_argument("--precision", choices=["float32", "float16"], default="float32", help="Frozen base precision; adapter optimizer stays float32")
     train.add_argument("--steps", type=int, default=8)
     train.add_argument("--rank", type=int, default=4)
     train.add_argument("--learning-rate", type=float, default=0.0005)
@@ -61,11 +62,41 @@ def build_parser():
     train.add_argument("--eval-limit", type=int, default=4)
     train.add_argument("--seed", type=int, default=42)
     train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/adapters"))
+    benchmark = sub.add_parser("benchmark", help="Validate and describe the versioned held-out suite")
+    from .benchmark import SUITE_FILE, BEHAVIORS
+    benchmark.add_argument("--suite", type=Path, default=SUITE_FILE)
+    experiment = sub.add_parser("experiment", help="Run paired base/prompt/zero/LoRA/norm-matched random controls")
+    experiment.add_argument("--suite", type=Path, default=SUITE_FILE)
+    experiment.add_argument("--behavior", choices=BEHAVIORS, required=True)
+    experiment.add_argument("--split", choices=["dev", "test"], default="dev")
+    experiment.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
+    experiment.add_argument("--revision", default="main")
+    experiment.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    experiment.add_argument("--precision", choices=["float32", "float16"], default="float32")
+    experiment.add_argument("--steps", type=int, default=32)
+    experiment.add_argument("--rank", type=int, default=4)
+    experiment.add_argument("--learning-rate", type=float, default=.0005)
+    experiment.add_argument("--max-length", type=int, default=192)
+    experiment.add_argument("--max-new-tokens", type=int, default=48)
+    experiment.add_argument("--seed", type=int, default=42)
+    experiment.add_argument("--limit-per-role", type=int, help="Smoke run: limit target and locality probes equally")
+    experiment.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/experiments"))
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    if args.command == "benchmark":
+        from .benchmark import load_suite, describe
+        try:
+            print(json.dumps(describe(load_suite(args.suite)), indent=2))
+            return 0
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            print(f"Benchmark validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "experiment":
+        from .experiment import run_experiment
+        return run_experiment(args)
     try:
         tasks = read_tasks(args.tasks)
     except (ValueError, OSError) as error:

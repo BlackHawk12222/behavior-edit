@@ -23,7 +23,7 @@ def select_device(torch, requested="auto"):
 
 
 class LocalModel:
-    def __init__(self, model_id, revision="main", device="auto", adapter_path=None):
+    def __init__(self, model_id, revision="main", device="auto", adapter_path=None, precision="auto"):
         # Lazy imports: task validation and unit tests work without PyTorch.
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -31,7 +31,10 @@ class LocalModel:
         self.torch = torch
         self.device = select_device(torch, device)
         self.model_id = model_id
-        dtype = torch.float16 if self.device in {"mps", "cuda"} else torch.float32
+        if precision not in {"auto", "float32", "float16"}:
+            raise ValueError(f"Unsupported precision: {precision}")
+        dtype = (torch.float16 if self.device in {"mps", "cuda"} else torch.float32) if precision == "auto" else getattr(torch, precision)
+        self.precision = str(dtype)
 
         print(f"Loading {model_id}@{revision} on {self.device} ({dtype})...")
         self.tokenizer = AutoTokenizer.from_pretrained(
@@ -68,6 +71,8 @@ class LocalModel:
         ).to(self.device)
         if self.device == "mps":
             self.torch.mps.synchronize()
+        elif self.device == "cuda":
+            self.torch.cuda.synchronize()
         start = time.perf_counter()
         with self.torch.inference_mode():
             output = self.model.generate(
@@ -78,6 +83,8 @@ class LocalModel:
             )
         if self.device == "mps":
             self.torch.mps.synchronize()
+        elif self.device == "cuda":
+            self.torch.cuda.synchronize()
         elapsed = time.perf_counter() - start
         new_tokens = output[0, inputs["input_ids"].shape[1]:]
         text = self.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()

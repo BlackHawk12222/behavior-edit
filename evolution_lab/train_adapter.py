@@ -12,6 +12,7 @@ from pathlib import Path
 
 from .metrics import compare_before_after, grade, summarize
 from .runner import LocalModel
+from .provenance import assert_disjoint, environment, fingerprint
 
 BASE_SYSTEM = "You are a helpful assistant."
 
@@ -59,6 +60,9 @@ def supervised_batch(tokenizer, example, max_length, device):
         raise ValueError(
             f"Example {example['id']} truncated before the answer; raise --max-length"
         )
+    prefix_ids = tokenizer(prefix, add_special_tokens=False)["input_ids"]
+    if encoded["input_ids"][0, :prompt_len].tolist() != prefix_ids:
+        raise ValueError("Chat template tokenization is not prefix-stable; cannot safely mask labels")
     encoded["labels"] = encoded["input_ids"].clone()
     encoded["labels"][:, :prompt_len] = -100
     return encoded
@@ -136,9 +140,7 @@ def train_adapter(args, tasks):
         raise ValueError("Steps, rank, length, eval limit and learning rate must be positive")
     examples = read_examples(args.examples)
     held_out = tasks[:args.eval_limit]
-    eval_prompts = {t["prompt"] for t in tasks}
-    if any(example["prompt"] in eval_prompts for example in examples):
-        raise ValueError("Training and evaluation prompts overlap; separate the datasets")
+    assert_disjoint(examples, tasks)
 
     import torch
     from peft import LoraConfig, TaskType, get_peft_model
@@ -148,7 +150,8 @@ def train_adapter(args, tasks):
     rng = random.Random(args.seed)
     rng.shuffle(examples)
 
-    local_model = LocalModel(args.model, revision=args.revision, device=args.device)
+    local_model = LocalModel(args.model, revision=args.revision, device=args.device,
+                             precision=getattr(args, "precision", "float32"))
     baseline = eval_phase(local_model, held_out, "before", args.max_new_tokens)
 
     local_model.model.config.use_cache = False
@@ -166,6 +169,9 @@ def train_adapter(args, tasks):
     parameters = [p for p in local_model.model.parameters() if p.requires_grad]
     if not parameters:
         raise RuntimeError("LoRA did not enable any trainable parameters")
+    # Adapter optimizer state must remain fp32 even with frozen fp16 base weights.
+    for parameter in parameters:
+        parameter.data = parameter.data.float()
     opt = torch.optim.AdamW(parameters, lr=args.learning_rate, foreach=False)
     loss_history = []
     for step in range(args.steps):
@@ -178,8 +184,10 @@ def train_adapter(args, tasks):
         if not torch.isfinite(loss).item():
             raise RuntimeError(f"Non-finite loss at step {step + 1}")
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(parameters, max_norm=1.0)
+        torch.nn.utils.clip_grad_norm_(parameters, max_norm=1.0, error_if_nonfinite=True)
         opt.step()
+        if any(not torch.isfinite(p).all().item() for p in parameters):
+            raise RuntimeError(f"Non-finite adapter parameters at step {step + 1}")
         loss_value = round(loss.detach().float().item(), 6)
         loss_history.append(loss_value)
         print(f"train step {step + 1}/{args.steps}: loss={loss_value:.5f}")
@@ -206,6 +214,11 @@ def train_adapter(args, tasks):
 
     summary = {
         "run_id": run_id,
+        "environment": environment(),
+        "precision": local_model.precision,
+        "data_hashes": {"training": fingerprint(examples), "evaluation": fingerprint(held_out)},
+        "max_new_tokens": args.max_new_tokens,
+        "decoding": "greedy",
         "model_id": args.model,
         "resolved_revision": local_model.resolved_revision,
         "device": local_model.device,

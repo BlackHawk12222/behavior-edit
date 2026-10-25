@@ -4,9 +4,10 @@ Scores represent observable task performance, not human personality or values.
 """
 
 import json
+import re
 from collections import defaultdict
 
-KINDS = frozenset({"exact", "json", "max_words", "contains"})
+KINDS = frozenset({"exact", "json", "max_words", "contains", "bounded_contains"})
 
 
 def validate_tasks(tasks):
@@ -31,11 +32,45 @@ def validate_tasks(tasks):
             raise ValueError(f"{identifier}: missing target")
         if kind in {"exact", "contains"} and not isinstance(task["target"], str):
             raise ValueError(f"{identifier}: target must be a string")
-        if kind == "max_words":
+        if kind == "bounded_contains":
+            required = task.get("required")
+            if not isinstance(required, list) or not required or any(
+                not isinstance(x, str) or not x.strip() for x in required
+            ):
+                raise ValueError(f"{identifier}: required must be nonempty strings")
+        if kind in {"max_words", "bounded_contains"}:
             n = task.get("max_words")
             if type(n) is not int or n < 1:
                 raise ValueError(f"{identifier}: max_words must be positive")
     return tasks
+
+
+def strict_json(text):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise ValueError(f"Duplicate JSON key: {key}")
+            result[key] = value
+        return result
+
+    def reject_constant(value):
+        raise ValueError(f"Non-JSON constant: {value}")
+
+    return json.loads(text, object_pairs_hook=pairs, parse_constant=reject_constant)
+
+
+def json_equal(a, b):
+    # Python considers True == 1; JSON boolean and number types are distinct.
+    if isinstance(a, bool) or isinstance(b, bool):
+        return type(a) is type(b) and a == b
+    if isinstance(a, dict) and isinstance(b, dict):
+        return a.keys() == b.keys() and all(json_equal(a[k], b[k]) for k in a)
+    if isinstance(a, list) and isinstance(b, list):
+        return len(a) == len(b) and all(json_equal(x, y) for x, y in zip(a, b))
+    return type(a) is type(b) and a == b or (
+        type(a) in {int, float} and type(b) in {int, float} and a == b
+    )
 
 
 def grade(task, response):
@@ -46,10 +81,16 @@ def grade(task, response):
         return {"passed": answer == task["target"]}
     if kind == "json":
         try:
-            parsed = json.loads(answer)
+            parsed = strict_json(answer)
         except (ValueError, TypeError):
             return {"passed": False, "valid_json": False}
-        return {"passed": parsed == task["target"], "valid_json": True}
+        return {"passed": json_equal(parsed, task["target"]), "valid_json": True}
+    if kind == "bounded_contains":
+        n = len(answer.split())
+        covered = all(re.search(r"(?<!\w)" + re.escape(word.casefold()) + r"(?!\w)",
+                                answer.casefold()) for word in task["required"])
+        return {"passed": bool(answer) and n <= task["max_words"] and covered,
+                "word_count": n, "required_content": bool(covered)}
     if kind == "max_words":
         n = len(answer.split())
         return {"passed": bool(answer) and n <= task["max_words"], "word_count": n}

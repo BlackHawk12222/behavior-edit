@@ -128,3 +128,76 @@ test sets, additional seeds, and general capability/locality checks.
 - Keep original evaluation tasks out of training data, and distinguish
   targeted edit success from broader capability preservation.
 - Model output is untrusted. Never execute code it generates automatically.
+
+## v0.3 controlled diagnostic experiments
+
+The eight original tasks remain smoke tests. `benchmark` validates a separate,
+versioned diagnostic with 48 training examples and 92 evaluation items. Each
+behavior has 16 train / 8 development / 12 test examples; preservation has 16
+items per evaluation split. Content families and normalized prompts cannot cross
+splits. These public synthetic items are small, manually authored probes, and
+cannot establish broad generalization or rule out semantic contamination.
+
+```sh
+python -m evolution_lab benchmark
+python -m evolution_lab experiment --behavior json_format --device auto --steps 16
+python -m evolution_lab experiment --behavior exact_instruction --device auto --steps 16
+python -m evolution_lab experiment --behavior concise_content --device auto --steps 16
+```
+
+Each experiment pairs the same tasks and greedy decoding across base, explicit
+prompt instruction, zero-initialized LoRA, conventional trained LoRA, and an
+untrained random LoRA with matched effective delta Frobenius norm **per layer**.
+The prompt condition changes input only; it is not weight editing. Random edits
+match rank and norm, not singular spectra or functional impact. Failed integrity
+checks stop the experiment. Raw outputs stream to disk; a manifest records
+failure or completion, model revision, dataset hashes, package versions, source
+commit and dirty state, decoding, training configuration and actual training IDs.
+Adapters and per-layer features are saved separately.
+
+`--split test` uses content families that differ from training and development.
+Freeze settings on development data before inspecting test results. Do not tune
+on a test result and then describe the rerun as independent confirmation. The
+`--limit-per-role 2` option is for smoke checks only; it balances target and
+preservation counts and records `smoke_only: true`.
+
+Scores separate target behavior from capability preservation. Locality here means
+preservation on a finite probe set, not proof that all unrelated behavior remains
+unchanged. Reports count gained/lost passes and changed responses, and compare
+LoRA directly against prompt and random controls. Wilson intervals assume
+independent items and can be too narrow for templated tasks. Paired bootstrap
+resamples content families; it returns no interval when fewer than two families
+exist. Repeated greedy generations are not independent evidence. Use multiple
+training seeds, retain all runs, and avoid selecting an adapter by test score.
+
+Conciseness requires both a word budget and specified content. This is a narrow
+style/compliance proxy; it does not assess usefulness, politeness, personality,
+or values. JSON grading rejects duplicate keys, NaN/Infinity, and boolean/number
+type confusion.
+
+Training now defaults to float32 base weights and float32 adapter parameters.
+For lower memory usage, `--precision float16` explicitly opts into a frozen half
+precision base; adapter parameters and optimizer state remain float32. Finite
+losses, gradients and adapter weights are checked. This reduces avoidable
+numerical risks but does not certify MPS reliability. Use a short run on your
+Mac before larger studies; record OS, packages, memory pressure and failures.
+
+```sh
+# Short hardware check, followed by a complete diagnostic:
+python -m evolution_lab experiment --behavior json_format --device auto --steps 1 --limit-per-role 2
+python -m evolution_lab experiment --behavior json_format --device auto --steps 16 --seed 42
+# Pin the resolved checkpoint SHA from manifest.json for subsequent runs:
+python -m evolution_lab experiment --behavior json_format --device auto --steps 16 --seed 43 --revision MODEL_COMMIT_SHA
+```
+
+Verification without model downloads:
+
+```sh
+python -m unittest discover -s evolution_lab/tests -v
+```
+
+The optional tensor tests use a tiny randomly initialized Llama on CPU. They
+verify zero-adapter equivalence, finite training updates, frozen base weights,
+per-layer random norm matching, state restoration, saved adapter reload, and
+assistant-only token masking. They skip when ML packages are unavailable.
+They test engineering behavior, not Qwen quality or Mac GPU compatibility.
