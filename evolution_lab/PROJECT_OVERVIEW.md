@@ -67,10 +67,9 @@ large number of repeated answers is not the same as a large independent test.
 
 ## What recent results mean
 
-One frozen completion adapter beat a prompt on a small fresh arithmetic
-confirmation sample: 107/128 correct versus 78/128 for the prompt. It scored
-below its development result, so this is a narrow finding about one adapter
-and one arithmetic task—not evidence of broad reasoning ability.
+In an earlier, separate arithmetic check, one frozen adapter scored 107/128
+versus 78/128 for the prompt. That was a narrow result on one adapter and one
+addition task, not evidence of broad reasoning ability.
 
 On the phrase/sentence development benchmark, two task-balanced training
 seeds both answered all plural-subject sentences correctly but had weak
@@ -82,22 +81,32 @@ explicit prompt (paired family-bootstrap 95% interval +20.8 to +31.3 points).
 Phrase accuracy was 18/28, below the base model's 23/28. This is a strong
 development result with a phrase trade-off, not independent confirmation. The
 two schedules selected entirely different 64-example samples, so task ratio
-and example identity are intertwined. The adapter remains quarantined. A preregistered confirmation is now running
-on 432 previously untouched phrase/sentence questions plus a separate 312-case
-arithmetic preservation sample. It compares the frozen adapter with a prompt,
-base, norm-matched random edits, and a fixed mixture of the balanced and
-uniform adapters. No result from that final check will be used to tune a later
-candidate.
+and example identity are intertwined. The adapter remained quarantined until
+the frozen confirmation below.
 
-No adapter has been promoted as a generally beneficial change. F024 is now
-consuming the latest phrase/sentence confirmation questions; those families
-will be retired from future tuning after the campaign finishes.
+That check has now finished. On 432 new phrase/sentence questions, the frozen
+adapter answered 409 correctly, including 390/400 sentences and 19/32 phrases.
+It beat the explicit prompt (264/432) by 33.6 percentage points, with a
+family-bootstrap 95% interval of +28.7 to +37.7. Its phrase score was still
+below the untouched model (26/32), so this is strong evidence for a narrow
+sentence-completion behavior with a phrase trade-off. A fixed mixture of the
+balanced and uniform adapters scored 388/432; the uniform adapter was 4.9
+points higher, but the mixture has twice the adapter rank and is not an
+equal-capacity comparison.
 
-Across the archived answer logs, the project has 25,160 response records on
-1,556 distinct normalized prompts as of 2026-10-25. Many records are repeated
-conditions or training seeds on the same questions. The arithmetic generator
-can create 100,000 questions, but that does not mean the model has answered
-all of them; generated cases and tested questions are counted separately.
+On a separate 312-question addition check, the same adapter scored 99/312.
+That was above the untouched model and matched-random edit (both 54/312), but
+below the clear prompt control (155/312) by 17.9 points. It therefore does not
+show broad capability preservation. The small phrase family count, synthetic
+English tasks, and one candidate seed also limit what we can conclude. No
+adapter has been promoted as a generally beneficial change; both F024
+confirmation families are retired and cannot be reused for tuning.
+
+Across archived answer logs through F024, the project has 29,864 response
+records on 2,300 distinct normalized prompts. Many records repeat a question
+under different arms or seeds. The arithmetic generator can create 100,000
+questions, but generated questions are counted separately from model-tested
+questions; this project has not asked the model millions of unique questions.
 
 ## Current limits
 

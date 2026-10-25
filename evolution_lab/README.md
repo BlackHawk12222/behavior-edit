@@ -657,3 +657,25 @@ material development-to-confirmation gap. This does not confirm phrase or
 sentence behavior, and the selected arithmetic families are retired. See the
 [research guide](RESEARCH_GUIDE.md#f019--a-completion-trained-adapter-generalized-its-arithmetic-signal-to-fresh-confirmation-families-with-a-development-to-confirmation-drop)
 and [F019 evidence](evidence/casegen_v3/evaluations/seed44_balanced_arithmetic_confirmation_f019/).
+
+### F024 — Frozen text-behavior confirmation and arithmetic check
+
+The F023 uniform adapter was frozen before testing 432 untouched phrase and
+sentence questions, then compared with base, the explicit prompt, a
+per-layer norm-matched random edit, and a fixed equal mixture of the balanced
+and uniform adapters. The candidate scored 409/432 overall and 390/400 on
+sentences, versus 264/432 and 249/400 for the prompt. Its paired family
+bootstrap margin over prompt was +33.6 percentage points (95% interval +28.7
+to +37.7). Phrase score was 19/32, below base at 26/32, so the finding is
+specific to sentence completion and comes with a phrase trade-off. The mixture
+scored 388/432; the candidate exceeded it by 4.9 points (95% interval +2.1 to
++8.1), but the rank-8 mixture is not rank matched to the rank-4 candidate.
+
+On 312 fresh addition questions, the candidate scored 99/312, above base and
+matched-random controls at 54/312 but below the explicit prompt at 155/312 by
+17.9 points (paired family-bootstrap 95% interval −23.4 to −12.8). This is a
+narrow capability check, not broad preservation. No adapter is promoted.
+F024 records 4,704 model generations over 744 unique questions. Its raw
+responses, reports, controls, preregistration amendments, and checksums are in
+`evidence/f024_frozen_confirmation/`; those confirmation families are retired.
+See the [full research record](RESEARCH_GUIDE.md#f024--frozen-candidate-confirmation-and-arithmetic-preservation).

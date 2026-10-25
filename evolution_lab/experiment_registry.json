@@ -1208,7 +1208,7 @@
     },
     {
       "id": "completion-v3-frozen-confirmation-f024",
-      "status": "preregistered-confirmation-running",
+      "status": "completed-frozen-confirmation-no-promotion-candidate-quarantined",
       "protocol": "evolution_lab/evidence/f024_frozen_confirmation/preregistration.json",
       "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
       "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
@@ -1234,7 +1234,7 @@
         "unique_questions": 312,
         "families": 78,
         "new_prompt_overlap_with_prior_response_ledgers": 0,
-        "consumed": false
+        "consumed": true
       },
       "fixed_mixture": {
         "sources": [
@@ -1260,17 +1260,76 @@
       "planned_model_generations": 4704,
       "planned_unique_questions": 744,
       "confirmation_consumed": true,
-      "holdout_retirement": "Completion confirmation families are retired from later candidate tuning once F024 responses are collected."
+      "holdout_retirement": "Completion confirmation families are retired from later candidate tuning once F024 responses are collected.",
+      "model_generations": 4704,
+      "unique_questions": 744,
+      "candidate_quarantined": true,
+      "eligible_for_promotion": false,
+      "evidence": "evolution_lab/evidence/f024_frozen_confirmation/import_manifest.json",
+      "results": {
+        "completion_candidate": {
+          "correct": "409/432",
+          "phrase": "19/32",
+          "sentence": "390/400",
+          "minus_prompt_pp": 33.56,
+          "minus_prompt_family_bootstrap95_pp": [
+            28.7,
+            37.73
+          ],
+          "improved_vs_prompt": 150,
+          "regressed_vs_prompt": 5
+        },
+        "fixed_equal_mixture": {
+          "correct": "388/432",
+          "phrase": "17/32",
+          "sentence": "371/400",
+          "minus_prompt_pp": 28.7,
+          "minus_prompt_family_bootstrap95_pp": [
+            23.61,
+            33.56
+          ]
+        },
+        "candidate_minus_mixture": {
+          "delta_pp": 4.86,
+          "family_bootstrap95_pp": [
+            2.08,
+            8.1
+          ],
+          "improved": 31,
+          "regressed": 10
+        },
+        "base_replays_identical": "432/432",
+        "prompt_replays_identical": "432/432",
+        "arithmetic_candidate": "99/312",
+        "arithmetic_prompt": "155/312",
+        "arithmetic_base": "54/312",
+        "arithmetic_norm_matched_random": "54/312",
+        "arithmetic_candidate_minus_prompt_pp": -17.95,
+        "arithmetic_minus_prompt_family_bootstrap95_pp": [
+          -23.4,
+          -12.82
+        ],
+        "arithmetic_candidate_minus_base_pp": 14.42,
+        "arithmetic_minus_base_family_bootstrap95_pp": [
+          10.58,
+          18.27
+        ]
+      },
+      "protocol_deviations": [
+        "Evaluator progress output exposed base-arm correctness indicators for the first 325/432 completion cases before detection; no protocol or candidate changes followed.",
+        "Two zero-generation preflight failures were documented before retries: use of model alias instead of recorded local snapshot path for mixture; and use of archived adapter without its sibling run manifest for arithmetic. Retries used the same pinned model and checkpoint hashes."
+      ],
+      "summary": "Frozen uniform adapter independently confirms strong narrow sentence-completion gains over prompt, base and norm-matched random on 432 untouched questions, while phrase performance remains below base. It exceeds the fixed equal mixture by 4.9 points. On 312 fresh arithmetic questions it scores 99/312: above weak base/random (54/312) but below prompt (155/312) by 17.9 points. The candidate does not meet broad capability-preservation or promotion criteria. Retire both confirmation families; no later tuning on these cases."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
   "response_accounting_snapshot": {
-    "as_of_utc": "2026-10-25T19:08:53Z",
-    "response_ledger_files": 64,
-    "response_records": 25160,
-    "unique_normalized_question_prompts": 1556,
-    "question_families_with_responses": 217,
-    "method": "Counted JSONL rows in the evidence tree containing response, objective metrics, and an arm/condition. Unique questions are deduplicated by normalized_prompt_sha256. Repeated answers across arms, seeds, or studies remain separate response records; generated-but-unevaluated cases are not counted.",
-    "note": "Counts include completed response ledgers through F023; F024 is currently running and its responses are not included until archived."
+    "as_of_utc": "2026-10-25T20:57:48Z",
+    "response_ledger_files": 67,
+    "response_records": 29864,
+    "unique_normalized_question_prompts": 2300,
+    "question_families_with_responses": 328,
+    "method": "Counted JSONL rows in the evidence tree containing a model response, objective metrics, and an arm/condition. Unique prompts are deduplicated by normalized_prompt_sha256. Repeated answers across arms, seeds, or studies remain separate response records; generated-but-unevaluated cases are excluded.",
+    "note": "Includes all completed evidence through F024: 4,704 F024 response records over 744 new unique questions. Arithmetic prompts were checked for overlap with earlier response ledgers; none. Confirmation cases are retired from tuning."
   }
 }

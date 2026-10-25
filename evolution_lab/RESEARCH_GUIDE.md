@@ -1150,14 +1150,11 @@ specific weights encode a general grammatical trait, or that the behavior
 transfers to Astra.
 
 The adapter remains quarantined. Phrase performance is below base, one seed
-was trained, broader capability/locality checks are absent, and v3 confirmation
-has not been consumed. Before any broader claim, preregister a fresh evaluation
-of the frozen adapter against prompt, base, norm-matched random, and a simple
-fixed adapter-mixture baseline; include a separate capability-preservation
-probe. Confirmation families must be retired after this check and never used
-to tune a later candidate. Exact training IDs, split, raw responses, all
-checkpoints, effective-delta summaries, paired analysis, run settings and
-hashes are under `evidence/completion_v3/evaluations/seed42_uniform_dev_f023/`.
+was trained, and broader capability/locality checks were absent at the time of
+F023. F024 has since consumed and retired the v3 confirmation families. Exact
+training IDs, split, raw responses, checkpoints, effective-delta summaries,
+paired analysis, run settings and hashes are under
+`evidence/completion_v3/evaluations/seed42_uniform_dev_f023/`.
 
 Reproduce the training with the immutable model revision and
 `--sampling-strategy uniform`; evaluate with `case-eval --split dev --arms base
@@ -1177,33 +1174,48 @@ module/layer interventions.
 
 ### F024 — Frozen candidate confirmation and arithmetic preservation
 
-Status: preregistered; confirmation evaluation in progress. The F023 uniform
-adapter is frozen. The completion-v3 confirmation split is now consumed and
-must be retired after this campaign; no outcomes may be used to tune a later
-candidate.
+Status: completed preregistered confirmation; both confirmation families are
+retired. The F023 uniform adapter remains quarantined and is not eligible for
+promotion.
 
-F024 will compare the frozen adapter with base, a task-matched prompt and a
-per-layer norm-matched random edit on 432 untouched completion questions (32
-phrase questions and 400 sentence questions across 33 families). It also
-compares a fixed 50/50 concatenation of the F021 task-balanced and F023 uniform
-adapters, with its own norm-matched random control. The mixture uses rank 8,
-so it is a nonlearned comparator, not a rank-budget-matched alternative.
+On 432 untouched completion questions (32 phrase items and 400 sentence items
+across 33 families), the frozen candidate scored 409/432 (94.7%): 19/32
+phrases and 390/400 sentences. The task-matched prompt scored 264/432, base
+200/432, and the per-layer norm-matched random edit 205/432. Candidate minus
+prompt was +33.6 percentage points (150 improved, 5 regressed; paired
+family-bootstrap 95% interval +28.7 to +37.7). The sentence result was 390/400
+versus prompt 249/400; however, phrase score 19/32 remained below base 26/32.
+This is strong independent evidence for this narrow sentence-completion
+behavior on this model and dataset, with an explicit phrase trade-off.
 
-A separate arithmetic preservation check uses 312 confirmation questions
-from 78 families. They were generated from a new seed and a disjoint high
-index range; none of their normalized prompts appeared in earlier response
-ledgers. The arithmetic probe is independent of the text training data and
-contains executable addition answer keys. Together the preregistered campaigns
-will generate 4,704 response records across 744 unique questions; base and
-prompt are deliberately replayed for the mixture comparison and remain
-separate generations, not extra unique cases.
+The fixed 50/50 concatenation of the balanced and uniform adapters scored
+388/432 (17/32 phrases, 371/400 sentences). Uniform candidate minus mixture
+was +4.9 points (31 improved, 10 regressed; paired family-bootstrap 95%
+interval +2.1 to +8.1). Base and prompt responses replayed exactly on 432/432
+questions each. The mixture is rank 8 while the candidates are rank 4, so this
+is not an equal-capacity comparison.
 
-The full protocol, family fingerprints, model revision, control definitions,
-mixture checkpoints, and rules forbidding post-hoc tuning are recorded in
-`evidence/f024_frozen_confirmation/preregistration.json`. Do not report a
-promotion decision until both completion campaigns and the arithmetic probe
-finish. Even a positive result would be narrow evidence about this Qwen model
-and these tasks, not a behavior map for Astra.
+On a separate 312-question, 78-family addition probe, the candidate scored
+99/312 (31.7%), versus 155/312 prompt (49.7%), 54/312 base, and 54/312
+norm-matched random. Candidate minus prompt was −17.9 points (25 improved, 81
+regressed; family-bootstrap 95% interval −23.4 to −12.8). It beat base by
+14.4 points (95% interval +10.6 to +18.3), but remained far below the strong
+prompt. This narrow check does not establish broad capability preservation.
+
+The three campaigns recorded 4,704 generations on 744 unique questions. The
+completion data were replayed for the mixture comparison; repeated answers
+count as generations, not additional questions. A progress-log defect exposed
+base-arm correctness indicators for the first 325/432 completion cases before
+detection. No candidate, case, or analysis choice changed in response, and the
+deviation remains in the preregistration and archived analysis. Two additional
+preflight command errors generated zero responses and were documented before
+retry: local model-path identity and archived adapter-manifest validation.
+
+All raw observations, run specifications, reports, mixture and random
+checkpoints, direct paired comparisons, preregistration amendments, and SHA-256
+manifest are under `evidence/f024_frozen_confirmation/`. The result does not
+show Astra transfer, general reasoning improvement, broad locality, or a
+weight-to-trait map. Do not tune on either retired confirmation family.
 
 ### Next data study — isolate example exposure from example identity
 

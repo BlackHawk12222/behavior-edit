@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "experiment_id": "F024",
+  "status": "complete",
+  "unique_questions": 744,
+  "model_generations": 4704,
+  "software_tests": 84,
+  "files_sha256": {
+    "analysis_f024.json": "849bf68e9e98e519d6877ddf5055f238ef81100add72a77072ee788b3514a2ee",
+    "evaluations/arithmetic_locality/observations.jsonl": "f37712c22077d91a89d007f3244fe991244401cb7d0cc126712903bdbb39ce13",
+    "evaluations/arithmetic_locality/report.json": "b8ad155dc64d6944a53a6ccf4a3df53010ff3bde8c42d466436d31abb4f40183",
+    "evaluations/arithmetic_locality/run.json": "0632883a985f5f37a554ab7344b1f0b1a928ad169968ac905a19801b7afd9357",
+    "evaluations/fixed_mixture/observations.jsonl": "059a0693123503d30672a061f7bb5e092fbcc98a509867ad45eaf6c30ba64217",
+    "evaluations/fixed_mixture/report.json": "681cd59904bbdd17a33f7e5f9bac3b01d91fca81e5b942dc97e8bb39224e19bd",
+    "evaluations/fixed_mixture/run.json": "582171851a16a3e40d378dd192cd8208111c2900388db23016ea0de24f80dad3",
+    "evaluations/uniform_candidate/observations.jsonl": "b84ebb52908e3d0060e9ad5078e75f5c75f3122cd3bf009a751be6ab6ff9a71e",
+    "evaluations/uniform_candidate/report.json": "07902bf249e6dd5c3510544166ed27a2e88a59a27f2df77a77bc97cfa9673435",
+    "evaluations/uniform_candidate/run.json": "03585551b872c5bc58c2f6b742c5d6465c8eb10bcf73d7d8a3bbf8e1919cbf92",
+    "mixture/adapter_lora/README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+    "mixture/adapter_lora/adapter_config.json": "d3acd42b835941ae33e559f4bdd58435be180eaba1098841969b5e1f92beeeb7",
+    "mixture/adapter_lora/adapter_model.safetensors": "7ce7b839c60e77a0e4af1f46ffd5cc07ce797bda2f380274a55b0f2979092747",
+    "mixture/adapter_random/README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+    "mixture/adapter_random/adapter_config.json": "d3acd42b835941ae33e559f4bdd58435be180eaba1098841969b5e1f92beeeb7",
+    "mixture/adapter_random/adapter_model.safetensors": "5dcd46e5a9c1dab663f55cb39f5b4c5c06aa206e19db7687a6bdef01bcd88f19",
+    "mixture/delta_lora.json": "96efb85e3acd1e55c7ad521aaab7691e79b180e14bd93118b55d065a92f37a88",
+    "mixture/delta_random.json": "e167bfc001f2f21701eadb1684a158a212a0343e902e7f960c1df7712454a4c9",
+    "mixture/manifest.json": "ca272fa9bec714edcd5ed2b95702a4e8d9f774d5fb86a16fee2a0b0ee93e79b8",
+    "preregistration.json": "fcbcb080b05a307840040143c57fbae199dd7b826c2ecc7342a22123014c3c1d"
+  },
+  "counting_rule": "Unique questions are deduplicated by normalized_prompt_sha256; repeated base/prompt and candidate/mixture generations count as response records only."
+}

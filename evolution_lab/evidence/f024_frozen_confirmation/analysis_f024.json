@@ -1,0 +1,211 @@
+{
+  "id": "F024",
+  "status": "completed_frozen_confirmation; all confirmation families retired",
+  "candidate": "F023 seed-42 uniform LoRA; frozen before confirmation",
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "runtime": "CPU float32; MPS unavailable in this session",
+  "completion_confirmation": {
+    "unique_questions": 432,
+    "families": 33,
+    "generations_per_campaign": 1728,
+    "candidate_correct": "409/432",
+    "candidate_phrase": "19/32",
+    "candidate_sentence": "390/400",
+    "prompt_correct": "264/432",
+    "base_correct": "200/432",
+    "norm_matched_random_correct": "205/432",
+    "candidate_minus_prompt": {
+      "reference_arm": "prompt",
+      "candidate_arm": "adapter",
+      "paired_questions": 432,
+      "improved": 150,
+      "regressed": 5,
+      "correctness_rate_delta": 0.33564814814814814,
+      "family_bootstrap95": [
+        0.28703703703703703,
+        0.3773148148148148
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.03125,
+          0.28125
+        ],
+        "sentence_completion": [
+          0.3,
+          0.395
+        ]
+      },
+      "family_count": 33,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "candidate_minus_base": {
+      "reference_arm": "base",
+      "candidate_arm": "adapter",
+      "paired_questions": 432,
+      "improved": 219,
+      "regressed": 10,
+      "correctness_rate_delta": 0.4837962962962963,
+      "family_bootstrap95": [
+        0.4351851851851852,
+        0.5347222222222223
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.25,
+          -0.15625
+        ],
+        "sentence_completion": [
+          0.4875,
+          0.595
+        ]
+      },
+      "family_count": 33,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "mixture_correct": "388/432",
+    "mixture_phrase": "17/32",
+    "mixture_sentence": "371/400",
+    "mixture_minus_prompt": {
+      "reference_arm": "prompt",
+      "candidate_arm": "adapter",
+      "paired_questions": 432,
+      "improved": 149,
+      "regressed": 25,
+      "correctness_rate_delta": 0.28703703703703703,
+      "family_bootstrap95": [
+        0.2361111111111111,
+        0.33564814814814814
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.09375,
+          0.21875
+        ],
+        "sentence_completion": [
+          0.2525,
+          0.355
+        ]
+      },
+      "family_count": 33,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "uniform_candidate_vs_fixed_mixture": {
+      "reference_arm": "fixed_equal_mixture",
+      "candidate_arm": "uniform_candidate",
+      "paired_questions": 432,
+      "improved": 31,
+      "regressed": 10,
+      "correctness_rate_delta": 0.04861111111111111,
+      "family_bootstrap95": [
+        0.020833333333333332,
+        0.08101851851851852
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          0.0,
+          0.15625
+        ],
+        "sentence_completion": [
+          0.0175,
+          0.08
+        ]
+      },
+      "family_count": 33,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "repeated_base_prompt_exact_response_replay": {
+      "base": {
+        "shared_questions": 432,
+        "identical_raw_responses": 432
+      },
+      "prompt": {
+        "shared_questions": 432,
+        "identical_raw_responses": 432
+      }
+    },
+    "interpretation": "Strong independent confirmation for narrow sentence completion against prompt, base, and matched-random controls. Phrase accuracy remains below base. Uniform candidate also exceeds the fixed rank-8 mixture by a small paired margin; the mixture is not rank matched."
+  },
+  "arithmetic_probe": {
+    "unique_questions": 312,
+    "families": 78,
+    "generations": 1248,
+    "candidate_correct": "99/312",
+    "prompt_correct": "155/312",
+    "base_correct": "54/312",
+    "norm_matched_random_correct": "54/312",
+    "candidate_minus_prompt": {
+      "reference_arm": "prompt",
+      "candidate_arm": "adapter",
+      "paired_questions": 312,
+      "improved": 25,
+      "regressed": 81,
+      "correctness_rate_delta": -0.1794871794871795,
+      "family_bootstrap95": [
+        -0.23397435897435898,
+        -0.1282051282051282
+      ],
+      "family_bootstrap95_by_task_type": {
+        "arithmetic": [
+          -0.23397435897435898,
+          -0.1282051282051282
+        ]
+      },
+      "family_count": 78,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "candidate_minus_base": {
+      "reference_arm": "base",
+      "candidate_arm": "adapter",
+      "paired_questions": 312,
+      "improved": 77,
+      "regressed": 32,
+      "correctness_rate_delta": 0.14423076923076922,
+      "family_bootstrap95": [
+        0.10576923076923077,
+        0.18269230769230768
+      ],
+      "family_bootstrap95_by_task_type": {
+        "arithmetic": [
+          0.10576923076923077,
+          0.18269230769230768
+        ]
+      },
+      "family_count": 78,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "interpretation": "Candidate exceeds base and matched-random controls but trails the explicit prompt by 17.9 percentage points. This is a limited exact-addition preservation check; the candidate does not match prompt-assisted arithmetic and broad capability preservation is not established."
+  },
+  "protocol_deviations": {
+    "detected_at_utc": "2026-10-25T19:24:40+00:00",
+    "details": "The current case-eval version printed per-case correctness booleans during progress. Before detecting this, the first 325/432 base-arm correctness indicators were visible in the session log. The remaining arms had not started.",
+    "actions": "No candidates, weights, prompts, arms, metrics, decoding, or cases were changed; no responses were dropped or retried. The evaluation will continue exactly as preregistered, and the eventual report will disclose this non-blinded operational deviation. The CLI progress output was changed for future campaigns to report counts only, never per-case grades."
+  },
+  "preflight_amendments": [
+    {
+      "registered_at_utc": "2026-10-25T19:13:26+00:00",
+      "reason": "The case evaluator validates source checkpoints against the sibling training manifest. Use the original completed training-run paths, whose manifests and adapter hashes are intact; the archived evidence copies remain the durable checkpoint record. The earlier command failed validation before loading the model or generating any responses."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:16:00+00:00",
+      "reason": "The evaluator expects the selected learned adapter hash under the standard lora key. Added that alias to the archived mixture manifest without changing checkpoint files, coefficients, or delta values; the existing mixture hash remains recorded as well."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:17:00+00:00",
+      "reason": "PEFT writes named adapters into nested subdirectories. The original fixed-mixture checkpoint tensors and configs are retained, flattened into the standard case-eval adapter layout, and their exact hashes are now recorded before mixture evaluation. No weights, mixture coefficients, or metrics were changed."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:24:40+00:00",
+      "reason": "Documented the progress-log deviation and changed case-eval logging so future campaigns reveal only completed counts, not correctness labels. The already-running process cannot be retroactively silenced; candidate and protocol remain frozen."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:51:03Z",
+      "reason": "The first mixture case-eval preflight rejected the adapter because it stores the local cache snapshot path as model_id while the command used the Hugging Face model name. Preflight failed before loading the model or generating responses. Retried with the local snapshot directory for the same pinned Qwen/Qwen2.5-0.5B-Instruct revision 7ae557604adf67be50417f59c2c2f167def9a775. No weights, dataset, cases, arms, prompts, decoding, or metrics changed."
+    },
+    {
+      "registered_at_utc": "2026-10-25T20:21:03Z",
+      "reason": "The first arithmetic case-eval preflight used the archived adapter checkpoint directory, which does not include the sibling completed training manifest required by source validation. It failed before loading the model or generating responses. The retry uses the exact original completed training run recorded in this preregistration; its checkpoint hash matches the archived candidate evidence. No candidate tensors, questions, arms, prompts, decoding, or metrics changed."
+    }
+  ],
+  "promotion_decision": "Do not promote. Keep the edit quarantined: phrase trade-off, one candidate seed, one narrow synthetic completion benchmark, small phrase family count, and incomplete broad capability/locality coverage.",
+  "next_data_design": "Use a fixed example support set and vary exposure frequency with replacement; hold total updates, token budget, initialization, optimizer and order seed fixed; replicate paired seeds and test on fresh families."
+}
