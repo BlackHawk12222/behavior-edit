@@ -1,4 +1,4 @@
-# Model Evolution Lab — Apple Silicon experimental path (v0.2.1)
+# Model Evolution Lab — Apple Silicon experimental path (v0.3.0)
 
 This module extends the **Behavior Editing** research repository with an independent,
 small-model experimental workflow suitable for investigating on Apple Silicon Macs,
@@ -25,11 +25,11 @@ python -m unittest discover -s evolution_lab/tests -v
 python -m evolution_lab run --device auto --limit 3
 ~~~
 
-You can force CPU with \`--device cpu\` if MPS is unavailable. Test first
-with \`--limit 1\` if you're uncertain about free memory or disk space.
+You can force CPU with `--device cpu` if MPS is unavailable. Test first
+with `--limit 1` if you're uncertain about free memory or disk space.
 
 The default is an open-weight Hugging Face model
-(\`Qwen/Qwen2.5-0.5B-Instruct\`). Its model card and license are separate
+(`Qwen/Qwen2.5-0.5B-Instruct`). Its model card and license are separate
 from this repository's code license. The initial download requires internet
 access and disk space. The first run may take longer due to downloads.
 
@@ -44,7 +44,7 @@ psychological personality assessment.
 The experimental output includes exact prompts, output text, scores,
 device, decoding policy, package versions, and the resolved model revision
 when Hugging Face supplies one. Results are written as JSONL plus a
-summary JSON under \`results/evolution_lab/\` (ignored by git upstream).
+summary JSON under `results/evolution_lab/` (ignored by git upstream).
 
 ~~~sh
 python -m evolution_lab run --limit 2 --conditions baseline concise formal
@@ -52,13 +52,13 @@ python -m evolution_lab run --repeats 3 --seed 123 --max-new-tokens 64
 python -m evolution_lab run --model Qwen/Qwen2.5-0.5B-Instruct --revision COMMIT_SHA
 ~~~
 
-Use a Hugging Face commit SHA instead of \`main\` for reproducible comparisons.
+Use a Hugging Face commit SHA instead of `main` for reproducible comparisons.
 Treat 8 tasks as a smoke test. Reliable conclusions require much larger,
 held-out, balanced test sets, repeated seeds, and confidence intervals.
 
 ## Optional: editing model weights with LoRA (experimental v0.2)
 
-**MacBook Neo hardware report (October 25, 2026):** A user tested this
+**Earlier user-reported MacBook Neo hardware evidence:** A user tested this
 experimental path on an 8 GB Apple Silicon MacBook Neo with Python 3.11.17,
 PyTorch 2.14.1, Transformers 4.57.6 and PEFT 0.18.1. The reported
 one-step and four-step LoRA runs completed on MPS; the initial inference
@@ -110,17 +110,18 @@ test sets, additional seeds, and general capability/locality checks.
 
 1. **v0.1**: local, objective evaluations and Apple MPS device support.
 2. **v0.2**: optional small-model LoRA editing and small held-out
-   pre-/post-edit tests. More comprehensive locality tests are pending. Reuse concepts from upstream.
-3. **v0.3**: collect weight-delta metadata; compare edits across layers
-   and behavior targets using held-out evaluations.
-4. **v0.4**: train a predictor of useful low-rank updates; benchmark against
-   fixed adapter mixtures and ordinary prompting.
+   pre-/post-edit smoke tests.
+3. **v0.3**: controlled train/dev/test diagnostics, norm-matched random edits,
+   frozen-checkpoint tests, per-layer features, fixed studies and exact adapter mixtures.
+4. **Future, conditional on evidence**: collect a larger adapter/behavior catalog,
+   then test simple conditional selection before considering an edit predictor.
+   Compare against fixed mixtures, random edits, conventional LoRA and prompting.
 5. **Later**: architecture growth experiments, which require a separate,
    carefully controlled training laboratory.
 
 ## Caveats
 
-- One MacBook Neo report confirms a small LoRA run works on MPS.
+- A prior user report describes successful small LoRA runs on MPS.
   Larger experiments and version combinations remain unverified.
   MPS uses shared/unified memory; other apps affect memory headroom.
 - CUDA-specific upstream scripts should not be invoked on Apple Silicon.
