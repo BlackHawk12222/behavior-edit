@@ -58,11 +58,12 @@ class LocalModel:
         self.model.to(self.device)
         self.model.eval()
 
-    def generate(self, system_prompt, user_prompt, max_new_tokens=48):
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ]
+    def generate(self, system_prompt, user_prompt, max_new_tokens=48, demonstrations=None):
+        messages = [{"role": "system", "content": system_prompt}]
+        for example in demonstrations or []:
+            messages.extend([{"role": "user", "content": example["prompt"]},
+                             {"role": "assistant", "content": example["answer"]}])
+        messages.append({"role": "user", "content": user_prompt})
         rendered = self.tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
         )

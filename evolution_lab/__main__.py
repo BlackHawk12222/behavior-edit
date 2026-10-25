@@ -105,11 +105,19 @@ def build_parser():
     mixture.add_argument("--suite", type=Path, default=SUITE_FILE)
     mixture.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
     mixture.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/mixtures"))
+    fewshot = sub.add_parser("fewshot-control", help="Compare frozen results with all-training-demonstration prompting")
+    fewshot.add_argument("run_dir", type=Path)
+    fewshot.add_argument("--suite", type=Path, default=SUITE_FILE)
+    fewshot.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    fewshot.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/fewshot"))
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    if args.command == "fewshot-control":
+        from .fewshot import evaluate_fewshot
+        return evaluate_fewshot(args)
     if args.command == "mixture":
         from .mixture import evaluate_mixture
         return evaluate_mixture(args)

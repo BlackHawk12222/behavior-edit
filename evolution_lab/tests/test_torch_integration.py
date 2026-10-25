@@ -89,3 +89,23 @@ class TensorTests(unittest.TestCase):
             if name in originals:
                 self.assertTrue(torch.allclose(module.get_delta_weight('mixture'),originals[name],atol=1e-6))
         self.assertEqual(lora_delta_stats(model,torch,'mixture')['adapted_modules'],2)
+
+    def test_prompt_demonstrations_are_chat_turns(self):
+        from evolution_lab.runner import LocalModel
+        class RecordingTokenizer(Tokenizer):
+            eos_token_id=0
+            def apply_chat_template(self,messages,**kwargs):
+                self.messages=messages
+                return super().apply_chat_template(messages,**kwargs)
+            def decode(self,tokens,**kwargs):return 'done'
+        tokenizer=RecordingTokenizer()
+        local=LocalModel.__new__(LocalModel)
+        local.tokenizer=tokenizer;local.torch=torch;local.device='cpu'
+        local.model=SimpleNamespace(generate=lambda **kw:torch.cat([kw['input_ids'],torch.tensor([[1]])],dim=1))
+        response,tokens,_=local.generate('system','test',4,
+            demonstrations=[{'id':'demo','prompt':'training prompt','answer':'training answer'}])
+        self.assertEqual(response,'done');self.assertEqual(tokens,1)
+        self.assertEqual([m['role'] for m in tokenizer.messages],['system','user','assistant','user'])
+        self.assertEqual(tokenizer.messages[2]['content'],'training answer')
+        local.generate('system','test',4)
+        self.assertEqual([m['role'] for m in tokenizer.messages],['system','user'])

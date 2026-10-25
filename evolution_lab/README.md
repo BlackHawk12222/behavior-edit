@@ -280,3 +280,19 @@ architecture grows, and there is no hypernetwork. An independently held-out
 mixture evaluation and rank-budget-matched baseline would be required before
 any stronger claim. See the official [PEFT model-merging guide](https://huggingface.co/docs/peft/developer_guides/model_merging)
 for the underlying adapter-combination API.
+
+### Stronger prompt control with training demonstrations
+
+```sh
+python -m evolution_lab fewshot-control results/evolution_lab/test/TEST_RUN_ID --device auto
+```
+
+This retrospective follow-up uses all 16 training examples for the adapter's
+behavior as actual user/assistant demonstration turns, alongside the explicit
+behavior instruction. Evaluation answers are never included. It uses the saved
+experiment's checkpoint, precision, tasks and decoding budget, and requires the
+same device type. Before each comparison it regenerates the plain baseline and
+requires an exact match with the recorded output; a mismatch stops the run.
+The report contrasts LoRA against this stronger input-only control. Longer
+context costs are not equivalent to training or inference compute budgets, so
+these are behavioral comparisons, not cost/latency efficiency claims.
