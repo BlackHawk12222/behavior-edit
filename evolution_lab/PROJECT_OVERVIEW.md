@@ -89,8 +89,9 @@ base, norm-matched random edits, and a fixed mixture of the balanced and
 uniform adapters. No result from that final check will be used to tune a later
 candidate.
 
-No adapter has been promoted as a generally beneficial change. Confirmation
-questions for the latest phrase/sentence dataset remain unused.
+No adapter has been promoted as a generally beneficial change. F024 is now
+consuming the latest phrase/sentence confirmation questions; those families
+will be retired from future tuning after the campaign finishes.
 
 Across the archived answer logs, the project has 25,160 response records on
 1,556 distinct normalized prompts as of 2026-10-25. Many records are repeated
