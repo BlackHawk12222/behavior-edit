@@ -808,3 +808,88 @@ phrases in either seed, completion scores were seed-sensitive, and seed-44
 balanced training had an unexpectedly strong arithmetic development score.
 No specific layers or individual weight directions have yet been causally
 isolated; these outcomes do not transfer automatically to Astra.
+
+
+### F018 — Component ablations identify checkpoint-specific dependencies, with a v-projection and upper-layer signal
+
+Status: preregistered development-only component intervention. All candidates
+remain quarantined. Neither v2 completion confirmation nor casegen v3 arithmetic
+confirmation was evaluated.
+
+Starting from F017's seed-44 task-balanced rank-4 completion LoRA, I created
+four variants by zeroing the LoRA B tensors for q projections, v projections,
+the lower half of transformer layers, or the upper half. The same groups were
+zeroed in the per-layer norm-matched random control. The q/v and layer group
+interventions were registered before any generations. The effective delta
+sidecars were recomputed and validated against loaded tensors. All other
+adapter tensors remained unchanged. This intervention tests whether parts of
+this one checkpoint are necessary for its measured scores; it does not prove
+that any single weight or layer independently encodes a behavior.
+
+Each variant was run against the same 328 v2 development completion prompts
+(24 phrase prompts across six families and 304 sentence prompts across 38
+families) and 64 arithmetic development prompts across 16 families. Each run
+included base, task-matched prompt-only, ablated LoRA and identically ablated
+norm-matched random arms. The intact seed-44 adapter scored 289/328 overall on
+completion and 61/64 arithmetic. Base/prompt scored 182/328 and 200/328 on
+completion, and 38/64 and 42/64 on arithmetic.
+
+On completion, q-projection removal scored 279/328 and differed from the full
+adapter by −3.0 points (paired family-bootstrap 95% interval −7.6 to +1.2).
+V-projection removal scored 275/328, a −4.3 point change (−8.5 to −0.3).
+Removing lower-half edits scored 295/328, +1.8 points versus full (−1.2 to
++4.9). Removing upper-half edits scored 242/328, −14.3 points (−19.2 to
+−9.5); sentence completion was 230/304 versus the full adapter's 276/304, and
+the sentence-only paired interval was −20.4 to −10.2 points. These results
+support a development-set dependency on upper-layer edits for sentence
+completion in this checkpoint. The q effect is inconclusive; the lower-half
+result does not show a loss. Phrase scores ranged from 12/24 to 16/24, but only
+six phrase families are available, so these are exploratory and imprecise.
+
+Arithmetic locality shows a different pattern. After each module-group removal,
+scores were 52/64 for q, 37/64 for v, and 46/64 for either layer half, compared
+with 61/64 for the intact adapter. Paired ablated-minus-full differences were
+−14.1 points for q (95% interval −25.0 to −4.7), −37.5 for v (−46.9 to
+−28.1), and −23.4 for either layer half (−29.7 to −15.6). These 64 items are
+one exposed development slice, not proof that the intact adapter generally
+improves arithmetic or that an ablated model has broad capability loss. Across
+all variants, the completion adapter remained better than the norm-matched
+random control on sentence-heavy completion; the arithmetic advantage over
+random was strongest for q removal and absent for v removal.
+
+The intervention changes total delta magnitude and removes interacting
+components, even though the random control receives the matching ablation.
+Therefore these results are checkpoint-specific necessity evidence, not an
+isolated neuron/weight explanation, a general layer rule, or evidence that the
+same pattern transfers to Astra. Follow-up work should repeat the frozen
+interventions across independent training seeds, add an equal-remaining-norm
+control, probe more capability families, and verify the strongest dependency on
+fresh confirmation families before adding it to a reusable edit guide.
+
+The campaign recorded 6,272 model generations on 392 unique questions across
+the four component interventions (repeated base and prompt responses remain
+generations, not new questions), four pairs of ablated adapter/random
+checkpoints, and 77 passing software tests. It ran on CPU float32 because MPS
+was built into the local Torch package but unavailable to this process; no MPS
+result is claimed. Raw responses, reports, run metadata, checksummed ablated
+checkpoints, preregistration and paired family-bootstrap summaries are in
+`evidence/completion_v2/evaluations/adapter_component_ablation_seed44_dev/`.
+
+To reproduce an ablation, first create a source adapter with `train-cases`,
+then run `python -m evolution_lab ablate-adapter RUN_DIR --ablation zero_v_proj
+--output-dir results/evolution_lab/ablation/zero_v_proj`. Evaluate the generated
+`adapter_lora` and `adapter_random` directories with the same `case-eval`
+commands in the evidence run metadata. The registered dataset offsets and
+controls are in `preregistration.json`; verify `import_manifest.json` before
+using the raw outputs. All these development pools have been exposed by prior
+studies and cannot support promotion.
+
+**Confirmed within this checkpoint and these development cases:** removing the
+upper-half LoRA edits coincided with a large sentence-completion score drop;
+removing v-projection edits coincided with smaller completion and much larger
+arithmetic score drops. **Tentative:** upper-layer edits may carry much of this
+adapter's sentence behavior; v-projection edits may be important for its
+arithmetic result. **Not supported:** q-projection removal did not materially
+reduce aggregate completion, and lower-half removal did not reduce it. **Open:**
+seed replication, equal-norm ablations, independent held-out verification,
+additional behavior families, and transfer beyond Qwen2.5-0.5B-Instruct.

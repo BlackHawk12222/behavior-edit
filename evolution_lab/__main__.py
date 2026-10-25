@@ -69,6 +69,17 @@ def build_parser():
         help="Choose the historical uniform schedule or equalized task-type sampling",
     )
     case_train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_training"))
+    ablate = sub.add_parser(
+        "ablate-adapter",
+        help="Create paired, norm-preserving module or layer-group LoRA ablations",
+    )
+    ablate.add_argument("source_run", type=Path, help="Completed train-cases run directory")
+    ablate.add_argument(
+        "--ablation",
+        choices=["zero_q_proj", "zero_v_proj", "zero_lower_half", "zero_upper_half"],
+        required=True,
+    )
+    ablate.add_argument("--output-dir", type=Path, required=True)
     case_eval = sub.add_parser("case-eval", help="Run a paired, resumable local campaign on generated cases")
     case_eval.add_argument("dataset", type=Path)
     case_eval.add_argument("--split", choices=["dev", "confirmation"], default="dev")
@@ -209,6 +220,15 @@ def main(argv=None):
             return train_case_adapters(args)
         except (ValueError, OSError, KeyError, TypeError, RuntimeError) as error:
             print(f"Case adapter training failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "ablate-adapter":
+        from .adapter_ablation import create_ablation_bundle
+        try:
+            result = create_ablation_bundle(args.source_run, args.output_dir, args.ablation)
+            print(json.dumps(result, indent=2))
+            return 0
+        except (ValueError, OSError, KeyError, TypeError, FileExistsError, RuntimeError) as error:
+            print(f"Adapter ablation failed: {error}", file=sys.stderr)
             return 2
     if args.command == "case-eval":
         from .case_eval import evaluate_cases

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "adapter-component-ablation-seed44-development",
+  "status": "pre-registered development-only component intervention",
+  "hypothesis": "The seed-44 task-balanced adapter's measured completion and arithmetic behaviors depend on specific q/v projection and layer-half deltas rather than only the aggregate adapter norm.",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "source_training_run": "20261025T144111_942272Z",
+  "source_training_seed": 44,
+  "device": "cpu",
+  "precision": "float32",
+  "interventions": [
+    "zero_q_proj",
+    "zero_v_proj",
+    "zero_lower_half",
+    "zero_upper_half"
+  ],
+  "intervention_definition": "Set the LoRA B tensor to zero for selected modules in both the learned adapter and its per-module norm-matched random control. Keep all other tensors unchanged and recompute effective delta statistics.",
+  "completion_evaluation": {
+    "dataset": "evolution_lab/evidence/completion_v2",
+    "split": "dev",
+    "offset": 0,
+    "limit": 328,
+    "primary_outcome": "unique-option completion correctness overall, phrase_completion, and sentence_completion separately",
+    "families": 44
+  },
+  "arithmetic_locality_evaluation": {
+    "dataset": "evolution_lab/evidence/casegen_v3",
+    "split": "dev",
+    "offset": 0,
+    "limit": 64,
+    "primary_outcome": "trusted integer correctness",
+    "families": 16
+  },
+  "arms": [
+    "base",
+    "prompt",
+    "adapter",
+    "random"
+  ],
+  "contrasts": [
+    "full_seed44_adapter_vs_each_component_ablation_on_same_development_questions",
+    "ablated_adapter_vs_base",
+    "ablated_adapter_vs_prompt",
+    "ablated_adapter_vs_identically_ablated_random"
+  ],
+  "uncertainty": "Paired family-stratified bootstrap intervals; phrase estimates are exploratory because only six v2 phrase families are in development.",
+  "holdout_policy": "Do not consume v2 completion confirmation or casegen_v3 arithmetic confirmation. Development pools are already exposed and cannot establish confirmation or promotion.",
+  "promotion_policy": "No adapter promotion, merging, or Astra-transfer claim from these development ablations.",
+  "planned_model_generations": 6272,
+  "planned_unique_questions": 392,
+  "planned_software_tests": 77,
+  "interpretation_limit": "This is an intervention on LoRA module groups. It does not identify individual neurons or prove a general causal mechanism beyond this checkpoint and task set.",
+  "arm_mapping": {
+    "adapter": "checkpoint with the preregistered LoRA module group zeroed",
+    "random": "norm-matched random checkpoint with the identical module group zeroed"
+  },
+  "software_tests_run": 77
+}

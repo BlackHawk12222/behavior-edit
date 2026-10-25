@@ -799,6 +799,66 @@
       "eligible_for_promotion": false,
       "candidate_quarantined": true,
       "summary": "Seed-44 adapters show sampler- and seed-sensitive development outcomes. Uniform scored 301/328 completion items (phrase 15/24, sentence 286/304); balanced scored 289/328 (phrase 13/24, sentence 276/304). The completion sampler contrast includes zero. On 64 arithmetic development items, uniform scored 38/64 while balanced scored 61/64; paired interval +26.6 to +46.9 points. This surprising locality result remains development-only and needs fresh arithmetic confirmation plus independent seed replication. Neither adapter is promoted; v2 confirmation is retired and untouched here."
+    },
+    {
+      "id": "completion-v2-adapter-component-ablation-seed44-20261025",
+      "status": "development-only-component-necessity-signal-no-promotion",
+      "hypothesis": "The seed-44 task-balanced adapter depends on particular projection and layer-half deltas for completion and arithmetic behavior.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "source_training_run": "20261025T144111_942272Z",
+      "source_training_seed": 44,
+      "device": "cpu",
+      "precision": "float32",
+      "interventions": [
+        "zero_q_proj",
+        "zero_v_proj",
+        "zero_lower_half",
+        "zero_upper_half"
+      ],
+      "arms": [
+        "base",
+        "prompt",
+        "ablated_adapter",
+        "identically_ablated_norm_matched_random"
+      ],
+      "unique_questions": 392,
+      "model_generations": 6272,
+      "training_updates": 0,
+      "software_tests": 77,
+      "completion_dev": {
+        "n": 328,
+        "families": 44,
+        "phrase": "24 questions / 6 families",
+        "sentence": "304 questions / 38 families",
+        "intact_adapter": "289/328"
+      },
+      "arithmetic_dev": {
+        "n": 64,
+        "families": 16,
+        "intact_adapter": "61/64"
+      },
+      "results": {
+        "completion_full_minus_ablation": {
+          "zero_q_proj": "-3.0 points; 95% family CI [-7.6,+1.2]",
+          "zero_v_proj": "-4.3 points; 95% family CI [-8.5,-0.3]",
+          "zero_lower_half": "+1.8 points; 95% family CI [-1.2,+4.9]",
+          "zero_upper_half": "-14.3 points; 95% family CI [-19.2,-9.5]",
+          "zero_upper_half_sentence": "-15.1 points; 95% family CI [-20.4,-10.2]"
+        },
+        "arithmetic_ablation_minus_intact": {
+          "zero_q_proj": "-14.1 points; 95% family CI [-25.0,-4.7]",
+          "zero_v_proj": "-37.5 points; 95% family CI [-46.9,-28.1]",
+          "zero_lower_half": "-23.4 points; 95% family CI [-29.7,-15.6]",
+          "zero_upper_half": "-23.4 points; 95% family CI [-29.7,-15.6]"
+        }
+      },
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/adapter_component_ablation_seed44_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "current_process_mps_available": false,
+      "summary": "Zeroing upper-half edits reduced sentence completion by 15.1 points and overall completion by 14.3 points relative to the full seed-44 adapter on previously exposed development cases. V-projection removal reduced completion modestly and arithmetic by 37.5 points. Arithmetic losses were measured on only 64 questions and do not establish broad capability loss. All evidence remains checkpoint-specific and development-only; do not transfer to Astra."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

@@ -508,3 +508,26 @@ arithmetic confirmation and replication. Neither adapter is promoted, and the
 claim. The seed-44 run added 3,136 generations on 392 unique questions and
 128 training updates; repeated outputs do not increase the unique-question
 count.
+
+### Ablate adapter components
+
+`ablate-adapter` makes reproducible variants by zeroing selected q/v projection
+or layer-half LoRA components in both the learned and norm-matched random
+adapter. It recomputes effective-delta reports and records provenance; it does
+not imply that a layer has one behavior or that a result transfers between
+models.
+
+```sh
+python -m evolution_lab ablate-adapter results/evolution_lab/train/RUN_ID \
+  --ablation zero_v_proj \
+  --output-dir results/evolution_lab/ablation/zero_v_proj
+```
+
+F018 evaluates four preregistered component removals on phrase and sentence
+completion plus arithmetic locality. Removing upper-half edits reduced this
+checkpoint's sentence score on exposed development data. Removing v-projection
+edits reduced the arithmetic score. These are checkpoint-specific development
+signals; no candidate is promoted. The 24 phrase questions span only six
+families, and all confirmation sets remain unavailable for further tuning. See
+the [research guide](RESEARCH_GUIDE.md#f018--component-ablations-identify-checkpoint-specific-dependencies-with-a-v-projection-and-upper-layer-signal)
+and checksummed [F018 evidence](evidence/completion_v2/evaluations/adapter_component_ablation_seed44_dev/).
