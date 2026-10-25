@@ -226,3 +226,34 @@ changes. A passing result is named `replicated_on_this_diagnostic`; this is not 
 statistical significance test, automatic model promotion, or a learned editing
 law. With one seed or one content family, that limitation is substantial. Keep
 failed hypotheses and all seed results in the experiment registry as well.
+
+### Fixed studies and measured feature catalogs
+
+```sh
+python -m evolution_lab study evolution_lab/studies/pilot_v1.json \
+  --device auto --output-dir results/evolution_lab/my_pilot
+python -m evolution_lab catalog results/evolution_lab/my_pilot \
+  --output-dir results/evolution_lab/my_pilot/catalog
+```
+
+The study command runs a fixed seed/behavior matrix in separate sequential child
+processes so each model is released before the next loads. It journals each phase,
+keeps complete and failed artifacts, and resumes with the exact same specification.
+It refuses a changed specification or incompatible cached development checkpoint.
+The optional `reuse_dev` entries are local cache hints from the original session;
+when those directories are absent, the same trial is trained from scratch.
+The seven-trial pilot requires many model evaluations and is substantially longer
+than a smoke check. Start with one experiment to verify your hardware first.
+
+`catalog` requires a complete study and reaudits each run. It exports one row per
+trained adapter containing settings, layer delta features, and separated dev/test
+outcomes. Test outcomes are verification labels, **never** training labels for a
+future edit predictor. Seeds share tasks, so results are reported per seed rather
+than pooled into a misleadingly large test sample. A few rank-4 adapters are not
+enough data for a credible hypernetwork; a predictor would need more behaviors,
+more independent families, nested selection and a fresh final holdout.
+
+Completed adapters now receive file hashes at the end of development; frozen
+tests reject changed checkpoint files. Early exploratory runs made before this
+integrity field existed are explicitly marked as legacy when evaluated by the
+new command. Hashes establish artifact identity, not causal validity by themselves.

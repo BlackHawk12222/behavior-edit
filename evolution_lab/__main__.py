@@ -97,11 +97,25 @@ def build_parser():
     study.add_argument("--suite", type=Path, default=SUITE_FILE)
     study.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
     study.add_argument("--output-dir", type=Path, required=True)
+    catalog = sub.add_parser("catalog", help="Audit and export measured adapter features and dev/test outcomes")
+    catalog.add_argument("study_dir", type=Path)
+    catalog.add_argument("--output-dir", type=Path, required=True)
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    if args.command == "catalog":
+        from .catalog import build_catalog, summarize_catalog
+        from .experiment import write_json
+        rows = build_catalog(args.study_dir)
+        args.output_dir.mkdir(parents=True, exist_ok=True)
+        with (args.output_dir / "adapter_behavior.jsonl").open("w") as handle:
+            for row in rows:
+                handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+        write_json(args.output_dir / "summary.json", summarize_catalog(rows))
+        print(f"Audited {len(rows)} adapter observations; saved {args.output_dir}")
+        return 0
     if args.command == "study":
         from .study import execute_study
         return execute_study(args)

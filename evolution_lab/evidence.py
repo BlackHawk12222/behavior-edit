@@ -5,7 +5,7 @@ A passing gate is evidence for one diagnostic, never automatic model promotion.
 import json
 from pathlib import Path
 from .metrics import grade
-from .provenance import fingerprint
+from .provenance import fingerprint, checkpoint_hashes
 from .statistics import compare_roles
 
 
@@ -41,6 +41,17 @@ def verify_hypothesis(dev_dir,test_dir,min_gain=.25,max_regressions=0):
         raise ValueError('Require development and independent test splits')
     if test.get('source_manifest_sha256')!=fingerprint(dev):
         raise ValueError('Test does not refer to this frozen development experiment')
+    if 'adapter_hashes' in test:
+        actual={arm:checkpoint_hashes(Path(dev_dir)/f'adapter_{arm}') for arm in ('lora','random')}
+        if actual != test['adapter_hashes']:
+            raise ValueError('Checkpoint files changed since frozen test')
+        if 'adapter_hashes' in dev and actual != dev['adapter_hashes']:
+            raise ValueError('Checkpoint files changed since development evaluation')
+    for condition in ('base','prompt','lora','random'):
+        a={r.get('system_prompt') for r in dev_rows[condition]}
+        b={r.get('system_prompt') for r in test_rows[condition]}
+        if a != b or len(a)!=1:
+            raise ValueError('System prompt changed between dev and test')
     for key in ('suite_sha256','model_id','resolved_revision','behavior','seed','settings'):
         if dev[key]!=test[key]:
             raise ValueError(f'Protocol mismatch: {key}')

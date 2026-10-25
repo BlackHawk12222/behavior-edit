@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from .benchmark import load_suite, select_tasks
 from .metrics import grade
-from .provenance import environment, fingerprint
+from .provenance import environment, fingerprint, checkpoint_hashes
 from .runner import LocalModel
 from .statistics import compare_roles
 from .train_adapter import BASE_SYSTEM, supervised_batch, lora_delta_stats
@@ -171,6 +171,7 @@ def run_experiment(args):
             local.model.save_pretrained(str(destination/'adapter_random'),safe_serialization=True)
             rows['random'] = evaluate(local,tasks,'random',stream,token_limit=args.max_new_tokens)
             restore(local.model,trained,torch)
+        manifest['adapter_hashes'] = {arm:checkpoint_hashes(destination/f'adapter_{arm}') for arm in ('lora','random')}
         report = {condition:compare_roles(rows['base'],values,args.seed)
                   for condition,values in rows.items() if condition != 'base'}
         report['lora_vs_prompt'] = compare_roles(rows['prompt'], rows['lora'], args.seed)

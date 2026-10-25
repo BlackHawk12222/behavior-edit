@@ -45,7 +45,11 @@ def execute_study(args):
             if i<len(journal['trials']): item=journal['trials'][i];item['status']='running'
             else:journal['trials'].append(item)
             write_json(path,journal)
-            dev_dir=item.get('dev_dir') or trial.get('reuse_dev')
+            dev_dir=item.get('dev_dir')
+            # reuse_dev is a local cache hint; a clean checkout trains the same trial.
+            cached=trial.get('reuse_dev')
+            if not dev_dir and cached and Path(cached).exists():
+                dev_dir=cached
             if dev_dir:
                 manifest,_=read_run(dev_dir)
                 if (manifest['split']!='dev' or manifest['behavior']!=trial['behavior']

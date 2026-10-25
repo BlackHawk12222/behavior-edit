@@ -61,3 +61,21 @@ class EvidenceTests(unittest.TestCase):
             write_run(root/'test','test',other)
             with self.assertRaisesRegex(ValueError,'frozen development'):
                 verify_hypothesis(root/'dev',root/'test')
+
+    def test_changed_system_prompt_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);dev,_=write_run(root/'dev','dev')
+            _,rows=write_run(root/'test','test',dev)
+            for row in rows:row['system_prompt']='Changed prompt'
+            (root/'test'/'observations.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+            with self.assertRaisesRegex(ValueError,'System prompt changed'):
+                verify_hypothesis(root/'dev',root/'test')
+
+    def test_changed_checkpoint_file_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);dev,_=write_run(root/'dev','dev')
+            test,_=write_run(root/'test','test',dev)
+            test['adapter_hashes']={'lora':{'model.safetensors':'expected'},'random':{}}
+            (root/'test'/'manifest.json').write_text(json.dumps(test))
+            with self.assertRaisesRegex(ValueError,'Checkpoint files changed'):
+                verify_hypothesis(root/'dev',root/'test')

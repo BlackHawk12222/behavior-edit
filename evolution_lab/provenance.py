@@ -42,3 +42,9 @@ def environment():
     return {"python": platform.python_version(), "platform": platform.platform(),
             "packages": versions, "git_commit": commit, "git_dirty": dirty,
             "thread_environment": {k:os.environ.get(k) for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "TOKENIZERS_PARALLELISM", "HF_HUB_OFFLINE")}}
+
+
+def checkpoint_hashes(directory):
+    from pathlib import Path
+    return {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in sorted(Path(directory).glob('*')) if p.is_file()}

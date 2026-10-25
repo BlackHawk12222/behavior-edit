@@ -1,18 +1,12 @@
 """Evaluate frozen saved adapters on untouched test families without retraining."""
-import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 from .benchmark import load_suite, select_tasks
 from .experiment import evaluate, PROMPTS, write_json
-from .provenance import environment, fingerprint
+from .provenance import environment, fingerprint, checkpoint_hashes
 from .runner import LocalModel
 from .statistics import compare_roles
-
-
-def checkpoint_hashes(directory):
-    return {p.name:hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in sorted(Path(directory).glob('*')) if p.is_file()}
 
 
 def evaluate_checkpoint(args):
@@ -23,6 +17,9 @@ def evaluate_checkpoint(args):
     suite=load_suite(args.suite)
     if fingerprint(suite)!=parent['suite_sha256']:
         raise ValueError('Suite changed since adapter training')
+    hashes={arm:checkpoint_hashes(source/f'adapter_{arm}') for arm in ('lora','random')}
+    if 'adapter_hashes' in parent and hashes != parent['adapter_hashes']:
+        raise ValueError('Saved adapter files changed since development evaluation')
     tasks=select_tasks(suite,parent['behavior'],'test')
     # Require the immutable resolved revision recorded during training.
     revision=parent['resolved_revision']
@@ -36,7 +33,8 @@ def evaluate_checkpoint(args):
               'source_run':str(source), 'source_manifest_sha256':fingerprint(parent),
               'environment':environment(),'device':local.device,
               'evaluation_sha256':fingerprint(tasks),'tasks':tasks,
-              'adapter_hashes':{arm:checkpoint_hashes(source/f'adapter_{arm}') for arm in ('lora','random')},
+              'adapter_hashes':hashes,
+              'legacy_checkpoint_hashes_missing':'adapter_hashes' not in parent,
               'controls':['base','prompt','lora','random'],
               'protocol':'Frozen adapter test; no training or selection on this split.'}
     write_json(destination/'manifest.json',manifest)
