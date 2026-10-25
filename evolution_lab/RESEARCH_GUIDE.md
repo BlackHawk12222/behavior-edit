@@ -741,3 +741,70 @@ spent v2 confirmation split. Next, repeat both schedules with a second training
 seed on development data; freeze one protocol and create a fresh v3 family pool
 for confirmation. Add a rank-budget-matched adapter mixture and broader
 capability/locality probes before any retention decision.
+
+
+### F017 — Sampler effects vary by seed; balanced training may trade sentence and arithmetic behavior
+
+Status: development-only seed replication and locality probe. The adapters are
+quarantined; no confirmation pool was used and neither is eligible for
+promotion.
+
+This followed F016 with seed 44. Both candidates used the same pinned
+Qwen2.5-0.5B-Instruct revision, v2 train families, rank 4, alpha 8, q/v
+targets, AdamW, learning rate 0.0005, 64 updates, 256-token maximum, weight
+decay 0.01, clipping 1.0 and zero dropout. The only planned intervention was
+the deterministic sampling strategy. Seed-44 uniform saw 5 phrase and 59
+sentence examples; task-balanced saw 32 of each. Each candidate's random
+control matched its per-layer LoRA delta norms. Their global effective delta
+Frobenius norms were nearly equal (1.87033 and 1.87016), but matching norm
+does not match direction.
+
+On the same 328 v2 development questions (44 families), base scored 182/328,
+the explicit task prompt 200/328, and the random controls 180/328 (uniform)
+and 182/328 (balanced). Seed-44 uniform scored 301/328, with phrase 15/24 and
+sentence 286/304. Seed-44 task-balanced scored 289/328, with phrase 13/24 and
+sentence 276/304. The direct balanced-minus-uniform contrast was −3.7 points
+(17 improved, 29 regressed; family-bootstrap 95% interval −8.8 to +0.9).
+Phrase accuracy remains noisy because its 24 questions cover only six
+families; the results do not support the claim that equal phrase exposure
+improves phrase completion.
+
+The seed-44 uniform adapter exceeded the seed-43 uniform adapter from F016 by
+7.6 points on the same development questions (family-bootstrap interval +2.7
+to +12.8), largely from sentence items. This is evidence of meaningful seed
+sensitivity on the selected development set. It is not independent
+confirmation and should prevent treating one training seed as a stable edit
+recipe.
+
+The separate 64-question arithmetic development probe (16 families) produced
+a sharply different sampler result. Uniform scored 38/64, equal to base and
+below prompt at 42/64; task-balanced scored 61/64 versus base 38/64, prompt
+42/64 and norm-matched random 37/64. The direct balanced-minus-uniform
+difference was +35.9 points (24 improved, one regressed; family-bootstrap
+interval +26.6 to +46.9). This is a strong, surprising development signal,
+not a verified arithmetic capability gain. It needs a fresh, untouched
+arithmetic confirmation pool and an independently selected training seed
+before influencing any edit guide or candidate choice.
+
+Base and prompt responses were identical across the two repeated completion
+campaigns on all 328 prompts. The four seed-44 evaluations used 3,136 model
+generations on 392 unique questions (328 completion plus 64 arithmetic),
+alongside 128 training updates. Repeats are generations, not new questions.
+Raw response ledgers, both adapter and random checkpoints, per-layer deltas,
+run specs, paired family-bootstrap reports and hashes are in
+`evidence/completion_v2/evaluations/sampler_ablation_seed44_dev/`.
+
+Reproduce by fitting both sampler settings at seed 44, then running
+`case-eval` on the v2 `dev` split and on `casegen_v3 --split dev --limit 64`.
+The current Python process used CPU float32; the previously reported MPS
+checks belong to the user-host session and do not imply MPS was used here.
+The v2 confirmation split remains retired after F015. Before any promotion,
+create new independent phrase, agreement and arithmetic families, freeze the
+grading and prompt controls, replicate the sampler contrast across seeds, and
+include a fixed nonlearned adapter mixture plus broad locality checks.
+
+The only guide-level observations so far are that task balancing did not fix
+phrases in either seed, completion scores were seed-sensitive, and seed-44
+balanced training had an unexpectedly strong arithmetic development score.
+No specific layers or individual weight directions have yet been causally
+isolated; these outcomes do not transfer automatically to Astra.

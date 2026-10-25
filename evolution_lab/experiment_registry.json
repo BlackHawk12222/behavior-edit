@@ -692,6 +692,113 @@
       "confirmation_consumed": false,
       "eligible_for_promotion": false,
       "summary": "In one seed, task-balanced training saw 32 phrase examples versus 2 under uniform, but phrase development score was lower (14/24 versus 18/24); the direct family interval is wide and includes zero. Both adapters beat prompting on overall completion and neither showed a clear arithmetic regression on the small development locality slice. Fresh seed and fresh confirmation are required."
+    },
+    {
+      "id": "completion-v2-sampling-ablation-seed44-20261025",
+      "status": "development-seed-replication-and-locality-signal-no-promotion",
+      "hypothesis": "A second seed will reproduce the sampler effects from F016 and show whether phrase completion improves when phrase exposure is increased.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 44,
+      "dataset": "evolution_lab/evidence/completion_v2/manifest.json",
+      "training_split": "train",
+      "matched_settings": {
+        "rank": 4,
+        "alpha": 8,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "updates_per_arm": 64,
+        "max_length": 256,
+        "weight_decay": 0.01,
+        "gradient_clip_norm": 1.0,
+        "dropout": 0.0
+      },
+      "arms": {
+        "uniform": {
+          "training_types_seen": {
+            "phrase_completion": 5,
+            "sentence_completion": 59
+          },
+          "completion": "301/328",
+          "phrase": "15/24",
+          "sentence": "286/304",
+          "arithmetic_locality": "38/64"
+        },
+        "task_balanced": {
+          "training_types_seen": {
+            "phrase_completion": 32,
+            "sentence_completion": 32
+          },
+          "completion": "289/328",
+          "phrase": "13/24",
+          "sentence": "276/304",
+          "arithmetic_locality": "61/64"
+        },
+        "base_completion": "182/328",
+        "prompt_completion": "200/328",
+        "random_completion_uniform": "180/328",
+        "random_completion_balanced": "182/328",
+        "base_arithmetic": "38/64",
+        "prompt_arithmetic": "42/64",
+        "random_arithmetic_uniform": "37/64",
+        "random_arithmetic_balanced": "37/64"
+      },
+      "balanced_minus_uniform_completion": {
+        "correctness_rate_delta": -0.036585365853658534,
+        "family_bootstrap95": [
+          -0.08841463414634147,
+          0.009146341463414637
+        ],
+        "phrase_family_bootstrap95": [
+          -0.4166666666666667,
+          0.16666666666666666
+        ],
+        "sentence_family_bootstrap95": [
+          -0.08223684210526316,
+          0.009868421052631578
+        ]
+      },
+      "balanced_minus_uniform_arithmetic": {
+        "correctness_rate_delta": 0.359375,
+        "family_bootstrap95": [
+          0.265625,
+          0.46875
+        ],
+        "improved": 24,
+        "regressed": 1
+      },
+      "seed44_uniform_minus_seed43_uniform_completion": {
+        "correctness_rate_delta": 0.07621951219512195,
+        "family_bootstrap95": [
+          0.027439024390243903,
+          0.1280487804878049
+        ],
+        "phrase_family_bootstrap95": [
+          -0.4166666666666667,
+          0.08333333333333333
+        ],
+        "sentence_family_bootstrap95": [
+          0.039473684210526314,
+          0.14473684210526316
+        ]
+      },
+      "base_prompt_replay_identical": "328/328 for both arms",
+      "model_generations": 3136,
+      "unique_questions": 392,
+      "training_updates": 128,
+      "training_examples_seen": 128,
+      "software_tests": 74,
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/sampler_ablation_seed44_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "Seed-44 adapters show sampler- and seed-sensitive development outcomes. Uniform scored 301/328 completion items (phrase 15/24, sentence 286/304); balanced scored 289/328 (phrase 13/24, sentence 276/304). The completion sampler contrast includes zero. On 64 arithmetic development items, uniform scored 38/64 while balanced scored 61/64; paired interval +26.6 to +46.9 points. This surprising locality result remains development-only and needs fresh arithmetic confirmation plus independent seed replication. Neither adapter is promoted; v2 confirmation is retired and untouched here."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

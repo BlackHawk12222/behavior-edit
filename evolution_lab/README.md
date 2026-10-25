@@ -488,3 +488,23 @@ adapters beat the explicit prompt on aggregate completion, and neither showed
 a clear arithmetic regression on a separate 64-question development slice.
 These are development results from one seed; v2 confirmation remains untested
 by this ablation and is already retired from F015.
+
+The seed-44 replication and separate arithmetic locality evaluation are in
+`evidence/completion_v2/evaluations/sampler_ablation_seed44_dev/`. On the same
+328 completion-development questions, seed-44 uniform scored 301/328
+(phrase 15/24; sentence 286/304) and task-balanced scored 289/328
+(phrase 13/24; sentence 276/304). Their direct paired family-bootstrap
+difference was −3.7 percentage points (95% interval −8.8 to +0.9). The seed-44
+uniform adapter exceeded seed-43 uniform by 7.6 points on these already-used
+development questions (interval +2.7 to +12.8), a warning about training-seed
+sensitivity rather than independent confirmation.
+
+On 64 arithmetic-development questions, seed-44 uniform scored 38/64, matching
+base; task-balanced scored 61/64 versus 38/64 base, 42/64 prompt and 37/64
+norm-matched random (paired balanced-minus-uniform interval +26.6 to +46.9).
+Treat that surprising result as a development signal requiring fresh
+arithmetic confirmation and replication. Neither adapter is promoted, and the
+24 phrase questions across six families remain too few for a stable phrase
+claim. The seed-44 run added 3,136 generations on 392 unique questions and
+128 training updates; repeated outputs do not increase the unique-question
+count.
