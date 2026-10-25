@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "kind": "all_training_examples_prompt_control",
+  "source_manifest_sha256": "5c91bb9d6d27d9efd5765742596f74243b50f536cee0aff4a31ae2e047efbf72",
+  "source_run": "results/evolution_lab/pilot_v1/00_json_format_42/test/20261025T040533_377046Z",
+  "split": "test",
+  "behavior": "json_format",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "2fcaf3b925ad78406f6456f3bcb7b40878815c6f",
+    "git_dirty": false,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "TOKENIZERS_PARALLELISM": "false",
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "demonstrations": [
+    {
+      "id": "train_json_format_00",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to apple and count equal to 1.",
+      "answer": "{\"name\":\"apple\",\"count\":1}"
+    },
+    {
+      "id": "train_json_format_01",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to birch and count equal to 2.",
+      "answer": "{\"name\":\"birch\",\"count\":2}"
+    },
+    {
+      "id": "train_json_format_02",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to cedar and count equal to 3.",
+      "answer": "{\"name\":\"cedar\",\"count\":3}"
+    },
+    {
+      "id": "train_json_format_03",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to daisy and count equal to 4.",
+      "answer": "{\"name\":\"daisy\",\"count\":4}"
+    },
+    {
+      "id": "train_json_format_04",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to elm and count equal to 5.",
+      "answer": "{\"name\":\"elm\",\"count\":5}"
+    },
+    {
+      "id": "train_json_format_05",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to fern and count equal to 6.",
+      "answer": "{\"name\":\"fern\",\"count\":6}"
+    },
+    {
+      "id": "train_json_format_06",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to grape and count equal to 7.",
+      "answer": "{\"name\":\"grape\",\"count\":7}"
+    },
+    {
+      "id": "train_json_format_07",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to hazel and count equal to 8.",
+      "answer": "{\"name\":\"hazel\",\"count\":8}"
+    },
+    {
+      "id": "train_json_format_08",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to iris and count equal to 9.",
+      "answer": "{\"name\":\"iris\",\"count\":9}"
+    },
+    {
+      "id": "train_json_format_09",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to jade and count equal to 10.",
+      "answer": "{\"name\":\"jade\",\"count\":10}"
+    },
+    {
+      "id": "train_json_format_10",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to kelp and count equal to 11.",
+      "answer": "{\"name\":\"kelp\",\"count\":11}"
+    },
+    {
+      "id": "train_json_format_11",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to lily and count equal to 12.",
+      "answer": "{\"name\":\"lily\",\"count\":12}"
+    },
+    {
+      "id": "train_json_format_12",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to moss and count equal to 13.",
+      "answer": "{\"name\":\"moss\",\"count\":13}"
+    },
+    {
+      "id": "train_json_format_13",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to nut and count equal to 14.",
+      "answer": "{\"name\":\"nut\",\"count\":14}"
+    },
+    {
+      "id": "train_json_format_14",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to oak and count equal to 15.",
+      "answer": "{\"name\":\"oak\",\"count\":15}"
+    },
+    {
+      "id": "train_json_format_15",
+      "behavior": "json_format",
+      "split": "train",
+      "family": "train_json_format_schema",
+      "category": "json_format",
+      "prompt": "Return only JSON with name equal to pine and count equal to 16.",
+      "answer": "{\"name\":\"pine\",\"count\":16}"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "test_json_format_00",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"falcon\"; priority is 2.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "falcon"
+        ],
+        "priority": 2
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_01",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"otter\"; priority is 3.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "otter"
+        ],
+        "priority": 3
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_02",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"badger\"; priority is 4.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "badger"
+        ],
+        "priority": 4
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_03",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"heron\"; priority is 5.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "heron"
+        ],
+        "priority": 5
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_04",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"lynx\"; priority is 6.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "lynx"
+        ],
+        "priority": 6
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_05",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"panda\"; priority is 7.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "panda"
+        ],
+        "priority": 7
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_06",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"raven\"; priority is 8.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "raven"
+        ],
+        "priority": 8
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_07",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"seal\"; priority is 9.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "seal"
+        ],
+        "priority": 9
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_08",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"tiger\"; priority is 10.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "tiger"
+        ],
+        "priority": 10
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_09",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"whale\"; priority is 11.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "whale"
+        ],
+        "priority": 11
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_10",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"yak\"; priority is 12.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "yak"
+        ],
+        "priority": 12
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_11",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"zebra\"; priority is 13.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "zebra"
+        ],
+        "priority": 13
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 43 + 7. Answer with digits only.",
+      "target": "50",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 44 + 8. Answer with digits only.",
+      "target": "52",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 45 + 9. Answer with digits only.",
+      "target": "54",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 46 + 10. Answer with digits only.",
+      "target": "56",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 47 + 11. Answer with digits only.",
+      "target": "58",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 48 + 12. Answer with digits only.",
+      "target": "60",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 49 + 13. Answer with digits only.",
+      "target": "62",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 50 + 14. Answer with digits only.",
+      "target": "64",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Canada? Reply with just the answer, without punctuation.",
+      "target": "Ottawa",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a hexagon have? Reply with just the answer, without punctuation.",
+      "target": "6",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the largest planet in our solar system? Reply with just the answer, without punctuation.",
+      "target": "Jupiter",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for gold? Reply with just the answer, without punctuation.",
+      "target": "Au",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 29, 22, 25 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "22,25,29",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 30, 23, 26 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "23,26,30",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 31, 24, 27 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "24,27,31",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 32, 25, 28 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "25,28,32",
+      "role": "locality"
+    }
+  ],
+  "max_new_tokens": 48,
+  "warning": "Retrospective stronger prompt baseline. Uses all 16 training demonstrations as actual user/assistant turns; no evaluation answers included. Prompting changes input, not model weights. Base responses must reproduce reference."
+}

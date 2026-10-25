@@ -1,0 +1,845 @@
+{
+  "concise_content": {
+    "seeds": [
+      42,
+      43
+    ],
+    "verified_diagnostics": 0,
+    "runs": [
+      {
+        "seed": 42,
+        "delta_norm": 0.925596954905859,
+        "dev": {
+          "prompt": {
+            "target": {
+              "before_passed": 4,
+              "after_passed": 4,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 2
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 8,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 2,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 4,
+              "after_passed": 5,
+              "task_count": 8,
+              "improved": 2,
+              "regressed": 1,
+              "response_changed": 7
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 4,
+              "after_passed": 4,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        },
+        "test": {
+          "prompt": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 7,
+              "task_count": 12,
+              "improved": 3,
+              "regressed": 2,
+              "response_changed": 8
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 2
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 8,
+              "task_count": 12,
+              "improved": 2,
+              "regressed": 0,
+              "response_changed": 11
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 6,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "delta_norm": 0.9261022324372803,
+        "dev": {
+          "prompt": {
+            "target": {
+              "before_passed": 4,
+              "after_passed": 4,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 2
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 8,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 2,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 4,
+              "after_passed": 5,
+              "task_count": 8,
+              "improved": 2,
+              "regressed": 1,
+              "response_changed": 7
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 2
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 4,
+              "after_passed": 4,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        },
+        "test": {
+          "prompt": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 7,
+              "task_count": 12,
+              "improved": 3,
+              "regressed": 2,
+              "response_changed": 8
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 2
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 8,
+              "task_count": 12,
+              "improved": 2,
+              "regressed": 0,
+              "response_changed": 10
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 5,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        }
+      }
+    ],
+    "warning": "Seeds reuse the same authored tasks; do not pool them as independent test items."
+  },
+  "exact_instruction": {
+    "seeds": [
+      42,
+      43
+    ],
+    "verified_diagnostics": 0,
+    "runs": [
+      {
+        "seed": 42,
+        "delta_norm": 0.9908411455403358,
+        "dev": {
+          "prompt": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 7,
+              "task_count": 8,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 1
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 5,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 3
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 6,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        },
+        "test": {
+          "prompt": {
+            "target": {
+              "before_passed": 3,
+              "after_passed": 1,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 2,
+              "response_changed": 2
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 12,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 2
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 3,
+              "after_passed": 4,
+              "task_count": 12,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 1
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 3,
+              "after_passed": 3,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "delta_norm": 0.9723687818298944,
+        "dev": {
+          "prompt": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 7,
+              "task_count": 8,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 1
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 6,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 9,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 2,
+              "response_changed": 6
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 6,
+              "after_passed": 6,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        },
+        "test": {
+          "prompt": {
+            "target": {
+              "before_passed": 3,
+              "after_passed": 1,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 2,
+              "response_changed": 2
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 12,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 2
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 3,
+              "after_passed": 1,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 2,
+              "response_changed": 2
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 3,
+              "after_passed": 3,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        }
+      }
+    ],
+    "warning": "Seeds reuse the same authored tasks; do not pool them as independent test items."
+  },
+  "json_format": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verified_diagnostics": 0,
+    "runs": [
+      {
+        "seed": 42,
+        "delta_norm": 1.641703160515369,
+        "dev": {
+          "prompt": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 1,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 7,
+              "task_count": 8,
+              "improved": 7,
+              "regressed": 0,
+              "response_changed": 8
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 4
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        },
+        "test": {
+          "prompt": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 1,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 12,
+              "task_count": 12,
+              "improved": 12,
+              "regressed": 0,
+              "response_changed": 12
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 9,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 2,
+              "response_changed": 2
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        }
+      },
+      {
+        "seed": 43,
+        "delta_norm": 1.6083400959724972,
+        "dev": {
+          "prompt": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 1,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 7,
+              "task_count": 8,
+              "improved": 7,
+              "regressed": 0,
+              "response_changed": 8
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 3
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 9,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            }
+          }
+        },
+        "test": {
+          "prompt": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 1,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 12,
+              "task_count": 12,
+              "improved": 12,
+              "regressed": 0,
+              "response_changed": 12
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 12,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          }
+        }
+      },
+      {
+        "seed": 44,
+        "delta_norm": 1.5988674541279542,
+        "dev": {
+          "prompt": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 1,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 7,
+              "task_count": 8,
+              "improved": 7,
+              "regressed": 0,
+              "response_changed": 8
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 2
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 8,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 10,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        },
+        "test": {
+          "prompt": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 1,
+              "regressed": 1,
+              "response_changed": 3
+            }
+          },
+          "lora": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 12,
+              "task_count": 12,
+              "improved": 12,
+              "regressed": 0,
+              "response_changed": 12
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 10,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            }
+          },
+          "random": {
+            "target": {
+              "before_passed": 0,
+              "after_passed": 0,
+              "task_count": 12,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "locality": {
+              "before_passed": 11,
+              "after_passed": 11,
+              "task_count": 16,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          }
+        }
+      }
+    ],
+    "warning": "Seeds reuse the same authored tasks; do not pool them as independent test items."
+  }
+}

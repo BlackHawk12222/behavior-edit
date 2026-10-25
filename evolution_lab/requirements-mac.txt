@@ -1,0 +1,6 @@
+# Isolated Apple Silicon environment: do not install the upstream root requirements.txt.
+# Python 3.11 recommended. Use current compatible wheels from PyPI.
+torch>=2.5,<3
+transformers>=4.49,<5
+accelerate>=1.0,<2
+safetensors>=0.4

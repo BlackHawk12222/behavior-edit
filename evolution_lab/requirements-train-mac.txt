@@ -1,0 +1,3 @@
+# Optional tiny LoRA training. Install instead of requirements-mac.txt.
+-r requirements-mac.txt
+peft>=0.14,<0.19

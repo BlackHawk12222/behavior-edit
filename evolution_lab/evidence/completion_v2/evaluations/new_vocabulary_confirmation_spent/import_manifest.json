@@ -1,0 +1,31 @@
+{
+  "candidate_status": "quarantined-after-development-locality-regression; fresh confirmation required",
+  "confirmation_consumed": true,
+  "dataset": "phrase-sentence-completion-v2-new-vocabulary",
+  "dataset_manifest_fingerprint": "ae52a93de4667436150050486a3ac1f46ec3af831ae2ed2f8cefe7fe18093da9",
+  "dataset_manifest_sha256": "c8271578f7adae2f1c64752dedae0e07988b8c3a989ab122e20cadf4fb7d11c6",
+  "device": "cpu",
+  "evidence_type": "spent-completion-confirmation-with-corrected-prompt-control",
+  "families": 45,
+  "files_sha256": {
+    "corrected_comparison.json": "811aa0e6d1eee7e42ab3b4e3ef2c98d7e0998269927ff0d5206f1ce0008c8a67",
+    "corrected_prompt_diagnostic/observations.jsonl": "24bb8295be06bf2486f4ab24872f8c0f397dd8b9fd65041d5e6f487a6b44d530",
+    "corrected_prompt_diagnostic/report.json": "818b2eab7d014b0ee0a377cd973582ac9895f12e2a005f69f9c9c0ddca75b43f",
+    "corrected_prompt_diagnostic/run.json": "fc8e6548b09019981c24bc9cf19bfa9a4861ef366f6a6b6f0ebcc7edb40c5451",
+    "initial_task_prompt_bug/observations.jsonl": "8194e0efb211e80575733c5734051d43bb024afe7937f302c4aa9a0478d9866a",
+    "initial_task_prompt_bug/report.json": "4596254bb44d54184c2b09cb4895da63d95f10bc74a756005e0c9c6afaa83c65",
+    "initial_task_prompt_bug/run.json": "0462d9b8e097bee8ae5b6591be205a98143a3d2f1a56a71e34d17f08a15c5ba0"
+  },
+  "model_generations": 2016,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "precision": "float32",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "schema_version": 1,
+  "seed": 42,
+  "source_campaigns": {
+    "corrected_prompt": "20261025T134246_251422Z",
+    "initial": "20261025T132046_413587Z"
+  },
+  "split": "confirmation",
+  "unique_questions": 336
+}

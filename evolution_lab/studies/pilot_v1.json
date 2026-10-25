@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "steps": 16,
+  "rank": 4,
+  "learning_rate": 0.0005,
+  "max_length": 192,
+  "max_new_tokens": 48,
+  "precision": "float32",
+  "note": "Fixed diagnostic matrix. JSON seed42 development results were known at specification time; remaining trials and all test results were uninspected. Retain every result; no adaptive training-budget changes.",
+  "trials": [
+    {
+      "behavior": "json_format",
+      "seed": 42,
+      "reuse_dev": "results/evolution_lab/experiments/20261025T035731_973055Z"
+    },
+    {
+      "behavior": "concise_content",
+      "seed": 42,
+      "reuse_dev": "results/evolution_lab/experiments/20261025T035936_641002Z"
+    },
+    {
+      "behavior": "exact_instruction",
+      "seed": 42
+    },
+    {
+      "behavior": "json_format",
+      "seed": 43
+    },
+    {
+      "behavior": "json_format",
+      "seed": 44
+    },
+    {
+      "behavior": "concise_content",
+      "seed": 43
+    },
+    {
+      "behavior": "exact_instruction",
+      "seed": 43
+    }
+  ]
+}

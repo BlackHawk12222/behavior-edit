@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "imported_at_utc": "2026-10-25T12:45:01.660036+00:00",
+  "source_run": "results/evolution_lab/case_eval_cpu_dev_offset3000_n64_localcache",
+  "model_snapshot_path": "/Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775",
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "split": "dev",
+  "offset": 3000,
+  "counts": {
+    "unique_questions": 64,
+    "model_generation_records": 128,
+    "software_tests": 0,
+    "fact_families": 16
+  },
+  "scores": {
+    "answer_grader_version": "final-integer-token-v2",
+    "arms": {
+      "base": {
+        "model_generations": 64,
+        "unique_questions": 64,
+        "unique_normalized_prompts": 64,
+        "correct": 26,
+        "accuracy": 0.40625,
+        "wilson95_descriptive": [
+          0.2945690924971961,
+          0.5285479187139549
+        ],
+        "single_integer_format": 16,
+        "family_count": 16
+      },
+      "prompt": {
+        "model_generations": 64,
+        "unique_questions": 64,
+        "unique_normalized_prompts": 64,
+        "correct": 37,
+        "accuracy": 0.578125,
+        "wilson95_descriptive": [
+          0.456100315400829,
+          0.6913021752565451
+        ],
+        "single_integer_format": 18,
+        "family_count": 16
+      }
+    },
+    "paired_vs_base": {
+      "prompt": {
+        "paired_questions": 64,
+        "improved": 21,
+        "regressed": 10,
+        "pass_rate_delta": 0.171875,
+        "paired_family_bootstrap95": [
+          0.0625,
+          0.28125
+        ],
+        "family_count": 16,
+        "note": "Bootstrap resamples arithmetic fact families; few families yield unstable or unavailable intervals."
+      }
+    },
+    "uncertainty_note": "Wilson intervals are descriptive and ignore within-family dependence; use the paired family bootstrap for arm contrasts."
+  },
+  "interpretation": "Regraded version 2: objective numeric correctness uses the final integer token, independent of strict integer-only format. Prompt arm scored higher on this narrow generated development slice; this is prompt-only evidence, not a weight edit or generalization result.",
+  "files": [
+    {
+      "path": "observations.jsonl",
+      "size_bytes": 68862,
+      "sha256": "5169e805d4fe5e03ec45706fb0e459cf300527464c3818854fa444a2fba3fb53"
+    },
+    {
+      "path": "report.json",
+      "size_bytes": 1193,
+      "sha256": "7d2114ba0168d0729e9b4d6796bdea7bccb15d47f08b3ececd7a702d8832ac59"
+    },
+    {
+      "path": "run.json",
+      "size_bytes": 2379,
+      "sha256": "17b70144a6db628d82089bb1aa73a170a5f3bab95e31031235bb82a6600dab31"
+    }
+  ],
+  "model_repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "grader_version_used_for_current_scores": "final-integer-token-v2",
+  "regrade_manifest": "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/regrade_final_integer_v2/regrade_manifest.json"
+}

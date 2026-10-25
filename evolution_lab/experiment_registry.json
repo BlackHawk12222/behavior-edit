@@ -1,0 +1,1044 @@
+{
+  "schema_version": 1,
+  "studies": [
+    {
+      "id": "pilot-v1",
+      "status": "complete",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "primary_study": "evolution_lab/evidence/pilot_v1/study.json",
+      "counts": "evolution_lab/evidence/pilot_v1/counts.json",
+      "catalog": "evolution_lab/evidence/pilot_v1/adapter_behavior.jsonl",
+      "followups": "evolution_lab/evidence/pilot_v1/followups",
+      "hardware_validation": "evolution_lab/evidence/pilot_v1/mps_validation",
+      "report": "evolution_lab/reports/pilot-v1.md",
+      "guide": "evolution_lab/RESEARCH_GUIDE.md",
+      "summary": "Three JSON seeds gained target compliance with preservation regressions; concise gains were small and beaten by stronger prompting; exact-instruction effects were inconsistent. No adapter cleared the full gate.",
+      "final_test_exposed": true,
+      "eligible_for_future_final_confirmation": false
+    },
+    {
+      "id": "casegen-v3",
+      "status": "infrastructure-verified-no-model-results",
+      "generator": "evolution_lab.casegen arithmetic-v3",
+      "seed": 42,
+      "evidence": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "unique_questions": 100000,
+      "split_counts": {
+        "train": 70036,
+        "dev": 14984,
+        "confirmation": 14980
+      },
+      "resumable_shards": 9,
+      "answer_key": "integer addition recomputed from structured operands",
+      "software_tests_passed": 47,
+      "model_generations": 0,
+      "mps_available_this_session": false,
+      "summary": "Deterministic no-replacement operand enumeration, four paraphrases per arithmetic fact kept together by split, split-isolated resumable shards, deduplication and answer-key validation. Infrastructure only; no behavior claim.",
+      "confirmation_consumed": false,
+      "eligible_for_final_confirmation": false
+    },
+    {
+      "id": "mps-dev-smoke-20261025",
+      "status": "complete-development-smoke-no-target-gain",
+      "source_run_id": "20261025T121613_955452Z",
+      "evidence": "evolution_lab/evidence/pilot_v1/mps_validation/casegen_smoke_20261025/manifest.json",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "mps",
+      "precision": "float32",
+      "unique_questions": 4,
+      "model_generations": 20,
+      "training_updates": 1,
+      "software_tests_reported_separately": 47,
+      "target_json_passes": {
+        "base": "0/2",
+        "prompt": "0/2",
+        "zero": "0/2",
+        "lora": "0/2",
+        "random": "0/2"
+      },
+      "locality_arithmetic_passes": {
+        "base": "2/2",
+        "prompt": "1/2",
+        "zero": "2/2",
+        "lora": "2/2",
+        "random": "2/2"
+      },
+      "summary": "One-step real-MPS development smoke. No JSON target gain; prompt-only condition produced one arithmetic miss, while LoRA/random/zero retained 2/2 locality. Four questions, one family per role, no independent test.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false
+    },
+    {
+      "id": "case-eval-v1",
+      "status": "real-model-integration-verified-dev-and-confirmation-results",
+      "entrypoint": "python -m evolution_lab case-eval",
+      "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "unique_questions_generated": 100000,
+      "model_generations": 1216,
+      "software_tests_passed": 66,
+      "features": [
+        "arithmetic and phrase/sentence completion datasets",
+        "bounded stable-offset evaluation slices",
+        "completed ledger and report checksums",
+        "effective deltas recomputed from loaded tensors",
+        "exclusive per-campaign process lock",
+        "explicit confirmation opt-in",
+        "family-stratified phrase and sentence splits",
+        "grader version bound into resume specification",
+        "layerwise effective-delta norm matching",
+        "normalized prompt hashes for cross-run deduplication",
+        "paired base/prompt/LoRA/norm-matched-random arms",
+        "resumable JSONL response records",
+        "separate integer-format metric",
+        "source manifest and checkpoint hash verification",
+        "task-type score separation",
+        "trusted answer-key completion grading with ambiguous-choice detection",
+        "trusted arithmetic answer grading",
+        "direct paired contrasts between every evaluation arm",
+        "training only on validated train split with manifest-bound adapters"
+      ],
+      "mps_available": true,
+      "model_run_skipped_due_to_existing_active_study": true,
+      "summary": "The paired evaluator completed 1,216 CPU generations over 272 unique prompt strings in arithmetic and phrase/sentence tasks. This includes repeated development campaigns. One completion LoRA improved sentence agreement but regressed phrase completion and arithmetic locality; candidate quarantined. No promotion.",
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "unique_questions_evaluated": 272,
+      "device": "cpu",
+      "precision": "float32",
+      "network_model_id_load_failure": "evolution_lab/evidence/casegen_v3/evaluations/model_id_load_failure_20261025/import_manifest.json",
+      "first_model_result": "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/import_manifest.json",
+      "mps_available_current_process": false,
+      "grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+      "campaign_evidence": [
+        "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/regrade_final_integer_v2/regrade_manifest.json",
+        "evolution_lab/evidence/completion_v1/evaluations/dev_n104_base_prompt/regrade_unique_option_v1/regrade_manifest.json",
+        "evolution_lab/evidence/completion_v1/evaluations/confirmation_n104_base_prompt/import_manifest.json"
+      ],
+      "training_updates": 64,
+      "unique_training_examples_seen": 64,
+      "repeated_question_campaign_exposures": 168
+    },
+    {
+      "id": "mps-reproduction-20261025",
+      "status": "complete-hardware-reproduction-no-fresh-confirmation",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "mps",
+      "precision": "float32",
+      "source_git_commit": "cba3b5506915cfc8fd552e628ffc60c1416b545a",
+      "source_study": "evolution_lab/studies/pilot_v1.json",
+      "evidence": "evolution_lab/evidence/pilot_v1/mps_validation/reproduction_20261025/import_manifest.json",
+      "trials": 7,
+      "reused_development_trials": [
+        "json_format seed 42",
+        "concise_content seed 42"
+      ],
+      "counts": {
+        "unique_normalized_prompts": 92,
+        "model_generation_rows_including_repeat_conditions_and_reused_dev": 1624,
+        "new_training_updates": 80,
+        "training_updates_logged_in_imported_artifacts_including_reuse": 112,
+        "software_tests": 0
+      },
+      "target_test_scores": {
+        "json_format_lora": [
+          "12/12",
+          "12/12",
+          "12/12"
+        ],
+        "json_format_base": [
+          "0/12",
+          "0/12",
+          "0/12"
+        ],
+        "json_format_random": [
+          "0/12",
+          "0/12",
+          "0/12"
+        ],
+        "concise_content_lora": [
+          "8/12",
+          "8/12"
+        ],
+        "concise_content_base": [
+          "6/12",
+          "6/12"
+        ],
+        "concise_content_prompt": [
+          "7/12",
+          "7/12"
+        ],
+        "concise_content_random": [
+          "6/12",
+          "5/12"
+        ],
+        "exact_instruction_lora": [
+          "4/12",
+          "1/12"
+        ],
+        "exact_instruction_base": [
+          "3/12",
+          "3/12"
+        ]
+      },
+      "locality_regressions": {
+        "json_format_lora": [
+          "2/16",
+          "1/16",
+          "1/16"
+        ],
+        "concise_content_lora": [
+          "0/16",
+          "0/16"
+        ],
+        "exact_instruction_lora": [
+          "0/16",
+          "0/16"
+        ]
+      },
+      "final_test_exposed": true,
+      "eligible_for_future_final_confirmation": false,
+      "confirmation_consumed": true,
+      "current_process_mps_available": false,
+      "summary": "All seven fixed runs completed on direct Mac MPS. This repeats the already inspected pilot test families; JSON effects reproduced against random controls but retained locality regressions, concise gains remained small, and exact-instruction effects varied by seed. Hardware evidence only; no candidate promoted."
+    },
+    {
+      "id": "caseeval-cpu-dev-20261025",
+      "status": "complete-development-integration-no-edit-claim",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "split": "dev",
+      "dataset_seed": 42,
+      "split_offset": 3000,
+      "unique_questions": 64,
+      "fact_families": 16,
+      "model_generations": 128,
+      "software_tests": 0,
+      "arms": {
+        "base": {
+          "correct": "26/64",
+          "strict_integer_format": "16/64"
+        },
+        "prompt": {
+          "correct": "37/64",
+          "strict_integer_format": "18/64"
+        }
+      },
+      "paired_prompt_vs_base": {
+        "improved": 21,
+        "regressed": 10,
+        "correctness_rate_delta": 0.171875,
+        "family_bootstrap95": [
+          0.0625,
+          0.28125
+        ]
+      },
+      "evidence": "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/import_manifest.json",
+      "summary": "Corrected regrade of the same raw outputs. The first grader mislabeled explanatory responses with multiple integers; final-integer-token-v2 separates numeric correctness from strict formatting. Prompt-only improved this narrow development score; not a weight-edit result.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "grader_version": "final-integer-token-v2",
+      "regraded_labels_changed": 39,
+      "regrade_evidence": "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/regrade_final_integer_v2/regrade_manifest.json"
+    },
+    {
+      "id": "caseeval-cpu-network-load-failure-20261025",
+      "status": "failed-before-inference-network-unavailable",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "split": "dev",
+      "selected_questions": 64,
+      "model_generations": 0,
+      "evidence": "evolution_lab/evidence/casegen_v3/evaluations/model_id_load_failure_20261025/import_manifest.json",
+      "summary": "Hugging Face repository-ID resolution needed an unavailable DNS lookup. The same cached pinned model snapshot loaded when addressed by its exact local snapshot path; the completed run is recorded separately.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false
+    },
+    {
+      "id": "completiongen-v1",
+      "status": "generator-verified-no-model-claim",
+      "generator": "phrase-sentence-completion-v1",
+      "seed": 42,
+      "evidence": "evolution_lab/evidence/completion_v1/manifest.json",
+      "counts_file": "evolution_lab/evidence/completion_v1/counts.json",
+      "unique_questions": 672,
+      "split_counts": {
+        "train": 464,
+        "dev": 104,
+        "confirmation": 104
+      },
+      "question_type_counts": {
+        "phrase_completion": 160,
+        "sentence_completion": 512
+      },
+      "unique_families": 104,
+      "family_counts_by_split": {
+        "train": 72,
+        "dev": 16,
+        "confirmation": 16
+      },
+      "independent_answer_key": "curated collocation table or explicit singular/plural verb-pair rule",
+      "model_generations": 0,
+      "software_tests_separate": 8,
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "summary": "Four paraphrase surfaces per phrase or subject-verb family; family assignments are stratified by task type and kept inside one split. Includes a held-out confirmation pool not used in the development evaluation."
+    },
+    {
+      "id": "completion-dev-cpu-20261025",
+      "status": "complete-development-evaluation-no-promotion",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "split": "dev",
+      "unique_questions": 104,
+      "model_generations": 208,
+      "task_type_counts": {
+        "phrase_completion": 24,
+        "sentence_completion": 80
+      },
+      "families": 16,
+      "arms": {
+        "base": {
+          "correct": "78/104",
+          "strict_single_word": "11/104",
+          "phrase_correct": "15/24",
+          "sentence_correct": "63/80"
+        },
+        "prompt": {
+          "correct": "79/104",
+          "strict_single_word": "99/104",
+          "phrase_correct": "15/24",
+          "sentence_correct": "64/80"
+        }
+      },
+      "paired_prompt_vs_base": {
+        "improved": 17,
+        "regressed": 16,
+        "correctness_rate_delta": 0.009615384615384616,
+        "family_bootstrap95": [
+          -0.08653846153846154,
+          0.11538461538461539
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.2916666666666667,
+            0.2916666666666667
+          ],
+          "sentence_completion": [
+            -0.075,
+            0.1125
+          ]
+        }
+      },
+      "grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+      "raw_evidence": "evolution_lab/evidence/completion_v1/evaluations/dev_n104_base_prompt/import_manifest.json",
+      "regrade_evidence": "evolution_lab/evidence/completion_v1/evaluations/dev_n104_base_prompt/regrade_unique_option_v1/regrade_manifest.json",
+      "regraded_without_new_generations": true,
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "summary": "Prompt-only instruction strongly improved strict one-word output (11/104 to 99/104), while objective correctness was essentially tied. The task-stratified paired family interval included zero overall and by type. Small lexical and grammar probe set only; no weight edit. Its separate confirmation family was evaluated later and is now retired; see completion-confirmation-cpu-20261025.",
+      "regraded_correctness_labels_changed": 56
+    },
+    {
+      "id": "completion-confirmation-cpu-20261025",
+      "status": "complete-confirmation-prompt-correctness-regression",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "split": "confirmation",
+      "unique_questions": 104,
+      "model_generations": 208,
+      "families": 16,
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "arms": {
+        "base": {
+          "correct": "85/104",
+          "phrase_correct": "19/24",
+          "sentence_correct": "66/80",
+          "strict_single_word": "4/104"
+        },
+        "prompt": {
+          "correct": "73/104",
+          "phrase_correct": "13/24",
+          "sentence_correct": "60/80",
+          "strict_single_word": "91/104"
+        }
+      },
+      "paired_prompt_vs_base": {
+        "improved": 10,
+        "regressed": 22,
+        "correctness_rate_delta": -0.11538461538461539,
+        "family_bootstrap95": [
+          -0.23076923076923078,
+          -0.019230769230769232
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.5833333333333334,
+            -0.041666666666666664
+          ],
+          "sentence_completion": [
+            -0.2,
+            0.0375
+          ]
+        }
+      },
+      "grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/confirmation_n104_base_prompt/import_manifest.json",
+      "summary": "A predeclared direct instruction sharply improved one-word formatting but reduced objective correctness overall on this finite family-held-out confirmation set. The subset intervals are wide; this does not establish a broad language ability or weight-edit effect. Retire this split."
+    },
+    {
+      "id": "completion-lora-training-20261025",
+      "status": "complete-development-edit-training-no-promotion",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "dataset": "evolution_lab/evidence/completion_v1/manifest.json",
+      "dataset_split": "train",
+      "candidate_training_cases": 464,
+      "candidate_training_families": 72,
+      "training_updates": 64,
+      "training_examples_seen_unique": 64,
+      "training_families_seen": 42,
+      "training_type_counts_seen": {
+        "phrase_completion": 15,
+        "sentence_completion": 49
+      },
+      "training": {
+        "rank": 4,
+        "alpha": 8,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "weight_decay": 0.01,
+        "gradient_clip_norm": 1.0,
+        "max_length": 256,
+        "dropout": 0.0
+      },
+      "global_delta_frobenius_norm": 1.9264319330341095,
+      "adapted_modules": 48,
+      "training_loss_mean_first16": 0.4633396234130487,
+      "training_loss_mean_last16": 0.06372474065574352,
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/lora_seed42_steps64_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "summary": "Training command used only the validated train split and saved a conventional LoRA plus a layerwise norm-matched random edit. Loss decreased, but training completion does not establish behavioral usefulness."
+    },
+    {
+      "id": "completion-lora-dev-20261025",
+      "status": "development-specialization-with-capability-regression-quarantine",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "split": "dev",
+      "unique_questions": 104,
+      "families": 16,
+      "model_generations": 416,
+      "arms": {
+        "base": {
+          "correct": "78/104",
+          "phrase": "15/24",
+          "sentence": "63/80"
+        },
+        "prompt": {
+          "correct": "79/104",
+          "phrase": "15/24",
+          "sentence": "64/80"
+        },
+        "lora": {
+          "correct": "93/104",
+          "phrase": "13/24",
+          "sentence": "80/80"
+        },
+        "norm_matched_random": {
+          "correct": "81/104",
+          "phrase": "16/24",
+          "sentence": "65/80"
+        }
+      },
+      "lora_vs_prompt": {
+        "improved": 20,
+        "regressed": 6,
+        "correctness_rate_delta": 0.1346153846153846,
+        "family_bootstrap95": [
+          0.028846153846153855,
+          0.25
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.5,
+            0.3333333333333333
+          ],
+          "sentence_completion": [
+            0.125,
+            0.2625
+          ]
+        }
+      },
+      "lora_vs_random": {
+        "improved": 19,
+        "regressed": 7,
+        "correctness_rate_delta": 0.11538461538461539,
+        "family_bootstrap95": [
+          0.04807692307692308,
+          0.19230769230769235
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.25,
+            0.041666666666666664
+          ],
+          "sentence_completion": [
+            0.1125,
+            0.275
+          ]
+        }
+      },
+      "random_norm_match_max_relative_error": 6.0228910010647136e-06,
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/lora_seed42_steps64_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "The adapter gained on sentence-agreement development families against base, prompt and random controls but phrase-completion score fell. All target families are small and previously exposed development data; this is not independent confirmation."
+    },
+    {
+      "id": "completion-lora-arithmetic-locality-20261025",
+      "status": "complete-development-capability-regression",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "split": "dev",
+      "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "unique_questions": 64,
+      "families": 16,
+      "model_generations": 256,
+      "arms": {
+        "base": "44/64",
+        "prompt": "37/64",
+        "lora": "30/64",
+        "norm_matched_random": "42/64"
+      },
+      "lora_vs_base": {
+        "improved": 1,
+        "regressed": 15,
+        "correctness_rate_delta": -0.21875,
+        "family_bootstrap95": [
+          -0.359375,
+          -0.078125
+        ]
+      },
+      "lora_vs_random": {
+        "improved": 3,
+        "regressed": 15,
+        "correctness_rate_delta": -0.1875,
+        "family_bootstrap95": [
+          -0.34375,
+          -0.03125
+        ]
+      },
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/lora_seed42_steps64_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "A separate arithmetic development locality slice showed clear regression under the completion adapter, while norm-matched random stayed near base. The adapter was not evaluated on the retired completion confirmation set."
+    },
+    {
+      "id": "completion-v2-new-vocabulary-confirmation-20261025",
+      "status": "spent-posthoc-corrected-prompt; candidate-quarantined",
+      "generator": "phrase-sentence-completion-v2-new-vocabulary",
+      "dataset": "evolution_lab/evidence/completion_v2/manifest.json",
+      "dataset_unique_cases": 2208,
+      "dataset_split_counts": {
+        "train": 1544,
+        "dev": 328,
+        "confirmation": 336
+      },
+      "dataset_task_counts": {
+        "phrase_completion": 160,
+        "sentence_completion": 2048
+      },
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "adapter_training_source": "completion v1 train split, seed 42, 64 updates, rank 4, alpha 8, q_proj/v_proj; frozen candidate from F014",
+      "confirmation_unique_questions": 336,
+      "confirmation_families": 45,
+      "model_generations": 2016,
+      "arms": {
+        "base": "169/336",
+        "task_matched_prompt": "219/336",
+        "frozen_completion_lora": "289/336",
+        "layerwise_norm_matched_random": "169/336"
+      },
+      "lora_vs_prompt": {
+        "improved": 96,
+        "regressed": 26,
+        "correctness_rate_delta": 0.20833333333333334,
+        "family_bootstrap95": [
+          0.1517857142857143,
+          0.2648809523809524
+        ]
+      },
+      "subtask_results": {
+        "lora_phrase": "12/24",
+        "prompt_phrase": "18/24",
+        "base_phrase": "21/24",
+        "random_phrase": "21/24",
+        "lora_sentence": "277/312",
+        "prompt_sentence": "201/312",
+        "base_sentence": "148/312",
+        "random_sentence": "148/312"
+      },
+      "prompt_control_correction": "Initial run used arithmetic-only system prompt due v2 not being recognized; original responses are preserved and excluded. Corrected prompt and repeated base were run post-hoc on the same spent holdout; base matched exactly 336/336.",
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/new_vocabulary_confirmation_spent/import_manifest.json",
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "A frozen v1 LoRA transferred strongly on new-vocabulary agreement sentences against base, corrected prompt and norm-matched random, but phrase completion dropped to 12/24 and an earlier arithmetic development locality test fell to 30/64. One small model, one adapter seed, post-hoc prompt correction and spent holdout; no promotion."
+    },
+    {
+      "id": "completion-v2-sampling-ablation-seed43-20261025",
+      "status": "development-ablation-negative-no-promotion",
+      "hypothesis": "Equal phrase and sentence sampling will improve phrase completion without damaging sentence generalization or arithmetic locality.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 43,
+      "training_dataset": "evolution_lab/evidence/completion_v2/manifest.json",
+      "training_split": "train",
+      "training_pool_counts": {
+        "phrase_completion": 112,
+        "sentence_completion": 1432
+      },
+      "matched_settings": {
+        "rank": 4,
+        "alpha": 8,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "updates_per_arm": 64,
+        "max_length": 256,
+        "weight_decay": 0.01,
+        "gradient_clip_norm": 1.0,
+        "dropout": 0.0
+      },
+      "arms": {
+        "uniform": {
+          "training_types_seen": {
+            "phrase_completion": 2,
+            "sentence_completion": 62
+          },
+          "completion": "276/328",
+          "phrase": "18/24",
+          "sentence": "258/304",
+          "arithmetic_locality": "43/64"
+        },
+        "task_balanced": {
+          "training_types_seen": {
+            "phrase_completion": 32,
+            "sentence_completion": 32
+          },
+          "completion": "270/328",
+          "phrase": "14/24",
+          "sentence": "256/304",
+          "arithmetic_locality": "44/64"
+        },
+        "base_completion": "182/328",
+        "prompt_completion": "200/328",
+        "random_completion_uniform": "178/328",
+        "random_completion_balanced": "178/328",
+        "base_arithmetic": "38/64",
+        "prompt_arithmetic": "42/64",
+        "random_arithmetic": "37/64"
+      },
+      "balanced_minus_uniform_completion": {
+        "correctness_rate_delta": -0.018292682926829267,
+        "family_bootstrap95": [
+          -0.07926829268292683,
+          0.042682926829268296
+        ],
+        "phrase_family_bootstrap95": [
+          -0.3333333333333333,
+          0.0
+        ]
+      },
+      "model_generations": 3136,
+      "unique_questions": 392,
+      "training_updates": 128,
+      "software_tests": 74,
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/sampler_ablation_seed43_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "summary": "In one seed, task-balanced training saw 32 phrase examples versus 2 under uniform, but phrase development score was lower (14/24 versus 18/24); the direct family interval is wide and includes zero. Both adapters beat prompting on overall completion and neither showed a clear arithmetic regression on the small development locality slice. Fresh seed and fresh confirmation are required."
+    },
+    {
+      "id": "completion-v2-sampling-ablation-seed44-20261025",
+      "status": "development-seed-replication-and-locality-signal-no-promotion",
+      "hypothesis": "A second seed will reproduce the sampler effects from F016 and show whether phrase completion improves when phrase exposure is increased.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 44,
+      "dataset": "evolution_lab/evidence/completion_v2/manifest.json",
+      "training_split": "train",
+      "matched_settings": {
+        "rank": 4,
+        "alpha": 8,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "updates_per_arm": 64,
+        "max_length": 256,
+        "weight_decay": 0.01,
+        "gradient_clip_norm": 1.0,
+        "dropout": 0.0
+      },
+      "arms": {
+        "uniform": {
+          "training_types_seen": {
+            "phrase_completion": 5,
+            "sentence_completion": 59
+          },
+          "completion": "301/328",
+          "phrase": "15/24",
+          "sentence": "286/304",
+          "arithmetic_locality": "38/64"
+        },
+        "task_balanced": {
+          "training_types_seen": {
+            "phrase_completion": 32,
+            "sentence_completion": 32
+          },
+          "completion": "289/328",
+          "phrase": "13/24",
+          "sentence": "276/304",
+          "arithmetic_locality": "61/64"
+        },
+        "base_completion": "182/328",
+        "prompt_completion": "200/328",
+        "random_completion_uniform": "180/328",
+        "random_completion_balanced": "182/328",
+        "base_arithmetic": "38/64",
+        "prompt_arithmetic": "42/64",
+        "random_arithmetic_uniform": "37/64",
+        "random_arithmetic_balanced": "37/64"
+      },
+      "balanced_minus_uniform_completion": {
+        "correctness_rate_delta": -0.036585365853658534,
+        "family_bootstrap95": [
+          -0.08841463414634147,
+          0.009146341463414637
+        ],
+        "phrase_family_bootstrap95": [
+          -0.4166666666666667,
+          0.16666666666666666
+        ],
+        "sentence_family_bootstrap95": [
+          -0.08223684210526316,
+          0.009868421052631578
+        ]
+      },
+      "balanced_minus_uniform_arithmetic": {
+        "correctness_rate_delta": 0.359375,
+        "family_bootstrap95": [
+          0.265625,
+          0.46875
+        ],
+        "improved": 24,
+        "regressed": 1
+      },
+      "seed44_uniform_minus_seed43_uniform_completion": {
+        "correctness_rate_delta": 0.07621951219512195,
+        "family_bootstrap95": [
+          0.027439024390243903,
+          0.1280487804878049
+        ],
+        "phrase_family_bootstrap95": [
+          -0.4166666666666667,
+          0.08333333333333333
+        ],
+        "sentence_family_bootstrap95": [
+          0.039473684210526314,
+          0.14473684210526316
+        ]
+      },
+      "base_prompt_replay_identical": "328/328 for both arms",
+      "model_generations": 3136,
+      "unique_questions": 392,
+      "training_updates": 128,
+      "training_examples_seen": 128,
+      "software_tests": 74,
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/sampler_ablation_seed44_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "Seed-44 adapters show sampler- and seed-sensitive development outcomes. Uniform scored 301/328 completion items (phrase 15/24, sentence 286/304); balanced scored 289/328 (phrase 13/24, sentence 276/304). The completion sampler contrast includes zero. On 64 arithmetic development items, uniform scored 38/64 while balanced scored 61/64; paired interval +26.6 to +46.9 points. This surprising locality result remains development-only and needs fresh arithmetic confirmation plus independent seed replication. Neither adapter is promoted; v2 confirmation is retired and untouched here."
+    },
+    {
+      "id": "completion-v2-adapter-component-ablation-seed44-20261025",
+      "status": "development-only-component-necessity-signal-no-promotion",
+      "hypothesis": "The seed-44 task-balanced adapter depends on particular projection and layer-half deltas for completion and arithmetic behavior.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "source_training_run": "20261025T144111_942272Z",
+      "source_training_seed": 44,
+      "device": "cpu",
+      "precision": "float32",
+      "interventions": [
+        "zero_q_proj",
+        "zero_v_proj",
+        "zero_lower_half",
+        "zero_upper_half"
+      ],
+      "arms": [
+        "base",
+        "prompt",
+        "ablated_adapter",
+        "identically_ablated_norm_matched_random"
+      ],
+      "unique_questions": 392,
+      "model_generations": 6272,
+      "training_updates": 0,
+      "software_tests": 77,
+      "completion_dev": {
+        "n": 328,
+        "families": 44,
+        "phrase": "24 questions / 6 families",
+        "sentence": "304 questions / 38 families",
+        "intact_adapter": "289/328"
+      },
+      "arithmetic_dev": {
+        "n": 64,
+        "families": 16,
+        "intact_adapter": "61/64"
+      },
+      "results": {
+        "completion_full_minus_ablation": {
+          "zero_q_proj": "-3.0 points; 95% family CI [-7.6,+1.2]",
+          "zero_v_proj": "-4.3 points; 95% family CI [-8.5,-0.3]",
+          "zero_lower_half": "+1.8 points; 95% family CI [-1.2,+4.9]",
+          "zero_upper_half": "-14.3 points; 95% family CI [-19.2,-9.5]",
+          "zero_upper_half_sentence": "-15.1 points; 95% family CI [-20.4,-10.2]"
+        },
+        "arithmetic_ablation_minus_intact": {
+          "zero_q_proj": "-14.1 points; 95% family CI [-25.0,-4.7]",
+          "zero_v_proj": "-37.5 points; 95% family CI [-46.9,-28.1]",
+          "zero_lower_half": "-23.4 points; 95% family CI [-29.7,-15.6]",
+          "zero_upper_half": "-23.4 points; 95% family CI [-29.7,-15.6]"
+        }
+      },
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/adapter_component_ablation_seed44_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "current_process_mps_available": false,
+      "summary": "Zeroing upper-half edits reduced sentence completion by 15.1 points and overall completion by 14.3 points relative to the full seed-44 adapter on previously exposed development cases. V-projection removal reduced completion modestly and arithmetic by 37.5 points. Arithmetic losses were measured on only 64 questions and do not establish broad capability loss. All evidence remains checkpoint-specific and development-only; do not transfer to Astra."
+    },
+    {
+      "id": "completion-v2-seed44-arithmetic-confirmation-f019",
+      "status": "narrow-held-out-arithmetic-signal-confirmed-development-score-overstated-candidate-quarantined",
+      "hypothesis": "The F017 seed-44 task-balanced completion LoRA arithmetic score will exceed base, task-matched prompt and norm-matched random on unseen confirmation families.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "source_training_run": "20261025T144111_942272Z",
+      "source_training_seed": 44,
+      "device": "cpu",
+      "precision": "float32",
+      "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "dataset_seed": 42,
+      "split": "confirmation",
+      "family_selection": {
+        "method": "sha256-rank-whole-families-v1",
+        "family_seed": 20261025,
+        "families": 32,
+        "questions": 128,
+        "case_id_overlap_with_archived_ledgers": 0
+      },
+      "arms": {
+        "base": "53/128",
+        "prompt": "78/128",
+        "completion_lora": "107/128",
+        "norm_matched_random": "53/128"
+      },
+      "paired_contrasts": {
+        "lora_minus_prompt": {
+          "correctness_rate_delta": 0.2265625,
+          "improved": 43,
+          "regressed": 14,
+          "family_bootstrap95": [
+            0.1484375,
+            0.296875
+          ]
+        },
+        "lora_minus_base": {
+          "correctness_rate_delta": 0.421875,
+          "improved": 62,
+          "regressed": 8,
+          "family_bootstrap95": [
+            0.3359375,
+            0.5078125
+          ]
+        },
+        "lora_minus_random": {
+          "correctness_rate_delta": 0.421875,
+          "improved": 61,
+          "regressed": 7,
+          "family_bootstrap95": [
+            0.3359375,
+            0.5
+          ]
+        }
+      },
+      "development_reference": "61/64 arithmetic questions (95.3%) on previously inspected development families; confirmation score was 83.6%, a descriptive -11.7 points across different question sets.",
+      "model_generations": 512,
+      "unique_questions": 128,
+      "families": 32,
+      "software_tests": 78,
+      "evidence": "evolution_lab/evidence/casegen_v3/evaluations/seed44_balanced_arithmetic_confirmation_f019/import_manifest.json",
+      "confirmation_consumed": true,
+      "retired_families": true,
+      "eligible_for_general_promotion": false,
+      "candidate_quarantined": true,
+      "current_process_mps_available": false,
+      "summary": "On 32 preregistered hash-selected arithmetic confirmation families, the frozen adapter beat prompt, base and norm-matched random controls. Its 83.6% score was below the 95.3% arithmetic development score. This confirms one narrow signal while exposing development overestimation; it does not establish broader capabilities or phrase/sentence transfer. Do not tune on these selected families.",
+      "eligible_for_promotion": false
+    },
+    {
+      "id": "completion-v3-phrase-sentence-attractor-benchmark-20261025",
+      "status": "infrastructure-verified-no-model-results",
+      "generator": "phrase-sentence-completion-v3-attractor",
+      "seed": 42,
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": null,
+      "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+      "unique_questions": 8740,
+      "unique_families": 583,
+      "split_counts": {
+        "train": 7880,
+        "dev": 428,
+        "confirmation": 432
+      },
+      "task_type_counts": {
+        "phrase_completion": 196,
+        "sentence_completion": 8544
+      },
+      "confirmation_details": {
+        "phrase_questions": 32,
+        "phrase_families": 8,
+        "sentence_questions": 400,
+        "sentence_families": 25,
+        "consumed": false
+      },
+      "sentence_subject_lexemes_disjoint_across_splits": true,
+      "sentence_verb_lexemes_disjoint_across_splits": true,
+      "earlier_phrase_prefix_answer_collisions": 0,
+      "model_generations": 0,
+      "software_tests_passed": 80,
+      "eligible_for_promotion": false,
+      "summary": "Fresh data infrastructure only. The phrase and long-distance agreement questions have deterministic answer keys and whole-family splits; sentence subjects and verb roots are disjoint across splits. No model has been evaluated on these v3 cases, so there is no behavior or edit result yet. Phrase confirmation includes only eight families and should be reported with wide uncertainty."
+    },
+    {
+      "id": "completion-v3-balanced-lora-dev-f021",
+      "status": "exploratory-development-signal-candidate-quarantined",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "training": {
+        "updates": 64,
+        "rank": 4,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "sampling_strategy": "task-balanced",
+        "sentence_updates_by_subject_number": {
+          "plural": 17,
+          "singular": 15
+        }
+      },
+      "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+      "split": "dev",
+      "arms": [
+        "base",
+        "prompt",
+        "trained_adapter",
+        "norm_matched_random"
+      ],
+      "unique_questions": 428,
+      "model_generations": 1712,
+      "scores": {
+        "base": "227/428",
+        "prompt": "264/428",
+        "adapter": "276/428",
+        "random": "227/428",
+        "adapter_phrase": "19/28",
+        "prompt_phrase": "19/28",
+        "base_phrase": "23/28",
+        "adapter_sentence": "257/400",
+        "prompt_sentence": "245/400",
+        "base_sentence": "204/400"
+      },
+      "adapter_minus_prompt": {
+        "delta_pp": 2.8,
+        "family_bootstrap95_pp": [
+          -1.87,
+          7.71
+        ],
+        "improved": 63,
+        "regressed": 51
+      },
+      "posthoc_subject_number": {
+        "adapter_plural": "200/200",
+        "adapter_singular": "57/200",
+        "adapter_minus_prompt_plural_pp": 21.0,
+        "plural_family_bootstrap95_pp": [
+          13.0,
+          29.0
+        ],
+        "adapter_minus_prompt_singular_pp": -15.0,
+        "singular_family_bootstrap95_pp": [
+          -22.0,
+          -8.0
+        ]
+      },
+      "software_tests_passed": 80,
+      "evidence": "evolution_lab/evidence/completion_v3/evaluations/seed42_balanced_dev_f020/import_manifest.json",
+      "protocol_registered_before_generations": false,
+      "confirmation_consumed": false,
+      "candidate_quarantined": true,
+      "eligible_for_promotion": false,
+      "summary": "The edit beat base and the norm-matched random control on aggregate development completion, but did not establish an advantage over the explicit prompt. Phrase accuracy was below base. Post-hoc sentence analysis showed perfect plural-subject agreement and poor singular-subject agreement despite near-balanced sentence training updates. Treat as an exploratory edit-direction bias; do not promote or consume confirmation."
+    }
+  ],
+  "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."
+}

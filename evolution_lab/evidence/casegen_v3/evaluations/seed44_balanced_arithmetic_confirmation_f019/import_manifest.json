@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "study_id": "F019",
+  "source_dataset_manifest_sha256": "61907e5fee7afc122c13460e6fea4efc23cc320d93fca2aade0933eedcd17659",
+  "file_count": 6,
+  "files": {
+    "observations.jsonl": "c280c119a56de78c2ca322ebf63d0a611c88927b82861076882ba6fc88f91503",
+    "preregistration.json": "c766191553b65b479df3244ab356cd6b5b221c511521bc47a517e3e5bdd1aa52",
+    "report.json": "6f222a3aaa744f5b54011cff2efb84fa27700e4f155f27d00e4fbf6c184f4e3f",
+    "run.json": "b57cc66dcd206ae87c611b86fcde82a5288fddee3e7f82c4d1fcbee84f085916",
+    "selection.json": "594c53f76a9b1648c31997d48aca5281345c0075679e04e4186bcfaa10e8c2fd",
+    "summary.json": "dab68ecce9aeb86a802f5b27c139c2580a37fbd11a9a21e5c9342076850deecd"
+  }
+}

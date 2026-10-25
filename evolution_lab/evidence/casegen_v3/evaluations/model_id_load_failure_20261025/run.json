@@ -1,0 +1,63 @@
+{
+  "run_id": "20261025T124205_505049Z",
+  "spec": {
+    "schema_version": 1,
+    "dataset_manifest_sha256": "fb85d0bae094079941aeac9f58c5edcce4a9334a749d12b8607a3a3dbd153e65",
+    "dataset_seed": 42,
+    "split": "dev",
+    "case_fingerprint": "c0e8cb201fa58ca215b8fc2104f5e6ccce83a0f2fb658f70e5c0dfbf643712cc",
+    "unique_questions": 64,
+    "split_offset": 3000,
+    "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "requested_device": "cpu",
+    "requested_precision": "float32",
+    "arms": [
+      "base",
+      "prompt"
+    ],
+    "base_system_prompt": "You are a helpful assistant.",
+    "prompt_system_prompt": "You are a helpful assistant. Solve the arithmetic problem carefully and reply with one integer.",
+    "adapter_hashes": {},
+    "adapter_sources": {},
+    "adapter_delta_hashes": {
+      "adapter": null,
+      "random": null
+    },
+    "random_norm_match": null,
+    "max_new_tokens": 16,
+    "decoding": "greedy"
+  },
+  "spec_sha256": "49fb31d59883957864bd01e1469948ef7efaadafb7a3684baa4c27c3150d26f3",
+  "status": "model_load_failed",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "3ae34479091672f702d924f4a797b18e4f2919bc",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": null
+    }
+  },
+  "dataset_census": {
+    "unique_cases": 100000,
+    "unique_prompts": 100000,
+    "split_counts": {
+      "confirmation": 14980,
+      "dev": 14984,
+      "train": 70036
+    }
+  },
+  "records_written": 0,
+  "error": "ConnectionError: (MaxRetryError('HTTPSConnectionPool(host=\\'huggingface.co\\', port=443): Max retries exceeded with url: /api/models/Qwen/Qwen2.5-0.5B-Instruct (Caused by NameResolutionError(\"HTTPSConnection(host=\\'huggingface.co\\', port=443): Failed to resolve \\'huggingface.co\\' ([Errno 8] nodename nor servname provided, or not known)\"))'), '(Request ID: 69c91fe8-3c85-4240-932f-bc9557a2fafd)')"
+}

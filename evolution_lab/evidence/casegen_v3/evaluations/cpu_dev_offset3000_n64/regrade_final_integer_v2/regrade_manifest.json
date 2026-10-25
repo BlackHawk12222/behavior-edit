@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "grader_version": "final-integer-token-v2",
+  "source_observations_sha256": "5169e805d4fe5e03ec45706fb0e459cf300527464c3818854fa444a2fba3fb53",
+  "supersedes_report_sha256": "7d2114ba0168d0729e9b4d6796bdea7bccb15d47f08b3ececd7a702d8832ac59",
+  "source_model_generation_records": 128,
+  "new_model_generations": 0,
+  "unique_questions": 64,
+  "rows_regraded": 128,
+  "correctness_labels_changed": 39,
+  "reason": "The first grader only accepted a single numeric token. It wrongly rejected correct explanatory answers. Version 2 uses the final integer token for numeric value while reporting strict integer-only formatting separately.",
+  "report": {
+    "answer_grader_version": "final-integer-token-v2",
+    "arms": {
+      "base": {
+        "model_generations": 64,
+        "unique_questions": 64,
+        "unique_normalized_prompts": 64,
+        "correct": 26,
+        "accuracy": 0.40625,
+        "wilson95_descriptive": [
+          0.2945690924971961,
+          0.5285479187139549
+        ],
+        "single_integer_format": 16,
+        "family_count": 16
+      },
+      "prompt": {
+        "model_generations": 64,
+        "unique_questions": 64,
+        "unique_normalized_prompts": 64,
+        "correct": 37,
+        "accuracy": 0.578125,
+        "wilson95_descriptive": [
+          0.456100315400829,
+          0.6913021752565451
+        ],
+        "single_integer_format": 18,
+        "family_count": 16
+      }
+    },
+    "paired_vs_base": {
+      "prompt": {
+        "paired_questions": 64,
+        "improved": 21,
+        "regressed": 10,
+        "pass_rate_delta": 0.171875,
+        "paired_family_bootstrap95": [
+          0.0625,
+          0.28125
+        ],
+        "family_count": 16,
+        "note": "Bootstrap resamples arithmetic fact families; few families yield unstable or unavailable intervals."
+      }
+    },
+    "uncertainty_note": "Wilson intervals are descriptive and ignore within-family dependence; use the paired family bootstrap for arm contrasts."
+  },
+  "files": [
+    {
+      "path": "grade_changes.jsonl",
+      "size_bytes": 33676,
+      "sha256": "619a7024f12bbbade50b5b5e81c7ebeb99784ff75ae2964dacab48b04ceacbb0"
+    },
+    {
+      "path": "report.json",
+      "size_bytes": 1249,
+      "sha256": "4edc34519c3f5638a46a6e87432d1e3512eabf1b099fcdb11cb330f56ca367d0"
+    }
+  ]
+}

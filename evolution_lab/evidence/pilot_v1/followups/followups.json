@@ -1,0 +1,5 @@
+{
+  "status": "complete",
+  "protocol": "Fixed 50/50 JSON+concise seed42 development mixture; all-training-example prompt-only test control for each seed42 behavior. Retrospective followups; no coefficient or training-budget selection.",
+  "phase": "fewshot_exact_instruction"
+}

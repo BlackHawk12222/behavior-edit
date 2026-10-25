@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "source_run": "results/evolution_lab/case_eval_cpu_dev_offset3000_n64",
+  "status": "model_load_failed",
+  "model_generations": 0,
+  "selected_unique_questions": 64,
+  "error": "ConnectionError: (MaxRetryError('HTTPSConnectionPool(host=\\'huggingface.co\\', port=443): Max retries exceeded with url: /api/models/Qwen/Qwen2.5-0.5B-Instruct (Caused by NameResolutionError(\"HTTPSConnection(host=\\'huggingface.co\\', port=443): Failed to resolve \\'huggingface.co\\' ([Errno 8] nodename nor servname provided, or not known)\"))'), '(Request ID: 69c91fe8-3c85-4240-932f-bc9557a2fafd)')",
+  "run_json_sha256": "aa7ab7d22c93ea8746b817a45e0f4e7fb2532f7819345bd1f352fe4d126487d9",
+  "interpretation": "Failed before inference because repository ID lookup attempted unavailable Hugging Face network resolution; the same local cached snapshot was then loaded by its exact commit directory and evaluated successfully."
+}

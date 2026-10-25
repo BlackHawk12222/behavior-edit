@@ -1,0 +1,46 @@
+{
+  "answer_grader_version": "final-integer-token-v2",
+  "arms": {
+    "base": {
+      "model_generations": 64,
+      "unique_questions": 64,
+      "unique_normalized_prompts": 64,
+      "correct": 26,
+      "accuracy": 0.40625,
+      "wilson95_descriptive": [
+        0.2945690924971961,
+        0.5285479187139549
+      ],
+      "single_integer_format": 16,
+      "family_count": 16
+    },
+    "prompt": {
+      "model_generations": 64,
+      "unique_questions": 64,
+      "unique_normalized_prompts": 64,
+      "correct": 37,
+      "accuracy": 0.578125,
+      "wilson95_descriptive": [
+        0.456100315400829,
+        0.6913021752565451
+      ],
+      "single_integer_format": 18,
+      "family_count": 16
+    }
+  },
+  "paired_vs_base": {
+    "prompt": {
+      "paired_questions": 64,
+      "improved": 21,
+      "regressed": 10,
+      "pass_rate_delta": 0.171875,
+      "paired_family_bootstrap95": [
+        0.0625,
+        0.28125
+      ],
+      "family_count": 16,
+      "note": "Bootstrap resamples arithmetic fact families; few families yield unstable or unavailable intervals."
+    }
+  },
+  "uncertainty_note": "Wilson intervals are descriptive and ignore within-family dependence; use the paired family bootstrap for arm contrasts."
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "generator": "phrase-sentence-completion-v1",
+  "seed": 42,
+  "shards": [
+    {
+      "file": "completion-cases-confirmation-42-000000-000672.jsonl",
+      "start": 0,
+      "count": 104,
+      "split": "confirmation",
+      "sha256": "dc71378efcc1e776548e417514d6f6ece54299b2f9d656619a226e2d6450a1bd"
+    },
+    {
+      "file": "completion-cases-dev-42-000000-000672.jsonl",
+      "start": 0,
+      "count": 104,
+      "split": "dev",
+      "sha256": "aac7dcccd8e743419b9f034ff122c6f6d5a9f98e1ef78f14bb1e1f2b8a640d86"
+    },
+    {
+      "file": "completion-cases-train-42-000000-000672.jsonl",
+      "start": 0,
+      "count": 464,
+      "split": "train",
+      "sha256": "ac5d17bec8114202edf6989d7a34eb4ce34875660971b013edc51e66811b9fc7"
+    }
+  ],
+  "unique_cases": 672
+}

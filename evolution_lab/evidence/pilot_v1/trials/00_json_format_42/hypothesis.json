@@ -1,0 +1,1811 @@
+{
+  "hypothesis": "A json_format LoRA improves target pass rate by at least 25%, beats prompt and norm-matched random, and has at most 0 locality pass-to-fail changes.",
+  "gate": {
+    "min_target_gain": 0.25,
+    "max_locality_regressions": 0
+  },
+  "development": {
+    "passes_gate": true,
+    "target_gain": 0.875,
+    "locality_regressions": 0,
+    "beats_prompt_and_random": true,
+    "contrasts": {
+      "base": {
+        "target": {
+          "task_count": 8,
+          "before_passed": 0,
+          "after_passed": 7,
+          "improved": 7,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 1,
+          "response_changed": 8,
+          "pass_rate_delta": 0.875,
+          "per_category": {
+            "json_format": {
+              "tasks": 8,
+              "before_passed": 0,
+              "after_passed": 7,
+              "improved": 7,
+              "regressed": 0,
+              "response_changed": 8
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "dev_json_format_00",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_01",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_02",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_03",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_json_format_04",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_05",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_06",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_07",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            }
+          ],
+          "before_wilson95": [
+            0.0,
+            0.32440756488388023
+          ],
+          "after_wilson95": [
+            0.5291118177871464,
+            0.9775825085499433
+          ],
+          "paired_family_bootstrap95": null,
+          "family_count": 1,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        },
+        "locality": {
+          "task_count": 16,
+          "before_passed": 10,
+          "after_passed": 10,
+          "improved": 0,
+          "regressed": 0,
+          "unchanged_pass": 10,
+          "unchanged_fail": 6,
+          "response_changed": 4,
+          "pass_rate_delta": 0.0,
+          "per_category": {
+            "arithmetic": {
+              "tasks": 8,
+              "before_passed": 7,
+              "after_passed": 7,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "factual": {
+              "tasks": 4,
+              "before_passed": 3,
+              "after_passed": 3,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            },
+            "sorting": {
+              "tasks": 4,
+              "before_passed": 0,
+              "after_passed": 0,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 3
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "dev_arithmetic_0",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_1",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_2",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_3",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_4",
+              "category": "arithmetic",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_arithmetic_5",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_6",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_7",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_0",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_1",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_2",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_3",
+              "category": "factual",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_0",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_1",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_2",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_3",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            }
+          ],
+          "before_wilson95": [
+            0.38641040545502714,
+            0.8151876744113636
+          ],
+          "after_wilson95": [
+            0.38641040545502714,
+            0.8151876744113636
+          ],
+          "paired_family_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "family_count": 3,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        }
+      },
+      "prompt": {
+        "target": {
+          "task_count": 8,
+          "before_passed": 0,
+          "after_passed": 7,
+          "improved": 7,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 1,
+          "response_changed": 8,
+          "pass_rate_delta": 0.875,
+          "per_category": {
+            "json_format": {
+              "tasks": 8,
+              "before_passed": 0,
+              "after_passed": 7,
+              "improved": 7,
+              "regressed": 0,
+              "response_changed": 8
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "dev_json_format_00",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_01",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_02",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_03",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_json_format_04",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_05",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_06",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_07",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            }
+          ],
+          "before_wilson95": [
+            0.0,
+            0.32440756488388023
+          ],
+          "after_wilson95": [
+            0.5291118177871464,
+            0.9775825085499433
+          ],
+          "paired_family_bootstrap95": null,
+          "family_count": 1,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        },
+        "locality": {
+          "task_count": 16,
+          "before_passed": 10,
+          "after_passed": 10,
+          "improved": 1,
+          "regressed": 1,
+          "unchanged_pass": 9,
+          "unchanged_fail": 5,
+          "response_changed": 4,
+          "pass_rate_delta": 0.0,
+          "per_category": {
+            "arithmetic": {
+              "tasks": 8,
+              "before_passed": 6,
+              "after_passed": 7,
+              "improved": 1,
+              "regressed": 0,
+              "response_changed": 1
+            },
+            "factual": {
+              "tasks": 4,
+              "before_passed": 4,
+              "after_passed": 3,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            },
+            "sorting": {
+              "tasks": 4,
+              "before_passed": 0,
+              "after_passed": 0,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 2
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "dev_arithmetic_0",
+              "category": "arithmetic",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_arithmetic_1",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_2",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_3",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_4",
+              "category": "arithmetic",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_arithmetic_5",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_6",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_7",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_0",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_1",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_2",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_3",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "dev_reasoning_0",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_1",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_2",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_3",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            }
+          ],
+          "before_wilson95": [
+            0.38641040545502714,
+            0.8151876744113636
+          ],
+          "after_wilson95": [
+            0.38641040545502714,
+            0.8151876744113636
+          ],
+          "paired_family_bootstrap95": [
+            -0.25,
+            0.125
+          ],
+          "family_count": 3,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        }
+      },
+      "random": {
+        "target": {
+          "task_count": 8,
+          "before_passed": 0,
+          "after_passed": 7,
+          "improved": 7,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 1,
+          "response_changed": 8,
+          "pass_rate_delta": 0.875,
+          "per_category": {
+            "json_format": {
+              "tasks": 8,
+              "before_passed": 0,
+              "after_passed": 7,
+              "improved": 7,
+              "regressed": 0,
+              "response_changed": 8
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "dev_json_format_00",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_01",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_02",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_03",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_json_format_04",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_05",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_06",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "dev_json_format_07",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            }
+          ],
+          "before_wilson95": [
+            0.0,
+            0.32440756488388023
+          ],
+          "after_wilson95": [
+            0.5291118177871464,
+            0.9775825085499433
+          ],
+          "paired_family_bootstrap95": null,
+          "family_count": 1,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        },
+        "locality": {
+          "task_count": 16,
+          "before_passed": 10,
+          "after_passed": 10,
+          "improved": 0,
+          "regressed": 0,
+          "unchanged_pass": 10,
+          "unchanged_fail": 6,
+          "response_changed": 4,
+          "pass_rate_delta": 0.0,
+          "per_category": {
+            "arithmetic": {
+              "tasks": 8,
+              "before_passed": 7,
+              "after_passed": 7,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            },
+            "factual": {
+              "tasks": 4,
+              "before_passed": 3,
+              "after_passed": 3,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            },
+            "sorting": {
+              "tasks": 4,
+              "before_passed": 0,
+              "after_passed": 0,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 3
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "dev_arithmetic_0",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_1",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_2",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_3",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_4",
+              "category": "arithmetic",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_arithmetic_5",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_6",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_arithmetic_7",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_0",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_1",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_2",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "dev_facts_3",
+              "category": "factual",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_0",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_1",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_2",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "dev_reasoning_3",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            }
+          ],
+          "before_wilson95": [
+            0.38641040545502714,
+            0.8151876744113636
+          ],
+          "after_wilson95": [
+            0.38641040545502714,
+            0.8151876744113636
+          ],
+          "paired_family_bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "family_count": 3,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        }
+      }
+    }
+  },
+  "independent_test": {
+    "passes_gate": false,
+    "target_gain": 1.0,
+    "locality_regressions": 2,
+    "beats_prompt_and_random": true,
+    "contrasts": {
+      "base": {
+        "target": {
+          "task_count": 12,
+          "before_passed": 0,
+          "after_passed": 12,
+          "improved": 12,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 0,
+          "response_changed": 12,
+          "pass_rate_delta": 1.0,
+          "per_category": {
+            "json_format": {
+              "tasks": 12,
+              "before_passed": 0,
+              "after_passed": 12,
+              "improved": 12,
+              "regressed": 0,
+              "response_changed": 12
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "test_json_format_00",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_01",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_02",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_03",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_04",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_05",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_06",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_07",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_08",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_09",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_10",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_11",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            }
+          ],
+          "before_wilson95": [
+            2.7755575615628914e-17,
+            0.24249400665524085
+          ],
+          "after_wilson95": [
+            0.7575059933447592,
+            1.0
+          ],
+          "paired_family_bootstrap95": null,
+          "family_count": 1,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        },
+        "locality": {
+          "task_count": 16,
+          "before_passed": 11,
+          "after_passed": 9,
+          "improved": 0,
+          "regressed": 2,
+          "unchanged_pass": 9,
+          "unchanged_fail": 5,
+          "response_changed": 2,
+          "pass_rate_delta": -0.125,
+          "per_category": {
+            "arithmetic": {
+              "tasks": 8,
+              "before_passed": 8,
+              "after_passed": 7,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            },
+            "factual": {
+              "tasks": 4,
+              "before_passed": 3,
+              "after_passed": 2,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            },
+            "sorting": {
+              "tasks": 4,
+              "before_passed": 0,
+              "after_passed": 0,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "test_arithmetic_0",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_1",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_2",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_3",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_4",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "test_arithmetic_5",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_6",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_7",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_facts_0",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "test_facts_1",
+              "category": "factual",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_facts_2",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_facts_3",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_reasoning_0",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_1",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_2",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_3",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            }
+          ],
+          "before_wilson95": [
+            0.44404355834740666,
+            0.8583535614521796
+          ],
+          "after_wilson95": [
+            0.331785563988119,
+            0.7690134759450765
+          ],
+          "paired_family_bootstrap95": [
+            -0.25,
+            0.0
+          ],
+          "family_count": 3,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        }
+      },
+      "prompt": {
+        "target": {
+          "task_count": 12,
+          "before_passed": 0,
+          "after_passed": 12,
+          "improved": 12,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 0,
+          "response_changed": 12,
+          "pass_rate_delta": 1.0,
+          "per_category": {
+            "json_format": {
+              "tasks": 12,
+              "before_passed": 0,
+              "after_passed": 12,
+              "improved": 12,
+              "regressed": 0,
+              "response_changed": 12
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "test_json_format_00",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_01",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_02",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_03",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_04",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_05",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_06",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_07",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_08",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_09",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_10",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_11",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            }
+          ],
+          "before_wilson95": [
+            2.7755575615628914e-17,
+            0.24249400665524085
+          ],
+          "after_wilson95": [
+            0.7575059933447592,
+            1.0
+          ],
+          "paired_family_bootstrap95": null,
+          "family_count": 1,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        },
+        "locality": {
+          "task_count": 16,
+          "before_passed": 11,
+          "after_passed": 9,
+          "improved": 1,
+          "regressed": 3,
+          "unchanged_pass": 8,
+          "unchanged_fail": 4,
+          "response_changed": 5,
+          "pass_rate_delta": -0.125,
+          "per_category": {
+            "arithmetic": {
+              "tasks": 8,
+              "before_passed": 7,
+              "after_passed": 7,
+              "improved": 1,
+              "regressed": 1,
+              "response_changed": 2
+            },
+            "factual": {
+              "tasks": 4,
+              "before_passed": 4,
+              "after_passed": 2,
+              "improved": 0,
+              "regressed": 2,
+              "response_changed": 2
+            },
+            "sorting": {
+              "tasks": 4,
+              "before_passed": 0,
+              "after_passed": 0,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 1
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "test_arithmetic_0",
+              "category": "arithmetic",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_arithmetic_1",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_2",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_3",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_4",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "test_arithmetic_5",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_6",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_7",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_facts_0",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "test_facts_1",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "test_facts_2",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_facts_3",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_reasoning_0",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_1",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_2",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_3",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            }
+          ],
+          "before_wilson95": [
+            0.44404355834740666,
+            0.8583535614521796
+          ],
+          "after_wilson95": [
+            0.331785563988119,
+            0.7690134759450765
+          ],
+          "paired_family_bootstrap95": [
+            -0.5,
+            0.0
+          ],
+          "family_count": 3,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        }
+      },
+      "random": {
+        "target": {
+          "task_count": 12,
+          "before_passed": 0,
+          "after_passed": 12,
+          "improved": 12,
+          "regressed": 0,
+          "unchanged_pass": 0,
+          "unchanged_fail": 0,
+          "response_changed": 12,
+          "pass_rate_delta": 1.0,
+          "per_category": {
+            "json_format": {
+              "tasks": 12,
+              "before_passed": 0,
+              "after_passed": 12,
+              "improved": 12,
+              "regressed": 0,
+              "response_changed": 12
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "test_json_format_00",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_01",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_02",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_03",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_04",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_05",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_06",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_07",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_08",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_09",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_10",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            },
+            {
+              "task_id": "test_json_format_11",
+              "category": "json_format",
+              "before_passed": false,
+              "after_passed": true,
+              "response_changed": true,
+              "status": "improved"
+            }
+          ],
+          "before_wilson95": [
+            2.7755575615628914e-17,
+            0.24249400665524085
+          ],
+          "after_wilson95": [
+            0.7575059933447592,
+            1.0
+          ],
+          "paired_family_bootstrap95": null,
+          "family_count": 1,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        },
+        "locality": {
+          "task_count": 16,
+          "before_passed": 11,
+          "after_passed": 9,
+          "improved": 0,
+          "regressed": 2,
+          "unchanged_pass": 9,
+          "unchanged_fail": 5,
+          "response_changed": 2,
+          "pass_rate_delta": -0.125,
+          "per_category": {
+            "arithmetic": {
+              "tasks": 8,
+              "before_passed": 8,
+              "after_passed": 7,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            },
+            "factual": {
+              "tasks": 4,
+              "before_passed": 3,
+              "after_passed": 2,
+              "improved": 0,
+              "regressed": 1,
+              "response_changed": 1
+            },
+            "sorting": {
+              "tasks": 4,
+              "before_passed": 0,
+              "after_passed": 0,
+              "improved": 0,
+              "regressed": 0,
+              "response_changed": 0
+            }
+          },
+          "per_task": [
+            {
+              "task_id": "test_arithmetic_0",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_1",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_2",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_3",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_4",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "test_arithmetic_5",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_6",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_arithmetic_7",
+              "category": "arithmetic",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_facts_0",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": false,
+              "response_changed": true,
+              "status": "regressed"
+            },
+            {
+              "task_id": "test_facts_1",
+              "category": "factual",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_facts_2",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_facts_3",
+              "category": "factual",
+              "before_passed": true,
+              "after_passed": true,
+              "response_changed": false,
+              "status": "unchanged_pass"
+            },
+            {
+              "task_id": "test_reasoning_0",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_1",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_2",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            },
+            {
+              "task_id": "test_reasoning_3",
+              "category": "sorting",
+              "before_passed": false,
+              "after_passed": false,
+              "response_changed": false,
+              "status": "unchanged_fail"
+            }
+          ],
+          "before_wilson95": [
+            0.44404355834740666,
+            0.8583535614521796
+          ],
+          "after_wilson95": [
+            0.331785563988119,
+            0.7690134759450765
+          ],
+          "paired_family_bootstrap95": [
+            -0.25,
+            0.0
+          ],
+          "family_count": 3,
+          "uncertainty_note": "Wilson intervals assume independent items and may be too narrow. Bootstrap resamples authored content families, not model seeds; fewer than two families gives no interval. Public synthetic tasks and small family counts do not establish general capability gains."
+        }
+      }
+    }
+  },
+  "result": "not_verified",
+  "behavior": "json_format",
+  "seed": 42,
+  "dev_manifest_sha256": "0a148c0a8c44258fa24f6cc65ad03db1d83e59d6d114518e650d60a835c0692e",
+  "test_manifest_sha256": "5c91bb9d6d27d9efd5765742596f74243b50f536cee0aff4a31ae2e047efbf72",
+  "caveat": "Retrospective diagnostic gate, not a preregistered significance test. One seed and few authored families do not establish a predictive law, useful hypernetwork, broad generalization, or permission to promote the adapter."
+}

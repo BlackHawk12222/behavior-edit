@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "hardware": {
+    "model": "Mac17,5",
+    "cpu": "Apple A18 Pro",
+    "memory_bytes": 8589934592
+  },
+  "protocol": "Hardware-portability check after inspected CPU diagnostics; same frozen model and training settings, no hyperparameter selection. Full float32 experiment and frozen test, followed by float16-base smoke.",
+  "phase": "float16_smoke",
+  "dev_dir": "results/evolution_lab/mps_validation/float32_dev/20261025T042831_516092Z",
+  "test_dir": "results/evolution_lab/mps_validation/float32_test/20261025T043016_671307Z"
+}

@@ -1,0 +1,441 @@
+{
+  "schema_version": 1,
+  "run_id": "20261025T040722_323206Z",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "ee73e98f8728b7de33307f85bf9d315b68e6c5b9",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "TOKENIZERS_PARALLELISM": "false",
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "requested_revision": "main",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "seed": 42,
+  "suite_id": "behavior-diagnostics-v1",
+  "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+  "training_sha256": "d508b9b10d7333f3d37ac79c392449013d0c195929141407e97c5c74c5a77f31",
+  "evaluation_sha256": "302dd2e55068fa7b45146b4b221fe51f3aa56d12680eee95a3667bb14d6797b9",
+  "behavior": "concise_content",
+  "split": "test",
+  "smoke_only": false,
+  "settings": {
+    "steps": 16,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "decoding": "greedy",
+    "lora_alpha": 8,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0
+  },
+  "training_ids": [
+    "train_concise_content_00",
+    "train_concise_content_01",
+    "train_concise_content_02",
+    "train_concise_content_03",
+    "train_concise_content_04",
+    "train_concise_content_05",
+    "train_concise_content_06",
+    "train_concise_content_07",
+    "train_concise_content_08",
+    "train_concise_content_09",
+    "train_concise_content_10",
+    "train_concise_content_11",
+    "train_concise_content_12",
+    "train_concise_content_13",
+    "train_concise_content_14",
+    "train_concise_content_15"
+  ],
+  "tasks": [
+    {
+      "id": "test_concise_content_00",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to cut paper. Use at most 8 words and include the word scissors.",
+      "kind": "bounded_contains",
+      "required": [
+        "scissors"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_01",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to sweep a floor. Use at most 8 words and include the word broom.",
+      "kind": "bounded_contains",
+      "required": [
+        "broom"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_02",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to erase pencil marks. Use at most 8 words and include the word eraser.",
+      "kind": "bounded_contains",
+      "required": [
+        "eraser"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_03",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to water a plant. Use at most 8 words and include the word watering.",
+      "kind": "bounded_contains",
+      "required": [
+        "watering"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_04",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to keep rain off your head. Use at most 8 words and include the word umbrella.",
+      "kind": "bounded_contains",
+      "required": [
+        "umbrella"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_05",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to weigh a parcel. Use at most 8 words and include the word scale.",
+      "kind": "bounded_contains",
+      "required": [
+        "scale"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_06",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to see tiny cells. Use at most 8 words and include the word microscope.",
+      "kind": "bounded_contains",
+      "required": [
+        "microscope"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_07",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to secure a bicycle. Use at most 8 words and include the word lock.",
+      "kind": "bounded_contains",
+      "required": [
+        "lock"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_08",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to paint a wall. Use at most 8 words and include the word roller.",
+      "kind": "bounded_contains",
+      "required": [
+        "roller"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_09",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to stir soup. Use at most 8 words and include the word spoon.",
+      "kind": "bounded_contains",
+      "required": [
+        "spoon"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_10",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to read in darkness. Use at most 8 words and include the word lamp.",
+      "kind": "bounded_contains",
+      "required": [
+        "lamp"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_concise_content_11",
+      "behavior": "concise_content",
+      "category": "concise_content",
+      "split": "test",
+      "family": "test_concise_domains",
+      "prompt": "Give one practical way to join pieces of paper. Use at most 8 words and include the word glue.",
+      "kind": "bounded_contains",
+      "required": [
+        "glue"
+      ],
+      "max_words": 8,
+      "role": "target"
+    },
+    {
+      "id": "test_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 43 + 7. Answer with digits only.",
+      "target": "50",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 44 + 8. Answer with digits only.",
+      "target": "52",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 45 + 9. Answer with digits only.",
+      "target": "54",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 46 + 10. Answer with digits only.",
+      "target": "56",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 47 + 11. Answer with digits only.",
+      "target": "58",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 48 + 12. Answer with digits only.",
+      "target": "60",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 49 + 13. Answer with digits only.",
+      "target": "62",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 50 + 14. Answer with digits only.",
+      "target": "64",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Canada? Reply with just the answer, without punctuation.",
+      "target": "Ottawa",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a hexagon have? Reply with just the answer, without punctuation.",
+      "target": "6",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the largest planet in our solar system? Reply with just the answer, without punctuation.",
+      "target": "Jupiter",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for gold? Reply with just the answer, without punctuation.",
+      "target": "Au",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 29, 22, 25 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "22,25,29",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 30, 23, 26 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "23,26,30",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 31, 24, 27 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "24,27,31",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 32, 25, 28 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "25,28,32",
+      "role": "locality"
+    }
+  ],
+  "controls": [
+    "base",
+    "prompt",
+    "lora",
+    "random"
+  ],
+  "warning": "Diagnostic only. Test results must not be used to tune this benchmark. No personality, intelligence, or generalized improvement claim.",
+  "zero_control_identical": true,
+  "source_run": "results/evolution_lab/experiments/20261025T035936_641002Z",
+  "source_manifest_sha256": "e7e079ec1fae883c1b76de0cbdc6ec4bd3f8e07831ffc22e05fa7e8291d85967",
+  "adapter_hashes": {
+    "lora": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "d7e83c2dc4b884912396b44bcfd0757f4c54b6cf7aa2e87621269c8a3f6aa94e"
+    },
+    "random": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "45c9071de6727edc94a27cd050b41b3e4765cda73ce96240886ea2799e763496"
+    }
+  },
+  "protocol": "Frozen adapter test; no training or selection on this split."
+}

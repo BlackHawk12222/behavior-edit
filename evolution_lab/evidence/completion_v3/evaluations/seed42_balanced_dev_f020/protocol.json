@@ -1,0 +1,32 @@
+{
+  "status": "exploratory_development_not_preregistered",
+  "hypothesis": "A balanced completion LoRA may improve unseen phrase and subject-verb completion over base, an explicit prompt, and an equal-delta-norm random adapter.",
+  "data": "completion-v3 seed 42 development split only; candidate trained only on the v3 train split.",
+  "protocol_note": "This comparison was not preregistered before generations. It is exploratory and cannot be treated as independent confirmation.",
+  "candidate_training": {
+    "seed": 42,
+    "steps": 64,
+    "rank": 4,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0005,
+    "sampling_strategy": "task-balanced",
+    "device": "cpu",
+    "precision": "float32"
+  },
+  "arms": [
+    "base",
+    "prompt",
+    "trained_adapter",
+    "norm_matched_random_adapter"
+  ],
+  "metrics": [
+    "objective completion correctness",
+    "single-word format",
+    "paired family bootstrap by task type"
+  ],
+  "confirmation_rule": "Do not consume confirmation unless the frozen candidate shows a meaningful development advantage over prompt and random controls, including separate phrase and sentence analysis, and a written preregistration is checked in first."
+}

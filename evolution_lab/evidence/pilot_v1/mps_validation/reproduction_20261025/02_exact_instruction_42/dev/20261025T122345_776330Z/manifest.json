@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "run_id": "20261025T122345_776330Z",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "cba3b5506915cfc8fd552e628ffc60c1416b545a",
+    "git_dirty": false,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": null
+    }
+  },
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "mps",
+  "precision": "torch.float32",
+  "seed": 42,
+  "suite_id": "behavior-diagnostics-v1",
+  "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+  "training_sha256": "40348ed2c9b943e41fc52a6332e9bd361fbced2b38004cfade5a9dbb2fefc4a2",
+  "evaluation_sha256": "45cf5ed7ed86d83aa4b13a220f461bf92de785124823c1fac91aa3be796d95e0",
+  "behavior": "exact_instruction",
+  "split": "dev",
+  "smoke_only": false,
+  "settings": {
+    "steps": 16,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "decoding": "greedy",
+    "lora_alpha": 8,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0
+  },
+  "training_ids": [
+    "train_exact_instruction_00",
+    "train_exact_instruction_01",
+    "train_exact_instruction_02",
+    "train_exact_instruction_03",
+    "train_exact_instruction_04",
+    "train_exact_instruction_05",
+    "train_exact_instruction_06",
+    "train_exact_instruction_07",
+    "train_exact_instruction_08",
+    "train_exact_instruction_09",
+    "train_exact_instruction_10",
+    "train_exact_instruction_11",
+    "train_exact_instruction_12",
+    "train_exact_instruction_13",
+    "train_exact_instruction_14",
+    "train_exact_instruction_15"
+  ],
+  "tasks": [
+    {
+      "id": "dev_exact_instruction_00",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is QUARTZ. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "quartz",
+      "role": "target"
+    },
+    {
+      "id": "dev_exact_instruction_01",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is RUBY. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "ruby",
+      "role": "target"
+    },
+    {
+      "id": "dev_exact_instruction_02",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is SAPPHIRE. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "sapphire",
+      "role": "target"
+    },
+    {
+      "id": "dev_exact_instruction_03",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is TOPAZ. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "topaz",
+      "role": "target"
+    },
+    {
+      "id": "dev_exact_instruction_04",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is AMBER. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "amber",
+      "role": "target"
+    },
+    {
+      "id": "dev_exact_instruction_05",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is BRONZE. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "bronze",
+      "role": "target"
+    },
+    {
+      "id": "dev_exact_instruction_06",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is COPPER. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "copper",
+      "role": "target"
+    },
+    {
+      "id": "dev_exact_instruction_07",
+      "behavior": "exact_instruction",
+      "split": "dev",
+      "family": "dev_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "The code is SILVER. Write just its lowercase form without punctuation.",
+      "kind": "exact",
+      "target": "silver",
+      "role": "target"
+    },
+    {
+      "id": "dev_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 23 + 7. Answer with digits only.",
+      "target": "30",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 24 + 8. Answer with digits only.",
+      "target": "32",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 25 + 9. Answer with digits only.",
+      "target": "34",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 26 + 10. Answer with digits only.",
+      "target": "36",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 27 + 11. Answer with digits only.",
+      "target": "38",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 28 + 12. Answer with digits only.",
+      "target": "40",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 29 + 13. Answer with digits only.",
+      "target": "42",
+      "role": "locality"
+    },
+    {
+      "id": "dev_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "dev",
+      "family": "dev_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 30 + 14. Answer with digits only.",
+      "target": "44",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Japan? Reply with just the answer, without punctuation.",
+      "target": "Tokyo",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a triangle have? Reply with just the answer, without punctuation.",
+      "target": "3",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What planet is known as the Red Planet? Reply with just the answer, without punctuation.",
+      "target": "Mars",
+      "role": "locality"
+    },
+    {
+      "id": "dev_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "dev",
+      "family": "dev_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for oxygen? Reply with just the answer, without punctuation.",
+      "target": "O",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 9, 2, 5 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "2,5,9",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 10, 3, 6 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "3,6,10",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 11, 4, 7 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "4,7,11",
+      "role": "locality"
+    },
+    {
+      "id": "dev_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "dev",
+      "family": "dev_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 12, 5, 8 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "5,8,12",
+      "role": "locality"
+    }
+  ],
+  "controls": [
+    "base",
+    "prompt",
+    "zero",
+    "lora",
+    "random"
+  ],
+  "warning": "Diagnostic only. Test results must not be used to tune this benchmark. No personality, intelligence, or generalized improvement claim.",
+  "adapter_hashes": {
+    "lora": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "712e54ec1408b30441be7b31cbc0e30bb1fc6a1b9a07c12b36db1d27ebe40664"
+    },
+    "random": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "6f61a9b4a1e926c39af5d42389c3967423ad8ca87d307a6cb6de1b444cc411ce"
+    }
+  },
+  "zero_control_identical": true
+}

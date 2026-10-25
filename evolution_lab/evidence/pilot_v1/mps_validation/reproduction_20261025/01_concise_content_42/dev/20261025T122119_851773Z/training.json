@@ -1,0 +1,98 @@
+[
+  {
+    "step": 1,
+    "example_id": "train_concise_content_07",
+    "loss": 2.9597949981689453,
+    "gradient_norm_before_clip": 12.443912506103516
+  },
+  {
+    "step": 2,
+    "example_id": "train_concise_content_09",
+    "loss": 2.729374885559082,
+    "gradient_norm_before_clip": 10.0874662399292
+  },
+  {
+    "step": 3,
+    "example_id": "train_concise_content_05",
+    "loss": 1.9653109312057495,
+    "gradient_norm_before_clip": 8.666484832763672
+  },
+  {
+    "step": 4,
+    "example_id": "train_concise_content_06",
+    "loss": 1.5145879983901978,
+    "gradient_norm_before_clip": 12.166644096374512
+  },
+  {
+    "step": 5,
+    "example_id": "train_concise_content_14",
+    "loss": 2.0607824325561523,
+    "gradient_norm_before_clip": 8.84011173248291
+  },
+  {
+    "step": 6,
+    "example_id": "train_concise_content_10",
+    "loss": 0.31205838918685913,
+    "gradient_norm_before_clip": 3.8781890869140625
+  },
+  {
+    "step": 7,
+    "example_id": "train_concise_content_12",
+    "loss": 2.089566707611084,
+    "gradient_norm_before_clip": 7.57664680480957
+  },
+  {
+    "step": 8,
+    "example_id": "train_concise_content_08",
+    "loss": 1.3234020471572876,
+    "gradient_norm_before_clip": 7.636173725128174
+  },
+  {
+    "step": 9,
+    "example_id": "train_concise_content_01",
+    "loss": 2.36769700050354,
+    "gradient_norm_before_clip": 7.050344944000244
+  },
+  {
+    "step": 10,
+    "example_id": "train_concise_content_02",
+    "loss": 0.9030243754386902,
+    "gradient_norm_before_clip": 7.560515403747559
+  },
+  {
+    "step": 11,
+    "example_id": "train_concise_content_13",
+    "loss": 0.5209001302719116,
+    "gradient_norm_before_clip": 7.666738033294678
+  },
+  {
+    "step": 12,
+    "example_id": "train_concise_content_15",
+    "loss": 2.360889434814453,
+    "gradient_norm_before_clip": 10.297255516052246
+  },
+  {
+    "step": 13,
+    "example_id": "train_concise_content_04",
+    "loss": 0.18270039558410645,
+    "gradient_norm_before_clip": 3.014882802963257
+  },
+  {
+    "step": 14,
+    "example_id": "train_concise_content_11",
+    "loss": 1.0934702157974243,
+    "gradient_norm_before_clip": 8.093064308166504
+  },
+  {
+    "step": 15,
+    "example_id": "train_concise_content_00",
+    "loss": 1.0047532320022583,
+    "gradient_norm_before_clip": 6.148377895355225
+  },
+  {
+    "step": 16,
+    "example_id": "train_concise_content_03",
+    "loss": 1.8679847717285156,
+    "gradient_norm_before_clip": 9.142568588256836
+  }
+]

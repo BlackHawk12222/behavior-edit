@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "evidence_type": "exploratory-completion-v3-development",
+  "candidate_status": "development-only; quarantined; not eligible for promotion",
+  "confirmation_consumed": false,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "unique_questions": 428,
+  "model_generations": 1712,
+  "training_updates": 64,
+  "software_tests": 80,
+  "dataset_manifest_sha256": "a45d11db2616e0fdc9c90a4f89a896dc093bb944c74eb153e8d2b132105f422f",
+  "files_sha256": {
+    "adapter_lora/README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+    "adapter_lora/adapter_config.json": "62612864719f5eb99316a6c9006c71da9b336bb30bbc4ea4deb81ff4514de739",
+    "adapter_lora/adapter_model.safetensors": "a7dc6d683d52a663273ab2527659813d5af1f1707942033cbe9cb0e73a3edb88",
+    "adapter_random/README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+    "adapter_random/adapter_config.json": "62612864719f5eb99316a6c9006c71da9b336bb30bbc4ea4deb81ff4514de739",
+    "adapter_random/adapter_model.safetensors": "99d3a485bd965db4324698075cc4b95b3c47e97ab62df1f6bdabd25cfd2a54cf",
+    "delta_lora.json": "cdad35b658df8c9b94aded9adb7da7f216e7e81060f1cc13c02625a53c63d596",
+    "delta_random.json": "fef827e8e3db2eb4b2d75319f3b6a46605c01a37dcf1384038110228607ab62c",
+    "observations.jsonl": "a8eec09d20ada970fe89e4b2cc7026c966a721a055ad510b3a15dc0902a75b77",
+    "protocol.json": "9d97f8d1cb1d15445b1b07a0dd2c2b0c7e8d726bd87c22458864778d611893d1",
+    "report.json": "cd3c03a19aec4e332c5fe870e5f70b3dc53f32e8b41a3f8c45832b8e2f6e8372",
+    "run.json": "62cbc2657fe4b70f8b7f6d3f152ce6d195cd12d7d2d07668997ec9b6e632c4b5",
+    "summary.json": "30cb564ca91c59a97b1aeba52110c61e31ec614be008a277168f7db186d9508f",
+    "training_manifest.json": "d23cc37d9967a8a6fdcd007fe64b43e7790aced45e41bf0adc8427a6077a2e35",
+    "training_steps.json": "fa80aaf3ec0b4aa7bae4f8761a6e0448994de3e4670308db070146efbe7c9e84"
+  },
+  "counts_note": "Each of four arms evaluated the same 428 questions. Repeated arms are generations, not additional unique questions."
+}

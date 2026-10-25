@@ -1,0 +1,206 @@
+{
+  "arms": {
+    "adapter": {
+      "accuracy": 0.8601190476190477,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 12,
+          "families": 6,
+          "unique_questions": 24
+        },
+        "sentence_completion": {
+          "correct": 277,
+          "families": 39,
+          "unique_questions": 312
+        }
+      },
+      "correct": 289,
+      "single_word_format_passes": 332,
+      "unique_questions": 336
+    },
+    "base": {
+      "accuracy": 0.5029761904761905,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 21,
+          "families": 6,
+          "unique_questions": 24
+        },
+        "sentence_completion": {
+          "correct": 148,
+          "families": 39,
+          "unique_questions": 312
+        }
+      },
+      "correct": 169,
+      "single_word_format_passes": 39,
+      "unique_questions": 336
+    },
+    "prompt": {
+      "accuracy": 0.6517857142857143,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 18,
+          "families": 6,
+          "unique_questions": 24
+        },
+        "sentence_completion": {
+          "correct": 201,
+          "families": 39,
+          "unique_questions": 312
+        }
+      },
+      "correct": 219,
+      "single_word_format_passes": 293,
+      "unique_questions": 336
+    },
+    "random": {
+      "accuracy": 0.5029761904761905,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 21,
+          "families": 6,
+          "unique_questions": 24
+        },
+        "sentence_completion": {
+          "correct": 148,
+          "families": 39,
+          "unique_questions": 312
+        }
+      },
+      "correct": 169,
+      "single_word_format_passes": 42,
+      "unique_questions": 336
+    }
+  },
+  "confirmation_consumed": true,
+  "confirmation_families": 45,
+  "dataset_generator": "phrase-sentence-completion-v2-new-vocabulary",
+  "dataset_manifest_sha256": "c8271578f7adae2f1c64752dedae0e07988b8c3a989ab122e20cadf4fb7d11c6",
+  "dataset_seed": 43,
+  "family_counts": {
+    "phrase_completion": 6,
+    "sentence_completion": 39
+  },
+  "generation_breakdown": {
+    "corrected_base_prompt_rerun": 672,
+    "initial_all_four_arms": 1344,
+    "unique_prompts": 336
+  },
+  "initial_prompt_control_issue": "The initial run used an arithmetic-only system prompt on completion questions because the evaluator recognized completion v1 but not v2. Its prompt scores are retained as invalid diagnostic data and excluded from corrected comparisons.",
+  "limits": [
+    "This holdout was inspected before the prompt-control defect was corrected, so the rerun is post-hoc and requires fresh confirmation.",
+    "The adapter was trained on v1 and evaluated once here; do not promote based on this single model, seed, or generated benchmark.",
+    "The 24 phrase cases cover only six families and show a strong regression; sentence results dominate the weighted aggregate.",
+    "No nonlearned adapter-mixture arm was included.",
+    "A separate 64-question arithmetic development test already showed capability loss, so the candidate remains quarantined."
+  ],
+  "model_generations": 2016,
+  "pairwise_contrasts": {
+    "adapter_vs_base": {
+      "candidate_arm": "adapter",
+      "correctness_rate_delta": 0.35714285714285715,
+      "family_bootstrap95": [
+        0.3035714285714286,
+        0.40476190476190477
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.4583333333333333,
+          -0.2916666666666667
+        ],
+        "sentence_completion": [
+          0.3557692307692308,
+          0.46474358974358976
+        ]
+      },
+      "family_count": 45,
+      "improved": 136,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals.",
+      "paired_questions": 336,
+      "reference_arm": "base",
+      "regressed": 16
+    },
+    "adapter_vs_prompt": {
+      "candidate_arm": "adapter",
+      "correctness_rate_delta": 0.20833333333333334,
+      "family_bootstrap95": [
+        0.1517857142857143,
+        0.2648809523809524
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.4166666666666667,
+          -0.08333333333333333
+        ],
+        "sentence_completion": [
+          0.1858974358974359,
+          0.30128205128205127
+        ]
+      },
+      "family_count": 45,
+      "improved": 96,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals.",
+      "paired_questions": 336,
+      "reference_arm": "prompt",
+      "regressed": 26
+    },
+    "adapter_vs_random": {
+      "candidate_arm": "adapter",
+      "correctness_rate_delta": 0.35714285714285715,
+      "family_bootstrap95": [
+        0.30952380952380953,
+        0.4017857142857143
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.4583333333333333,
+          -0.2916666666666667
+        ],
+        "sentence_completion": [
+          0.36217948717948717,
+          0.46153846153846156
+        ]
+      },
+      "family_count": 45,
+      "improved": 136,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals.",
+      "paired_questions": 336,
+      "reference_arm": "random",
+      "regressed": 16
+    },
+    "prompt_vs_base": {
+      "candidate_arm": "prompt",
+      "correctness_rate_delta": 0.1488095238095238,
+      "family_bootstrap95": [
+        0.08928571428571429,
+        0.20833333333333334
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.2916666666666667,
+          0.0
+        ],
+        "sentence_completion": [
+          0.10576923076923077,
+          0.23397435897435898
+        ]
+      },
+      "family_count": 45,
+      "improved": 87,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals.",
+      "paired_questions": 336,
+      "reference_arm": "base",
+      "regressed": 37
+    }
+  },
+  "repeatability_check": {
+    "matching_cases": 336,
+    "same_correctness_count": 336,
+    "same_response_count": 336
+  },
+  "schema_version": 1,
+  "split": "confirmation",
+  "status": "spent-posthoc-corrected-prompt-diagnostic",
+  "unique_confirmation_questions": 336
+}

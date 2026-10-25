@@ -1,0 +1,406 @@
+{
+  "schema_version": 1,
+  "run_id": "20261025T122438_517160Z",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "cba3b5506915cfc8fd552e628ffc60c1416b545a",
+    "git_dirty": false,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": null
+    }
+  },
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "mps",
+  "precision": "torch.float32",
+  "seed": 42,
+  "suite_id": "behavior-diagnostics-v1",
+  "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+  "training_sha256": "40348ed2c9b943e41fc52a6332e9bd361fbced2b38004cfade5a9dbb2fefc4a2",
+  "evaluation_sha256": "330e73fd8bf7b4b5db36f1ffac8bded37cd87dba6078e6a24c086d44f8b862ed",
+  "behavior": "exact_instruction",
+  "split": "test",
+  "smoke_only": false,
+  "settings": {
+    "steps": 16,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "decoding": "greedy",
+    "lora_alpha": 8,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0
+  },
+  "training_ids": [
+    "train_exact_instruction_00",
+    "train_exact_instruction_01",
+    "train_exact_instruction_02",
+    "train_exact_instruction_03",
+    "train_exact_instruction_04",
+    "train_exact_instruction_05",
+    "train_exact_instruction_06",
+    "train_exact_instruction_07",
+    "train_exact_instruction_08",
+    "train_exact_instruction_09",
+    "train_exact_instruction_10",
+    "train_exact_instruction_11",
+    "train_exact_instruction_12",
+    "train_exact_instruction_13",
+    "train_exact_instruction_14",
+    "train_exact_instruction_15"
+  ],
+  "tasks": [
+    {
+      "id": "test_exact_instruction_00",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [falcon] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "falcon",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_01",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [otter] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "otter",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_02",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [badger] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "badger",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_03",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [heron] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "heron",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_04",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [lynx] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "lynx",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_05",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [panda] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "panda",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_06",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [raven] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "raven",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_07",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [seal] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "seal",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_08",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [tiger] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "tiger",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_09",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [whale] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "whale",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_10",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [yak] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "yak",
+      "role": "target"
+    },
+    {
+      "id": "test_exact_instruction_11",
+      "behavior": "exact_instruction",
+      "split": "test",
+      "family": "test_exact_instruction_schema",
+      "category": "exact_instruction",
+      "prompt": "Extract the text inside square brackets: prefix [zebra] suffix. Output that text alone.",
+      "kind": "exact",
+      "target": "zebra",
+      "role": "target"
+    },
+    {
+      "id": "test_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 43 + 7. Answer with digits only.",
+      "target": "50",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 44 + 8. Answer with digits only.",
+      "target": "52",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 45 + 9. Answer with digits only.",
+      "target": "54",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 46 + 10. Answer with digits only.",
+      "target": "56",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 47 + 11. Answer with digits only.",
+      "target": "58",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 48 + 12. Answer with digits only.",
+      "target": "60",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 49 + 13. Answer with digits only.",
+      "target": "62",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 50 + 14. Answer with digits only.",
+      "target": "64",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Canada? Reply with just the answer, without punctuation.",
+      "target": "Ottawa",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a hexagon have? Reply with just the answer, without punctuation.",
+      "target": "6",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the largest planet in our solar system? Reply with just the answer, without punctuation.",
+      "target": "Jupiter",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for gold? Reply with just the answer, without punctuation.",
+      "target": "Au",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 29, 22, 25 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "22,25,29",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 30, 23, 26 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "23,26,30",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 31, 24, 27 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "24,27,31",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 32, 25, 28 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "25,28,32",
+      "role": "locality"
+    }
+  ],
+  "controls": [
+    "base",
+    "prompt",
+    "lora",
+    "random"
+  ],
+  "warning": "Diagnostic only. Test results must not be used to tune this benchmark. No personality, intelligence, or generalized improvement claim.",
+  "adapter_hashes": {
+    "lora": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "712e54ec1408b30441be7b31cbc0e30bb1fc6a1b9a07c12b36db1d27ebe40664"
+    },
+    "random": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "121c5d0f6820b0157a473e37195ab3b3854a028b5a8c93c5149664881b9a3d78",
+      "adapter_model.safetensors": "6f61a9b4a1e926c39af5d42389c3967423ad8ca87d307a6cb6de1b444cc411ce"
+    }
+  },
+  "zero_control_identical": true,
+  "source_run": "results/evolution_lab/reproduction/02_exact_instruction_42/dev/20261025T122345_776330Z",
+  "source_manifest_sha256": "717d8afa93c872364461ea10682aae785a539125012f5323f7d5915adde81a77",
+  "legacy_checkpoint_hashes_missing": false,
+  "protocol": "Frozen adapter test; no training or selection on this split."
+}

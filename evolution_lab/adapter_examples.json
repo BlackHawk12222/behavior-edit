@@ -1,0 +1,14 @@
+[
+  {"id": "train_arith_01", "prompt": "What is 11 + 16? Reply with digits only.", "answer": "27"},
+  {"id": "train_arith_02", "prompt": "What is 4 times 9? Reply with digits only.", "answer": "36"},
+  {"id": "train_arith_03", "prompt": "What is 20 minus 3? Reply with digits only.", "answer": "17"},
+  {"id": "train_sort_01", "prompt": "Sort 6, 2, 4 ascending. Reply as comma-separated digits with no spaces.", "answer": "2,4,6"},
+  {"id": "train_sort_02", "prompt": "Sort 9, 1, 7 ascending. Reply as comma-separated digits with no spaces.", "answer": "1,7,9"},
+  {"id": "train_json_01", "prompt": "Return only JSON object with key active set to true.", "answer": "{\"active\":true}"},
+  {"id": "train_json_02", "prompt": "Return only JSON object with key amount set to 2.", "answer": "{\"amount\":2}"},
+  {"id": "train_exact_01", "prompt": "Reply with exactly the lowercase word done.", "answer": "done"},
+  {"id": "train_exact_02", "prompt": "Reply with exactly the lowercase word complete.", "answer": "complete"},
+  {"id": "train_brevity_01", "prompt": "Give one short tip to organize homework.", "answer": "Use a daily checklist."},
+  {"id": "train_brevity_02", "prompt": "Give one short tip for a clean desk.", "answer": "Put unused items away."},
+  {"id": "train_misc_01", "prompt": "Name the capital of Italy. Reply with just the city.", "answer": "Rome"}
+]

@@ -1,0 +1,149 @@
+{
+  "study_id": "F019",
+  "status": "confirmation-result-for-one-frozen-arithmetic-claim; candidate-not-promoted",
+  "hypothesis": "Seed-44 task-balanced completion LoRA arithmetic score will exceed base, prompt and layerwise norm-matched random on unseen arithmetic confirmation families.",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "candidate_source_run": "20261025T144111_942272Z",
+  "candidate_training_seed": 44,
+  "candidate_training_behavior": "phrase-sentence-completion-v2-new-vocabulary",
+  "device": "cpu",
+  "precision": "float32",
+  "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
+  "split": "confirmation",
+  "selected_families": 32,
+  "unique_questions": 128,
+  "model_generations": 512,
+  "software_tests_run_before_campaign": 78,
+  "arms": {
+    "base": {
+      "correct": 53,
+      "n": 128,
+      "accuracy": 0.4140625,
+      "single_integer_format": 32,
+      "wilson95_descriptive": [
+        0.33245150577514415,
+        0.5006814085843652
+      ]
+    },
+    "prompt": {
+      "correct": 78,
+      "n": 128,
+      "accuracy": 0.609375,
+      "single_integer_format": 39,
+      "wilson95_descriptive": [
+        0.5228464818201277,
+        0.6895298089950423
+      ]
+    },
+    "adapter": {
+      "correct": 107,
+      "n": 128,
+      "accuracy": 0.8359375,
+      "single_integer_format": 83,
+      "wilson95_descriptive": [
+        0.7621819239629298,
+        0.8901166835408066
+      ]
+    },
+    "random": {
+      "correct": 53,
+      "n": 128,
+      "accuracy": 0.4140625,
+      "single_integer_format": 32,
+      "wilson95_descriptive": [
+        0.33245150577514415,
+        0.5006814085843652
+      ]
+    }
+  },
+  "paired_family_bootstrap_contrasts": {
+    "adapter_vs_base": {
+      "reference_arm": "base",
+      "candidate_arm": "adapter",
+      "paired_questions": 128,
+      "improved": 62,
+      "regressed": 8,
+      "correctness_rate_delta": 0.421875,
+      "family_bootstrap95": [
+        0.3359375,
+        0.5078125
+      ],
+      "family_bootstrap95_by_task_type": {
+        "arithmetic": [
+          0.3359375,
+          0.5078125
+        ]
+      },
+      "family_count": 32,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "adapter_vs_prompt": {
+      "reference_arm": "prompt",
+      "candidate_arm": "adapter",
+      "paired_questions": 128,
+      "improved": 43,
+      "regressed": 14,
+      "correctness_rate_delta": 0.2265625,
+      "family_bootstrap95": [
+        0.1484375,
+        0.296875
+      ],
+      "family_bootstrap95_by_task_type": {
+        "arithmetic": [
+          0.1484375,
+          0.296875
+        ]
+      },
+      "family_count": 32,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    },
+    "adapter_vs_random": {
+      "reference_arm": "random",
+      "candidate_arm": "adapter",
+      "paired_questions": 128,
+      "improved": 61,
+      "regressed": 7,
+      "correctness_rate_delta": 0.421875,
+      "family_bootstrap95": [
+        0.3359375,
+        0.5
+      ],
+      "family_bootstrap95_by_task_type": {
+        "arithmetic": [
+          0.3359375,
+          0.5
+        ]
+      },
+      "family_count": 32,
+      "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+    }
+  },
+  "development_reference": {
+    "adapter": "61/64 (95.3%) on arithmetic development families; not included in this confirmation sample",
+    "confirmation": "107/128 (83.6%)",
+    "descriptive_score_difference_pp": -11.71875
+  },
+  "interpretation": {
+    "confirmed_observation": "The frozen adapter scored 107/128, exceeding base at 53/128, task-matched prompting at 78/128, and norm-matched random at 53/128. Adapter-minus-prompt was +22.7 percentage points (95% paired family-bootstrap interval +14.8 to +29.7); adapter-minus-base was +42.2 points (+33.6 to +50.8). The random control matched baseline here.",
+    "counterevidence": "Confirmation accuracy 107/128 (83.6%) was below the 61/64 (95.3%) development score. This supports a generalization gap and argues against extrapolating the development score.",
+    "limits": "One model, one training seed, one arithmetic generator and 32 families. This does not establish broad capability gains, phrase or sentence transfer, or Astra transfer. The selected families are now retired; do not tune or rerun on them.",
+    "decision": "Retain this as a confirmed narrow arithmetic signal and negative calibration finding. Keep the adapter quarantined pending a separate fresh-family phrase/sentence study, additional independent training seeds, and broader capability/locality gates."
+  },
+  "evidence_paths": {
+    "run": "run.json",
+    "raw_responses": "observations.jsonl",
+    "report": "report.json",
+    "preregistration": "preregistration.json",
+    "selection": "selection.json"
+  },
+  "confirmation_consumed": true,
+  "eligible_for_general_promotion": false,
+  "candidate_quarantined": true,
+  "source_mps_state": {
+    "torch": "2.14.1",
+    "mps_built": true,
+    "mps_available": false
+  },
+  "elapsed_model_eval_seconds": 661.044
+}

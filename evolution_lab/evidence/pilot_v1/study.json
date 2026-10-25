@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "spec": {
+    "schema_version": 1,
+    "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "steps": 16,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "precision": "float32",
+    "note": "Fixed diagnostic matrix. JSON seed42 development results were known at specification time; remaining trials and all test results were uninspected. Retain every result; no adaptive training-budget changes.",
+    "trials": [
+      {
+        "behavior": "json_format",
+        "seed": 42,
+        "reuse_dev": "results/evolution_lab/experiments/20261025T035731_973055Z"
+      },
+      {
+        "behavior": "concise_content",
+        "seed": 42,
+        "reuse_dev": "results/evolution_lab/experiments/20261025T035936_641002Z"
+      },
+      {
+        "behavior": "exact_instruction",
+        "seed": 42
+      },
+      {
+        "behavior": "json_format",
+        "seed": 43
+      },
+      {
+        "behavior": "json_format",
+        "seed": 44
+      },
+      {
+        "behavior": "concise_content",
+        "seed": 43
+      },
+      {
+        "behavior": "exact_instruction",
+        "seed": 43
+      }
+    ]
+  },
+  "spec_sha256": "276149447d4e2d63f540554ca9ca82fd690b796a919a967927aabaf88fc272e2",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "ee73e98f8728b7de33307f85bf9d315b68e6c5b9",
+    "git_dirty": false,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "TOKENIZERS_PARALLELISM": "false",
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "status": "complete",
+  "trials": [
+    {
+      "behavior": "json_format",
+      "seed": 42,
+      "status": "complete",
+      "dev_dir": "evolution_lab/evidence/pilot_v1/trials/00_json_format_42/dev",
+      "test_dir": "evolution_lab/evidence/pilot_v1/trials/00_json_format_42/test",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "concise_content",
+      "seed": 42,
+      "status": "complete",
+      "dev_dir": "evolution_lab/evidence/pilot_v1/trials/01_concise_content_42/dev",
+      "test_dir": "evolution_lab/evidence/pilot_v1/trials/01_concise_content_42/test",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "exact_instruction",
+      "seed": 42,
+      "status": "complete",
+      "dev_dir": "evolution_lab/evidence/pilot_v1/trials/02_exact_instruction_42/dev",
+      "test_dir": "evolution_lab/evidence/pilot_v1/trials/02_exact_instruction_42/test",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "json_format",
+      "seed": 43,
+      "status": "complete",
+      "dev_dir": "evolution_lab/evidence/pilot_v1/trials/03_json_format_43/dev",
+      "test_dir": "evolution_lab/evidence/pilot_v1/trials/03_json_format_43/test",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "json_format",
+      "seed": 44,
+      "status": "complete",
+      "dev_dir": "evolution_lab/evidence/pilot_v1/trials/04_json_format_44/dev",
+      "test_dir": "evolution_lab/evidence/pilot_v1/trials/04_json_format_44/test",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "concise_content",
+      "seed": 43,
+      "status": "complete",
+      "dev_dir": "evolution_lab/evidence/pilot_v1/trials/05_concise_content_43/dev",
+      "test_dir": "evolution_lab/evidence/pilot_v1/trials/05_concise_content_43/test",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "exact_instruction",
+      "seed": 43,
+      "status": "complete",
+      "dev_dir": "evolution_lab/evidence/pilot_v1/trials/06_exact_instruction_43/dev",
+      "test_dir": "evolution_lab/evidence/pilot_v1/trials/06_exact_instruction_43/test",
+      "result": "not_verified"
+    }
+  ],
+  "export_note": "Raw run manifests and checkpoint files are unchanged. Trial directory links were relocated for a portable repository catalog. Original source_run metadata retains its recorded path."
+}
