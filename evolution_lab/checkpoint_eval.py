@@ -59,7 +59,7 @@ def evaluate_checkpoint(args):
         report['lora_vs_random']=compare_roles(rows['random'],rows['lora'],parent['seed'])
         write_json(destination/'report.json',report)
         manifest['status']='complete'
-    except Exception as error:
+    except BaseException as error:
         manifest.update(status='failed',error=f'{type(error).__name__}: {error}')
         raise
     finally:

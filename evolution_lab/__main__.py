@@ -92,11 +92,19 @@ def build_parser():
     evidence.add_argument("--min-gain", type=float, default=.25)
     evidence.add_argument("--max-regressions", type=int, default=0)
     evidence.add_argument("--output", type=Path)
+    study = sub.add_parser("study", help="Run or resume a fixed sequential seed/behavior matrix")
+    study.add_argument("spec", type=Path)
+    study.add_argument("--suite", type=Path, default=SUITE_FILE)
+    study.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    study.add_argument("--output-dir", type=Path, required=True)
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    if args.command == "study":
+        from .study import execute_study
+        return execute_study(args)
     if args.command == "verify-hypothesis":
         from .evidence import verify_hypothesis
         result = verify_hypothesis(args.dev_dir, args.test_dir, args.min_gain, args.max_regressions)

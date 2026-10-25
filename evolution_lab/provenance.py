@@ -3,6 +3,7 @@ import hashlib
 import importlib.metadata
 import json
 import platform
+import os
 import subprocess
 import unicodedata
 
@@ -39,4 +40,5 @@ def environment():
     except (OSError, subprocess.CalledProcessError):
         commit, dirty = None, None
     return {"python": platform.python_version(), "platform": platform.platform(),
-            "packages": versions, "git_commit": commit, "git_dirty": dirty}
+            "packages": versions, "git_commit": commit, "git_dirty": dirty,
+            "thread_environment": {k:os.environ.get(k) for k in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "TOKENIZERS_PARALLELISM", "HF_HUB_OFFLINE")}}

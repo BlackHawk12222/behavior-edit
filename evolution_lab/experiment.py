@@ -177,7 +177,7 @@ def run_experiment(args):
         report['lora_vs_random'] = compare_roles(rows['random'], rows['lora'], args.seed)
         write_json(destination/'report.json',report)
         manifest.update(status='complete', zero_control_identical=True)
-    except Exception as error:
+    except BaseException as error:
         manifest.update(status='failed', error=f'{type(error).__name__}: {error}')
         raise
     finally:
