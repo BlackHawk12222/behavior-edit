@@ -43,22 +43,58 @@ def restore(model, state, torch):
             parameter.copy_(state[name].to(parameter.device))
 
 
-def fit(local, examples, steps, learning_rate, max_length, seed):
+def training_sequence(examples, steps, seed, sampling_strategy="uniform"):
+    """Return a deterministic training schedule for ablation-ready sampling."""
+    if steps < 1 or not examples:
+        raise ValueError("Training schedule requires examples and positive steps")
+    rng = random.Random(seed)
+    if sampling_strategy == "uniform":
+        # Preserve the historical shuffled-epoch schedule exactly.
+        order = list(examples)
+        sequence = []
+        for step in range(steps):
+            if step % len(order) == 0:
+                rng.shuffle(order)
+            sequence.append(order[step % len(order)])
+        return sequence
+    if sampling_strategy != "task-balanced":
+        raise ValueError(f"Unsupported sampling strategy: {sampling_strategy}")
+
+    groups = {}
+    for example in examples:
+        kind = example.get("task_type", "default")
+        groups.setdefault(kind, []).append(example)
+    if len(groups) < 2:
+        raise ValueError("Task-balanced sampling requires at least two task types")
+    task_types = sorted(groups)
+    for group in groups.values():
+        rng.shuffle(group)
+    offsets = {kind: 0 for kind in task_types}
+    sequence = []
+    for step in range(steps):
+        kind = task_types[step % len(task_types)]
+        if offsets[kind] == len(groups[kind]):
+            rng.shuffle(groups[kind])
+            offsets[kind] = 0
+        sequence.append(groups[kind][offsets[kind]])
+        offsets[kind] += 1
+    return sequence
+
+
+def fit(local, examples, steps, learning_rate, max_length, seed,
+        sampling_strategy="uniform"):
     import torch
     params = list(adapter_parameters(local.model).values())
     for p in params:
         p.data = p.data.float()
     optimizer = torch.optim.AdamW(params, lr=learning_rate, foreach=False)
-    rng = random.Random(seed)
-    order = list(examples)
+    schedule = training_sequence(examples, steps, seed, sampling_strategy)
     history = []
     local.model.config.use_cache = False
     local.model.train()
     try:
         for step in range(steps):
-            if step % len(order) == 0:
-                rng.shuffle(order)
-            ex = order[step % len(order)]
+            ex = schedule[step]
             inputs = supervised_batch(local.tokenizer, ex, max_length, local.device)
             optimizer.zero_grad(set_to_none=True)
             loss = local.model(**inputs).loss

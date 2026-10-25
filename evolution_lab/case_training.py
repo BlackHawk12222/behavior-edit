@@ -53,6 +53,9 @@ def train_case_adapters(args) -> int:
         raise ValueError("Case-adapter training requires an immutable 40-character model revision")
 
     source, examples = prepare_training_examples(args.dataset)
+    sampling_strategy = getattr(args, "sampling_strategy", "uniform")
+    if sampling_strategy not in {"uniform", "task-balanced"}:
+        raise ValueError("Sampling strategy must be uniform or task-balanced")
     import torch
     from peft import LoraConfig, TaskType, get_peft_model
 
@@ -76,6 +79,7 @@ def train_case_adapters(args) -> int:
         "max_length": args.max_length,
         "precision": args.precision,
         "decoding": "greedy",
+        "sampling_strategy": sampling_strategy,
     }
     manifest = {
         "schema_version": 1,
@@ -126,7 +130,7 @@ def train_case_adapters(args) -> int:
         ))
         local.model.eval()
         history = fit(local, examples, args.steps, args.learning_rate,
-                      args.max_length, args.seed)
+                      args.max_length, args.seed, sampling_strategy)
         write_json(destination / "training.json", history)
         seen_ids = list(dict.fromkeys(row["example_id"] for row in history))
         manifest["training_updates"] = len(history)

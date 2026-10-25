@@ -455,3 +455,36 @@ prompt-control wording before consuming confirmation. Use `case-eval` with
 `--arms base prompt adapter random` and `--allow-confirmation` only once. A
 repeated prompt or cached response is not a new unique question; keep the number
 of generations separate from unique prompts and software tests.
+
+### Compare training-sample balance
+
+The v2 training pool has far more sentence-agreement examples than phrase
+examples. `train-cases` defaults to its historical uniform shuffle. For a
+controlled task-mixture ablation, `--sampling-strategy task-balanced` cycles
+evenly through task types while shuffling examples within each type. Keep the
+same seed, update count, rank, optimizer, learning rate, and max length when
+comparing the schedules. The training manifest records the chosen strategy.
+This changes which examples drive gradients; it does not identify causal
+weights or guarantee better preservation.
+
+```sh
+python -m evolution_lab train-cases evolution_lab/evidence/completion_v2 \
+  --model MODEL_SNAPSHOT_PATH \
+  --revision 7ae557604adf67be50417f59c2c2f167def9a775 \
+  --device cpu --precision float32 --steps 64 --rank 4 --seed 43 \
+  --sampling-strategy task-balanced \
+  --output-dir results/evolution_lab/completion_v2_balanced
+```
+
+
+The first seed-43 sampling ablation is recorded in F016 and
+`evidence/completion_v2/evaluations/sampler_ablation_seed43_dev/`. Uniform
+sampling selected 2 phrase and 62 sentence cases; task-balanced sampling
+selected 32 of each. On 328 development items, their LoRAs scored 276/328 and
+270/328, respectively. Task-balanced phrase accuracy was 14/24 versus 18/24
+for uniform; the paired interval is wide and includes zero, so this does not
+establish that balancing hurts, but it does not support the proposed fix. Both
+adapters beat the explicit prompt on aggregate completion, and neither showed
+a clear arithmetic regression on a separate 64-question development slice.
+These are development results from one seed; v2 confirmation remains untested
+by this ablation and is already retired from F015.

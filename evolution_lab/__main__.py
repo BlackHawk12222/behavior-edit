@@ -64,6 +64,10 @@ def build_parser():
     case_train.add_argument("--learning-rate", type=float, default=0.0005)
     case_train.add_argument("--max-length", type=int, default=256)
     case_train.add_argument("--seed", type=int, default=42)
+    case_train.add_argument(
+        "--sampling-strategy", choices=["uniform", "task-balanced"], default="uniform",
+        help="Choose the historical uniform schedule or equalized task-type sampling",
+    )
     case_train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_training"))
     case_eval = sub.add_parser("case-eval", help="Run a paired, resumable local campaign on generated cases")
     case_eval.add_argument("dataset", type=Path)

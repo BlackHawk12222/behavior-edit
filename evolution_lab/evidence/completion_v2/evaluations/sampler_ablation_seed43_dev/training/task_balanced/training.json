@@ -1,0 +1,386 @@
+[
+  {
+    "step": 1,
+    "example_id": "completion-v2-43-0000039",
+    "loss": 0.9090628027915955,
+    "gradient_norm_before_clip": 9.823664665222168
+  },
+  {
+    "step": 2,
+    "example_id": "completion-v2-43-0002082",
+    "loss": 0.7363882660865784,
+    "gradient_norm_before_clip": 10.526923179626465
+  },
+  {
+    "step": 3,
+    "example_id": "completion-v2-43-0000117",
+    "loss": 0.6094214916229248,
+    "gradient_norm_before_clip": 12.300996780395508
+  },
+  {
+    "step": 4,
+    "example_id": "completion-v2-43-0001096",
+    "loss": 0.5233949422836304,
+    "gradient_norm_before_clip": 12.226768493652344
+  },
+  {
+    "step": 5,
+    "example_id": "completion-v2-43-0000046",
+    "loss": 0.496563583612442,
+    "gradient_norm_before_clip": 12.312339782714844
+  },
+  {
+    "step": 6,
+    "example_id": "completion-v2-43-0000405",
+    "loss": 0.3929026424884796,
+    "gradient_norm_before_clip": 15.145476341247559
+  },
+  {
+    "step": 7,
+    "example_id": "completion-v2-43-0000143",
+    "loss": 0.24502527713775635,
+    "gradient_norm_before_clip": 5.243677139282227
+  },
+  {
+    "step": 8,
+    "example_id": "completion-v2-43-0002017",
+    "loss": 0.044941481202840805,
+    "gradient_norm_before_clip": 1.8739103078842163
+  },
+  {
+    "step": 9,
+    "example_id": "completion-v2-43-0000000",
+    "loss": 0.0142032690346241,
+    "gradient_norm_before_clip": 0.5586256384849548
+  },
+  {
+    "step": 10,
+    "example_id": "completion-v2-43-0000334",
+    "loss": 0.09779014438390732,
+    "gradient_norm_before_clip": 5.543280601501465
+  },
+  {
+    "step": 11,
+    "example_id": "completion-v2-43-0000022",
+    "loss": 0.2513786554336548,
+    "gradient_norm_before_clip": 9.639379501342773
+  },
+  {
+    "step": 12,
+    "example_id": "completion-v2-43-0000658",
+    "loss": 2.5079243183135986,
+    "gradient_norm_before_clip": 22.943838119506836
+  },
+  {
+    "step": 13,
+    "example_id": "completion-v2-43-0000158",
+    "loss": 0.2887062728404999,
+    "gradient_norm_before_clip": 8.479005813598633
+  },
+  {
+    "step": 14,
+    "example_id": "completion-v2-43-0001085",
+    "loss": 1.6065607070922852,
+    "gradient_norm_before_clip": 16.797866821289062
+  },
+  {
+    "step": 15,
+    "example_id": "completion-v2-43-0000128",
+    "loss": 0.5959131717681885,
+    "gradient_norm_before_clip": 32.23070526123047
+  },
+  {
+    "step": 16,
+    "example_id": "completion-v2-43-0001292",
+    "loss": 0.007341471966356039,
+    "gradient_norm_before_clip": 0.2895023822784424
+  },
+  {
+    "step": 17,
+    "example_id": "completion-v2-43-0000035",
+    "loss": 0.2543008029460907,
+    "gradient_norm_before_clip": 9.405157089233398
+  },
+  {
+    "step": 18,
+    "example_id": "completion-v2-43-0002121",
+    "loss": 0.03938358649611473,
+    "gradient_norm_before_clip": 1.369977593421936
+  },
+  {
+    "step": 19,
+    "example_id": "completion-v2-43-0000156",
+    "loss": 0.12901170551776886,
+    "gradient_norm_before_clip": 5.127582550048828
+  },
+  {
+    "step": 20,
+    "example_id": "completion-v2-43-0001413",
+    "loss": 0.016622941941022873,
+    "gradient_norm_before_clip": 0.351314902305603
+  },
+  {
+    "step": 21,
+    "example_id": "completion-v2-43-0000038",
+    "loss": 0.18819139897823334,
+    "gradient_norm_before_clip": 7.25162410736084
+  },
+  {
+    "step": 22,
+    "example_id": "completion-v2-43-0001464",
+    "loss": 0.011534783989191055,
+    "gradient_norm_before_clip": 1.037246584892273
+  },
+  {
+    "step": 23,
+    "example_id": "completion-v2-43-0000056",
+    "loss": 0.19561195373535156,
+    "gradient_norm_before_clip": 6.383520126342773
+  },
+  {
+    "step": 24,
+    "example_id": "completion-v2-43-0001899",
+    "loss": 0.006174826063215733,
+    "gradient_norm_before_clip": 0.32708775997161865
+  },
+  {
+    "step": 25,
+    "example_id": "completion-v2-43-0000106",
+    "loss": 0.19434566795825958,
+    "gradient_norm_before_clip": 6.896195411682129
+  },
+  {
+    "step": 26,
+    "example_id": "completion-v2-43-0001147",
+    "loss": 0.029200926423072815,
+    "gradient_norm_before_clip": 0.7333993315696716
+  },
+  {
+    "step": 27,
+    "example_id": "completion-v2-43-0000052",
+    "loss": 0.114924356341362,
+    "gradient_norm_before_clip": 3.791468381881714
+  },
+  {
+    "step": 28,
+    "example_id": "completion-v2-43-0001644",
+    "loss": 0.8911954760551453,
+    "gradient_norm_before_clip": 23.225906372070312
+  },
+  {
+    "step": 29,
+    "example_id": "completion-v2-43-0000151",
+    "loss": 0.9754753112792969,
+    "gradient_norm_before_clip": 13.626388549804688
+  },
+  {
+    "step": 30,
+    "example_id": "completion-v2-43-0000448",
+    "loss": 0.003562689758837223,
+    "gradient_norm_before_clip": 0.13820411264896393
+  },
+  {
+    "step": 31,
+    "example_id": "completion-v2-43-0000155",
+    "loss": 0.3730267286300659,
+    "gradient_norm_before_clip": 9.248531341552734
+  },
+  {
+    "step": 32,
+    "example_id": "completion-v2-43-0001646",
+    "loss": 0.018373968079686165,
+    "gradient_norm_before_clip": 0.8279264569282532
+  },
+  {
+    "step": 33,
+    "example_id": "completion-v2-43-0000040",
+    "loss": 0.9452805519104004,
+    "gradient_norm_before_clip": 28.26546859741211
+  },
+  {
+    "step": 34,
+    "example_id": "completion-v2-43-0001559",
+    "loss": 0.01404575351625681,
+    "gradient_norm_before_clip": 0.7464841604232788
+  },
+  {
+    "step": 35,
+    "example_id": "completion-v2-43-0000033",
+    "loss": 0.02112368494272232,
+    "gradient_norm_before_clip": 0.6883184313774109
+  },
+  {
+    "step": 36,
+    "example_id": "completion-v2-43-0000540",
+    "loss": 0.1561606228351593,
+    "gradient_norm_before_clip": 4.145738124847412
+  },
+  {
+    "step": 37,
+    "example_id": "completion-v2-43-0000140",
+    "loss": 0.04183630645275116,
+    "gradient_norm_before_clip": 1.0238535404205322
+  },
+  {
+    "step": 38,
+    "example_id": "completion-v2-43-0000172",
+    "loss": 0.0034842456225305796,
+    "gradient_norm_before_clip": 0.12603232264518738
+  },
+  {
+    "step": 39,
+    "example_id": "completion-v2-43-0000118",
+    "loss": 0.10369923710823059,
+    "gradient_norm_before_clip": 7.736401557922363
+  },
+  {
+    "step": 40,
+    "example_id": "completion-v2-43-0000500",
+    "loss": 0.02292010746896267,
+    "gradient_norm_before_clip": 1.5272470712661743
+  },
+  {
+    "step": 41,
+    "example_id": "completion-v2-43-0000034",
+    "loss": 0.015311899594962597,
+    "gradient_norm_before_clip": 0.7187999486923218
+  },
+  {
+    "step": 42,
+    "example_id": "completion-v2-43-0002124",
+    "loss": 0.015729844570159912,
+    "gradient_norm_before_clip": 1.0246925354003906
+  },
+  {
+    "step": 43,
+    "example_id": "completion-v2-43-0000099",
+    "loss": 0.013996240682899952,
+    "gradient_norm_before_clip": 0.6667975187301636
+  },
+  {
+    "step": 44,
+    "example_id": "completion-v2-43-0001886",
+    "loss": 0.2420661598443985,
+    "gradient_norm_before_clip": 14.329049110412598
+  },
+  {
+    "step": 45,
+    "example_id": "completion-v2-43-0000001",
+    "loss": 0.16555650532245636,
+    "gradient_norm_before_clip": 10.605944633483887
+  },
+  {
+    "step": 46,
+    "example_id": "completion-v2-43-0001270",
+    "loss": 0.0024346732534468174,
+    "gradient_norm_before_clip": 0.08088822662830353
+  },
+  {
+    "step": 47,
+    "example_id": "completion-v2-43-0000152",
+    "loss": 0.04416807368397713,
+    "gradient_norm_before_clip": 2.0314276218414307
+  },
+  {
+    "step": 48,
+    "example_id": "completion-v2-43-0000269",
+    "loss": 0.00300182169303298,
+    "gradient_norm_before_clip": 0.15210676193237305
+  },
+  {
+    "step": 49,
+    "example_id": "completion-v2-43-0000127",
+    "loss": 1.3949710130691528,
+    "gradient_norm_before_clip": 24.090173721313477
+  },
+  {
+    "step": 50,
+    "example_id": "completion-v2-43-0000884",
+    "loss": 0.0009618856129236519,
+    "gradient_norm_before_clip": 0.026107333600521088
+  },
+  {
+    "step": 51,
+    "example_id": "completion-v2-43-0000074",
+    "loss": 0.0711803212761879,
+    "gradient_norm_before_clip": 2.8394129276275635
+  },
+  {
+    "step": 52,
+    "example_id": "completion-v2-43-0000332",
+    "loss": 0.0021656604949384928,
+    "gradient_norm_before_clip": 0.058736901730298996
+  },
+  {
+    "step": 53,
+    "example_id": "completion-v2-43-0000102",
+    "loss": 0.23139236867427826,
+    "gradient_norm_before_clip": 7.151298999786377
+  },
+  {
+    "step": 54,
+    "example_id": "completion-v2-43-0001291",
+    "loss": 0.006092085503041744,
+    "gradient_norm_before_clip": 0.2477102279663086
+  },
+  {
+    "step": 55,
+    "example_id": "completion-v2-43-0000032",
+    "loss": 0.00040108736720867455,
+    "gradient_norm_before_clip": 0.01049019768834114
+  },
+  {
+    "step": 56,
+    "example_id": "completion-v2-43-0001830",
+    "loss": 0.005088017787784338,
+    "gradient_norm_before_clip": 0.19445131719112396
+  },
+  {
+    "step": 57,
+    "example_id": "completion-v2-43-0000132",
+    "loss": 0.006290165241807699,
+    "gradient_norm_before_clip": 0.43196991086006165
+  },
+  {
+    "step": 58,
+    "example_id": "completion-v2-43-0000583",
+    "loss": 0.004879647865891457,
+    "gradient_norm_before_clip": 0.16257478296756744
+  },
+  {
+    "step": 59,
+    "example_id": "completion-v2-43-0000124",
+    "loss": 0.015468889847397804,
+    "gradient_norm_before_clip": 0.43789446353912354
+  },
+  {
+    "step": 60,
+    "example_id": "completion-v2-43-0000711",
+    "loss": 0.0017619897844269872,
+    "gradient_norm_before_clip": 0.04830233007669449
+  },
+  {
+    "step": 61,
+    "example_id": "completion-v2-43-0000013",
+    "loss": 1.4526399374008179,
+    "gradient_norm_before_clip": 29.752737045288086
+  },
+  {
+    "step": 62,
+    "example_id": "completion-v2-43-0001146",
+    "loss": 0.11122580617666245,
+    "gradient_norm_before_clip": 4.4364914894104
+  },
+  {
+    "step": 63,
+    "example_id": "completion-v2-43-0000094",
+    "loss": 0.29046425223350525,
+    "gradient_norm_before_clip": 17.34564781188965
+  },
+  {
+    "step": 64,
+    "example_id": "completion-v2-43-0001310",
+    "loss": 0.022732239216566086,
+    "gradient_norm_before_clip": 0.7650265693664551
+  }
+]

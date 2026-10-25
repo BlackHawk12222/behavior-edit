@@ -613,6 +613,85 @@
       "eligible_for_promotion": false,
       "candidate_quarantined": true,
       "summary": "A frozen v1 LoRA transferred strongly on new-vocabulary agreement sentences against base, corrected prompt and norm-matched random, but phrase completion dropped to 12/24 and an earlier arithmetic development locality test fell to 30/64. One small model, one adapter seed, post-hoc prompt correction and spent holdout; no promotion."
+    },
+    {
+      "id": "completion-v2-sampling-ablation-seed43-20261025",
+      "status": "development-ablation-negative-no-promotion",
+      "hypothesis": "Equal phrase and sentence sampling will improve phrase completion without damaging sentence generalization or arithmetic locality.",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 43,
+      "training_dataset": "evolution_lab/evidence/completion_v2/manifest.json",
+      "training_split": "train",
+      "training_pool_counts": {
+        "phrase_completion": 112,
+        "sentence_completion": 1432
+      },
+      "matched_settings": {
+        "rank": 4,
+        "alpha": 8,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "updates_per_arm": 64,
+        "max_length": 256,
+        "weight_decay": 0.01,
+        "gradient_clip_norm": 1.0,
+        "dropout": 0.0
+      },
+      "arms": {
+        "uniform": {
+          "training_types_seen": {
+            "phrase_completion": 2,
+            "sentence_completion": 62
+          },
+          "completion": "276/328",
+          "phrase": "18/24",
+          "sentence": "258/304",
+          "arithmetic_locality": "43/64"
+        },
+        "task_balanced": {
+          "training_types_seen": {
+            "phrase_completion": 32,
+            "sentence_completion": 32
+          },
+          "completion": "270/328",
+          "phrase": "14/24",
+          "sentence": "256/304",
+          "arithmetic_locality": "44/64"
+        },
+        "base_completion": "182/328",
+        "prompt_completion": "200/328",
+        "random_completion_uniform": "178/328",
+        "random_completion_balanced": "178/328",
+        "base_arithmetic": "38/64",
+        "prompt_arithmetic": "42/64",
+        "random_arithmetic": "37/64"
+      },
+      "balanced_minus_uniform_completion": {
+        "correctness_rate_delta": -0.018292682926829267,
+        "family_bootstrap95": [
+          -0.07926829268292683,
+          0.042682926829268296
+        ],
+        "phrase_family_bootstrap95": [
+          -0.3333333333333333,
+          0.0
+        ]
+      },
+      "model_generations": 3136,
+      "unique_questions": 392,
+      "training_updates": 128,
+      "software_tests": 74,
+      "evidence": "evolution_lab/evidence/completion_v2/evaluations/sampler_ablation_seed43_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "summary": "In one seed, task-balanced training saw 32 phrase examples versus 2 under uniform, but phrase development score was lower (14/24 versus 18/24); the direct family interval is wide and includes zero. Both adapters beat prompting on overall completion and neither showed a clear arithmetic regression on the small development locality slice. Fresh seed and fresh confirmation are required."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

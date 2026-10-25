@@ -681,3 +681,63 @@ freeze the scoring protocol and task-matched prompt before any model run; compar
 base, prompt, the frozen LoRA, norm-matched random, a rank-budget-matched
 nonlearned mixture and at least one new training seed. Add broader non-completion
 capability and locality probes. Do not tune the candidate on the spent v2 split.
+
+
+### F016 — Equal task sampling did not improve phrase behavior in one seed
+
+Status: controlled development ablation; no independent confirmation or
+promotion. This tests whether v2's training-pool imbalance caused the phrase
+regression seen in F015.
+
+Two LoRA candidates used the same Qwen2.5-0.5B-Instruct revision, base
+checkpoint, seed 43, rank 4, alpha 8, q/v targets, AdamW, 0.0005 learning
+rate, 64 updates, 256-token maximum, weight decay 0.01, clipping at 1.0, and
+zero dropout. Only the training schedule differed. The uniform fit saw 2 phrase
+and 62 sentence examples; the task-balanced fit saw 32 of each. Both random
+controls matched the corresponding learned per-layer delta norms. Each
+candidate was evaluated with base, task-matched prompt, and random on the full
+328-question v2 development split (44 families) and on 64 arithmetic development
+questions (16 families). Base and prompt outputs repeated exactly across the two
+completion runs; same for the arithmetic run. v2 confirmation remained untouched.
+
+On completion development, uniform scored 276/328 (phrase 18/24, sentence
+258/304); task-balanced scored 270/328 (phrase 14/24, sentence 256/304). Base,
+prompt, and random scored 182/328, 200/328, and 178/328 respectively. Both LoRA
+candidates beat the prompt on the aggregate: +23.2 points for uniform (family
+interval +15.2 to +30.8) and +21.3 for balanced (+13.7 to +28.7). However, the
+direct task-balanced-minus-uniform difference was −1.8 points overall (interval
+−7.9 to +4.3); phrase difference was −16.7 points (14/24 vs 18/24; interval
+−33.3 to 0.0) and sentence difference was −0.7 points (256/304 vs 258/304;
+interval −7.2 to +5.9). The small phrase sample and one training seed do not
+show that balancing is harmful, but clearly fail to support the simple hypothesis
+that equal task sampling fixes phrase completion.
+
+On arithmetic development, uniform scored 43/64, balanced 44/64, base 38/64,
+prompt 42/64, and random 37/64. Paired adapter-minus-base intervals included
+zero for both candidates (uniform +7.8 points, −1.6 to +17.2; balanced +9.4,
+−1.6 to +20.3). This is no detected loss on this 64-question slice, not proof
+of preserved arithmetic capability. Strict one-word completion format reached
+328/328 for both adapters, versus 305/328 for the prompt; format is not a
+substitute for correctness.
+
+The schedule intervention changes which training examples drive the gradient;
+it does not identify causal layers or individual weights. The uniform training
+delta norm was 1.881 across 48 q/v modules; balanced was 1.837. The learned
+directions differ in more than norm because the training samples differ. The
+comparison is one seed on one small model and development data already used for
+selection. Neither adapter is promoted.
+
+Evidence: full training checkpoints, per-layer deltas, all completion/locality
+responses, direct paired contrasts, run specifications and checksums are in
+`evidence/completion_v2/evaluations/sampler_ablation_seed43_dev/`. Across both
+candidates this records 3,136 model generations on 392 unique prompts, plus 128
+training updates and 74 software tests. Repeated base and prompt runs are not
+new unique questions.
+
+Reproduction: train with the same command and change `--sampling-strategy`
+between `uniform` and `task-balanced`; use the two run IDs in the evidence
+manifest with `case-eval --split dev`. Do not evaluate these candidates on the
+spent v2 confirmation split. Next, repeat both schedules with a second training
+seed on development data; freeze one protocol and create a fresh v3 family pool
+for confirmation. Add a rank-budget-matched adapter mixture and broader
+capability/locality probes before any retention decision.
