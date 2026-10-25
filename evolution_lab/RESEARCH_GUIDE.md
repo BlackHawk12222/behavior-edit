@@ -556,3 +556,60 @@ capability-preservation questions outside completion. Keep the prompt-selected
 format behavior as its own metric so a style gain cannot conceal a correctness
 loss. Do not use this retired confirmation split to select edits or report a new
 independent result.
+
+### F014 — Completion LoRA learned the agreement rule but damaged locality
+
+Status: controlled development-only edit signal with a serious preservation
+regression; candidate quarantined. No final confirmation was used.
+
+A new `train-cases` command trained a rank-4 adapter on the v1 completion
+training split and produced a per-layer norm-matched random adapter. The pinned
+Qwen2.5-0.5B-Instruct revision was loaded locally on CPU float32. The training
+run used AdamW, 64 updates, learning rate 0.0005, alpha 8, q/v projections,
+zero dropout, max length 256, and gradient clipping at 1.0. It sampled 64
+unique examples from 42 of the 72 available training families (15 phrase and
+49 sentence examples). Training loss averaged 0.463 over the first 16 updates
+and 0.064 over the last 16. The resulting effective delta had global Frobenius
+norm 1.926 across 48 adapted modules. The random control matched each layer's
+effective delta norm within the evaluator's tolerance.
+
+On the 104 already-used completion development items, base scored 78/104,
+explicit prompt 79/104, LoRA 93/104, and norm-matched random 81/104. LoRA had
+21 improvements and 6 regressions over base (paired difference +14.4 points;
+family-bootstrap interval [+4.8, +26.0]). Direct paired contrasts were +13.5
+points versus prompt (20 improvements, 6 regressions; interval [+2.9, +25.0])
+and +11.5 points versus random (19 improvements, 7 regressions; interval
+[+4.8, +19.2]). The apparent gain was concentrated in sentence agreement:
+LoRA scored 80/80 versus 63/80 base and 65/80 random. Phrase completion fell
+to 13/24 from 15/24 base and 16/24 random; phrase intervals were wide and
+included zero. These are development results on only six phrase families and
+ten grammar families. The holdout sentence families recombine nouns and verbs
+seen elsewhere in the training inventory, so this is not a test on wholly new
+vocabulary or grammar.
+
+The separate arithmetic development locality check scored 44/64 for base,
+37/64 for prompt, 30/64 for LoRA, and 42/64 for random. LoRA caused 15
+base-correct answers to become wrong and fixed only one (−21.9 points; paired
+family-bootstrap interval [−35.9, −7.8]). Versus random it regressed 15 and
+improved 3 (−18.8 points; interval [−34.4, −3.1]). Strict integer formatting
+increased from 16/64 to 23/64 while arithmetic correctness fell. This repeats
+an earlier development slice and is a measured locality failure, not a fresh
+generalization test. The untouched status of completion v1 confirmation was
+already lost in F013 before this adapter was trained, so it was not reused.
+
+The result supports a narrow hypothesis that the learned q/v direction can
+strongly alter grammatical agreement on these development families beyond a
+same-norm random direction. It does not identify causal layers, demonstrate a
+general language ability, or justify keeping the adapter. The arithmetic
+counterexamples are preserved; the base checkpoint was never modified, and the
+candidate remains quarantined. Evidence includes the training checkpoint,
+per-layer deltas, all four-arm raw ledgers, checksummed runs, and direct paired
+contrasts in `evidence/completion_v1/evaluations/lora_seed42_steps64_dev/`.
+
+Reproduce the development fit and controls with the commands in README's
+"Train completion LoRA" section. Do not evaluate on the retired v1 confirmation
+families. Next, expand the vocabulary and grammar inventory into genuinely new
+families; then test a new adapter across base, strong prompt, norm-matched
+random, fixed mixture, and non-completion capability probes. Ablate q/v and
+layer groups only after the broader protocol is frozen, and use a fresh
+confirmation family pool for any candidate-selection claim.

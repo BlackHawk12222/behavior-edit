@@ -75,8 +75,8 @@
       "entrypoint": "python -m evolution_lab case-eval",
       "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
       "unique_questions_generated": 100000,
-      "model_generations": 544,
-      "software_tests_passed": 64,
+      "model_generations": 1216,
+      "software_tests_passed": 66,
       "features": [
         "arithmetic and phrase/sentence completion datasets",
         "bounded stable-offset evaluation slices",
@@ -94,11 +94,13 @@
         "source manifest and checkpoint hash verification",
         "task-type score separation",
         "trusted answer-key completion grading with ambiguous-choice detection",
-        "trusted arithmetic answer grading"
+        "trusted arithmetic answer grading",
+        "direct paired contrasts between every evaluation arm",
+        "training only on validated train split with manifest-bound adapters"
       ],
       "mps_available": true,
       "model_run_skipped_due_to_existing_active_study": true,
-      "summary": "The paired evaluator ran 544 CPU generations over 272 unique development and confirmation questions across arithmetic and phrase/sentence completion. Completion confirmation found a prompt-formatting versus correctness tradeoff and is retired. No adapter comparison or candidate promotion has occurred.",
+      "summary": "The paired evaluator completed 1,216 CPU generations over 272 unique prompt strings in arithmetic and phrase/sentence tasks. This includes repeated development campaigns. One completion LoRA improved sentence agreement but regressed phrase completion and arithmetic locality; candidate quarantined. No promotion.",
       "confirmation_consumed": true,
       "eligible_for_promotion": false,
       "unique_questions_evaluated": 272,
@@ -112,7 +114,10 @@
         "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/regrade_final_integer_v2/regrade_manifest.json",
         "evolution_lab/evidence/completion_v1/evaluations/dev_n104_base_prompt/regrade_unique_option_v1/regrade_manifest.json",
         "evolution_lab/evidence/completion_v1/evaluations/confirmation_n104_base_prompt/import_manifest.json"
-      ]
+      ],
+      "training_updates": 64,
+      "unique_training_examples_seen": 64,
+      "repeated_question_campaign_exposures": 168
     },
     {
       "id": "mps-reproduction-20261025",
@@ -389,6 +394,170 @@
       "grader_version": "final-integer-token-v2+unique-completion-choice-v1",
       "evidence": "evolution_lab/evidence/completion_v1/evaluations/confirmation_n104_base_prompt/import_manifest.json",
       "summary": "A predeclared direct instruction sharply improved one-word formatting but reduced objective correctness overall on this finite family-held-out confirmation set. The subset intervals are wide; this does not establish a broad language ability or weight-edit effect. Retire this split."
+    },
+    {
+      "id": "completion-lora-training-20261025",
+      "status": "complete-development-edit-training-no-promotion",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "dataset": "evolution_lab/evidence/completion_v1/manifest.json",
+      "dataset_split": "train",
+      "candidate_training_cases": 464,
+      "candidate_training_families": 72,
+      "training_updates": 64,
+      "training_examples_seen_unique": 64,
+      "training_families_seen": 42,
+      "training_type_counts_seen": {
+        "phrase_completion": 15,
+        "sentence_completion": 49
+      },
+      "training": {
+        "rank": 4,
+        "alpha": 8,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "weight_decay": 0.01,
+        "gradient_clip_norm": 1.0,
+        "max_length": 256,
+        "dropout": 0.0
+      },
+      "global_delta_frobenius_norm": 1.9264319330341095,
+      "adapted_modules": 48,
+      "training_loss_mean_first16": 0.4633396234130487,
+      "training_loss_mean_last16": 0.06372474065574352,
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/lora_seed42_steps64_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "summary": "Training command used only the validated train split and saved a conventional LoRA plus a layerwise norm-matched random edit. Loss decreased, but training completion does not establish behavioral usefulness."
+    },
+    {
+      "id": "completion-lora-dev-20261025",
+      "status": "development-specialization-with-capability-regression-quarantine",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "split": "dev",
+      "unique_questions": 104,
+      "families": 16,
+      "model_generations": 416,
+      "arms": {
+        "base": {
+          "correct": "78/104",
+          "phrase": "15/24",
+          "sentence": "63/80"
+        },
+        "prompt": {
+          "correct": "79/104",
+          "phrase": "15/24",
+          "sentence": "64/80"
+        },
+        "lora": {
+          "correct": "93/104",
+          "phrase": "13/24",
+          "sentence": "80/80"
+        },
+        "norm_matched_random": {
+          "correct": "81/104",
+          "phrase": "16/24",
+          "sentence": "65/80"
+        }
+      },
+      "lora_vs_prompt": {
+        "improved": 20,
+        "regressed": 6,
+        "correctness_rate_delta": 0.1346153846153846,
+        "family_bootstrap95": [
+          0.028846153846153855,
+          0.25
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.5,
+            0.3333333333333333
+          ],
+          "sentence_completion": [
+            0.125,
+            0.2625
+          ]
+        }
+      },
+      "lora_vs_random": {
+        "improved": 19,
+        "regressed": 7,
+        "correctness_rate_delta": 0.11538461538461539,
+        "family_bootstrap95": [
+          0.04807692307692308,
+          0.19230769230769235
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.25,
+            0.041666666666666664
+          ],
+          "sentence_completion": [
+            0.1125,
+            0.275
+          ]
+        }
+      },
+      "random_norm_match_max_relative_error": 6.0228910010647136e-06,
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/lora_seed42_steps64_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "The adapter gained on sentence-agreement development families against base, prompt and random controls but phrase-completion score fell. All target families are small and previously exposed development data; this is not independent confirmation."
+    },
+    {
+      "id": "completion-lora-arithmetic-locality-20261025",
+      "status": "complete-development-capability-regression",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "split": "dev",
+      "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "unique_questions": 64,
+      "families": 16,
+      "model_generations": 256,
+      "arms": {
+        "base": "44/64",
+        "prompt": "37/64",
+        "lora": "30/64",
+        "norm_matched_random": "42/64"
+      },
+      "lora_vs_base": {
+        "improved": 1,
+        "regressed": 15,
+        "correctness_rate_delta": -0.21875,
+        "family_bootstrap95": [
+          -0.359375,
+          -0.078125
+        ]
+      },
+      "lora_vs_random": {
+        "improved": 3,
+        "regressed": 15,
+        "correctness_rate_delta": -0.1875,
+        "family_bootstrap95": [
+          -0.34375,
+          -0.03125
+        ]
+      },
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/lora_seed42_steps64_dev/import_manifest.json",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "A separate arithmetic development locality slice showed clear regression under the completion adapter, while norm-matched random stayed near base. The adapter was not evaluated on the retired completion confirmation set."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

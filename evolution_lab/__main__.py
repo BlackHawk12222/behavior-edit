@@ -47,6 +47,18 @@ def build_parser():
     completions.add_argument("--count", type=int, default=672)
     completions.add_argument("--output", type=Path, required=True)
     completions.add_argument("--validate-only", action="store_true", help="Validate an existing completion dataset")
+    case_train = sub.add_parser("train-cases", help="Train LoRA and norm-matched random controls on generated training cases")
+    case_train.add_argument("dataset", type=Path)
+    case_train.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
+    case_train.add_argument("--revision", required=True, help="Immutable 40-character model commit SHA")
+    case_train.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    case_train.add_argument("--precision", choices=["float32", "float16"], default="float32")
+    case_train.add_argument("--steps", type=int, default=64)
+    case_train.add_argument("--rank", type=int, default=4)
+    case_train.add_argument("--learning-rate", type=float, default=0.0005)
+    case_train.add_argument("--max-length", type=int, default=256)
+    case_train.add_argument("--seed", type=int, default=42)
+    case_train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_training"))
     case_eval = sub.add_parser("case-eval", help="Run a paired, resumable local campaign on generated cases")
     case_eval.add_argument("dataset", type=Path)
     case_eval.add_argument("--split", choices=["dev", "confirmation"], default="dev")
@@ -169,6 +181,13 @@ def main(argv=None):
             return 0
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"Completion dataset validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "train-cases":
+        from .case_training import train_case_adapters
+        try:
+            return train_case_adapters(args)
+        except (ValueError, OSError, KeyError, TypeError, RuntimeError) as error:
+            print(f"Case adapter training failed: {error}", file=sys.stderr)
             return 2
     if args.command == "case-eval":
         from .case_eval import evaluate_cases

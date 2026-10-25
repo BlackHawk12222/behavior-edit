@@ -77,6 +77,75 @@ def grade_case(case: dict, response: str) -> dict:
     return grade_answer(case["answer"], response)
 
 
+def paired_arm_contrast(rows: list[dict], reference_arm: str,
+                        candidate_arm: str, seed: int = 42) -> dict:
+    """Compare two arms on matched cases with family-stratified uncertainty."""
+    by_arm: dict[str, dict[str, dict]] = {reference_arm: {}, candidate_arm: {}}
+    for row in rows:
+        arm = row.get("arm")
+        if arm not in by_arm:
+            continue
+        case_id = row["case_id"]
+        if case_id in by_arm[arm]:
+            raise ValueError(f"Duplicate case in paired contrast: {arm}/{case_id}")
+        by_arm[arm][case_id] = row
+    common = sorted(by_arm[reference_arm].keys() & by_arm[candidate_arm].keys())
+    if not common:
+        raise ValueError("Paired contrast requires at least one shared question")
+    groups: dict[str, dict[str, list[int]]] = {}
+    counts: dict[str, int] = {}
+    improved = regressed = 0
+    for case_id in common:
+        before = by_arm[reference_arm][case_id]
+        after = by_arm[candidate_arm][case_id]
+        if before.get("family") != after.get("family") or before.get("task_type") != after.get("task_type"):
+            raise ValueError(f"Paired case metadata differs across arms: {case_id}")
+        delta = int(bool(after["metrics"]["correct"])) - int(bool(before["metrics"]["correct"]))
+        improved += delta > 0
+        regressed += delta < 0
+        task_type = before.get("task_type", "arithmetic")
+        family = before["family"]
+        groups.setdefault(task_type, {}).setdefault(family, []).append(delta)
+        counts[task_type] = counts.get(task_type, 0) + 1
+
+    total_families = sum(len(families) for families in groups.values())
+    interval = None
+    by_type = {}
+    if total_families >= 2:
+        rng = random.Random(seed)
+        combined_draws = []
+        task_draws = {task: [] for task in groups}
+        for _ in range(2000):
+            weighted = 0.0
+            for task, families in groups.items():
+                clusters = list(families.values())
+                sampled = [value for cluster in rng.choices(clusters, k=len(clusters)) for value in cluster]
+                mean = sum(sampled) / len(sampled)
+                task_draws[task].append(mean)
+                weighted += (counts[task] / len(common)) * mean
+            combined_draws.append(weighted)
+        combined_draws.sort()
+        interval = [combined_draws[49], combined_draws[1950]]
+        for task, draws in task_draws.items():
+            if len(groups[task]) >= 2:
+                draws.sort()
+                by_type[task] = [draws[49], draws[1950]]
+            else:
+                by_type[task] = None
+    return {
+        "reference_arm": reference_arm,
+        "candidate_arm": candidate_arm,
+        "paired_questions": len(common),
+        "improved": improved,
+        "regressed": regressed,
+        "correctness_rate_delta": (improved - regressed) / len(common),
+        "family_bootstrap95": interval,
+        "family_bootstrap95_by_task_type": by_type,
+        "family_count": total_families,
+        "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals.",
+    }
+
+
 def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int = 0) -> tuple[dict, list[dict]]:
     dataset = Path(dataset)
     source_manifest = json.loads((dataset / "manifest.json").read_text())
@@ -324,6 +393,11 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
         },
         "arms": summaries,
         "paired_vs_base": paired,
+        "pairwise_comparisons": {
+            f"{candidate}_vs_{reference}": paired_arm_contrast(rows, reference, candidate, seed)
+            for index, reference in enumerate(arms)
+            for candidate in arms[index + 1:]
+        },
         "uncertainty_note": "Wilson intervals are descriptive and ignore within-family dependence; use the paired family bootstrap for arm contrasts.",
     }
 

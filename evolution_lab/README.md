@@ -380,3 +380,45 @@ confirmation families, the terse one-word prompt raised strict formatting from
 This was a prompt-only result, not a weight edit. The confirmation split is now
 retired; see F013 and the checksummed raw evidence in
 `evidence/completion_v1/evaluations/confirmation_n104_base_prompt/`.
+
+### Train completion LoRA and fair random-edit controls
+
+`train-cases` reads only the generated dataset's `train` split, trains rank-4
+LoRA by default, saves the trained adapter and an independently randomized
+adapter whose effective delta norm matches the LoRA delta in every adapted
+module. Its manifest records the exact training cases, data hash, model revision,
+settings, checkpoint hashes and training history. Use the already-consumed v1
+development families only for selection; they are not an independent final test.
+
+```sh
+python -m evolution_lab train-cases evolution_lab/evidence/completion_v1 \
+  --model MODEL_SNAPSHOT_PATH \
+  --revision 7ae557604adf67be50417f59c2c2f167def9a775 \
+  --device cpu --precision float32 --steps 64 --rank 4 --seed 42 \
+  --output-dir results/evolution_lab/case_training
+
+python -m evolution_lab case-eval evolution_lab/evidence/completion_v1 \
+  --split dev --model MODEL_SNAPSHOT_PATH \
+  --revision 7ae557604adf67be50417f59c2c2f167def9a775 \
+  --device cpu --precision float32 --arms base prompt adapter random \
+  --adapter results/evolution_lab/case_training/RUN_ID/adapter_lora \
+  --random-adapter results/evolution_lab/case_training/RUN_ID/adapter_random \
+  --adapter-delta results/evolution_lab/case_training/RUN_ID/delta_lora.json \
+  --random-delta results/evolution_lab/case_training/RUN_ID/delta_random.json \
+  --limit 104 --output-dir results/evolution_lab/completion-lora-dev
+```
+
+The training tool does not evaluate or promote the adapter. The paired evaluator
+requires base, prompt, LoRA and norm-matched-random arms together, and verifies
+both source checkpoint hashes and the effective delta reports. Results on this
+benchmark remain developmental because its prior confirmation families have
+already been inspected. Build new lexical and grammatical families before
+making any held-out generalization claim.
+
+The first controlled completion LoRA is preserved as a development experiment,
+not a recommended adapter. It scored 93/104 on the v1 completion development
+set (80/80 sentence agreement) against 78/104 base and 81/104 norm-matched
+random, but phrase completion fell to 13/24 and arithmetic locality fell from
+44/64 to 30/64. The adapter is quarantined; its confirmation families were not
+reused. See F014 and the complete training/checkpoint/response evidence under
+`evidence/completion_v1/evaluations/lora_seed42_steps64_dev/`.

@@ -1,0 +1,671 @@
+{
+  "schema_version": 1,
+  "analysis": "paired-family-bootstrap-all-arm-pairs-v1",
+  "seed": 42,
+  "bootstrap_resamples": 2000,
+  "note": "Post hoc development analysis of immutable raw responses. Does not create fresh confirmation evidence or alter the original campaign report.",
+  "campaigns": {
+    "completion_dev": {
+      "source_run_id": "20261025T130556_662587Z",
+      "source_observations_sha256": "079d0aeb66867d92a2626e35f54690a5c62b5dd912e9cdde2a713c0e3bc3c6cd",
+      "source_report_sha256": "5df01f52a045f33380c40c478b5150fb8e249dde1c490c1f78174071022bb668",
+      "unique_questions": 104,
+      "families": 16,
+      "arm_scores": {
+        "base": {
+          "correct": 78,
+          "accuracy": 0.75,
+          "single_word_format": 11,
+          "by_task_type": {
+            "phrase_completion": {
+              "model_generations": 24,
+              "unique_questions": 24,
+              "correct": 15,
+              "accuracy": 0.625,
+              "strict_format_passes": 1,
+              "family_count": 6
+            },
+            "sentence_completion": {
+              "model_generations": 80,
+              "unique_questions": 80,
+              "correct": 63,
+              "accuracy": 0.7875,
+              "strict_format_passes": 10,
+              "family_count": 10
+            }
+          }
+        },
+        "prompt": {
+          "correct": 79,
+          "accuracy": 0.7596153846153846,
+          "single_word_format": 99,
+          "by_task_type": {
+            "phrase_completion": {
+              "model_generations": 24,
+              "unique_questions": 24,
+              "correct": 15,
+              "accuracy": 0.625,
+              "strict_format_passes": 24,
+              "family_count": 6
+            },
+            "sentence_completion": {
+              "model_generations": 80,
+              "unique_questions": 80,
+              "correct": 64,
+              "accuracy": 0.8,
+              "strict_format_passes": 75,
+              "family_count": 10
+            }
+          }
+        },
+        "adapter": {
+          "correct": 93,
+          "accuracy": 0.8942307692307693,
+          "single_word_format": 104,
+          "by_task_type": {
+            "phrase_completion": {
+              "model_generations": 24,
+              "unique_questions": 24,
+              "correct": 13,
+              "accuracy": 0.5416666666666666,
+              "strict_format_passes": 24,
+              "family_count": 6
+            },
+            "sentence_completion": {
+              "model_generations": 80,
+              "unique_questions": 80,
+              "correct": 80,
+              "accuracy": 1.0,
+              "strict_format_passes": 80,
+              "family_count": 10
+            }
+          }
+        },
+        "random": {
+          "correct": 81,
+          "accuracy": 0.7788461538461539,
+          "single_word_format": 11,
+          "by_task_type": {
+            "phrase_completion": {
+              "model_generations": 24,
+              "unique_questions": 24,
+              "correct": 16,
+              "accuracy": 0.6666666666666666,
+              "strict_format_passes": 1,
+              "family_count": 6
+            },
+            "sentence_completion": {
+              "model_generations": 80,
+              "unique_questions": 80,
+              "correct": 65,
+              "accuracy": 0.8125,
+              "strict_format_passes": 10,
+              "family_count": 10
+            }
+          }
+        }
+      },
+      "contrasts": {
+        "prompt_vs_base": {
+          "reference_arm": "base",
+          "candidate_arm": "prompt",
+          "paired_questions": 104,
+          "improved": 17,
+          "regressed": 16,
+          "correctness_rate_delta": 0.009615384615384616,
+          "family_bootstrap95": [
+            -0.08653846153846154,
+            0.11538461538461539
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.2916666666666667,
+              0.2916666666666667
+            ],
+            "sentence_completion": [
+              -0.075,
+              0.1125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "adapter_vs_base": {
+          "reference_arm": "base",
+          "candidate_arm": "adapter",
+          "paired_questions": 104,
+          "improved": 21,
+          "regressed": 6,
+          "correctness_rate_delta": 0.14423076923076922,
+          "family_bootstrap95": [
+            0.04807692307692307,
+            0.25961538461538464
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.375,
+              0.20833333333333334
+            ],
+            "sentence_completion": [
+              0.1125,
+              0.325
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "random_vs_base": {
+          "reference_arm": "base",
+          "candidate_arm": "random",
+          "paired_questions": 104,
+          "improved": 7,
+          "regressed": 4,
+          "correctness_rate_delta": 0.028846153846153848,
+          "family_bootstrap95": [
+            -0.038461538461538464,
+            0.09615384615384616
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.125,
+              0.20833333333333334
+            ],
+            "sentence_completion": [
+              -0.0375,
+              0.0875
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "base_vs_prompt": {
+          "reference_arm": "prompt",
+          "candidate_arm": "base",
+          "paired_questions": 104,
+          "improved": 16,
+          "regressed": 17,
+          "correctness_rate_delta": -0.009615384615384616,
+          "family_bootstrap95": [
+            -0.11538461538461539,
+            0.08653846153846154
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.2916666666666667,
+              0.2916666666666667
+            ],
+            "sentence_completion": [
+              -0.1125,
+              0.075
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "adapter_vs_prompt": {
+          "reference_arm": "prompt",
+          "candidate_arm": "adapter",
+          "paired_questions": 104,
+          "improved": 20,
+          "regressed": 6,
+          "correctness_rate_delta": 0.1346153846153846,
+          "family_bootstrap95": [
+            0.028846153846153855,
+            0.25
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.5,
+              0.3333333333333333
+            ],
+            "sentence_completion": [
+              0.125,
+              0.2625
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "random_vs_prompt": {
+          "reference_arm": "prompt",
+          "candidate_arm": "random",
+          "paired_questions": 104,
+          "improved": 18,
+          "regressed": 16,
+          "correctness_rate_delta": 0.019230769230769232,
+          "family_bootstrap95": [
+            -0.08653846153846154,
+            0.11538461538461539
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.2916666666666667,
+              0.375
+            ],
+            "sentence_completion": [
+              -0.075,
+              0.1
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "base_vs_adapter": {
+          "reference_arm": "adapter",
+          "candidate_arm": "base",
+          "paired_questions": 104,
+          "improved": 6,
+          "regressed": 21,
+          "correctness_rate_delta": -0.14423076923076922,
+          "family_bootstrap95": [
+            -0.25961538461538464,
+            -0.04807692307692307
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.20833333333333334,
+              0.375
+            ],
+            "sentence_completion": [
+              -0.325,
+              -0.1125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "prompt_vs_adapter": {
+          "reference_arm": "adapter",
+          "candidate_arm": "prompt",
+          "paired_questions": 104,
+          "improved": 6,
+          "regressed": 20,
+          "correctness_rate_delta": -0.1346153846153846,
+          "family_bootstrap95": [
+            -0.25,
+            -0.028846153846153855
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.3333333333333333,
+              0.5
+            ],
+            "sentence_completion": [
+              -0.2625,
+              -0.125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "random_vs_adapter": {
+          "reference_arm": "adapter",
+          "candidate_arm": "random",
+          "paired_questions": 104,
+          "improved": 7,
+          "regressed": 19,
+          "correctness_rate_delta": -0.11538461538461539,
+          "family_bootstrap95": [
+            -0.19230769230769235,
+            -0.04807692307692308
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.041666666666666664,
+              0.25
+            ],
+            "sentence_completion": [
+              -0.275,
+              -0.1125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "base_vs_random": {
+          "reference_arm": "random",
+          "candidate_arm": "base",
+          "paired_questions": 104,
+          "improved": 4,
+          "regressed": 7,
+          "correctness_rate_delta": -0.028846153846153848,
+          "family_bootstrap95": [
+            -0.09615384615384616,
+            0.038461538461538464
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.20833333333333334,
+              0.125
+            ],
+            "sentence_completion": [
+              -0.0875,
+              0.0375
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "prompt_vs_random": {
+          "reference_arm": "random",
+          "candidate_arm": "prompt",
+          "paired_questions": 104,
+          "improved": 16,
+          "regressed": 18,
+          "correctness_rate_delta": -0.019230769230769232,
+          "family_bootstrap95": [
+            -0.11538461538461539,
+            0.08653846153846154
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.375,
+              0.2916666666666667
+            ],
+            "sentence_completion": [
+              -0.1,
+              0.075
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "adapter_vs_random": {
+          "reference_arm": "random",
+          "candidate_arm": "adapter",
+          "paired_questions": 104,
+          "improved": 19,
+          "regressed": 7,
+          "correctness_rate_delta": 0.11538461538461539,
+          "family_bootstrap95": [
+            0.04807692307692308,
+            0.19230769230769235
+          ],
+          "family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.25,
+              0.041666666666666664
+            ],
+            "sentence_completion": [
+              0.1125,
+              0.275
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        }
+      }
+    },
+    "arithmetic_locality_dev": {
+      "source_run_id": "20261025T131012_242500Z",
+      "source_observations_sha256": "f9a65d7ac5af76eb98c83321de0de2503a9f434d3dcaa351162852f06cdf717d",
+      "source_report_sha256": "bb565de0ebfbf2015521bd00691445cad96f8781e6c305f90dea57eee8c4963e",
+      "unique_questions": 64,
+      "families": 16,
+      "arm_scores": {
+        "base": {
+          "correct": 44,
+          "accuracy": 0.6875,
+          "single_integer_format": 16
+        },
+        "prompt": {
+          "correct": 37,
+          "accuracy": 0.578125,
+          "single_integer_format": 18
+        },
+        "adapter": {
+          "correct": 30,
+          "accuracy": 0.46875,
+          "single_integer_format": 23
+        },
+        "random": {
+          "correct": 42,
+          "accuracy": 0.65625,
+          "single_integer_format": 16
+        }
+      },
+      "contrasts": {
+        "prompt_vs_base": {
+          "reference_arm": "base",
+          "candidate_arm": "prompt",
+          "paired_questions": 64,
+          "improved": 4,
+          "regressed": 11,
+          "correctness_rate_delta": -0.109375,
+          "family_bootstrap95": [
+            -0.21875,
+            0.0
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.21875,
+              0.0
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "adapter_vs_base": {
+          "reference_arm": "base",
+          "candidate_arm": "adapter",
+          "paired_questions": 64,
+          "improved": 1,
+          "regressed": 15,
+          "correctness_rate_delta": -0.21875,
+          "family_bootstrap95": [
+            -0.359375,
+            -0.078125
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.359375,
+              -0.078125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "random_vs_base": {
+          "reference_arm": "base",
+          "candidate_arm": "random",
+          "paired_questions": 64,
+          "improved": 0,
+          "regressed": 2,
+          "correctness_rate_delta": -0.03125,
+          "family_bootstrap95": [
+            -0.078125,
+            0.0
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.078125,
+              0.0
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "base_vs_prompt": {
+          "reference_arm": "prompt",
+          "candidate_arm": "base",
+          "paired_questions": 64,
+          "improved": 11,
+          "regressed": 4,
+          "correctness_rate_delta": 0.109375,
+          "family_bootstrap95": [
+            0.0,
+            0.21875
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              0.0,
+              0.21875
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "adapter_vs_prompt": {
+          "reference_arm": "prompt",
+          "candidate_arm": "adapter",
+          "paired_questions": 64,
+          "improved": 8,
+          "regressed": 15,
+          "correctness_rate_delta": -0.109375,
+          "family_bootstrap95": [
+            -0.25,
+            0.046875
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.25,
+              0.046875
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "random_vs_prompt": {
+          "reference_arm": "prompt",
+          "candidate_arm": "random",
+          "paired_questions": 64,
+          "improved": 11,
+          "regressed": 6,
+          "correctness_rate_delta": 0.078125,
+          "family_bootstrap95": [
+            -0.03125,
+            0.1875
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.03125,
+              0.1875
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "base_vs_adapter": {
+          "reference_arm": "adapter",
+          "candidate_arm": "base",
+          "paired_questions": 64,
+          "improved": 15,
+          "regressed": 1,
+          "correctness_rate_delta": 0.21875,
+          "family_bootstrap95": [
+            0.078125,
+            0.359375
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              0.078125,
+              0.359375
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "prompt_vs_adapter": {
+          "reference_arm": "adapter",
+          "candidate_arm": "prompt",
+          "paired_questions": 64,
+          "improved": 15,
+          "regressed": 8,
+          "correctness_rate_delta": 0.109375,
+          "family_bootstrap95": [
+            -0.046875,
+            0.25
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.046875,
+              0.25
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "random_vs_adapter": {
+          "reference_arm": "adapter",
+          "candidate_arm": "random",
+          "paired_questions": 64,
+          "improved": 15,
+          "regressed": 3,
+          "correctness_rate_delta": 0.1875,
+          "family_bootstrap95": [
+            0.03125,
+            0.34375
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              0.03125,
+              0.34375
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "base_vs_random": {
+          "reference_arm": "random",
+          "candidate_arm": "base",
+          "paired_questions": 64,
+          "improved": 2,
+          "regressed": 0,
+          "correctness_rate_delta": 0.03125,
+          "family_bootstrap95": [
+            0.0,
+            0.078125
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              0.0,
+              0.078125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "prompt_vs_random": {
+          "reference_arm": "random",
+          "candidate_arm": "prompt",
+          "paired_questions": 64,
+          "improved": 6,
+          "regressed": 11,
+          "correctness_rate_delta": -0.078125,
+          "family_bootstrap95": [
+            -0.1875,
+            0.03125
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.1875,
+              0.03125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        },
+        "adapter_vs_random": {
+          "reference_arm": "random",
+          "candidate_arm": "adapter",
+          "paired_questions": 64,
+          "improved": 3,
+          "regressed": 15,
+          "correctness_rate_delta": -0.1875,
+          "family_bootstrap95": [
+            -0.34375,
+            -0.03125
+          ],
+          "family_bootstrap95_by_task_type": {
+            "arithmetic": [
+              -0.34375,
+              -0.03125
+            ]
+          },
+          "family_count": 16,
+          "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+        }
+      }
+    }
+  }
+}

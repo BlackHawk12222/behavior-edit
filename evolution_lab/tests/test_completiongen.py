@@ -100,6 +100,25 @@ class CompletionGeneratorTests(unittest.TestCase):
                          {"phrase_completion", "sentence_completion"})
         self.assertIsNotNone(paired["paired_family_bootstrap95_by_task_type"]["phrase_completion"])
 
+    def test_direct_arm_contrasts_include_prompt_and_random_comparators(self):
+        rows = []
+        for task_type in ("phrase_completion", "sentence_completion"):
+            for family_index in range(2):
+                for item_index in range(2):
+                    case_id = f"{task_type}-{family_index}-{item_index}"
+                    common = {"case_id": case_id, "family": f"{task_type}-{family_index}",
+                              "task_type": task_type}
+                    rows.append({**common, "arm": "prompt", "metrics": {"correct": False}})
+                    rows.append({**common, "arm": "adapter",
+                                 "metrics": {"correct": family_index == 0}})
+                    rows.append({**common, "arm": "random", "metrics": {"correct": False}})
+        result = case_eval.paired_arm_contrast(rows, "prompt", "adapter", seed=42)
+        self.assertEqual(result["paired_questions"], 8)
+        self.assertEqual(result["improved"], 4)
+        self.assertEqual(result["regressed"], 0)
+        self.assertEqual(set(result["family_bootstrap95_by_task_type"]),
+                         {"phrase_completion", "sentence_completion"})
+
     def test_case_loader_accepts_only_requested_completion_split(self):
         with tempfile.TemporaryDirectory() as directory:
             write_shard(Path(directory), seed=42, start=0, count=672)
