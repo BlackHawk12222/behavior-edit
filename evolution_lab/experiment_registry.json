@@ -16,7 +16,28 @@
       "summary": "Three JSON seeds gained target compliance with preservation regressions; concise gains were small and beaten by stronger prompting; exact-instruction effects were inconsistent. No adapter cleared the full gate.",
       "final_test_exposed": true,
       "eligible_for_future_final_confirmation": false
+    },
+    {
+      "id": "casegen-v3",
+      "status": "infrastructure-verified-no-model-results",
+      "generator": "evolution_lab.casegen arithmetic-v3",
+      "seed": 42,
+      "evidence": "evolution_lab/evidence/casegen_v3/manifest.json",
+      "unique_questions": 100000,
+      "split_counts": {
+        "train": 70036,
+        "dev": 14984,
+        "confirmation": 14980
+      },
+      "resumable_shards": 9,
+      "answer_key": "integer addition recomputed from structured operands",
+      "software_tests_passed": 47,
+      "model_generations": 0,
+      "mps_available_this_session": false,
+      "summary": "Deterministic no-replacement operand enumeration, four paraphrases per arithmetic fact kept together by split, split-isolated resumable shards, deduplication and answer-key validation. Infrastructure only; no behavior claim.",
+      "confirmation_consumed": false,
+      "eligible_for_final_confirmation": false
     }
   ],
-  "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts."
+  "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."
 }

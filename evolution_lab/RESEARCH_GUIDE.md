@@ -202,3 +202,45 @@ independently executable answer keys, stable split assignment, deduplication and
 resumable shards. Establish grader quality and unique-case accounting before
 large campaigns. Add causal ablations and new untouched confirmation families
 before attempting a hypernetwork or claiming transfer to a large model.
+
+### F007 — Deterministic arithmetic case generation is now auditable
+
+Status: infrastructure verified; no model behavior result.
+
+The `arithmetic-v3` generator creates 100,000 unique addition prompts with
+answers computed from structured operands by an independent integer solver.
+An affine permutation enumerates each ordered operand pair within each
+template/range family without replacement. Four surface templates share each
+exact ordered operand pair and one deterministic SHA-256 family split, so the
+same calculation cannot cross splits through a paraphrase. Each generated
+shard contains only one split. The realized case counts are 70,036 train,
+14,984 development, and 14,980 confirmation (four prompts per arithmetic fact
+family). Confirmation prompts have not been used to choose or
+tune an edit.
+
+Verification: all 47 `evolution_lab` unit/integration tests passed; repeated
+generation of the same shard was idempotent; independent shards reconstructed
+the same ordered cases as a single generation; all 100,000 normalized prompts
+were unique and all answer keys re-solved exactly. Evidence and checksums are
+in `evidence/casegen_v3/manifest.json`. These are generated question records,
+not model responses, experiments, or evidence of improvement. The current
+session could not access MPS (`torch.backends.mps.is_available()` was false),
+and no model inference was run. The previous host-specific MPS record F006
+remains historical evidence only.
+
+Reproduce from the repository root:
+
+```sh
+python -m evolution_lab generate-cases --seed 42 --start 0 --count 5000 --output evolution_lab/evidence/casegen_v3
+python -m evolution_lab generate-cases --seed 42 --start 5000 --count 5000 --output evolution_lab/evidence/casegen_v3
+python -m evolution_lab generate-cases --seed 42 --start 10000 --count 90000 --output evolution_lab/evidence/casegen_v3
+python -m evolution_lab generate-cases --validate-only --output evolution_lab/evidence/casegen_v3
+```
+
+Limits and next falsification: addition-only arithmetic is narrow and synthetic;
+surface families are templates with ranges, not proof of semantic independence.
+The family split rule is stable but yields variable split ratios. Before model
+campaigns, add independently checked operation families and explicit cross-
+family adversarial checks; then report prompt-control, random-edit, LoRA and
+preservation results using development-only selection and fresh untouched
+confirmation families. Do not call this dataset 100,000 tests of a model.

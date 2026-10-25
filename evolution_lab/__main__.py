@@ -35,6 +35,12 @@ def build_parser():
     sub = parser.add_subparsers(dest="command", required=True)
     check = sub.add_parser("validate", help="Validate task JSON without loading a model")
     check.add_argument("--tasks", type=Path, default=TASK_FILE)
+    cases = sub.add_parser("generate-cases", help="Generate deterministic arithmetic cases with trusted answer keys")
+    cases.add_argument("--seed", type=int, default=42)
+    cases.add_argument("--start", type=int, default=0)
+    cases.add_argument("--count", type=int, default=1000)
+    cases.add_argument("--output", type=Path, required=True)
+    cases.add_argument("--validate-only", action="store_true", help="Validate an existing generated dataset")
     run = sub.add_parser("run", help="Run controlled evaluations with a local model")
     run.add_argument("--tasks", type=Path, default=TASK_FILE)
     run.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
@@ -116,6 +122,17 @@ def build_parser():
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    if args.command == "generate-cases":
+        from .casegen import validate_dataset, write_shard
+        try:
+            if not args.validate_only:
+                manifest = write_shard(args.output, args.seed, args.start, args.count)
+                print(json.dumps({"shards": len(manifest["shards"]), "unique_cases": manifest["unique_cases"]}, indent=2))
+            print(json.dumps(validate_dataset(args.output), indent=2))
+            return 0
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            print(f"Case dataset validation failed: {error}", file=sys.stderr)
+            return 2
     if args.command == "fewshot-control":
         from .fewshot import evaluate_fewshot
         return evaluate_fewshot(args)

@@ -1,0 +1,71 @@
+{
+  "schema_version": 3,
+  "generator": "arithmetic-v3",
+  "seed": 42,
+  "shards": [
+    {
+      "file": "cases-confirmation-42-000000000-005000.jsonl",
+      "start": 0,
+      "count": 736,
+      "split": "confirmation",
+      "sha256": "d2dfa7a9de8ac960783188454e0e421482d48f2bce3094816ae7cc5c739d1684"
+    },
+    {
+      "file": "cases-dev-42-000000000-005000.jsonl",
+      "start": 0,
+      "count": 720,
+      "split": "dev",
+      "sha256": "3af9a751efcaae572d669c5d4a083a17f12ce29b4e1067e255aced17d0d1e68d"
+    },
+    {
+      "file": "cases-train-42-000000000-005000.jsonl",
+      "start": 0,
+      "count": 3544,
+      "split": "train",
+      "sha256": "7462a9b2c6951bdc2f15cd4d5d6d15ae05856374cd937e19037ab9f41db8b8f0"
+    },
+    {
+      "file": "cases-confirmation-42-000005000-005000.jsonl",
+      "start": 5000,
+      "count": 772,
+      "split": "confirmation",
+      "sha256": "359525948a0a9c4b9713e8a7e78f4cbc1fde091403d7ff274b39917b4795efec"
+    },
+    {
+      "file": "cases-dev-42-000005000-005000.jsonl",
+      "start": 5000,
+      "count": 748,
+      "split": "dev",
+      "sha256": "72721bc7ffc1c1080fbd7b6725ab01327f1516e69626940ed34f728a38c40dd4"
+    },
+    {
+      "file": "cases-train-42-000005000-005000.jsonl",
+      "start": 5000,
+      "count": 3480,
+      "split": "train",
+      "sha256": "a1ad22d53818b47d3ad91183d5fcdecb695019075da1fa096dde3c488b5b67e5"
+    },
+    {
+      "file": "cases-confirmation-42-000010000-090000.jsonl",
+      "start": 10000,
+      "count": 13472,
+      "split": "confirmation",
+      "sha256": "f2a52dd082902641914ade88e6c4cc738e2fd7cf6aae2fb0330fe52d52b7e931"
+    },
+    {
+      "file": "cases-dev-42-000010000-090000.jsonl",
+      "start": 10000,
+      "count": 13516,
+      "split": "dev",
+      "sha256": "089fb907a531941dbf6d2bcd4f16389ec69a046652b703561760ebce9c0dd4d9"
+    },
+    {
+      "file": "cases-train-42-000010000-090000.jsonl",
+      "start": 10000,
+      "count": 63012,
+      "split": "train",
+      "sha256": "dd554ea7a53b55e1c85ab097c9538d9bb9ba0805e69a98f12a6b4e8331503d60"
+    }
+  ],
+  "unique_cases": 100000
+}

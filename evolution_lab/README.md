@@ -54,6 +54,26 @@ python -m evolution_lab run --repeats 3 --seed 123 --max-new-tokens 64
 python -m evolution_lab run --model Qwen/Qwen2.5-0.5B-Instruct --revision COMMIT_SHA
 ~~~
 
+## Generate trusted, resumable question shards
+
+The arithmetic case generator creates deterministic addition prompts with
+integer answer keys, stable family-level splits, duplicate detection, and
+separate train/dev/confirmation shard files. Existing identical shards can be
+reused safely; validate the checksums and cumulative unique-case count before
+starting model runs.
+
+~~~sh
+python -m evolution_lab generate-cases --seed 42 --start 0 --count 5000 --output results/evolution_lab/cases
+python -m evolution_lab generate-cases --seed 42 --start 5000 --count 5000 --output results/evolution_lab/cases
+python -m evolution_lab generate-cases --validate-only --output results/evolution_lab/cases
+~~~
+
+Generated cases are not model tests until responses are actually collected and
+objective-graded. Keep confirmation shards untouched while choosing edits, and
+report model generations separately from unique prompts, repeats, cache hits,
+and software tests. See the [research guide](RESEARCH_GUIDE.md) for the first
+100,000-case infrastructure census and its limits.
+
 Use a Hugging Face commit SHA instead of `main` for reproducible comparisons.
 Treat 8 tasks as a smoke test. Reliable conclusions require much larger,
 held-out, balanced test sets, repeated seeds, and confidence intervals.
