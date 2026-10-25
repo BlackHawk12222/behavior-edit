@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "spec": {
+    "schema_version": 1,
+    "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "steps": 16,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "precision": "float32",
+    "note": "Fixed diagnostic matrix. JSON seed42 development results were known at specification time; remaining trials and all test results were uninspected. Retain every result; no adaptive training-budget changes.",
+    "trials": [
+      {
+        "behavior": "json_format",
+        "seed": 42,
+        "reuse_dev": "results/evolution_lab/experiments/20261025T035731_973055Z"
+      },
+      {
+        "behavior": "concise_content",
+        "seed": 42,
+        "reuse_dev": "results/evolution_lab/experiments/20261025T035936_641002Z"
+      },
+      {
+        "behavior": "exact_instruction",
+        "seed": 42
+      },
+      {
+        "behavior": "json_format",
+        "seed": 43
+      },
+      {
+        "behavior": "json_format",
+        "seed": 44
+      },
+      {
+        "behavior": "concise_content",
+        "seed": 43
+      },
+      {
+        "behavior": "exact_instruction",
+        "seed": 43
+      }
+    ]
+  },
+  "spec_sha256": "276149447d4e2d63f540554ca9ca82fd690b796a919a967927aabaf88fc272e2",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "cba3b5506915cfc8fd552e628ffc60c1416b545a",
+    "git_dirty": false,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": null
+    }
+  },
+  "status": "complete",
+  "trials": [
+    {
+      "behavior": "json_format",
+      "seed": 42,
+      "status": "complete",
+      "dev_dir": "results/evolution_lab/reproduction/00_json_format_42/dev/20261025T121727_214125Z",
+      "test_dir": "results/evolution_lab/reproduction/00_json_format_42/test/20261025T121908_731849Z",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "concise_content",
+      "seed": 42,
+      "status": "complete",
+      "dev_dir": "results/evolution_lab/reproduction/01_concise_content_42/dev/20261025T122119_851773Z",
+      "test_dir": "results/evolution_lab/reproduction/01_concise_content_42/test/20261025T122223_806621Z",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "exact_instruction",
+      "seed": 42,
+      "status": "complete",
+      "dev_dir": "results/evolution_lab/reproduction/02_exact_instruction_42/dev/20261025T122345_776330Z",
+      "test_dir": "results/evolution_lab/reproduction/02_exact_instruction_42/test/20261025T122438_517160Z",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "json_format",
+      "seed": 43,
+      "status": "complete",
+      "dev_dir": "results/evolution_lab/reproduction/03_json_format_43/dev/20261025T122548_383178Z",
+      "test_dir": "results/evolution_lab/reproduction/03_json_format_43/test/20261025T122745_608584Z",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "json_format",
+      "seed": 44,
+      "status": "complete",
+      "dev_dir": "results/evolution_lab/reproduction/04_json_format_44/dev/20261025T122958_995872Z",
+      "test_dir": "results/evolution_lab/reproduction/04_json_format_44/test/20261025T123151_278863Z",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "concise_content",
+      "seed": 43,
+      "status": "complete",
+      "dev_dir": "results/evolution_lab/reproduction/05_concise_content_43/dev/20261025T123344_825883Z",
+      "test_dir": "results/evolution_lab/reproduction/05_concise_content_43/test/20261025T123512_465708Z",
+      "result": "not_verified"
+    },
+    {
+      "behavior": "exact_instruction",
+      "seed": 43,
+      "status": "complete",
+      "dev_dir": "results/evolution_lab/reproduction/06_exact_instruction_43/dev/20261025T123619_878933Z",
+      "test_dir": "results/evolution_lab/reproduction/06_exact_instruction_43/test/20261025T123710_371172Z",
+      "result": "not_verified"
+    }
+  ]
+}

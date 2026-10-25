@@ -1,0 +1,98 @@
+[
+  {
+    "step": 1,
+    "example_id": "train_exact_instruction_07",
+    "loss": 0.630735456943512,
+    "gradient_norm_before_clip": 36.21368408203125
+  },
+  {
+    "step": 2,
+    "example_id": "train_exact_instruction_09",
+    "loss": 0.021565042436122894,
+    "gradient_norm_before_clip": 1.9584712982177734
+  },
+  {
+    "step": 3,
+    "example_id": "train_exact_instruction_05",
+    "loss": 0.03419233858585358,
+    "gradient_norm_before_clip": 1.0087348222732544
+  },
+  {
+    "step": 4,
+    "example_id": "train_exact_instruction_06",
+    "loss": 0.0010734397219493985,
+    "gradient_norm_before_clip": 0.050269078463315964
+  },
+  {
+    "step": 5,
+    "example_id": "train_exact_instruction_14",
+    "loss": 0.0017414945177733898,
+    "gradient_norm_before_clip": 0.06666495651006699
+  },
+  {
+    "step": 6,
+    "example_id": "train_exact_instruction_10",
+    "loss": 8.537922985851765e-05,
+    "gradient_norm_before_clip": 0.0033442750573158264
+  },
+  {
+    "step": 7,
+    "example_id": "train_exact_instruction_12",
+    "loss": 0.018955344334244728,
+    "gradient_norm_before_clip": 0.830020010471344
+  },
+  {
+    "step": 8,
+    "example_id": "train_exact_instruction_08",
+    "loss": 0.0038343975320458412,
+    "gradient_norm_before_clip": 0.25474199652671814
+  },
+  {
+    "step": 9,
+    "example_id": "train_exact_instruction_01",
+    "loss": 0.0028862315230071545,
+    "gradient_norm_before_clip": 0.20677179098129272
+  },
+  {
+    "step": 10,
+    "example_id": "train_exact_instruction_02",
+    "loss": 0.06920872628688812,
+    "gradient_norm_before_clip": 3.849020004272461
+  },
+  {
+    "step": 11,
+    "example_id": "train_exact_instruction_13",
+    "loss": 0.0049394359812140465,
+    "gradient_norm_before_clip": 0.26128771901130676
+  },
+  {
+    "step": 12,
+    "example_id": "train_exact_instruction_15",
+    "loss": 0.05110778287053108,
+    "gradient_norm_before_clip": 1.9889189004898071
+  },
+  {
+    "step": 13,
+    "example_id": "train_exact_instruction_04",
+    "loss": 0.0063619110733270645,
+    "gradient_norm_before_clip": 0.21580825746059418
+  },
+  {
+    "step": 14,
+    "example_id": "train_exact_instruction_11",
+    "loss": 0.000896132958587259,
+    "gradient_norm_before_clip": 0.03714635968208313
+  },
+  {
+    "step": 15,
+    "example_id": "train_exact_instruction_00",
+    "loss": 0.00018656119937077165,
+    "gradient_norm_before_clip": 0.008282061666250229
+  },
+  {
+    "step": 16,
+    "example_id": "train_exact_instruction_03",
+    "loss": 0.00023000439978204668,
+    "gradient_norm_before_clip": 0.013012930750846863
+  }
+]

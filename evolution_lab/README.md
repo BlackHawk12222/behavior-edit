@@ -1,4 +1,4 @@
-# Model Evolution Lab — Apple Silicon experimental path (v0.3.0)
+# Model Evolution Lab — Apple Silicon experimental path (v0.4.0)
 
 [Research guide](RESEARCH_GUIDE.md) · [Measured results](reports/pilot-v1.md) · [Experiment registry](experiment_registry.json)
 
@@ -105,6 +105,29 @@ independent confirmation and capability/locality checks.
 Use a Hugging Face commit SHA instead of `main` for reproducible comparisons.
 Treat 8 tasks as a smoke test. Reliable conclusions require much larger,
 held-out, balanced test sets, repeated seeds, and confidence intervals.
+
+## Phrase and sentence completion
+
+The completion generator adds common phrase completions and subject–verb
+agreement sentences. It creates four prompt surfaces per underlying family,
+keeps each family wholly within train, development, or confirmation, and uses
+curated phrase keys or explicit verb forms as trusted answers. The v1 inventory
+contains 672 unique prompts; its development and confirmation pools each have
+104 prompts, including both phrase and sentence tasks.
+
+~~~sh
+python -m evolution_lab generate-completions --seed 42 --start 0 --count 672 --output results/evolution_lab/completions
+python -m evolution_lab generate-completions --validate-only --output results/evolution_lab/completions
+python -m evolution_lab case-eval results/evolution_lab/completions \
+  --split dev --revision MODEL_COMMIT_SHA --arms base prompt \
+  --limit 104 --output-dir results/evolution_lab/completion-dev
+~~~
+
+The grader checks which choices appear in the response, so a complete
+sentence can receive credit, while a response mentioning both choices is
+ambiguous. It scores strict one-word formatting separately. These probes assess
+English collocation recall and basic subject–verb agreement; they are small,
+culturally dependent benchmarks and do not measure personality.
 
 ## Optional: editing model weights with LoRA (experimental v0.2)
 
@@ -348,3 +371,12 @@ context costs are not equivalent to training or inference compute budgets, so
 these are behavioral comparisons, not cost/latency efficiency claims.
 
 For standalone `run --adapter`, match the original `--precision` and `--revision`; `run` defaults to automatic inference precision, while training defaults to float32. The frozen-checkpoint command enforces the recorded precision automatically.
+
+The first phrase/sentence development and confirmation comparisons also show
+why completion needs separate correctness and format metrics. On the untouched
+confirmation families, the terse one-word prompt raised strict formatting from
+4/104 to 91/104 while correctness fell from 85/104 to 73/104 (22 regressions,
+10 improvements; family-bootstrap interval −23.1 to −1.9 percentage points).
+This was a prompt-only result, not a weight edit. The confirmation split is now
+retired; see F013 and the checksummed raw evidence in
+`evidence/completion_v1/evaluations/confirmation_n104_base_prompt/`.

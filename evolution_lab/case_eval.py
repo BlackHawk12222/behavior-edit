@@ -19,30 +19,77 @@ from .runner import LocalModel
 from .statistics import wilson
 
 ARMS = ("base", "prompt", "adapter", "random")
+ANSWER_GRADER_VERSION = "final-integer-token-v2+unique-completion-choice-v1"
+INTEGER_GRADER_VERSION = "final-integer-token-v2"
+COMPLETION_GRADER_VERSION = "unique-completion-choice-v1"
 BASE_SYSTEM = "You are a helpful assistant."
-PROMPT_SYSTEM = (
+ARITHMETIC_PROMPT_SYSTEM = (
     "You are a helpful assistant. Solve the arithmetic problem carefully "
     "and reply with one integer."
 )
+COMPLETION_PROMPT_SYSTEM = (
+    "You are a helpful assistant. Select the option that correctly completes "
+    "the phrase or sentence and reply with only the missing word."
+)
 INTEGER_TOKEN = re.compile(r"(?<![A-Za-z0-9_])[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?![A-Za-z0-9_])")
 INTEGER_ONLY = re.compile(r"\s*[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)\s*")
+WORD_TOKEN = re.compile(r"[a-z]+(?:['’-][a-z]+)*", re.IGNORECASE)
+WORD_ONLY = re.compile(r"\s*[a-z]+(?:['’-][a-z]+)*\s*", re.IGNORECASE)
 
 
 def grade_answer(answer: str, response: str) -> dict:
-    """Grade arithmetic value separately from strict integer-only formatting."""
+    """Use the final integer mentioned as the answer; score format separately.
+
+    Generated arithmetic questions put their answer at the end of the response
+    in the common explanatory form. This lets a correct explanation count as
+    numerically correct without counting as integer-only formatting.
+    """
     tokens = INTEGER_TOKEN.findall(response)
-    parsed = int(tokens[0].replace(",", "")) if len(tokens) == 1 else None
+    parsed = int(tokens[-1].replace(",", "")) if tokens else None
     return {
         "correct": parsed is not None and parsed == int(answer),
         "parsed_integer": parsed,
+        "integer_token_count": len(tokens),
         "single_integer_format": bool(INTEGER_ONLY.fullmatch(response)),
     }
 
 
+def grade_completion(case: dict, response: str) -> dict:
+    """Find a unique offered answer even when the model returns a full sentence."""
+    tokens = WORD_TOKEN.findall(response)
+    accepted = {str(value).casefold() for value in case.get("accepted_answers", [case["answer"]])}
+    options = {str(value).casefold() for value in case.get("options", [])} | accepted
+    mentioned = [token.casefold() for token in tokens if token.casefold() in options]
+    distinct = set(mentioned)
+    parsed = mentioned[-1] if len(distinct) == 1 else None
+    return {
+        "correct": parsed in accepted if parsed is not None else False,
+        "parsed_answer": parsed,
+        "word_token_count": len(tokens),
+        "distinct_option_mentions": len(distinct),
+        "single_word_format": bool(WORD_ONLY.fullmatch(response)),
+    }
+
+
+def grade_case(case: dict, response: str) -> dict:
+    if case.get("task_type") in {"phrase_completion", "sentence_completion"}:
+        return grade_completion(case, response)
+    return grade_answer(case["answer"], response)
+
+
 def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int = 0) -> tuple[dict, list[dict]]:
     dataset = Path(dataset)
-    census = validate_dataset(dataset)
     source_manifest = json.loads((dataset / "manifest.json").read_text())
+    generator = source_manifest.get("generator")
+    if generator == "arithmetic-v3":
+        census = validate_dataset(dataset)
+        answer_for = solve
+    elif generator == "phrase-sentence-completion-v1":
+        from .completiongen import solve as solve_completion, validate_dataset as validate_completion_dataset
+        census = validate_completion_dataset(dataset)
+        answer_for = solve_completion
+    else:
+        raise ValueError(f"Unsupported case dataset generator: {generator}")
     rows = []
     for shard in source_manifest["shards"]:
         if shard["split"] != split:
@@ -54,7 +101,7 @@ def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int 
     rows = rows[offset:offset + limit if limit is not None else None]
     if not rows:
         raise ValueError(f"No cases found for split {split!r}")
-    if any(normalized_question(row["prompt"]) == "" or row["answer"] != solve(row) for row in rows):
+    if any(normalized_question(row["prompt"]) == "" or row["answer"] != answer_for(row) for row in rows):
         raise ValueError("Selected dataset rows failed prompt or answer-key validation")
     return {"manifest": source_manifest, "census": census}, rows
 
@@ -178,18 +225,42 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
     for arm, records in by_arm.items():
         n = len(records)
         correct = sum(row["metrics"]["correct"] for row in records)
-        formatted = sum(row["metrics"]["single_integer_format"] for row in records)
+        format_key = (
+            "single_word_format"
+            if records and "single_word_format" in records[0]["metrics"]
+            else "single_integer_format"
+        )
+        formatted = sum(row["metrics"].get(format_key, False) for row in records)
         families = {row["family"] for row in records}
-        summaries[arm] = {
+        summary = {
             "model_generations": n,
             "unique_questions": len({row["case_id"] for row in records}),
             "unique_normalized_prompts": len({row.get("normalized_prompt_sha256", _text_sha256(normalized_question(row["prompt"]))) for row in records}),
             "correct": correct,
             "accuracy": correct / n if n else None,
             "wilson95_descriptive": wilson(correct, n) if n else None,
-            "single_integer_format": formatted,
+            "strict_format_passes": formatted,
+            "strict_format_metric": format_key,
             "family_count": len(families),
         }
+        if format_key == "single_word_format":
+            summary["single_word_format"] = formatted
+        else:
+            summary["single_integer_format"] = formatted
+        task_types = sorted({row.get("task_type", "arithmetic") for row in records})
+        if len(task_types) > 1 or task_types != ["arithmetic"]:
+            summary["by_task_type"] = {}
+            for task_type in task_types:
+                task_rows = [row for row in records if row.get("task_type", "arithmetic") == task_type]
+                summary["by_task_type"][task_type] = {
+                    "model_generations": len(task_rows),
+                    "unique_questions": len({row["case_id"] for row in task_rows}),
+                    "correct": sum(row["metrics"]["correct"] for row in task_rows),
+                    "accuracy": sum(row["metrics"]["correct"] for row in task_rows) / len(task_rows),
+                    "strict_format_passes": sum(row["metrics"].get(format_key, False) for row in task_rows),
+                    "family_count": len({row["family"] for row in task_rows}),
+                }
+        summaries[arm] = summary
 
     paired = {}
     if "base" in by_arm:
@@ -199,7 +270,8 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
                 continue
             comparison = {row["case_id"]: row for row in by_arm[arm]}
             common = sorted(set(baseline) & set(comparison))
-            groups: dict[str, list[int]] = {}
+            groups_by_type: dict[str, dict[str, list[int]]] = {}
+            counts_by_type: dict[str, int] = {}
             improved = regressed = 0
             for case_id in common:
                 before = int(baseline[case_id]["metrics"]["correct"])
@@ -207,27 +279,49 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
                 improved += before == 0 and after == 1
                 regressed += before == 1 and after == 0
                 family = baseline[case_id]["family"]
-                groups.setdefault(family, []).append(after - before)
+                task_type = baseline[case_id].get("task_type", "arithmetic")
+                groups_by_type.setdefault(task_type, {}).setdefault(family, []).append(after - before)
+                counts_by_type[task_type] = counts_by_type.get(task_type, 0) + 1
             ci = None
-            if len(groups) >= 2:
+            ci_by_type = {}
+            total_families = sum(len(groups) for groups in groups_by_type.values())
+            if total_families >= 2:
                 rng = random.Random(seed)
-                clusters = list(groups.values())
                 draws = []
+                type_draws: dict[str, list[float]] = {task_type: [] for task_type in groups_by_type}
                 for _ in range(2000):
-                    sample = [value for group in rng.choices(clusters, k=len(clusters)) for value in group]
-                    draws.append(sum(sample) / len(sample))
+                    estimate = 0.0
+                    for task_type, groups in groups_by_type.items():
+                        clusters = list(groups.values())
+                        sample = [value for group in rng.choices(clusters, k=len(clusters)) for value in group]
+                        task_mean = sum(sample) / len(sample)
+                        estimate += (counts_by_type[task_type] / len(common)) * task_mean
+                        type_draws[task_type].append(task_mean)
+                    draws.append(estimate)
                 draws.sort()
                 ci = [draws[49], draws[1950]]
+                for task_type, values in type_draws.items():
+                    if len(groups_by_type[task_type]) >= 2:
+                        values.sort()
+                        ci_by_type[task_type] = [values[49], values[1950]]
+                    else:
+                        ci_by_type[task_type] = None
             paired[arm] = {
                 "paired_questions": len(common),
                 "improved": improved,
                 "regressed": regressed,
                 "pass_rate_delta": (improved - regressed) / len(common) if common else None,
                 "paired_family_bootstrap95": ci,
-                "family_count": len(groups),
-                "note": "Bootstrap resamples arithmetic fact families; few families yield unstable or unavailable intervals.",
+                "paired_family_bootstrap95_by_task_type": ci_by_type,
+                "family_count": total_families,
+                "note": "Bootstrap resamples families within each task type and weights the combined estimate by question counts; few families yield unstable intervals.",
             }
     return {
+        "answer_grader_version": ANSWER_GRADER_VERSION,
+        "grading_policies": {
+            "arithmetic": INTEGER_GRADER_VERSION,
+            "phrase_and_sentence_completion": COMPLETION_GRADER_VERSION,
+        },
         "arms": summaries,
         "paired_vs_base": paired,
         "uncertainty_note": "Wilson intervals are descriptive and ignore within-family dependence; use the paired family bootstrap for arm contrasts.",
@@ -235,6 +329,10 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
 
 
 def evaluate_cases(args) -> int:
+    # Reject an unapproved final-test request before creating the destination or
+    # its lock file. This makes the opt-in boundary side-effect free.
+    if args.split == "confirmation" and not args.allow_confirmation:
+        raise ValueError("Confirmation cases require the explicit --allow-confirmation flag")
     output = Path(args.output_dir)
     output.mkdir(parents=True, exist_ok=True)
     with _campaign_lock(output / ".case-eval.lock"):
@@ -279,6 +377,12 @@ def _evaluate_cases_locked(args) -> int:
         norm_match = validate_norm_match(args.adapter_delta, args.random_delta)
 
     source, cases = load_cases(args.dataset, args.split, args.limit, args.offset)
+    dataset_generator = source["manifest"]["generator"]
+    prompt_system = args.prompt_system or (
+        COMPLETION_PROMPT_SYSTEM
+        if dataset_generator == "phrase-sentence-completion-v1"
+        else ARITHMETIC_PROMPT_SYSTEM
+    )
     adapter_hashes = {
         arm: checkpoint_hashes(path)
         for arm, path in (("adapter", args.adapter), ("random", args.random_adapter))
@@ -301,6 +405,8 @@ def _evaluate_cases_locked(args) -> int:
     ])
     spec = {
         "schema_version": 1,
+        "answer_grader_version": ANSWER_GRADER_VERSION,
+        "dataset_generator": dataset_generator,
         "dataset_manifest_sha256": fingerprint(source["manifest"]),
         "dataset_seed": source["manifest"]["seed"],
         "split": args.split,
@@ -313,7 +419,7 @@ def _evaluate_cases_locked(args) -> int:
         "requested_precision": args.precision,
         "arms": arms,
         "base_system_prompt": BASE_SYSTEM,
-        "prompt_system_prompt": args.prompt_system,
+        "prompt_system_prompt": prompt_system,
         "adapter_hashes": adapter_hashes,
         "adapter_sources": adapter_sources,
         "adapter_delta_hashes": {
@@ -350,6 +456,39 @@ def _evaluate_cases_locked(args) -> int:
             "records_written": 0,
         }
         _atomic_json(run_path, run)
+
+    existing: dict[tuple[str, str], dict] = {}
+    if observations_path.exists():
+        if run.get("status") == "complete":
+            expected_hash = run.get("observations_sha256")
+            if not expected_hash or _file_sha256(observations_path) != expected_hash:
+                raise ValueError("Completed response ledger does not match its saved checksum")
+            report_path = output / "report.json"
+            if not report_path.is_file() or _file_sha256(report_path) != run.get("report_sha256"):
+                raise ValueError("Completed report does not match its saved checksum")
+        for line in observations_path.read_text().splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            key = (row["arm"], row["case_id"])
+            if key in existing or row["arm"] not in arms:
+                raise ValueError("Duplicate or unexpected cached response in campaign")
+            existing[key] = row
+    case_map = {row["case_id"]: row for row in cases}
+    for (arm, case_id), row in existing.items():
+        case = case_map.get(case_id)
+        if case is None or row.get("answer_key") != case["answer"] or row.get("prompt") != case["prompt"]:
+            raise ValueError("Cached response does not match the selected dataset")
+        if row.get("normalized_prompt_sha256") != _text_sha256(normalized_question(case["prompt"])):
+            raise ValueError("Cached normalized prompt hash does not match the selected dataset")
+        if row.get("metrics") != grade_case(case, row.get("response", "")):
+            raise ValueError("Cached objective grade is inconsistent with the raw response")
+    if run.get("status") == "complete":
+        expected_keys = {(arm, row["case_id"]) for arm in arms for row in cases}
+        if existing.keys() != expected_keys:
+            raise ValueError("Completed response ledger is missing or contains unexpected arm/question pairs")
+        print(f"Case campaign already complete: {output}", flush=True)
+        return 0
 
     try:
         local = LocalModel(args.model, revision=args.revision, device=args.device,
@@ -392,24 +531,6 @@ def _evaluate_cases_locked(args) -> int:
         run["verified_delta_stats"] = verified_deltas
         _atomic_json(run_path, run)
 
-    existing: dict[tuple[str, str], dict] = {}
-    if observations_path.exists():
-        for line in observations_path.read_text().splitlines():
-            if not line.strip():
-                continue
-            row = json.loads(line)
-            key = (row["arm"], row["case_id"])
-            if key in existing or row["arm"] not in arms:
-                raise ValueError("Duplicate or unexpected cached response in campaign")
-            existing[key] = row
-    case_map = {row["case_id"]: row for row in cases}
-    for (arm, case_id), row in existing.items():
-        case = case_map.get(case_id)
-        if case is None or row.get("answer_key") != case["answer"] or row.get("prompt") != case["prompt"]:
-            raise ValueError("Cached response does not match the selected dataset")
-        if row.get("metrics") != grade_answer(case["answer"], row.get("response", "")):
-            raise ValueError("Cached objective grade is inconsistent with the raw response")
-
     records_written = len(existing)
     completed_by_arm = {arm: sum(key[0] == arm for key in existing) for arm in arms}
     started = time.monotonic()
@@ -423,7 +544,7 @@ def _evaluate_cases_locked(args) -> int:
                     key = (arm, case["case_id"])
                     if key in existing:
                         continue
-                    system_prompt = args.prompt_system if arm == "prompt" else BASE_SYSTEM
+                    system_prompt = prompt_system if arm == "prompt" else BASE_SYSTEM
                     if "adapter" in arms and arm in {"base", "prompt"}:
                         with local.model.disable_adapter():
                             response, tokens, latency = local.generate(
@@ -436,9 +557,10 @@ def _evaluate_cases_locked(args) -> int:
                     row = {
                         "case_id": case["case_id"], "family": case["family"],
                         "split": case["split"], "arm": arm,
+                        "task_type": case.get("task_type", "arithmetic"),
                         "prompt": case["prompt"], "answer_key": case["answer"],
                         "normalized_prompt_sha256": _text_sha256(normalized_question(case["prompt"])),
-                        "response": response, "metrics": grade_answer(case["answer"], response),
+                        "response": response, "metrics": grade_case(case, response),
                         "generated_tokens": tokens, "latency_seconds": latency,
                         "resolved_revision": local.resolved_revision,
                     }
@@ -454,9 +576,12 @@ def _evaluate_cases_locked(args) -> int:
                     print(f"{arm} {completed_by_arm[arm]}/{len(cases)}: {row['metrics']['correct']} {case['case_id']}", flush=True)
             os.fsync(stream.fileno())
         report = _summary(list(existing.values()), arms)
-        _atomic_json(output / "report.json", report)
+        report_path = output / "report.json"
+        _atomic_json(report_path, report)
         run.update(status="complete", records_written=records_written,
                    elapsed_seconds=round(time.monotonic() - started, 3),
+                   observations_sha256=_file_sha256(observations_path),
+                   report_sha256=_file_sha256(report_path),
                    model_generations=records_written,
                    completed_arms={arm: sum(key[0] == arm for key in existing) for arm in arms})
         _atomic_json(run_path, run)

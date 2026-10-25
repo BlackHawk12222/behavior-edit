@@ -26,11 +26,16 @@ def solve(case: dict) -> str:
     return str(a + b)
 
 
-def _split(family: str) -> str:
+def split_family(family: str) -> str:
     # Split at the family level so paraphrases/templates from one family never
     # straddle train, development, and confirmation data.
     value = int.from_bytes(hashlib.sha256(family.encode()).digest()[:4], "big") % 100
     return "train" if value < 70 else "dev" if value < 85 else "confirmation"
+
+
+def _split(family: str) -> str:
+    """Compatibility alias for the arithmetic generator's stable split rule."""
+    return split_family(family)
 
 
 def generate(seed: int, count: int, start: int = 0) -> list[dict]:

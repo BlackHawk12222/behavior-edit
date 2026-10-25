@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "generator": "phrase-sentence-completion-v1",
+  "census": {
+    "unique_cases": 672,
+    "unique_prompts": 672,
+    "split_counts": {
+      "confirmation": 104,
+      "dev": 104,
+      "train": 464
+    },
+    "task_type_counts": {
+      "phrase_completion": 160,
+      "sentence_completion": 512
+    },
+    "unique_families": 104
+  },
+  "split_by_task_type": {
+    "train": {
+      "phrase_completion": 112,
+      "sentence_completion": 352
+    },
+    "dev": {
+      "phrase_completion": 24,
+      "sentence_completion": 80
+    },
+    "confirmation": {
+      "phrase_completion": 24,
+      "sentence_completion": 80
+    }
+  },
+  "family_count_by_split": {
+    "confirmation": 16,
+    "dev": 16,
+    "train": 72
+  },
+  "model_generations": 0,
+  "software_tests": 0,
+  "note": "Generated question records only; not model responses, behavior measurements, or software-test counts."
+}

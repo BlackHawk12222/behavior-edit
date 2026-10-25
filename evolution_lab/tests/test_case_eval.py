@@ -12,13 +12,17 @@ from evolution_lab.provenance import checkpoint_hashes
 
 class CaseEvaluationTests(unittest.TestCase):
     def test_arithmetic_value_is_separate_from_format(self):
-        self.assertEqual(case_eval.grade_answer("58", "Answer: 58."), {
-            "correct": True, "parsed_integer": 58, "single_integer_format": False,
-        })
+        prose = case_eval.grade_answer("58", "The sum of 20 and 38 is 58.")
+        self.assertTrue(prose["correct"])
+        self.assertEqual(prose["parsed_integer"], 58)
+        self.assertEqual(prose["integer_token_count"], 3)
+        self.assertFalse(prose["single_integer_format"])
+        self.assertTrue(case_eval.grade_answer("58", "Answer: 58.")["correct"])
         self.assertTrue(case_eval.grade_answer("58", "58\n")["single_integer_format"])
         self.assertTrue(case_eval.grade_answer("12000", "12,000")["correct"])
         self.assertTrue(case_eval.grade_answer("12000", "12,000")["single_integer_format"])
         self.assertFalse(case_eval.grade_answer("58", "58 rather than 59")["correct"])
+        self.assertTrue(case_eval.grade_answer("58", "20 + 38 = 58")["correct"])
         self.assertFalse(case_eval.grade_answer("58", "fifty-eight")["correct"])
 
     def args(self, output, split="dev", allow_confirmation=False, resume=False):
@@ -33,7 +37,7 @@ class CaseEvaluationTests(unittest.TestCase):
         )
 
     def cases(self):
-        return {"manifest": {"seed": 7, "schema_version": 3, "shards": []},
+        return {"manifest": {"seed": 7, "schema_version": 3, "generator": "arithmetic-v3", "shards": []},
                 "census": {"unique_cases": 2}}, [
             {"case_id": "c1", "index": 0, "family": "f1", "split": "dev",
              "prompt": "2 + 3", "answer": "5", "operation": "add", "operands": [2, 3]},
@@ -42,11 +46,14 @@ class CaseEvaluationTests(unittest.TestCase):
         ]
 
     def test_confirmation_requires_explicit_opt_in_before_model_load(self):
-        args = self.args("unused", split="confirmation")
-        with patch.object(case_eval, "load_cases") as loader:
-            with self.assertRaisesRegex(ValueError, "--allow-confirmation"):
-                case_eval.evaluate_cases(args)
-            loader.assert_not_called()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "confirmation-campaign"
+            args = self.args(output, split="confirmation")
+            with patch.object(case_eval, "load_cases") as loader:
+                with self.assertRaisesRegex(ValueError, "--allow-confirmation"):
+                    case_eval.evaluate_cases(args)
+                loader.assert_not_called()
+            self.assertFalse(output.exists())
 
     def test_campaign_lock_rejects_a_second_process(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -68,11 +75,12 @@ class CaseEvaluationTests(unittest.TestCase):
             self.assertEqual(source["manifest"]["generator"], "arithmetic-v3")
 
     def test_adapter_campaign_requires_all_primary_controls(self):
-        args = self.args("unused")
-        args.arms = ["base", "adapter"]
-        args.adapter = Path("adapter")
-        with self.assertRaisesRegex(ValueError, "require base, prompt, adapter, and norm-matched random"):
-            case_eval.evaluate_cases(args)
+        with tempfile.TemporaryDirectory() as directory:
+            args = self.args(Path(directory) / "campaign")
+            args.arms = ["base", "adapter"]
+            args.adapter = Path("adapter")
+            with self.assertRaisesRegex(ValueError, "require base, prompt, adapter, and norm-matched random"):
+                case_eval.evaluate_cases(args)
 
     def test_random_control_requires_layerwise_norm_match(self):
         layer = {"name": "layer.q_proj", "matrix_shape": [2, 2], "rank": 1,
@@ -166,6 +174,15 @@ class CaseEvaluationTests(unittest.TestCase):
             journal = json.loads((output / "run.json").read_text())
             self.assertEqual(journal["status"], "complete")
             self.assertEqual(journal["model_generations"], 4)
+            with patch.object(case_eval, "load_cases", return_value=source), \
+                 patch.object(case_eval, "LocalModel", side_effect=AssertionError("must not reload a completed run")):
+                self.assertEqual(case_eval.evaluate_cases(args), 0)
+            with (output / "observations.jsonl").open("a") as stream:
+                stream.write("\n")
+            with patch.object(case_eval, "load_cases", return_value=source), \
+                 patch.object(case_eval, "LocalModel", side_effect=AssertionError("checksum should fail before loading")):
+                with self.assertRaisesRegex(ValueError, "response ledger.*checksum"):
+                    case_eval.evaluate_cases(args)
 
 
 if __name__ == "__main__":

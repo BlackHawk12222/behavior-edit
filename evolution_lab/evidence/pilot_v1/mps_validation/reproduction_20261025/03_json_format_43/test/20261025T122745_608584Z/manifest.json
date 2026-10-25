@@ -1,0 +1,466 @@
+{
+  "schema_version": 1,
+  "run_id": "20261025T122745_608584Z",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "cba3b5506915cfc8fd552e628ffc60c1416b545a",
+    "git_dirty": false,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": null
+    }
+  },
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "mps",
+  "precision": "torch.float32",
+  "seed": 43,
+  "suite_id": "behavior-diagnostics-v1",
+  "suite_sha256": "994266474e94610273d18b73711bcd37c3ea850287bbffd292f1eee938b95d7f",
+  "training_sha256": "28e11cef1e9bac6b9b61fbaa710f58ac8dcccb172f24dfdc0c623d67e3c3c62c",
+  "evaluation_sha256": "64756ed5bfe20a046e97731fcbcf3372b3ce416daf7a5fd04f201ee3c4615229",
+  "behavior": "json_format",
+  "split": "test",
+  "smoke_only": false,
+  "settings": {
+    "steps": 16,
+    "rank": 4,
+    "learning_rate": 0.0005,
+    "max_length": 192,
+    "max_new_tokens": 48,
+    "decoding": "greedy",
+    "lora_alpha": 8,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0
+  },
+  "training_ids": [
+    "train_json_format_00",
+    "train_json_format_01",
+    "train_json_format_02",
+    "train_json_format_03",
+    "train_json_format_04",
+    "train_json_format_05",
+    "train_json_format_06",
+    "train_json_format_07",
+    "train_json_format_08",
+    "train_json_format_09",
+    "train_json_format_10",
+    "train_json_format_11",
+    "train_json_format_12",
+    "train_json_format_13",
+    "train_json_format_14",
+    "train_json_format_15"
+  ],
+  "tasks": [
+    {
+      "id": "test_json_format_00",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"falcon\"; priority is 2.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "falcon"
+        ],
+        "priority": 2
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_01",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"otter\"; priority is 3.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "otter"
+        ],
+        "priority": 3
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_02",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"badger\"; priority is 4.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "badger"
+        ],
+        "priority": 4
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_03",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"heron\"; priority is 5.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "heron"
+        ],
+        "priority": 5
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_04",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"lynx\"; priority is 6.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "lynx"
+        ],
+        "priority": 6
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_05",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"panda\"; priority is 7.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "panda"
+        ],
+        "priority": 7
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_06",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"raven\"; priority is 8.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "raven"
+        ],
+        "priority": 8
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_07",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"seal\"; priority is 9.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "seal"
+        ],
+        "priority": 9
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_08",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"tiger\"; priority is 10.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "tiger"
+        ],
+        "priority": 10
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_09",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"whale\"; priority is 11.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "whale"
+        ],
+        "priority": 11
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_10",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"yak\"; priority is 12.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "yak"
+        ],
+        "priority": 12
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_json_format_11",
+      "behavior": "json_format",
+      "split": "test",
+      "family": "test_json_format_schema",
+      "category": "json_format",
+      "prompt": "Output a JSON object, without markdown: tags is a one-element array containing \"zebra\"; priority is 13.",
+      "kind": "json",
+      "target": {
+        "tags": [
+          "zebra"
+        ],
+        "priority": 13
+      },
+      "role": "target"
+    },
+    {
+      "id": "test_arithmetic_0",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 43 + 7. Answer with digits only.",
+      "target": "50",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_1",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 44 + 8. Answer with digits only.",
+      "target": "52",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_2",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 45 + 9. Answer with digits only.",
+      "target": "54",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_3",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 46 + 10. Answer with digits only.",
+      "target": "56",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_4",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 47 + 11. Answer with digits only.",
+      "target": "58",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_5",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 48 + 12. Answer with digits only.",
+      "target": "60",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_6",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 49 + 13. Answer with digits only.",
+      "target": "62",
+      "role": "locality"
+    },
+    {
+      "id": "test_arithmetic_7",
+      "behavior": "preservation",
+      "category": "arithmetic",
+      "split": "test",
+      "family": "test_arithmetic_operands",
+      "kind": "exact",
+      "prompt": "Calculate 50 + 14. Answer with digits only.",
+      "target": "64",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_0",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the capital of Canada? Reply with just the answer, without punctuation.",
+      "target": "Ottawa",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_1",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "How many sides does a hexagon have? Reply with just the answer, without punctuation.",
+      "target": "6",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_2",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the largest planet in our solar system? Reply with just the answer, without punctuation.",
+      "target": "Jupiter",
+      "role": "locality"
+    },
+    {
+      "id": "test_facts_3",
+      "behavior": "preservation",
+      "category": "factual",
+      "split": "test",
+      "family": "test_facts",
+      "kind": "exact",
+      "prompt": "What is the chemical symbol for gold? Reply with just the answer, without punctuation.",
+      "target": "Au",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_0",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 29, 22, 25 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "22,25,29",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_1",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 30, 23, 26 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "23,26,30",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_2",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 31, 24, 27 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "24,27,31",
+      "role": "locality"
+    },
+    {
+      "id": "test_reasoning_3",
+      "behavior": "preservation",
+      "category": "sorting",
+      "split": "test",
+      "family": "test_reasoning_sequences",
+      "kind": "exact",
+      "prompt": "Sort 32, 25, 28 from smallest to largest. Output comma-separated digits with no spaces.",
+      "target": "25,28,32",
+      "role": "locality"
+    }
+  ],
+  "controls": [
+    "base",
+    "prompt",
+    "lora",
+    "random"
+  ],
+  "warning": "Diagnostic only. Test results must not be used to tune this benchmark. No personality, intelligence, or generalized improvement claim.",
+  "adapter_hashes": {
+    "lora": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "371463eb78ba283a089e9063050c41c526b90608b0e450c05b71c84956ffb8a3",
+      "adapter_model.safetensors": "666cee04633ea6960230933f85616ec72371f1d3d90f5e3c74b0b7005c82659e"
+    },
+    "random": {
+      "README.md": "6b95375f507809c480d15e683ecaf6c69fe91a26adef775e1ce4032df12c7d56",
+      "adapter_config.json": "371463eb78ba283a089e9063050c41c526b90608b0e450c05b71c84956ffb8a3",
+      "adapter_model.safetensors": "cf74f6527104f727ee263c21fbe20cf89d27a05efc4c20e05d8211341e9dd1d8"
+    }
+  },
+  "zero_control_identical": true,
+  "source_run": "results/evolution_lab/reproduction/03_json_format_43/dev/20261025T122548_383178Z",
+  "source_manifest_sha256": "93c6b1909f3725ddf4d917f7a3f07d740b070bd6af683acd2c7fca0ae9382e1a",
+  "legacy_checkpoint_hashes_missing": false,
+  "protocol": "Frozen adapter test; no training or selection on this split."
+}

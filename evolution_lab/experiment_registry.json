@@ -71,30 +71,324 @@
     },
     {
       "id": "case-eval-v1",
-      "status": "implementation-verified-no-model-results",
+      "status": "real-model-integration-verified-dev-and-confirmation-results",
       "entrypoint": "python -m evolution_lab case-eval",
       "dataset": "evolution_lab/evidence/casegen_v3/manifest.json",
       "unique_questions_generated": 100000,
-      "model_generations": 0,
-      "software_tests_passed": 56,
+      "model_generations": 544,
+      "software_tests_passed": 64,
       "features": [
-        "trusted arithmetic answer grading",
-        "separate integer-format metric",
-        "paired base/prompt/LoRA/norm-matched-random arms",
-        "source manifest and checkpoint hash verification",
-        "layerwise effective-delta norm matching",
-        "effective deltas recomputed from loaded tensors",
-        "resumable JSONL response records",
-        "exclusive per-campaign process lock",
-        "normalized prompt hashes for cross-run deduplication",
+        "arithmetic and phrase/sentence completion datasets",
         "bounded stable-offset evaluation slices",
-        "explicit confirmation opt-in"
+        "completed ledger and report checksums",
+        "effective deltas recomputed from loaded tensors",
+        "exclusive per-campaign process lock",
+        "explicit confirmation opt-in",
+        "family-stratified phrase and sentence splits",
+        "grader version bound into resume specification",
+        "layerwise effective-delta norm matching",
+        "normalized prompt hashes for cross-run deduplication",
+        "paired base/prompt/LoRA/norm-matched-random arms",
+        "resumable JSONL response records",
+        "separate integer-format metric",
+        "source manifest and checkpoint hash verification",
+        "task-type score separation",
+        "trusted answer-key completion grading with ambiguous-choice detection",
+        "trusted arithmetic answer grading"
       ],
       "mps_available": true,
       "model_run_skipped_due_to_existing_active_study": true,
-      "summary": "Evaluator and guards are unit-verified. No behavior claim; first real-model development slice remains to be run after the active MPS reproduction study completes.",
+      "summary": "The paired evaluator ran 544 CPU generations over 272 unique development and confirmation questions across arithmetic and phrase/sentence completion. Completion confirmation found a prompt-formatting versus correctness tradeoff and is retired. No adapter comparison or candidate promotion has occurred.",
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "unique_questions_evaluated": 272,
+      "device": "cpu",
+      "precision": "float32",
+      "network_model_id_load_failure": "evolution_lab/evidence/casegen_v3/evaluations/model_id_load_failure_20261025/import_manifest.json",
+      "first_model_result": "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/import_manifest.json",
+      "mps_available_current_process": false,
+      "grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+      "campaign_evidence": [
+        "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/regrade_final_integer_v2/regrade_manifest.json",
+        "evolution_lab/evidence/completion_v1/evaluations/dev_n104_base_prompt/regrade_unique_option_v1/regrade_manifest.json",
+        "evolution_lab/evidence/completion_v1/evaluations/confirmation_n104_base_prompt/import_manifest.json"
+      ]
+    },
+    {
+      "id": "mps-reproduction-20261025",
+      "status": "complete-hardware-reproduction-no-fresh-confirmation",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "mps",
+      "precision": "float32",
+      "source_git_commit": "cba3b5506915cfc8fd552e628ffc60c1416b545a",
+      "source_study": "evolution_lab/studies/pilot_v1.json",
+      "evidence": "evolution_lab/evidence/pilot_v1/mps_validation/reproduction_20261025/import_manifest.json",
+      "trials": 7,
+      "reused_development_trials": [
+        "json_format seed 42",
+        "concise_content seed 42"
+      ],
+      "counts": {
+        "unique_normalized_prompts": 92,
+        "model_generation_rows_including_repeat_conditions_and_reused_dev": 1624,
+        "new_training_updates": 80,
+        "training_updates_logged_in_imported_artifacts_including_reuse": 112,
+        "software_tests": 0
+      },
+      "target_test_scores": {
+        "json_format_lora": [
+          "12/12",
+          "12/12",
+          "12/12"
+        ],
+        "json_format_base": [
+          "0/12",
+          "0/12",
+          "0/12"
+        ],
+        "json_format_random": [
+          "0/12",
+          "0/12",
+          "0/12"
+        ],
+        "concise_content_lora": [
+          "8/12",
+          "8/12"
+        ],
+        "concise_content_base": [
+          "6/12",
+          "6/12"
+        ],
+        "concise_content_prompt": [
+          "7/12",
+          "7/12"
+        ],
+        "concise_content_random": [
+          "6/12",
+          "5/12"
+        ],
+        "exact_instruction_lora": [
+          "4/12",
+          "1/12"
+        ],
+        "exact_instruction_base": [
+          "3/12",
+          "3/12"
+        ]
+      },
+      "locality_regressions": {
+        "json_format_lora": [
+          "2/16",
+          "1/16",
+          "1/16"
+        ],
+        "concise_content_lora": [
+          "0/16",
+          "0/16"
+        ],
+        "exact_instruction_lora": [
+          "0/16",
+          "0/16"
+        ]
+      },
+      "final_test_exposed": true,
+      "eligible_for_future_final_confirmation": false,
+      "confirmation_consumed": true,
+      "current_process_mps_available": false,
+      "summary": "All seven fixed runs completed on direct Mac MPS. This repeats the already inspected pilot test families; JSON effects reproduced against random controls but retained locality regressions, concise gains remained small, and exact-instruction effects varied by seed. Hardware evidence only; no candidate promoted."
+    },
+    {
+      "id": "caseeval-cpu-dev-20261025",
+      "status": "complete-development-integration-no-edit-claim",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "split": "dev",
+      "dataset_seed": 42,
+      "split_offset": 3000,
+      "unique_questions": 64,
+      "fact_families": 16,
+      "model_generations": 128,
+      "software_tests": 0,
+      "arms": {
+        "base": {
+          "correct": "26/64",
+          "strict_integer_format": "16/64"
+        },
+        "prompt": {
+          "correct": "37/64",
+          "strict_integer_format": "18/64"
+        }
+      },
+      "paired_prompt_vs_base": {
+        "improved": 21,
+        "regressed": 10,
+        "correctness_rate_delta": 0.171875,
+        "family_bootstrap95": [
+          0.0625,
+          0.28125
+        ]
+      },
+      "evidence": "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/import_manifest.json",
+      "summary": "Corrected regrade of the same raw outputs. The first grader mislabeled explanatory responses with multiple integers; final-integer-token-v2 separates numeric correctness from strict formatting. Prompt-only improved this narrow development score; not a weight-edit result.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "grader_version": "final-integer-token-v2",
+      "regraded_labels_changed": 39,
+      "regrade_evidence": "evolution_lab/evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/regrade_final_integer_v2/regrade_manifest.json"
+    },
+    {
+      "id": "caseeval-cpu-network-load-failure-20261025",
+      "status": "failed-before-inference-network-unavailable",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "split": "dev",
+      "selected_questions": 64,
+      "model_generations": 0,
+      "evidence": "evolution_lab/evidence/casegen_v3/evaluations/model_id_load_failure_20261025/import_manifest.json",
+      "summary": "Hugging Face repository-ID resolution needed an unavailable DNS lookup. The same cached pinned model snapshot loaded when addressed by its exact local snapshot path; the completed run is recorded separately.",
       "confirmation_consumed": false,
       "eligible_for_promotion": false
+    },
+    {
+      "id": "completiongen-v1",
+      "status": "generator-verified-no-model-claim",
+      "generator": "phrase-sentence-completion-v1",
+      "seed": 42,
+      "evidence": "evolution_lab/evidence/completion_v1/manifest.json",
+      "counts_file": "evolution_lab/evidence/completion_v1/counts.json",
+      "unique_questions": 672,
+      "split_counts": {
+        "train": 464,
+        "dev": 104,
+        "confirmation": 104
+      },
+      "question_type_counts": {
+        "phrase_completion": 160,
+        "sentence_completion": 512
+      },
+      "unique_families": 104,
+      "family_counts_by_split": {
+        "train": 72,
+        "dev": 16,
+        "confirmation": 16
+      },
+      "independent_answer_key": "curated collocation table or explicit singular/plural verb-pair rule",
+      "model_generations": 0,
+      "software_tests_separate": 8,
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "summary": "Four paraphrase surfaces per phrase or subject-verb family; family assignments are stratified by task type and kept inside one split. Includes a held-out confirmation pool not used in the development evaluation."
+    },
+    {
+      "id": "completion-dev-cpu-20261025",
+      "status": "complete-development-evaluation-no-promotion",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "split": "dev",
+      "unique_questions": 104,
+      "model_generations": 208,
+      "task_type_counts": {
+        "phrase_completion": 24,
+        "sentence_completion": 80
+      },
+      "families": 16,
+      "arms": {
+        "base": {
+          "correct": "78/104",
+          "strict_single_word": "11/104",
+          "phrase_correct": "15/24",
+          "sentence_correct": "63/80"
+        },
+        "prompt": {
+          "correct": "79/104",
+          "strict_single_word": "99/104",
+          "phrase_correct": "15/24",
+          "sentence_correct": "64/80"
+        }
+      },
+      "paired_prompt_vs_base": {
+        "improved": 17,
+        "regressed": 16,
+        "correctness_rate_delta": 0.009615384615384616,
+        "family_bootstrap95": [
+          -0.08653846153846154,
+          0.11538461538461539
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.2916666666666667,
+            0.2916666666666667
+          ],
+          "sentence_completion": [
+            -0.075,
+            0.1125
+          ]
+        }
+      },
+      "grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+      "raw_evidence": "evolution_lab/evidence/completion_v1/evaluations/dev_n104_base_prompt/import_manifest.json",
+      "regrade_evidence": "evolution_lab/evidence/completion_v1/evaluations/dev_n104_base_prompt/regrade_unique_option_v1/regrade_manifest.json",
+      "regraded_without_new_generations": true,
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "summary": "Prompt-only instruction strongly improved strict one-word output (11/104 to 99/104), while objective correctness was essentially tied. The task-stratified paired family interval included zero overall and by type. Small lexical and grammar probe set only; no weight edit. Its separate confirmation family was evaluated later and is now retired; see completion-confirmation-cpu-20261025.",
+      "regraded_correctness_labels_changed": 56
+    },
+    {
+      "id": "completion-confirmation-cpu-20261025",
+      "status": "complete-confirmation-prompt-correctness-regression",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "split": "confirmation",
+      "unique_questions": 104,
+      "model_generations": 208,
+      "families": 16,
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "arms": {
+        "base": {
+          "correct": "85/104",
+          "phrase_correct": "19/24",
+          "sentence_correct": "66/80",
+          "strict_single_word": "4/104"
+        },
+        "prompt": {
+          "correct": "73/104",
+          "phrase_correct": "13/24",
+          "sentence_correct": "60/80",
+          "strict_single_word": "91/104"
+        }
+      },
+      "paired_prompt_vs_base": {
+        "improved": 10,
+        "regressed": 22,
+        "correctness_rate_delta": -0.11538461538461539,
+        "family_bootstrap95": [
+          -0.23076923076923078,
+          -0.019230769230769232
+        ],
+        "family_bootstrap95_by_task_type": {
+          "phrase_completion": [
+            -0.5833333333333334,
+            -0.041666666666666664
+          ],
+          "sentence_completion": [
+            -0.2,
+            0.0375
+          ]
+        }
+      },
+      "grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+      "evidence": "evolution_lab/evidence/completion_v1/evaluations/confirmation_n104_base_prompt/import_manifest.json",
+      "summary": "A predeclared direct instruction sharply improved one-word formatting but reduced objective correctness overall on this finite family-held-out confirmation set. The subset intervals are wide; this does not establish a broad language ability or weight-edit effect. Retire this split."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

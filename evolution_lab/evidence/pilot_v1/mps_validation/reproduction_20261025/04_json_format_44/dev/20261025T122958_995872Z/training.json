@@ -1,0 +1,98 @@
+[
+  {
+    "step": 1,
+    "example_id": "train_json_format_05",
+    "loss": 1.1179379224777222,
+    "gradient_norm_before_clip": 7.30707311630249
+  },
+  {
+    "step": 2,
+    "example_id": "train_json_format_10",
+    "loss": 0.7543568015098572,
+    "gradient_norm_before_clip": 5.626886367797852
+  },
+  {
+    "step": 3,
+    "example_id": "train_json_format_15",
+    "loss": 0.49591875076293945,
+    "gradient_norm_before_clip": 4.417778968811035
+  },
+  {
+    "step": 4,
+    "example_id": "train_json_format_07",
+    "loss": 0.3098781406879425,
+    "gradient_norm_before_clip": 2.8495407104492188
+  },
+  {
+    "step": 5,
+    "example_id": "train_json_format_09",
+    "loss": 0.17670290172100067,
+    "gradient_norm_before_clip": 3.0479984283447266
+  },
+  {
+    "step": 6,
+    "example_id": "train_json_format_12",
+    "loss": 0.1359061300754547,
+    "gradient_norm_before_clip": 2.9578070640563965
+  },
+  {
+    "step": 7,
+    "example_id": "train_json_format_00",
+    "loss": 0.06160881370306015,
+    "gradient_norm_before_clip": 1.484941005706787
+  },
+  {
+    "step": 8,
+    "example_id": "train_json_format_04",
+    "loss": 0.024657201021909714,
+    "gradient_norm_before_clip": 0.6068158149719238
+  },
+  {
+    "step": 9,
+    "example_id": "train_json_format_03",
+    "loss": 0.007190704345703125,
+    "gradient_norm_before_clip": 0.2033364474773407
+  },
+  {
+    "step": 10,
+    "example_id": "train_json_format_06",
+    "loss": 0.005817767232656479,
+    "gradient_norm_before_clip": 0.17799507081508636
+  },
+  {
+    "step": 11,
+    "example_id": "train_json_format_02",
+    "loss": 0.017233677208423615,
+    "gradient_norm_before_clip": 0.5402331352233887
+  },
+  {
+    "step": 12,
+    "example_id": "train_json_format_01",
+    "loss": 0.0020512102637439966,
+    "gradient_norm_before_clip": 0.0587686188519001
+  },
+  {
+    "step": 13,
+    "example_id": "train_json_format_11",
+    "loss": 0.0017155577661469579,
+    "gradient_norm_before_clip": 0.11325455456972122
+  },
+  {
+    "step": 14,
+    "example_id": "train_json_format_14",
+    "loss": 0.002013307996094227,
+    "gradient_norm_before_clip": 0.08210795372724533
+  },
+  {
+    "step": 15,
+    "example_id": "train_json_format_08",
+    "loss": 0.0007537226774729788,
+    "gradient_norm_before_clip": 0.03607640787959099
+  },
+  {
+    "step": 16,
+    "example_id": "train_json_format_13",
+    "loss": 0.002524692565202713,
+    "gradient_norm_before_clip": 0.16364143788814545
+  }
+]

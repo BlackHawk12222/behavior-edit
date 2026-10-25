@@ -41,6 +41,12 @@ def build_parser():
     cases.add_argument("--count", type=int, default=1000)
     cases.add_argument("--output", type=Path, required=True)
     cases.add_argument("--validate-only", action="store_true", help="Validate an existing generated dataset")
+    completions = sub.add_parser("generate-completions", help="Generate deterministic phrase and sentence completion questions")
+    completions.add_argument("--seed", type=int, default=42)
+    completions.add_argument("--start", type=int, default=0)
+    completions.add_argument("--count", type=int, default=672)
+    completions.add_argument("--output", type=Path, required=True)
+    completions.add_argument("--validate-only", action="store_true", help="Validate an existing completion dataset")
     case_eval = sub.add_parser("case-eval", help="Run a paired, resumable local campaign on generated cases")
     case_eval.add_argument("dataset", type=Path)
     case_eval.add_argument("--split", choices=["dev", "confirmation"], default="dev")
@@ -54,7 +60,7 @@ def build_parser():
     case_eval.add_argument("--random-adapter", type=Path)
     case_eval.add_argument("--adapter-delta", type=Path, help="Measured effective-delta stats for the LoRA checkpoint")
     case_eval.add_argument("--random-delta", type=Path, help="Measured effective-delta stats for the random checkpoint")
-    case_eval.add_argument("--prompt-system", default="You are a helpful assistant. Solve the arithmetic problem carefully and reply with one integer.")
+    case_eval.add_argument("--prompt-system", help="Override the dataset-specific prompt-control instruction")
     case_eval.add_argument("--max-new-tokens", type=int, default=32)
     case_eval.add_argument("--limit", type=int, help="Bound this campaign to N cases from the selected split")
     case_eval.add_argument("--offset", type=int, default=0, help="Skip this many cases within the selected split for bounded shards")
@@ -152,6 +158,17 @@ def main(argv=None):
             return 0
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"Case dataset validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "generate-completions":
+        from .completiongen import validate_dataset, write_shard
+        try:
+            if not args.validate_only:
+                manifest = write_shard(args.output, args.seed, args.start, args.count)
+                print(json.dumps({"shards": len(manifest["shards"]), "unique_cases": manifest["unique_cases"]}, indent=2))
+            print(json.dumps(validate_dataset(args.output), indent=2))
+            return 0
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            print(f"Completion dataset validation failed: {error}", file=sys.stderr)
             return 2
     if args.command == "case-eval":
         from .case_eval import evaluate_cases

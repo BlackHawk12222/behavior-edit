@@ -197,11 +197,13 @@ and retain the PR as draft. This schedule does not guarantee continuous executio
 between runs or unlimited compute. Local work requires the host and app to be
 available.
 
-The next useful scaling step is a deterministic procedural question generator,
-independently executable answer keys, stable split assignment, deduplication and
-resumable shards. Establish grader quality and unique-case accounting before
-large campaigns. Add causal ablations and new untouched confirmation families
-before attempting a hypernetwork or claiming transfer to a large model.
+Deterministic arithmetic and phrase/sentence generators now provide trusted keys,
+stable family splits, deduplication and resumable shards. The next scaling step
+is to enlarge the lexical and grammatical inventory, train a controlled LoRA on
+training families, and compare it with strong prompt, norm-matched random, and
+fixed-mixture controls on development families. Keep a new confirmation family
+pool untouched until the protocol is frozen. Add causal ablations before
+attempting a hypernetwork or claiming transfer to a large model.
 
 ### F007 — Deterministic arithmetic case generation is now auditable
 
@@ -297,8 +299,9 @@ loaded PEFT tensors and checks each checkpoint against its recorded sidecar
 before generating answers. Base and prompt arms run with adapters disabled on
 the same loaded model; LoRA and random arms activate their named adapters.
 
-Runs checkpoint JSONL responses and can resume only when the complete run
-specification is identical. An exclusive process lock rejects simultaneous
+Runs checkpoint JSONL responses with completion checksums and can resume only
+when the complete run specification is identical, including an explicit answer
+grader version. An exclusive process lock rejects simultaneous
 campaigns on the same output directory. The development split is the default. Confirmation
 requires explicit `--allow-confirmation`; any consumed confirmation questions
 must be retired from subsequent selection. `--offset` plus `--limit` permits
@@ -311,11 +314,11 @@ Verification: 56 software tests passed, including mocked interruption/resume,
 duplicate-safe ledger behavior, split selection, exact answer grading,
 per-layer norm-match rejection, loaded-delta sidecar checks, and adapter/source-hash checks. The 100,000-case
 dataset still validates with 70,036 train, 14,984 dev, and 14,980 confirmation
-questions. No model generations were made through this evaluator. MPS is
-available on the direct Mac host, but the separate fixed MPS reproduction study
-was still marked running at the time of this implementation, so this work did
-not launch a competing model job. MPS availability does not itself verify the
-new evaluator's model-loading path.
+questions. A later bounded 64-question CPU run verified the evaluator against
+the locally cached pinned model snapshot; results are recorded in F011. The
+initial model-ID load attempt failed before inference because network DNS was
+unavailable. MPS availability in a separate run does not verify this evaluator's
+MPS path; in this coding process MPS reports unavailable.
 
 Example, using the pinned Qwen revision and a bounded development slice:
 
@@ -332,7 +335,224 @@ command with `--resume`.
 
 Limits and next falsification: answer extraction currently grades integer
 arithmetic only; it is not a broad reasoning measure. The system still needs a
-small real-model development-slice run after the active fixed study completes,
-then an independently authored task family and fresh confirmation before any
-weight-edit conclusion. Millions of generated records are not millions of
-model generations, and no case-evaluation campaign result is yet in evidence.
+small real-model development-slice run, then an independently authored task
+family and fresh confirmation before any weight-edit conclusion. The direct
+Mac study below verifies its own MPS training/reload path, but does not exercise
+this new evaluator. In the current coding process, `torch.backends.mps.is_available()`
+reports false, so a new GPU model campaign has not been started here. Millions
+of generated records are not millions of model generations.
+
+### F010 — The fixed seven-trial study completed on Apple Silicon MPS
+
+Status: hardware reproducibility evidence on the same small, already exposed
+pilot suite; no independent generalization result.
+
+The user ran the fixed `pilot_v1.json` matrix to completion on the 8 GB Apple
+Silicon host using Qwen2.5-0.5B-Instruct revision
+`7ae557604adf67be50417f59c2c2f167def9a775`, float32 MPS, and the recorded
+Python/PyTorch/Transformers/PEFT versions. The matrix has seven behavior/seed
+trials. JSON LoRA reached 12/12 target items for each of three seeds, while
+the matched random adapters stayed at 0/12; locality fell from 11/16 to 9/16
+for seed 42 and to 10/16 for seeds 43 and 44. Concise-content LoRA scored
+8/12 versus base 6/12 for both seeds, with no measured locality regressions;
+the prompt control scored 7/12 and random scored 6/12 and 5/12. Exact-instruction
+LoRA was seed-sensitive: 4/12 versus base 3/12 for seed 42 and 1/12 versus
+base 3/12 for seed 43. These small scores do not support a general personality,
+capability, or intelligence claim.
+
+The study source declared that JSON seed 42 and concise seed 42 would reuse
+development artifacts. The import records 1,624 response rows across train/dev
+and test conditions, 92 unique normalized prompts, 112 optimizer updates in
+the copied artifacts, and 80 new updates across the five non-reused trials.
+Rows and cached repetitions are not independent questions. The test prompts
+were already inspected in pilot-v1 and are retired from future independent
+confirmation. The study is useful to check hardware completion, checkpoint
+reload, and directional reproducibility; it does not replace new families,
+matched controls, or the full promotion gate.
+
+Evidence, including source study journal, all trial outputs/checkpoints, and
+SHA-256 index: `evidence/pilot_v1/mps_validation/reproduction_20261025/`.
+Reproduce on a compatible Mac with:
+
+```sh
+python -m evolution_lab study evolution_lab/studies/pilot_v1.json \
+  --device auto --output-dir results/evolution_lab/reproduction
+```
+
+Limits and next falsification: preserve this result as repeated hardware
+evidence, then run the paired generated-case evaluator on a bounded development
+slice when MPS is available to that process. Any promising edit still needs
+fresh behavior families, strong prompt/random/LoRA controls, and unconsumed
+confirmation. Qwen adapter tensors and these results do not transfer directly
+to Astra or another architecture.
+
+### F011 — Arithmetic grading and prompt effects were checked on a development slice
+
+Status: completed CPU integration run on development data; no weight edit and
+no generalization claim. Its first report was superseded after a grading bug
+was discovered and corrected.
+
+Using the pinned Qwen2.5-0.5B-Instruct snapshot, the evaluator compared the
+base model with a direct instruction to solve and output one integer on 64
+generated development questions grouped into 16 arithmetic fact families.
+The corrected grader scores the base at 26/64 (40.6%) and the explicit prompt
+at 37/64 (57.8%). The prompt had 21 paired improvements and 10 regressions;
+the paired family bootstrap interval for the correctness-rate difference was
+[0.0625, 0.28125]. Strict integer-only formatting changed only from 16/64 to
+18/64. These results cover 16 synthetic fact families and one arithmetic
+operation, so treat the prompt gain as a narrow development-set observation.
+
+The first version of the grader incorrectly required exactly one integer token
+to mark numeric correctness. It labeled explanations such as “68 plus 4 is
+72” wrong. Grader version `final-integer-token-v2` uses the last integer in a
+response as its numeric answer and reports strict integer-only formatting
+separately; 39/128 correctness labels changed after regrading the same raw
+outputs, with no new model generations. Both reports and a row-level change
+ledger are preserved so the correction is auditable. The grader uses the
+generator's independently computed integer key. The 64 prompts are development
+data and must not be repurposed as independent final confirmation. No adapter
+was evaluated, so this is not evidence about weight editing or a personality
+trait.
+
+Evidence, raw outputs, report, run settings and checksums:
+`evidence/casegen_v3/evaluations/cpu_dev_offset3000_n64/`. The preceding
+network-based load failure is preserved separately at
+`evidence/casegen_v3/evaluations/model_id_load_failure_20261025/`; it produced
+zero generations. Using the exact local snapshot directory allowed the CPU run
+to complete without network access. The original v1 report is retained as the
+superseded report; use `regrade_final_integer_v2/report.json` for results.
+
+Reproduce on a machine with the pinned snapshot cached (or internet access):
+
+```sh
+python -m evolution_lab case-eval evolution_lab/evidence/casegen_v3 \
+  --split dev --revision 7ae557604adf67be50417f59c2c2f167def9a775 \
+  --device cpu --precision float32 --arms base prompt \
+  --offset 3000 --limit 64 --max-new-tokens 16 \
+  --output-dir results/evolution_lab/case_eval_cpu_dev_offset3000_n64
+```
+
+Limits and next falsification: arithmetic-only prompts do not measure the
+style behaviors studied in F001–F005. Repeat a larger, newly generated balanced
+development campaign only after establishing diverse arithmetic difficulty and
+verifying output-generation throughput; then validate the evaluator on MPS
+before using it for a full four-arm LoRA-versus-prompt/random study.
+
+### F012 — Phrase and sentence completion now share the paired evaluator
+
+Status: generator, CPU development run and one predeclared CPU confirmation
+comparison completed; no weight-edit or general language-capability claim. See
+F013 for the retired confirmation result.
+
+The new `phrase-sentence-completion-v1` generator creates 672 unique questions:
+160 curated common phrase completions and 512 subject–verb agreement sentence
+completions. It stratifies entire lexical/grammar families into train (464),
+development (104), and confirmation (104) pools. The development and
+confirmation pools each contain 24 phrase items from six phrase families and
+80 sentence items from ten noun–verb families. Four prompt surfaces per fact
+stay in the same family split. Each completion has two answer choices and a
+trusted key from the curated phrase table or explicit subject/verb forms.
+
+The base model and a direct system instruction were evaluated on the same 104
+development questions, producing 208 answer records. After correcting the
+completion grader to recognize a unique offered choice inside full-sentence
+answers, the base scored 78/104 and the prompt arm 79/104. Phrase scores were
+15/24 in both arms; sentence scores were 63/80 and 64/80. Strict one-word
+formatting rose from 11/104 to 99/104, mostly because the prompt asks for only
+the missing word. The paired result was 17 improvements and 16 regressions;
+the task-stratified family-bootstrap interval [-0.087, 0.115] includes no
+effect. By-task intervals were [-0.292, 0.292] for phrase completion and
+[-0.075, 0.113] for grammar completion. This supports a format-compliance
+change on this small development set, not a reliable accuracy gain. Phrase
+families are culturally dependent and sentence probes cover only one grammar
+rule.
+
+The first pass used a last-word parser and misread full completed sentences.
+The corrected grader accepts a unique distinct option mentioned in the
+response and marks responses that mention both choices as ambiguous. All 208
+records were regraded offline; 56 correctness labels changed and no
+generations were added. The original report, row-level
+changes, and corrected report are all preserved. The 104 development prompts
+are now selection data and cannot be called fresh confirmation.
+
+Dataset census and checksums are in `evidence/completion_v1/`. Raw model
+outputs, run settings, source checksums, and corrected scores are in
+`evidence/completion_v1/evaluations/dev_n104_base_prompt/`.
+
+Generate and validate the fixed set:
+
+```sh
+python -m evolution_lab generate-completions --seed 42 --start 0 --count 672 \
+  --output evolution_lab/evidence/completion_v1
+python -m evolution_lab generate-completions --validate-only \
+  --output evolution_lab/evidence/completion_v1
+```
+
+Evaluate a bounded completion campaign:
+
+```sh
+python -m evolution_lab case-eval evolution_lab/evidence/completion_v1 \
+  --split dev --revision MODEL_COMMIT_SHA --device auto --arms base prompt \
+  --limit 104 --output-dir results/evolution_lab/completion-dev
+```
+
+Limits and next falsification: the completion grader needs to be audited on
+more adversarial responses, and phrase completion is inherently less objective
+than the explicit grammar probes. Add new phrase and sentence families without
+reusing the exposed dev set; tune only on development families and reserve a
+fresh family pool for later confirmation. Before studying edits, compare the
+four controls on those new families and check preservation outside completion.
+
+### F013 — A terse completion prompt traded correctness for format on confirmation
+
+Status: completed one predeclared base-versus-prompt confirmation comparison;
+negative correctness result; no weight edit and no claim about broad language
+ability.
+
+After the 104-question development results were frozen, the previously untouched
+confirmation families were evaluated once on the pinned Qwen2.5-0.5B-Instruct
+revision `7ae557604adf67be50417f59c2c2f167def9a775`. This set contains 24 phrase
+items from six lexical families and 80 subject–verb sentences from ten grammar
+families. The arms were the default base instruction and the predeclared direct
+instruction to choose the completion and reply only with the missing word. No
+training, prompt search, or model selection used these confirmation answers.
+
+Base correctness was 85/104; the prompt arm was 73/104. There were 10 paired
+improvements and 22 regressions, for a −11.5 percentage-point difference. The
+family-stratified paired bootstrap interval was [−23.1, −1.9] percentage points
+overall. Phrase completion fell from 19/24 to 13/24, with a wide interval
+[−58.3, −4.2] points over only six families. Sentence agreement fell from
+66/80 to 60/80; its interval [−20.0, +3.8] points includes zero. Strict
+single-word formatting rose from 4/104 to 91/104. This is a clear example of
+format adherence and answer correctness moving in opposite directions on this
+benchmark. The prompt should not be called a beneficial edit.
+
+This is a finite, curated set of lexical associations and one grammar rule; the
+phrase labels may depend on usage conventions, and family counts are small.
+The result does not identify a weight mechanism, establish broad prompting harm,
+or say anything about LoRA. The confirmation families are now consumed and
+must not be reused for tuning or future final claims. Create new families for
+any follow-up. Preserve raw responses and checksums in
+`evidence/completion_v1/evaluations/confirmation_n104_base_prompt/`; the report,
+run specification, and paired bootstrap are in the same directory. A model-name
+lookup failed before inference because this session lacked DNS; the successful
+run used the exact cached snapshot path, and the zero-generation failure is
+recorded in the import manifest.
+
+Reproduce with the exact local snapshot available and substitute its path:
+
+```sh
+python -m evolution_lab case-eval evolution_lab/evidence/completion_v1 \
+  --split confirmation --revision 7ae557604adf67be50417f59c2c2f167def9a775 \
+  --model MODEL_SNAPSHOT_PATH --device cpu --precision float32 \
+  --arms base prompt --limit 104 --allow-confirmation \
+  --output-dir results/evolution_lab/completion-confirmation
+```
+
+Next falsification: construct new, larger lexical and syntactic family pools,
+then compare base, stronger task-specific prompts, conventional LoRA, a
+layerwise norm-matched random edit and a fixed nonlearned adapter mixture. Include
+capability-preservation questions outside completion. Keep the prompt-selected
+format behavior as its own metric so a style gain cannot conceal a correctness
+loss. Do not use this retired confirmation split to select edits or report a new
+independent result.
