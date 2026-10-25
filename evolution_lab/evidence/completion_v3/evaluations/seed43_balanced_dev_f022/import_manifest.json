@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "evidence_type": "preregistered-development-seed-replication",
+  "candidate_status": "development-only; quarantined; not eligible for promotion",
+  "confirmation_consumed": false,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "seed": 43,
+  "dataset_manifest_fingerprint": "a45d11db2616e0fdc9c90a4f89a896dc093bb944c74eb153e8d2b132105f422f",
+  "unique_questions": 428,
+  "new_unique_questions_beyond_F021": 0,
+  "model_generations_this_run": 1712,
+  "training_updates": 64,
+  "software_tests": 80,
+  "reused_prior_response_arms": {
+    "base": 428,
+    "prompt": 428
+  },
+  "files_sha256": {
+    "adapter_lora/README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+    "adapter_lora/adapter_config.json": "62612864719f5eb99316a6c9006c71da9b336bb30bbc4ea4deb81ff4514de739",
+    "adapter_lora/adapter_model.safetensors": "4b5afe2342355afd3b48edbae9a0a48e9bd915c9175d03bb704076c85abcfe23",
+    "adapter_random/README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+    "adapter_random/adapter_config.json": "62612864719f5eb99316a6c9006c71da9b336bb30bbc4ea4deb81ff4514de739",
+    "adapter_random/adapter_model.safetensors": "3137a1bf0ebccba945e73c75f9ae375ddc370db8c85447a84332503907559eab",
+    "delta_lora.json": "58cd7af8f9963117436f0116532b00a780d2a95aa48a137b62412f5facd1863d",
+    "delta_random.json": "8227d0b293a72064c1133069a2086634ee17a0c395d903e11c4afb59549dd9f3",
+    "observations.jsonl": "5538da9d7ae9ed6c63e779939fb223213dbe2aba258c9774861c882747b17f5e",
+    "preregistration.json": "fdd975721734ba8c8edf79c015933977bf88d177e0333dbb24849efcd2c2332c",
+    "report.json": "a018831258383e25dede287deac31e36ef15cd9df3bf1fbbaa489e60cee8c96c",
+    "run.json": "1827f220b63e5e7d61f5a46ca1fd6c83b465bfdae4dfdad2b34fc5d86be03fbb",
+    "summary.json": "74fd5a9e33faff3d346dffee2709878bcc104b65c21cdead8c6db2d715546c03",
+    "training_manifest.json": "274b6642de1d31160f8be35a4b305ce37bc9ee3cf5c50b8243384134f8776175",
+    "training_sample_audit.json": "06b22d7d5e6a5f869011a122634dbfe5c35b9c24996a71ef70f269601c17617e",
+    "training_steps.json": "599d84cc6494cae123150e425415a3eca65eb5ae6f26d982bbd75cd3ae4e4035"
+  }
+}

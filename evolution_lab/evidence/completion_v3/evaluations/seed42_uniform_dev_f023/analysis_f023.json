@@ -1,0 +1,106 @@
+{
+  "f023_arms_by_type": {
+    "uniform": {
+      "phrase_completion": {
+        "correct": 18,
+        "total": 28
+      },
+      "sentence_completion": {
+        "correct": 358,
+        "total": 400
+      },
+      "subject_singular": {
+        "correct": 159,
+        "total": 200
+      },
+      "subject_plural": {
+        "correct": 199,
+        "total": 200
+      }
+    },
+    "task_balanced": {
+      "phrase_completion": {
+        "correct": 19,
+        "total": 28
+      },
+      "sentence_completion": {
+        "correct": 257,
+        "total": 400
+      },
+      "subject_singular": {
+        "correct": 57,
+        "total": 200
+      },
+      "subject_plural": {
+        "correct": 200,
+        "total": 200
+      }
+    },
+    "base": {
+      "phrase_completion": {
+        "correct": 23,
+        "total": 28
+      },
+      "sentence_completion": {
+        "correct": 204,
+        "total": 400
+      }
+    },
+    "prompt": {
+      "phrase_completion": {
+        "correct": 19,
+        "total": 28
+      },
+      "sentence_completion": {
+        "correct": 245,
+        "total": 400
+      }
+    },
+    "random": {
+      "phrase_completion": {
+        "correct": 23,
+        "total": 28
+      },
+      "sentence_completion": {
+        "correct": 204,
+        "total": 400
+      }
+    }
+  },
+  "uniform_minus_balanced": {
+    "reference_arm": "task_balanced",
+    "candidate_arm": "uniform",
+    "paired_questions": 428,
+    "improved": 109,
+    "regressed": 9,
+    "correctness_rate_delta": 0.2336448598130841,
+    "family_bootstrap95": [
+      0.16355140186915887,
+      0.2967289719626168
+    ],
+    "family_bootstrap95_by_task_type": {
+      "phrase_completion": [
+        -0.25,
+        0.14285714285714285
+      ],
+      "sentence_completion": [
+        0.1775,
+        0.32
+      ]
+    },
+    "family_count": 32,
+    "note": "Paired family bootstrap resamples families within task type; small family counts produce unstable intervals."
+  },
+  "base_prompt_response_replay": {
+    "base": {
+      "identical": 428,
+      "total": 428
+    },
+    "prompt": {
+      "identical": 428,
+      "total": 428
+    }
+  },
+  "model_generations": 1712,
+  "unique_question_ids": 428
+}

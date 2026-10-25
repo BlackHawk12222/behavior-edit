@@ -1,0 +1,251 @@
+{
+  "id": "F022",
+  "status": "development-seed-replication-no-independent-confirmation",
+  "protocol_registered_before_model_evaluation": true,
+  "confirmation_consumed": false,
+  "candidate_quarantined": true,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "seed": 43,
+  "training_updates": 64,
+  "training_sampling_strategy": "task-balanced",
+  "training_sample_audit": {
+    "updates": 64,
+    "task_type_counts": {
+      "phrase_completion": 32,
+      "sentence_completion": 32
+    },
+    "sentence_subject_number_counts": {
+      "plural": 11,
+      "singular": 21
+    },
+    "sentence_attractor_number_counts": {
+      "singular": 17,
+      "plural": 15
+    },
+    "distinct_training_families": 54,
+    "source": "Recomputed by joining every recorded training example_id to the checked-in train shard."
+  },
+  "unique_questions": 428,
+  "new_unique_questions_beyond_F021": 0,
+  "model_generations_this_run": 1712,
+  "same_development_cases_as_F021": true,
+  "baseline_replay": {
+    "base": {
+      "identical_responses_to_F021": 428,
+      "total": 428
+    },
+    "prompt": {
+      "identical_responses_to_F021": 428,
+      "total": 428
+    },
+    "seed43_adapter_vs_seed42_adapter": {
+      "phrase_completion": {
+        "identical_responses_to_seed42_adapter": 11,
+        "total": 28
+      },
+      "sentence_completion": {
+        "identical_responses_to_seed42_adapter": 367,
+        "total": 400
+      }
+    }
+  },
+  "arms": {
+    "base": {
+      "correct": 227,
+      "total": 428,
+      "accuracy": 0.530373831775701,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 23,
+          "total": 28,
+          "accuracy": 0.8214285714285714,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 204,
+          "total": 400,
+          "accuracy": 0.51,
+          "families": 25
+        }
+      }
+    },
+    "prompt": {
+      "correct": 264,
+      "total": 428,
+      "accuracy": 0.616822429906542,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 19,
+          "total": 28,
+          "accuracy": 0.6785714285714286,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 245,
+          "total": 400,
+          "accuracy": 0.6125,
+          "families": 25
+        }
+      }
+    },
+    "adapter": {
+      "correct": 284,
+      "total": 428,
+      "accuracy": 0.6635514018691588,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 14,
+          "total": 28,
+          "accuracy": 0.5,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 270,
+          "total": 400,
+          "accuracy": 0.675,
+          "families": 25
+        }
+      }
+    },
+    "random": {
+      "correct": 215,
+      "total": 428,
+      "accuracy": 0.5023364485981309,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 23,
+          "total": 28,
+          "accuracy": 0.8214285714285714,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 192,
+          "total": 400,
+          "accuracy": 0.48,
+          "families": 25
+        }
+      }
+    }
+  },
+  "paired_comparisons": {
+    "adapter_vs_base": {
+      "reference_arm": "base",
+      "candidate_arm": "adapter",
+      "correctness_rate_delta": 0.13317757009345793,
+      "improved": 114,
+      "regressed": 57,
+      "family_bootstrap95": [
+        0.058411214953271035,
+        0.205607476635514
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.5357142857142857,
+          -0.10714285714285714
+        ],
+        "sentence_completion": [
+          0.0875,
+          0.24
+        ]
+      },
+      "family_count": 32
+    },
+    "adapter_vs_prompt": {
+      "reference_arm": "prompt",
+      "candidate_arm": "adapter",
+      "correctness_rate_delta": 0.04672897196261682,
+      "improved": 69,
+      "regressed": 49,
+      "family_bootstrap95": [
+        -0.016355140186915886,
+        0.11214953271028039
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.32142857142857145,
+          0.0
+        ],
+        "sentence_completion": [
+          -0.0025,
+          0.1325
+        ]
+      },
+      "family_count": 32
+    },
+    "random_vs_adapter": {
+      "reference_arm": "adapter",
+      "candidate_arm": "random",
+      "correctness_rate_delta": -0.16121495327102803,
+      "improved": 53,
+      "regressed": 122,
+      "family_bootstrap95": [
+        -0.21962616822429906,
+        -0.10046728971962617
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          0.10714285714285714,
+          0.5357142857142857
+        ],
+        "sentence_completion": [
+          -0.255,
+          -0.1325
+        ]
+      },
+      "family_count": 32
+    }
+  },
+  "software_tests_run_before_campaign": 80,
+  "limits": "The same already-inspected development cases were reused to study training-seed sensitivity. This is not independent confirmation. One model and one curriculum; the sampled training examples differed between seeds.",
+  "posthoc_sentence_subject_number": {
+    "seed43_adapter": {
+      "plural": "200/200",
+      "singular": "70/200"
+    },
+    "base": {
+      "plural": "131/200",
+      "singular": "73/200"
+    },
+    "prompt": {
+      "plural": "158/200",
+      "singular": "87/200"
+    },
+    "random": {
+      "plural": "123/200",
+      "singular": "69/200"
+    },
+    "adapter_minus_base_paired_family_bootstrap95_pp": {
+      "plural": [
+        23.5,
+        46.0
+      ],
+      "singular": [
+        -18.0,
+        15.0
+      ]
+    },
+    "adapter_minus_prompt_paired_family_bootstrap95_pp": {
+      "plural": [
+        13.5,
+        29.0
+      ],
+      "singular": [
+        -18.0,
+        1.5
+      ]
+    },
+    "seed43_minus_seed42_adapter_paired_family_bootstrap95_pp": {
+      "plural": [
+        0.0,
+        0.0
+      ],
+      "singular": [
+        -2.5,
+        15.0
+      ]
+    }
+  }
+}

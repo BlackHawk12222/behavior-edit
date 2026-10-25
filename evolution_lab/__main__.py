@@ -106,6 +106,14 @@ def build_parser():
     case_eval.add_argument("--checkpoint-every", type=int, default=10)
     case_eval.add_argument("--output-dir", type=Path, required=True)
     case_eval.add_argument("--resume", action="store_true", help="Continue only if the saved run specification matches exactly")
+    case_mixture = sub.add_parser(
+        "case-mixture",
+        help="Create an exact fixed 50/50 mixture and norm-matched random control from two compatible case adapters",
+    )
+    case_mixture.add_argument("run_dirs", nargs=2, type=Path)
+    case_mixture.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    case_mixture.add_argument("--seed", type=int, default=42)
+    case_mixture.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_mixtures"))
     run = sub.add_parser("run", help="Run controlled evaluations with a local model")
     run.add_argument("--tasks", type=Path, default=TASK_FILE)
     run.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
@@ -253,6 +261,13 @@ def main(argv=None):
             return evaluate_cases(args)
         except (ValueError, OSError, KeyError, TypeError, FileExistsError, FileNotFoundError, RuntimeError) as error:
             print(f"Case campaign failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "case-mixture":
+        from .case_mixture import create_case_mixture
+        try:
+            return create_case_mixture(args)
+        except (ValueError, OSError, KeyError, TypeError, FileExistsError, FileNotFoundError, RuntimeError) as error:
+            print(f"Case mixture failed: {error}", file=sys.stderr)
             return 2
     if args.command == "fewshot-control":
         from .fewshot import evaluate_fewshot

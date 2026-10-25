@@ -1,0 +1,116 @@
+{
+  "id": "F024",
+  "status": "preregistered-frozen-confirmation-before-any-confirmation-generations",
+  "registered_at_utc": "2026-10-25T19:13:26+00:00",
+  "question": "Does the frozen seed-42 uniform-sampling completion adapter retain its sentence behavior on the untouched v3 confirmation split, while preserving phrase completion and arithmetic addition? How does a fixed equal mixture of the uniform and task-balanced adapters compare?",
+  "candidate": "F023 seed-42 uniform LoRA, frozen as trained; no parameter, prompt, decoding, or metric changes permitted after preregistration.",
+  "training_data_effect_note": "The candidate was selected after exploratory development analysis. F024 uses the untouched v3 confirmation split and a newly generated arithmetic confirmation sample. Neither may be used for tuning. If inspected, retire these families; create new confirmation families before any later candidate selection.",
+  "model": {
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "device": "cpu",
+    "precision": "float32"
+  },
+  "completion_confirmation": {
+    "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+    "dataset_manifest_fingerprint": "a45d11db2616e0fdc9c90a4f89a896dc093bb944c74eb153e8d2b132105f422f",
+    "split": "confirmation",
+    "unique_questions": 432,
+    "case_fingerprint": "2debd4f9c2f54a3add96d34402d720b64b712f051297b214aa5f05fa94e7fee1",
+    "phrase_questions": 32,
+    "sentence_questions": 400,
+    "families": 33,
+    "confirmation_consumed_before_F024": false
+  },
+  "arithmetic_capability_probe": {
+    "dataset": "evolution_lab/evidence/casegen_f024_arithmetic_locality/manifest.json",
+    "dataset_manifest_fingerprint": "28ac8c6331692eda05abaa24510ef527421cdcd59b43dce9df47e5ee9122607a",
+    "seed": 20261025,
+    "start": 1000000,
+    "generated_cases": 2048,
+    "split": "confirmation",
+    "unique_questions": 312,
+    "case_fingerprint": "6ad2f79ad673f90d097a214c21472aa73c2e138160cb64d0b732720888ffea9e",
+    "families": 78,
+    "normalized_prompt_overlap_with_prior_response_ledgers": 0
+  },
+  "arms": {
+    "uniform_candidate": [
+      "base",
+      "prompt",
+      "uniform_adapter",
+      "norm_matched_random"
+    ],
+    "mixture_control": [
+      "base",
+      "prompt",
+      "fixed_equal_mixture",
+      "mixture_norm_matched_random"
+    ],
+    "arithmetic_locality": [
+      "base",
+      "prompt",
+      "uniform_adapter",
+      "norm_matched_random"
+    ]
+  },
+  "mixture": {
+    "kind": "fixed 0.5/0.5 concatenation of F021 task-balanced seed42 and F023 uniform seed42 adapters",
+    "checkpoint": "evolution_lab/evidence/f024_frozen_confirmation/mixture/adapter_lora",
+    "rank": 8,
+    "coefficients": [
+      0.5,
+      0.5
+    ],
+    "source_sample_overlap": 0,
+    "checkpoint_sha256": {
+      "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+      "adapter_config.json": "d3acd42b835941ae33e559f4bdd58435be180eaba1098841969b5e1f92beeeb7",
+      "adapter_model.safetensors": "7ce7b839c60e77a0e4af1f46ffd5cc07ce797bda2f380274a55b0f2979092747"
+    },
+    "random_checkpoint_sha256": {
+      "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+      "adapter_config.json": "d3acd42b835941ae33e559f4bdd58435be180eaba1098841969b5e1f92beeeb7",
+      "adapter_model.safetensors": "5dcd46e5a9c1dab663f55cb39f5b4c5c06aa206e19db7687a6bdef01bcd88f19"
+    }
+  },
+  "controls": "Task-matched explicit prompt; per-layer norm-matched random edit for each tested adapter; base. The mixture has rank 8 from two rank-4 sources, so it is not rank-budget matched to either candidate.",
+  "decoding": {
+    "method": "greedy",
+    "max_new_tokens": 32
+  },
+  "primary_metrics": [
+    "sentence completion accuracy",
+    "phrase completion accuracy",
+    "arithmetic exact-answer accuracy",
+    "paired family bootstrap contrasts vs prompt/base/random and vs fixed mixture"
+  ],
+  "analysis_rule": "All models, cases, and metrics remain frozen. No response is retried or dropped and no setting or candidate changes are permitted. The evaluator previously exposed individual base-arm correctness indicators for 325 cases before detection; this is an operational unblinding deviation and must be disclosed. Do not compute a post-hoc selection or use confirmation results to tune future candidates.",
+  "resource_note": "Local open-weight model only; no API or compute spending. Current MPS is unavailable, so CPU float32.",
+  "counting_rule": "Expected new response rows: 4704 across two completion four-arm campaigns plus one four-arm arithmetic campaign. Unique questions: 744. Base and prompt are replayed in the second completion campaign; they are additional generations, not new questions.",
+  "candidate_adapter_source": "results/evolution_lab/completion_v3_training_f023/20261025T183332_756576Z/adapter_lora",
+  "candidate_random_source": "results/evolution_lab/completion_v3_training_f023/20261025T183332_756576Z/adapter_random",
+  "protocol_amendments": [
+    {
+      "registered_at_utc": "2026-10-25T19:13:26+00:00",
+      "reason": "The case evaluator validates source checkpoints against the sibling training manifest. Use the original completed training-run paths, whose manifests and adapter hashes are intact; the archived evidence copies remain the durable checkpoint record. The earlier command failed validation before loading the model or generating any responses."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:16:00+00:00",
+      "reason": "The evaluator expects the selected learned adapter hash under the standard lora key. Added that alias to the archived mixture manifest without changing checkpoint files, coefficients, or delta values; the existing mixture hash remains recorded as well."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:17:00+00:00",
+      "reason": "PEFT writes named adapters into nested subdirectories. The original fixed-mixture checkpoint tensors and configs are retained, flattened into the standard case-eval adapter layout, and their exact hashes are now recorded before mixture evaluation. No weights, mixture coefficients, or metrics were changed."
+    },
+    {
+      "registered_at_utc": "2026-10-25T19:24:40+00:00",
+      "reason": "Documented the progress-log deviation and changed case-eval logging so future campaigns reveal only completed counts, not correctness labels. The already-running process cannot be retroactively silenced; candidate and protocol remain frozen."
+    }
+  ],
+  "protocol_deviation": {
+    "detected_at_utc": "2026-10-25T19:24:40+00:00",
+    "details": "The current case-eval version printed per-case correctness booleans during progress. Before detecting this, the first 325/432 base-arm correctness indicators were visible in the session log. The remaining arms had not started.",
+    "actions": "No candidates, weights, prompts, arms, metrics, decoding, or cases were changed; no responses were dropped or retried. The evaluation will continue exactly as preregistered, and the eventual report will disclose this non-blinded operational deviation. The CLI progress output was changed for future campaigns to report counts only, never per-case grades."
+  }
+}

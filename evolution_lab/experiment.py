@@ -114,14 +114,17 @@ def fit(local, examples, steps, learning_rate, max_length, seed,
     return history
 
 
-def norm_matched_random(model, torch, seed):
-    """Replace A/B by random factors, preserving each module's effective ΔW norm."""
+def norm_matched_random(model, torch, seed, adapter_name="default"):
+    """Randomize one adapter while preserving its per-module effective ΔW norms."""
     generator = torch.Generator(device='cpu').manual_seed(seed)
     with torch.no_grad():
         for module in model.modules():
-            if not hasattr(module, 'lora_A') or 'default' not in module.lora_A:
+            if (not hasattr(module, 'lora_A')
+                    or adapter_name not in module.lora_A
+                    or adapter_name not in module.lora_B):
                 continue
-            a, b = module.lora_A['default'].weight, module.lora_B['default'].weight
+            a = module.lora_A[adapter_name].weight
+            b = module.lora_B[adapter_name].weight
             ac, bc = a.detach().float().cpu(), b.detach().float().cpu()
             norm = torch.linalg.vector_norm(bc @ ac)
             ra = torch.randn(ac.shape, generator=generator, dtype=torch.float32)

@@ -1,6 +1,6 @@
 # Model Evolution Lab — Apple Silicon experimental path (v0.4.0)
 
-[Research guide](RESEARCH_GUIDE.md) · [Measured results](reports/pilot-v1.md) · [Experiment registry](experiment_registry.json)
+[Plain-language overview](PROJECT_OVERVIEW.md) · [Research guide](RESEARCH_GUIDE.md) · [Measured results](reports/pilot-v1.md) · [Experiment registry](experiment_registry.json)
 
 This module extends the **Behavior Editing** research repository with an independent,
 small-model experimental workflow suitable for investigating on Apple Silicon Macs,
@@ -512,6 +512,55 @@ stats, report and checksums are in
 `evidence/completion_v3/evaluations/seed42_balanced_dev_f020/`. Passing the
 generator checks alone only shows reproducible questions and trusted keys; it
 does not show that an adapter improves completion behavior.
+
+
+F022 repeated the task-balanced training with seed 43 on the same development
+questions. The adapter again answered all 200 plural-subject sentences
+correctly but only 70/200 singular-subject ones. Its training sample had 21
+singular and 11 plural subjects, so raw answer-class counts alone do not explain
+the repeated bias. It scored 284/428 overall versus 264/428 for the prompt;
+the family-bootstrap interval for the difference included zero. It scored
+14/28 on phrases, below both base (23/28) and prompt (19/28). F022 adds 1,712
+responses but zero new questions; these results are not independent
+confirmation. Evidence is in
+`evidence/completion_v3/evaluations/seed43_balanced_dev_f022/`.
+
+F023 is a preregistered, same-seed comparison of the full training schedules.
+The full training pool contains 136 phrase examples among 7,880 (1.73%).
+Uniform sampling selected 1 phrase and 63 sentence examples in 64 updates;
+task-balanced sampling selected 32 of each, with no overlap in the exact 64
+examples selected. On the same already-inspected development questions, the
+uniform adapter scored 376/428, versus 264/428 prompt, 227/428 base and
+227/428 norm-matched random. Its paired family-bootstrap margin over prompt
+was +26.2 points (95% interval +20.8 to +31.3). Sentence score was 358/400,
+including 159/200 singular-subject cases; phrase accuracy was 18/28, below
+base's 23/28. This is a strong but exposed development result, not independent
+confirmation. The full schedule changed both task mix and exact training
+examples, so phrase frequency alone cannot be credited. The adapter remains
+quarantined, and the 432-question confirmation split is untouched. All 1,712
+responses are repeated generations on 428 old questions, not new questions.
+Raw outputs, training sample IDs, adapters, delta reports and hashes are in
+`evidence/completion_v3/evaluations/seed42_uniform_dev_f023/`.
+
+### Build a fixed mixture from case-trained adapters
+
+`case-mixture` combines two complete case-training runs at fixed 0.5/0.5
+coefficients. It rejects changed checkpoint hashes or mismatched base revision,
+dataset, seed, or training settings; it records overlap between exact sampled
+training IDs. It saves the rank-summed mixture and a per-layer norm-matched
+random control, both with hashes and effective-delta summaries.
+
+```sh
+python -m evolution_lab case-mixture \
+  results/evolution_lab/completion_v3_training/BALANCED_RUN \
+  results/evolution_lab/completion_v3_training_f023/UNIFORM_RUN \
+  --device cpu --seed 20261025
+```
+
+The mixture is a nonlearned comparator. Two rank-4 sources produce a rank-8
+adapter, so compare it with the rank-4 candidates as a separate mixture
+baseline, not as an equal-rank training result. See `case-mixture --help` and
+F024's preregistration for the full held-out comparison.
 
 ### Compare training-sample balance
 

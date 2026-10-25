@@ -1,0 +1,55 @@
+{
+  "id": "F022",
+  "status": "preregistered-development-seed-replication-not-independent-confirmation",
+  "registered_at_utc": "2026-10-25T17:49:19.738737+00:00",
+  "question": "Does the plural-subject advantage and singular-subject loss from the seed-42 adapter recur with an independently seeded adapter trained on the same v3 training inventory?",
+  "hypothesis": "A seed-43 adapter trained under the same settings will show higher plural than singular-subject sentence accuracy; replication would support a seed-sensitive development pattern, not independent generalization.",
+  "training_data": "completion-v3 seed 42 train split only",
+  "dataset_manifest_sha256": "a45d11db2616e0fdc9c90a4f89a896dc093bb944c74eb153e8d2b132105f422f",
+  "evaluation_data": "completion-v3 seed 42 development split; already inspected in F021, deliberately reused for seed replication and not treated as an independent holdout",
+  "model": {
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "candidate_training": {
+    "seed": 43,
+    "updates": 64,
+    "rank": 4,
+    "alpha": 8,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0005,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "dropout": 0.0,
+    "max_length": 256,
+    "sampling_strategy": "task-balanced",
+    "device": "cpu",
+    "precision": "float32"
+  },
+  "arms": [
+    "base",
+    "prompt",
+    "seed43_lora",
+    "seed43_norm_matched_random"
+  ],
+  "decoding": {
+    "method": "greedy",
+    "max_new_tokens": 32
+  },
+  "primary_metrics": [
+    "sentence completion accuracy by subject_number",
+    "phrase completion accuracy",
+    "adapter versus prompt and base paired family-bootstrap intervals"
+  ],
+  "secondary_metrics": [
+    "accuracy by attractor_number",
+    "strict single-word format",
+    "per-family improved and regressed cases"
+  ],
+  "analysis_rule": "Use all development cases, retain every arm including regressions, and report phrase, sentence, singular and plural outcomes separately. Do not modify the candidate, prompt, metric or training settings after seeing results.",
+  "confirmation_rule": "Do not consume the v3 confirmation split in F022. This replication uses the already exposed development split and cannot independently confirm F021."
+}

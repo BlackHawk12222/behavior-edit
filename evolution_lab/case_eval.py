@@ -697,7 +697,9 @@ def _evaluate_cases_locked(args) -> int:
                         os.fsync(stream.fileno())
                         run["records_written"] = records_written
                         _atomic_json(run_path, run)
-                    print(f"{arm} {completed_by_arm[arm]}/{len(cases)}: {row['metrics']['correct']} {case['case_id']}", flush=True)
+                    # Progress output must not reveal held-out correctness before
+                    # the campaign is complete; raw grades stay in the ledger.
+                    print(f"{arm}: recorded {completed_by_arm[arm]}/{len(cases)}", flush=True)
             os.fsync(stream.fileno())
         report = _summary(list(existing.values()), arms)
         report_path = output / "report.json"
