@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "generator": "phrase-sentence-completion-v3-attractor",
+  "seed": 42,
+  "unique_cases": 8740,
+  "unique_families": 583,
+  "lexically_disjoint_sentence_splits": true,
+  "shards": [
+    {
+      "file": "completion-v3-cases-train-42.jsonl",
+      "count": 7880,
+      "split": "train",
+      "sha256": "b1e892affbc7a430195f4830783db0632aacc4e2b9593d8f8fd384870d74f352"
+    },
+    {
+      "file": "completion-v3-cases-dev-42.jsonl",
+      "count": 428,
+      "split": "dev",
+      "sha256": "467bd05a651675f906717fe7c7c4ca0ccda339ab50033ee18c143ec59a207c93"
+    },
+    {
+      "file": "completion-v3-cases-confirmation-42.jsonl",
+      "count": 432,
+      "split": "confirmation",
+      "sha256": "1532e047359ae566142e4bbe6f890fb5374d96ece3b83f0a21a8a42fe09c9988"
+    }
+  ]
+}

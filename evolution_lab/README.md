@@ -456,6 +456,63 @@ prompt-control wording before consuming confirmation. Use `case-eval` with
 repeated prompt or cached response is not a new unique question; keep the number
 of generations separate from unique prompts and software tests.
 
+### Phrase and sentence completion with unseen agreement attractors (v3)
+
+`generate-completions-v3` adds a separate 8,740-case, trusted-key dataset with
+49 phrase families and long-distance subject–verb agreement sentences. In each
+sentence, a singular or plural noun sits between the grammatical subject and
+the missing verb, testing whether the model follows the subject rather than
+the nearby distractor. The 32 subject lexemes and 32 verb lexemes are assigned
+to disjoint train, development and confirmation inventories; phrase families
+are also held out whole. The confirmation split has 32 phrase questions across
+8 families and 400 sentence questions across 25 families. The phrase estimate
+will therefore be imprecise; report it separately from sentence agreement.
+
+The checked-in seed-42 shards contain 7,880 training, 428 development and 432
+confirmation questions. Validate or regenerate them with:
+
+```sh
+python -m evolution_lab generate-completions-v3 --seed 42 \
+  --output evolution_lab/evidence/completion_v3
+python -m evolution_lab generate-completions-v3 --validate-only \
+  --output evolution_lab/evidence/completion_v3
+```
+
+Train only on the training split, then select controls on development. Freeze
+the model revision, candidate, prompt and analysis before using confirmation:
+
+```sh
+python -m evolution_lab train-cases evolution_lab/evidence/completion_v3 \
+  --revision MODEL_COMMIT_SHA --seed 42 --steps 64 \
+  --output-dir results/evolution_lab/completion_v3_training
+python -m evolution_lab case-eval evolution_lab/evidence/completion_v3 \
+  --split dev --revision MODEL_COMMIT_SHA \
+  --arms base prompt adapter random --adapter ADAPTER_PATH \
+  --random-adapter RANDOM_ADAPTER_PATH --adapter-delta DELTA_JSON \
+  --random-delta RANDOM_DELTA_JSON \
+  --output-dir results/evolution_lab/completion_v3_dev
+```
+
+An exploratory seed-42 balanced LoRA development run generated 1,712 responses
+on 428 unique questions. The adapter scored 276/428 (64.5%), versus 264/428
+(61.7%) for explicit prompting and 227/428 (53.0%) for both base and the
+norm-matched random adapter. Adapter versus prompt was +2.8 points with a paired
+family-bootstrap 95% interval of −1.9 to +7.7, so it did not establish a
+benefit over prompting. Phrase scores were 19/28 for adapter and prompt versus
+23/28 for base. Sentence scores were 257/400 for adapter, 245/400 for prompt,
+and 204/400 for base. A post-hoc diagnostic found the adapter answered all
+200 plural-subject sentence probes correctly but only 57/200 singular-subject
+probes; this is a strong agreement-direction bias, not a general completion
+gain. The seed-42 candidate is quarantined. The confirmation split remains
+untouched because this candidate did not clear the prompt-control gate.
+
+This first comparison was exploratory rather than preregistered and used one
+training seed. Its raw responses, controls, LoRA checkpoints, effective delta
+stats, report and checksums are in
+`evidence/completion_v3/evaluations/seed42_balanced_dev_f020/`. Passing the
+generator checks alone only shows reproducible questions and trusted keys; it
+does not show that an adapter improves completion behavior.
+
 ### Compare training-sample balance
 
 The v2 training pool has far more sentence-agreement examples than phrase

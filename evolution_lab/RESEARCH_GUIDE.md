@@ -946,3 +946,98 @@ on these 32 arithmetic families. **Tentative:** the edit may encode a
 transferable arithmetic-output bias on this model. **Failed:** the development
 score did not reproduce at the same level. **Open:** fresh phrase/sentence
 confirmation, training-seed replication and transfer to other models.
+
+### F020 — Fresh phrase and long-distance agreement benchmark added
+
+Status: deterministic benchmark infrastructure verified; no model behavior
+results yet.
+
+The new v3 generator records 8,740 cases: 196 completions from 49 curated
+phrase families and 8,544 subject–verb completion sentences. Sentence prompts
+place a singular or plural attractor between the main subject and the missing
+verb. The trusted label is determined by the explicit subject number and
+inflected verb table, not a model judge. The 32 singular/plural subject pairs
+and 32 verb pairs are partitioned independently and then crossed only within
+the same split, making sentence lexemes disjoint across train, development and
+confirmation. Phrase families stay wholly within one split. Seed 42 yields
+7,880 train, 428 development and 432 confirmation cases. The confirmation
+sample has 32 phrase questions across only 8 families, so phrase uncertainty
+will be wide; sentence results must be reported separately.
+
+Validation confirms all 8,740 prompt IDs are unique, answer choices and solver
+keys are consistent, family assignments stay intact, and shard hashes match.
+Exact v3 phrase-prefix/answer pairs do not overlap the earlier v1/v2 inventories.
+This result only validates data generation; no v3 model generations or edit
+effects are claimed. The holdout has not been consumed. Train the candidate and
+select prompt, random-edit and LoRA controls on training/development data,
+pre-register the comparison, then use fresh confirmation at most once. Preserve
+phrase completion and subject–verb agreement as separate outcomes.
+
+Reproduce or validate with `python -m evolution_lab generate-completions-v3
+--seed 42 --output evolution_lab/evidence/completion_v3` and the corresponding
+`--validate-only` command. The full seed-42 shards and hash manifest are in
+`evidence/completion_v3/`. The case evaluator accepts this generator and uses
+the completion-specific prompt and objective word-choice grader.
+
+**Confirmed:** generator-level determinism, trusted keys, and disjoint
+sentence subject/verb inventories. **Not measured:** any model score, edit
+benefit, locality, capability preservation, or generalization. **Open:** train
+a task-balanced LoRA, compare against base/prompt/norm-matched random and a
+nonlearned adapter mixture, quantify phrase and sentence results separately,
+and consume the fresh confirmation only after preregistration.
+
+### F021 — Balanced completion LoRA shifts sentence behavior toward plural forms
+
+Status: exploratory single-seed development signal; candidate quarantined;
+confirmation untouched.
+
+One rank-4 q/v LoRA was trained for 64 AdamW updates at learning rate 0.0005
+on v3 training families, sampling phrase and sentence task types equally. Its
+32 sentence training updates contained 17 plural-subject and 15 singular-
+subject examples. Qwen2.5-0.5B-Instruct was pinned to
+`7ae557604adf67be50417f59c2c2f167def9a775`, run on CPU float32, and decoded
+greedily. The 428-case development split was evaluated against base, a
+completion-specific prompt, and a per-layer norm-matched random adapter.
+
+The candidate scored 276/428 (64.5%), prompt 264/428 (61.7%), base 227/428
+(53.0%) and random 227/428 (53.0%). Adapter-minus-prompt was +2.8 points
+(63 items improved, 51 regressed; family-bootstrap 95% interval −1.9 to +7.7),
+so there is no clear overall advantage over the strong prompt. By task, phrase
+accuracy was 19/28 for adapter and prompt, versus 23/28 for base. Sentence
+accuracy was 257/400 for adapter, 245/400 for prompt, and 204/400 for base.
+The adapter's sentence-minus-prompt contrast was +3.0 points (family-bootstrap
+95% interval −2.0 to +8.25). Format compliance reached 428/428 for the adapter,
+but this does not override correctness or imply broader instruction-following.
+
+A post-hoc subject-number diagnostic exposed a marked asymmetry: the adapter
+answered 200/200 plural-subject sentences correctly and 57/200 singular-subject
+sentences, compared with 131/200 and 73/200 for base, and 158/200 and 87/200
+for the prompt. Family-bootstrap intervals for adapter-minus-prompt were
++21 points on plural subjects (95% interval +13 to +29) and −15 on singular
+subjects (−22 to −8). The random control scored 133/200 plural and 71/200
+singular. Since the sampled training examples were close to balanced by subject
+number, this asymmetry is not explained by a simple count imbalance. It is
+consistent with an edit that favors base verb forms and trades away singular
+agreement. This is a measured development pattern, not an independently
+confirmed rule about a specific layer or weight.
+
+The comparison was exploratory, not preregistered, and used one seed on one
+development split. No arithmetic, locality, broad preservation, independent
+seed, or other-model evaluation was run. The candidate is quarantined; do not
+use the new confirmation split for this candidate because phrase behavior is
+below base and the aggregate margin over prompting is uncertain. All 1,712
+responses on 428 unique questions, paired controls, checkpoints, delta stats,
+training log, report, post-hoc analysis and hashes are under
+`evidence/completion_v3/evaluations/seed42_balanced_dev_f020/`. Reproduce with
+the seed-42 training and `case-eval --split dev --arms base prompt adapter
+random` commands in the README.
+
+**Observed on development only:** the LoRA changes outputs beyond a norm-matched
+random delta and increases plural agreement, while producing worse singular
+accuracy and no clear overall advantage over the task-matched prompt.
+**Rejected:** “the completion adapter improves phrase and sentence completion
+generally.” **Open:** replicate the direction across training seeds; inspect
+singular errors and weight/module contributions; compare explicit number-
+balanced objectives and nonlearned mixtures on development; do not claim an
+edit guide or consume confirmation until a candidate clears the prompt and
+preservation gates.

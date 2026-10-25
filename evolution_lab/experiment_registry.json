@@ -928,6 +928,116 @@
       "current_process_mps_available": false,
       "summary": "On 32 preregistered hash-selected arithmetic confirmation families, the frozen adapter beat prompt, base and norm-matched random controls. Its 83.6% score was below the 95.3% arithmetic development score. This confirms one narrow signal while exposing development overestimation; it does not establish broader capabilities or phrase/sentence transfer. Do not tune on these selected families.",
       "eligible_for_promotion": false
+    },
+    {
+      "id": "completion-v3-phrase-sentence-attractor-benchmark-20261025",
+      "status": "infrastructure-verified-no-model-results",
+      "generator": "phrase-sentence-completion-v3-attractor",
+      "seed": 42,
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": null,
+      "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+      "unique_questions": 8740,
+      "unique_families": 583,
+      "split_counts": {
+        "train": 7880,
+        "dev": 428,
+        "confirmation": 432
+      },
+      "task_type_counts": {
+        "phrase_completion": 196,
+        "sentence_completion": 8544
+      },
+      "confirmation_details": {
+        "phrase_questions": 32,
+        "phrase_families": 8,
+        "sentence_questions": 400,
+        "sentence_families": 25,
+        "consumed": false
+      },
+      "sentence_subject_lexemes_disjoint_across_splits": true,
+      "sentence_verb_lexemes_disjoint_across_splits": true,
+      "earlier_phrase_prefix_answer_collisions": 0,
+      "model_generations": 0,
+      "software_tests_passed": 80,
+      "eligible_for_promotion": false,
+      "summary": "Fresh data infrastructure only. The phrase and long-distance agreement questions have deterministic answer keys and whole-family splits; sentence subjects and verb roots are disjoint across splits. No model has been evaluated on these v3 cases, so there is no behavior or edit result yet. Phrase confirmation includes only eight families and should be reported with wide uncertainty."
+    },
+    {
+      "id": "completion-v3-balanced-lora-dev-f021",
+      "status": "exploratory-development-signal-candidate-quarantined",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "training": {
+        "updates": 64,
+        "rank": 4,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "sampling_strategy": "task-balanced",
+        "sentence_updates_by_subject_number": {
+          "plural": 17,
+          "singular": 15
+        }
+      },
+      "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+      "split": "dev",
+      "arms": [
+        "base",
+        "prompt",
+        "trained_adapter",
+        "norm_matched_random"
+      ],
+      "unique_questions": 428,
+      "model_generations": 1712,
+      "scores": {
+        "base": "227/428",
+        "prompt": "264/428",
+        "adapter": "276/428",
+        "random": "227/428",
+        "adapter_phrase": "19/28",
+        "prompt_phrase": "19/28",
+        "base_phrase": "23/28",
+        "adapter_sentence": "257/400",
+        "prompt_sentence": "245/400",
+        "base_sentence": "204/400"
+      },
+      "adapter_minus_prompt": {
+        "delta_pp": 2.8,
+        "family_bootstrap95_pp": [
+          -1.87,
+          7.71
+        ],
+        "improved": 63,
+        "regressed": 51
+      },
+      "posthoc_subject_number": {
+        "adapter_plural": "200/200",
+        "adapter_singular": "57/200",
+        "adapter_minus_prompt_plural_pp": 21.0,
+        "plural_family_bootstrap95_pp": [
+          13.0,
+          29.0
+        ],
+        "adapter_minus_prompt_singular_pp": -15.0,
+        "singular_family_bootstrap95_pp": [
+          -22.0,
+          -8.0
+        ]
+      },
+      "software_tests_passed": 80,
+      "evidence": "evolution_lab/evidence/completion_v3/evaluations/seed42_balanced_dev_f020/import_manifest.json",
+      "protocol_registered_before_generations": false,
+      "confirmation_consumed": false,
+      "candidate_quarantined": true,
+      "eligible_for_promotion": false,
+      "summary": "The edit beat base and the norm-matched random control on aggregate development completion, but did not establish an advantage over the explicit prompt. Phrase accuracy was below base. Post-hoc sentence analysis showed perfect plural-subject agreement and poor singular-subject agreement despite near-balanced sentence training updates. Treat as an exploratory edit-direction bias; do not promote or consume confirmation."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."

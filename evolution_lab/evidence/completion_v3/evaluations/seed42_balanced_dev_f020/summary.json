@@ -1,0 +1,205 @@
+{
+  "status": "development-only-exploratory-no-promotion",
+  "protocol_registered_before_generations": false,
+  "confirmation_consumed": false,
+  "candidate_quarantined": true,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "seed": 42,
+  "training_updates": 64,
+  "sampling_strategy": "task-balanced",
+  "arms": {
+    "base": {
+      "correct": 227,
+      "total": 428,
+      "accuracy": 0.530373831775701,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 23,
+          "total": 28,
+          "accuracy": 0.8214285714285714,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 204,
+          "total": 400,
+          "accuracy": 0.51,
+          "families": 25
+        }
+      }
+    },
+    "prompt": {
+      "correct": 264,
+      "total": 428,
+      "accuracy": 0.616822429906542,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 19,
+          "total": 28,
+          "accuracy": 0.6785714285714286,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 245,
+          "total": 400,
+          "accuracy": 0.6125,
+          "families": 25
+        }
+      }
+    },
+    "adapter": {
+      "correct": 276,
+      "total": 428,
+      "accuracy": 0.6448598130841121,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 19,
+          "total": 28,
+          "accuracy": 0.6785714285714286,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 257,
+          "total": 400,
+          "accuracy": 0.6425,
+          "families": 25
+        }
+      }
+    },
+    "random": {
+      "correct": 227,
+      "total": 428,
+      "accuracy": 0.530373831775701,
+      "by_task_type": {
+        "phrase_completion": {
+          "correct": 23,
+          "total": 28,
+          "accuracy": 0.8214285714285714,
+          "families": 7
+        },
+        "sentence_completion": {
+          "correct": 204,
+          "total": 400,
+          "accuracy": 0.51,
+          "families": 25
+        }
+      }
+    }
+  },
+  "paired_comparisons": {
+    "adapter_vs_base": {
+      "reference_arm": "base",
+      "candidate_arm": "adapter",
+      "correctness_rate_delta": 0.11448598130841121,
+      "improved": 98,
+      "regressed": 49,
+      "family_bootstrap95": [
+        0.06074766355140186,
+        0.1705607476635514
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.2857142857142857,
+          -0.03571428571428571
+        ],
+        "sentence_completion": [
+          0.075,
+          0.1925
+        ]
+      },
+      "family_count": 32
+    },
+    "adapter_vs_prompt": {
+      "reference_arm": "prompt",
+      "candidate_arm": "adapter",
+      "correctness_rate_delta": 0.028037383177570093,
+      "improved": 63,
+      "regressed": 51,
+      "family_bootstrap95": [
+        -0.01869158878504673,
+        0.07710280373831777
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.14285714285714285,
+          0.17857142857142858
+        ],
+        "sentence_completion": [
+          -0.02,
+          0.0825
+        ]
+      },
+      "family_count": 32
+    },
+    "random_vs_adapter": {
+      "reference_arm": "adapter",
+      "candidate_arm": "random",
+      "correctness_rate_delta": -0.11448598130841121,
+      "improved": 47,
+      "regressed": 96,
+      "family_bootstrap95": [
+        -0.1658878504672897,
+        -0.060747663551401876
+      ],
+      "family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          0.03571428571428571,
+          0.2857142857142857
+        ],
+        "sentence_completion": [
+          -0.1875,
+          -0.0775
+        ]
+      },
+      "family_count": 32
+    }
+  },
+  "model_generations": 1712,
+  "unique_questions": 428,
+  "software_tests_run_before_campaign": 80,
+  "evidence_limit": "One exploratory seed on development families. Confirmation is untouched. No broad behavior, locality, preservation, transfer, or promotion claim.",
+  "posthoc_sentence_subject_number": {
+    "adapter": {
+      "plural": "200/200",
+      "singular": "57/200"
+    },
+    "prompt": {
+      "plural": "158/200",
+      "singular": "87/200"
+    },
+    "base": {
+      "plural": "131/200",
+      "singular": "73/200"
+    },
+    "random": {
+      "plural": "133/200",
+      "singular": "71/200"
+    },
+    "adapter_minus_prompt_paired_family_bootstrap95": {
+      "plural": {
+        "delta_pp": 21.0,
+        "interval_pp": [
+          13.0,
+          29.0
+        ],
+        "families_improved": 17,
+        "families_regressed": 0
+      },
+      "singular": {
+        "delta_pp": -15.0,
+        "interval_pp": [
+          -22.0,
+          -8.0
+        ],
+        "families_improved": 2,
+        "families_regressed": 18
+      }
+    }
+  },
+  "training_sentence_examples_by_subject_number": {
+    "plural": 17,
+    "singular": 15
+  }
+}
