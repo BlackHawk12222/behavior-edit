@@ -1410,3 +1410,54 @@ different data changes would help, or whether this transfers to a larger model.
 content/quality and schedule across more training seeds, with family-disjoint
 fresh confirmation and unrelated capability/locality probes. Keep all exposed
 F025/F026 questions out of confirmation.
+
+### F027 — Training-example content changes completion behavior, with seed-dependent effects
+
+Status: completed preregistered development diagnostic; no candidate is promoted.
+
+**Question and intervention.** Holding the pinned Qwen2.5-0.5B-Instruct revision, task ratio, optimizer, LoRA settings, update count, training seeds and task-order seeds fixed, does using different valid phrase/sentence examples change completion behavior? Two 64-example cohorts were sampled from the trusted completion-v3 train split: each had 16 phrase and 48 sentence items, and balanced singular/plural sentence subjects. The cohorts shared only 3 exact examples (all phrases); they differed on 13 phrase and all 48 sentence examples apiece. The content treatment therefore changes example identity and family coverage together; this is not a test of label quality.
+
+The 2 cohorts were crossed with training seeds 42, 43 and 44, and task-order seeds 901 and 903 (12 adapters, 768 training updates). Training used 64 updates, rank-4 q/v LoRA, AdamW learning rate 0.0005, max sequence length 256 and CPU float32. Each adapter was evaluated against the same 428 previously inspected development questions (28 phrase, 400 sentence, 32 families). This is development evidence only; the final completion-v3 confirmation pool remained unused and retired.
+
+| Cohort | Seed | Order | Adapter | Base | Prompt | Random edit | Phrase | Sentence |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| A | 42 | 901 | 329/428 (76.9%) | 220 | 264 | 222 | 18/28 | 311/400 |
+| A | 42 | 903 | 330/428 (77.1%) | 220 | 264 | 220 | 16/28 | 314/400 |
+| A | 43 | 901 | 326/428 (76.2%) | 220 | 264 | 208 | 19/28 | 307/400 |
+| A | 43 | 903 | 335/428 (78.3%) | 220 | 264 | 209 | 15/28 | 320/400 |
+| A | 44 | 901 | 343/428 (80.1%) | 220 | 264 | 223 | 19/28 | 324/400 |
+| A | 44 | 903 | 345/428 (80.6%) | 220 | 264 | 224 | 19/28 | 326/400 |
+| B | 42 | 901 | 361/428 (84.3%) | 220 | 264 | 221 | 21/28 | 340/400 |
+| B | 42 | 903 | 368/428 (86.0%) | 220 | 264 | 220 | 22/28 | 346/400 |
+| B | 43 | 901 | 324/428 (75.7%) | 220 | 264 | 208 | 14/28 | 310/400 |
+| B | 43 | 903 | 335/428 (78.3%) | 220 | 264 | 212 | 13/28 | 322/400 |
+| B | 44 | 901 | 343/428 (80.1%) | 220 | 264 | 224 | 19/28 | 324/400 |
+| B | 44 | 903 | 327/428 (76.4%) | 220 | 264 | 225 | 20/28 | 307/400 |
+
+Base and prompt were checksum-verified cached responses, identical across all 12 campaigns. The norm-matched random-edit controls stayed at 208–225/428. Every trained adapter passed the one-word output-format check on all 428 items. These controls show the measured differences were not simply a different prompt, random weight noise, or malformed output. However, all questions had already been inspected, and these completion-only tasks are not a broad capability/locality check.
+
+The preregistered paired family-bootstrap contrasts (32 families, including only 7 phrase families) show that cohort B exceeded A for seed 42 by +7.5 points under order 901 (95% interval +0.7 to +14.7) and +8.9 under order 903 (+2.1 to +16.4). For seed 43, the contrasts were −0.5 (−7.9 to +6.5) and 0.0 (−3.5 to +3.7). For seed 44, they were 0.0 (−5.1 to +5.4) and −4.2 (−8.4 to −0.2). The intervals are exploratory, conditional on the exposed families, and not multiplicity-adjusted. Thus the content difference mattered in some matched conditions, but did not produce a consistent cohort winner; it interacted with the training seed/order. The study does not isolate which lexical/family property caused the differences.
+
+**Supports:** training example identity can be behaviorally consequential even with the task ratio and broad subject balance held fixed; documenting data and sample IDs is necessary for reproducibility.
+
+**Does not support:** a general claim that cohort B is better, a claim about label correctness or data quality, a durable trait/weight map, independent generalization, broad capability preservation, or transfer to Astra. No candidate meets the promotion gate. Keep all adapters quarantined.
+
+The study records 20,544 response rows: 10,272 newly generated model responses and 10,272 verified cached baseline responses, across 2,300 unique normalized question prompts overall with zero new unique prompts. It uses 768 training updates. Software tests are a separate count. Reproduce/analyze with:
+
+```sh
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f027_cohort_content_sensitivity/run_f027_training.py \
+  --python /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  --model /Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f027_cohort_content_sensitivity/run_f027_evaluations.py \
+  --python /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  --model /Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f027_cohort_content_sensitivity/analyze_f027.py \
+  --output evolution_lab/evidence/f027_cohort_content_sensitivity/summary.json
+```
+
+Evidence: preregistration, cohort manifests and exact examples, sequential training/evaluation campaign manifests, 12 adapter checkpoints, per-update traces, raw ledgers, regraded reports, checksums, and analysis are under `evidence/f027_cohort_content_sensitivity/`. Model revision is pinned to `7ae557604adf67be50417f59c2c2f167def9a775`; this run used CPU float32 because MPS was unavailable in this executor. It is not a fresh Apple Silicon GPU result.
+
+**Next:** improve data-quality controls by measuring trusted-label validity and template/family leakage separately from cohort identity, then test a preregistered sampling intervention on fresh family-disjoint confirmation data with unrelated preservation probes. The exposed v3 development and retired confirmation pools cannot serve as fresh confirmation.
