@@ -94,6 +94,7 @@
     "report_negligible_or_mixed_effects": "State if schedule-order variation is small, inconsistent across seeds, or uncertainty spans zero; do not interpret absence of clear evidence as proof that order never matters."
   },
   "reproduction_template": "python -m evolution_lab train-cases evolution_lab/evidence/completion_v3 --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --seed TRAIN_SEED --schedule-seed SCHEDULE_SEED --steps 64 --sampling-strategy task-ratio --cohort-manifest evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json --task-exposure-ratio phrase_completion=16,sentence_completion=48 --output-dir evolution_lab/evidence/f026_task_order_sensitivity/training/seedTRAIN_SEED_scheduleSCHEDULE_SEED",
+  "evaluation_command_template": "python -m evolution_lab case-eval evolution_lab/evidence/completion_v3 --split dev --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --max-new-tokens 16 --arms base prompt adapter random --adapter TRAIN_RUN/adapter_lora --random-adapter TRAIN_RUN/adapter_random --adapter-delta TRAIN_RUN/delta_lora.json --random-delta TRAIN_RUN/delta_random.json --baseline-cache-from evolution_lab/evidence/f025_fixed_support_exposure/evaluations/seed42_phrase16_sentence48 --output-dir evolution_lab/evidence/f026_task_order_sensitivity/evaluations/CONDITION",
   "preregistered_at_utc": "2026-10-26T01:22:53Z",
   "amendments": [
     {
