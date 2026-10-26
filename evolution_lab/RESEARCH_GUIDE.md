@@ -1217,24 +1217,71 @@ manifest are under `evidence/f024_frozen_confirmation/`. The result does not
 show Astra transfer, general reasoning improvement, broad locality, or a
 weight-to-trait map. Do not tune on either retired confirmation family.
 
-### Next data study — isolate example exposure from example identity
+### F025 — Fixed training examples, changed task exposure schedule
+
+Status: completed two-seed development study; no independent confirmation and
+no candidate promotion. This study records a concrete training-data result and
+also exposes why task update counts are only part of the data story.
 
 F023 shows why training-data provenance must be treated as a causal variable:
 uniform sampling selected 1 phrase and 63 sentence examples, while the balanced
 schedule selected 32 of each, and the two 64-example sets had no examples in
 common. Their behavior difference cannot be assigned to the task ratio alone.
-Do not use F024 confirmation outcomes to choose or tune this experiment.
+F024's confirmation sets were not used to choose or tune F025.
 
-After F024, construct a new training cohort with a fixed, published set of
-phrase and sentence examples. Train matched schedules that draw with
-replacement from that same cohort, varying only the planned exposure ratio
-(for example 1:63, 16:48, and 32:32); keep total optimizer updates, token
-budget, order seed, optimizer, rank, target modules, and model revision fixed.
-Record the per-example exposure histogram and exact batch order. Run multiple
-paired seeds, and keep development and fresh confirmation families disjoint.
-Compare each edit with base, an explicit behavior prompt, per-layer
-norm-matched random edits, and a simple fixed adapter mixture. Score phrase,
-singular-sentence, plural-sentence, and unrelated capability/locality probes
-separately with deterministic or executable graders. This design tests the
-effect of exposure frequency under a fixed example support set; it will not
-identify a general weight-to-trait map or establish transfer to Astra.
+The preregistered F025 cohort fixes 64 train-split examples from 64 distinct
+families: 32 phrase examples and 32 sentence examples, with 16 singular and 16
+plural sentence subjects. Its hash-bound manifest is
+`evidence/f025_fixed_support_exposure/training_cohort/manifest.json`. Six
+adapters used this same support set, three task-update allocations (phrase /
+sentence: 1/63, 16/48, 32/32) and two paired training seeds. They shared the
+pinned Qwen2.5-0.5B-Instruct revision, 64 total optimizer steps, rank-4 q/v
+LoRA, AdamW and learning rate 0.0005. Each task draws with replacement from
+its own seed-specific stream. The exact per-step IDs, loss trace and repeated
+example counts are saved under `evidence/f025_fixed_support_exposure/training/`.
+
+This makes one important distinction visible: a nominal 32/32 update split
+does not mean 32 unique examples of each kind were learned once. Across the
+six runs, only 27–40 distinct examples were encountered in total; the 1/63
+runs saw one unique phrase item and 26 unique sentence items, while individual
+examples repeated up to seven times. Both the full cohort distribution and
+actual sampled IDs matter when interpreting an edit.
+
+On the already-inspected 428-question development split (28 phrase items from
+7 families and 400 sentence items from 25 families), adapters scored 334–377
+correct. Each beat the task-matched prompt (264/428) by 16.4–26.4 percentage
+points in paired family-bootstrap intervals that excluded zero. The base
+scored 220/428 and norm-matched random edits scored 207–224/428. However,
+every adapter scored below the base on phrase completion: 14–20/28 versus
+24/28. The observed gains came from sentence completion, not a broad uplift.
+Base and prompt responses replayed identically in all six runs.
+
+The training-ratio comparisons do not establish a reliable dose-response.
+Moving from 1/63 to 16/48 changed total accuracy by +8.2 points for seed 42
+(family-bootstrap interval +4.2 to +12.4) but only +0.5 for seed 43 (−1.9 to
++2.6). Moving from 16/48 to 32/32 changed it by −0.5 for seed 42 (−4.2 to
++3.0) and −2.3 for seed 43 (−6.3 to +2.1). Higher phrase exposure did not
+consistently improve phrase scores: the 32/32 treatment underperformed 16/48
+on phrases in both seeds. Only two training seeds and seven phrase families
+were available, and the compared treatment includes schedule order as well as
+the number of task updates. These are exploratory estimates, not confirmation.
+
+The exact complete raw-ledger audit and reproducible paired-family analysis
+are in `evidence/f025_fixed_support_exposure/summary.json` and
+`evidence/f025_fixed_support_exposure/analyze_f025.py`; all six campaigns
+contain base, prompt, trained-adapter and per-layer norm-matched random arms.
+Recompute with:
+
+```sh
+PYTHONPATH=. python evolution_lab/evidence/f025_fixed_support_exposure/analyze_f025.py \
+  --output evolution_lab/evidence/f025_fixed_support_exposure/summary.json
+```
+
+F025 adds 10,272 model response records but no new unique questions: its 428
+questions and 32 families had already been inspected. The v3 confirmation
+families remain retired after F024. Do not use F025 to claim independent
+generalization, broad capability preservation, a causal effect of update
+count separated from order, a general weight-to-trait guide, or transfer to
+Astra. The next valuable step is to design a fresh, larger lexical/grammatical
+confirmation cohort and preserve unrelated capability probes; do not tune on
+the old F025 development questions.

@@ -57,6 +57,15 @@ def build_parser():
     completions_v3.add_argument("--seed", type=int, default=42)
     completions_v3.add_argument("--output", type=Path, required=True)
     completions_v3.add_argument("--validate-only", action="store_true", help="Validate an existing v3 completion dataset")
+    cohort = sub.add_parser(
+        "create-training-cohort",
+        help="Freeze one family-safe set of training examples for controlled exposure experiments",
+    )
+    cohort.add_argument("dataset", type=Path)
+    cohort.add_argument("--phrase-count", type=int, default=32)
+    cohort.add_argument("--sentence-count", type=int, default=32)
+    cohort.add_argument("--seed", type=int, default=42)
+    cohort.add_argument("--output", type=Path, required=True)
     case_train = sub.add_parser("train-cases", help="Train LoRA and norm-matched random controls on generated training cases")
     case_train.add_argument("dataset", type=Path)
     case_train.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
@@ -69,9 +78,13 @@ def build_parser():
     case_train.add_argument("--max-length", type=int, default=256)
     case_train.add_argument("--seed", type=int, default=42)
     case_train.add_argument(
-        "--sampling-strategy", choices=["uniform", "task-balanced"], default="uniform",
-        help="Choose the historical uniform schedule or equalized task-type sampling",
+        "--sampling-strategy", choices=["uniform", "task-balanced", "task-ratio"], default="uniform",
+        help="Choose uniform, equalized task-type, or fixed-cohort exposure-ratio sampling",
     )
+    case_train.add_argument("--cohort-manifest", type=Path,
+                            help="Manifest for a frozen cohort created by create-training-cohort")
+    case_train.add_argument("--task-exposure-ratio",
+                            help="Exact update counts, e.g. phrase_completion=1,sentence_completion=63")
     case_train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_training"))
     ablate = sub.add_parser(
         "ablate-adapter",
@@ -238,6 +251,13 @@ def main(argv=None):
             return 0
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"V3 completion dataset validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "create-training-cohort":
+        from .training_cohort import create_training_cohort
+        try:
+            return create_training_cohort(args)
+        except (ValueError, OSError, KeyError, TypeError, FileExistsError) as error:
+            print(f"Training cohort creation failed: {error}", file=sys.stderr)
             return 2
     if args.command == "train-cases":
         from .case_training import train_case_adapters

@@ -1,0 +1,1794 @@
+{
+  "study_id": "completion-v3-fixed-support-task-exposure-f025",
+  "status": "exploratory-development-only",
+  "confirmation_consumed": false,
+  "dataset_split": "previously inspected dev; not independent confirmation",
+  "unique_questions": 428,
+  "unique_normalized_prompt_hashes": 428,
+  "model_response_records": 10272,
+  "planned_model_response_records": 10272,
+  "training_seeds": [
+    42,
+    43
+  ],
+  "fixed_support_cohort": "training_cohort/manifest.json",
+  "fixed_support_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+  "conditions": {
+    "seed42_phrase1_sentence63": {
+      "training_updates": {
+        "phrase_completion": 1,
+        "sentence_completion": 63
+      },
+      "training_data_audit": {
+        "training_manifest_sha256": "0ea653fa497f1ea69bca334d615c16f9b4f04814167b9b10d68094a81cbe1a9e",
+        "training_trace_sha256": "98d6e0622e5b622351238e27dd90cb63cb0f0c848c32a5f0644ea1c600217dd8",
+        "training_update_log_sha256": "69d0bf09ea3bf8d5bdf6e79fd4f8238eb3e42a1e19e21c3d0f61d9824c7b0a22",
+        "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+        "optimizer_updates": 64,
+        "task_update_exposures": {
+          "phrase_completion": 1,
+          "sentence_completion": 63
+        },
+        "unique_examples_seen_total": 27,
+        "unique_examples_seen_by_task": {
+          "phrase_completion": 1,
+          "sentence_completion": 26
+        },
+        "max_repeats_of_one_example": 5
+      },
+      "model_generations": 1712,
+      "campaign_elapsed_seconds": 746.311,
+      "spec_sha256": "31cf71f44c22cb4f7d022c6989c310292d18279b8ec3a5bb252f0ca9163c83c2",
+      "observations_sha256": "7b7001b29daca75cc057aa33eaf41295a0ad9d9cca022aacde40034a5217405d",
+      "report_sha256": "7f5e47d1d0ab669230f4d75e23c7dab543742e5cb437a3197bb8ad2c4adb07ba",
+      "arms": {
+        "base": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 116,
+              "questions": 200,
+              "accuracy": 0.58
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 101,
+              "questions": 200,
+              "accuracy": 0.505
+            },
+            "singular": {
+              "correct": 95,
+              "questions": 200,
+              "accuracy": 0.475
+            }
+          },
+          "accuracy": 0.514018691588785
+        },
+        "prompt": {
+          "correct": 264,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 19,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 245,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 158,
+              "questions": 200,
+              "accuracy": 0.79
+            },
+            "singular": {
+              "correct": 87,
+              "questions": 200,
+              "accuracy": 0.435
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 120,
+              "questions": 200,
+              "accuracy": 0.6
+            },
+            "singular": {
+              "correct": 125,
+              "questions": 200,
+              "accuracy": 0.625
+            }
+          },
+          "accuracy": 0.616822429906542
+        },
+        "adapter": {
+          "correct": 334,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 19,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 315,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 200,
+              "questions": 200,
+              "accuracy": 1.0
+            },
+            "singular": {
+              "correct": 115,
+              "questions": 200,
+              "accuracy": 0.575
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 152,
+              "questions": 200,
+              "accuracy": 0.76
+            },
+            "singular": {
+              "correct": 163,
+              "questions": 200,
+              "accuracy": 0.815
+            }
+          },
+          "accuracy": 0.780373831775701
+        },
+        "random": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 123,
+              "questions": 200,
+              "accuracy": 0.615
+            },
+            "singular": {
+              "correct": 73,
+              "questions": 200,
+              "accuracy": 0.365
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 98,
+              "questions": 200,
+              "accuracy": 0.49
+            },
+            "singular": {
+              "correct": 98,
+              "questions": 200,
+              "accuracy": 0.49
+            }
+          },
+          "accuracy": 0.514018691588785
+        }
+      },
+      "paired_contrasts": {
+        "adapter_vs_base": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 156,
+          "regressed": 42,
+          "correctness_rate_delta": 0.26635514018691586,
+          "paired_family_bootstrap95": [
+            0.1705607476635514,
+            0.3551401869158879
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.35714285714285715,
+              -0.03571428571428571
+            ],
+            "sentence_completion": [
+              0.1975,
+              0.3925
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_prompt": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 101,
+          "regressed": 31,
+          "correctness_rate_delta": 0.16355140186915887,
+          "paired_family_bootstrap95": [
+            0.08878504672897196,
+            0.2336448598130841
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.14285714285714285,
+              0.17857142857142858
+            ],
+            "sentence_completion": [
+              0.095,
+              0.2525
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_random": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 156,
+          "regressed": 42,
+          "correctness_rate_delta": 0.26635514018691586,
+          "paired_family_bootstrap95": [
+            0.1705607476635514,
+            0.3551401869158879
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.35714285714285715,
+              -0.03571428571428571
+            ],
+            "sentence_completion": [
+              0.1975,
+              0.395
+            ]
+          },
+          "family_count": 32
+        }
+      }
+    },
+    "seed42_phrase16_sentence48": {
+      "training_updates": {
+        "phrase_completion": 16,
+        "sentence_completion": 48
+      },
+      "training_data_audit": {
+        "training_manifest_sha256": "1a850ce2f148187bf7a02fc0f4c703b2f8fd27ed9452264567560462ad5604fc",
+        "training_trace_sha256": "f23f17bb600788c0a23c62f26da0e0b36514555627f22fb9fb352be57692a547",
+        "training_update_log_sha256": "c3b6069d34d2cd1f2400b6f9bdb732470e3e7521fb2b50e3c3b1173c78d30754",
+        "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+        "optimizer_updates": 64,
+        "task_update_exposures": {
+          "phrase_completion": 16,
+          "sentence_completion": 48
+        },
+        "unique_examples_seen_total": 36,
+        "unique_examples_seen_by_task": {
+          "phrase_completion": 12,
+          "sentence_completion": 24
+        },
+        "max_repeats_of_one_example": 5
+      },
+      "model_generations": 1712,
+      "campaign_elapsed_seconds": 1076.301,
+      "spec_sha256": "069a7885da4ce2f9281ddd690074193ff8f804356a96caa632e2998c12b53c90",
+      "observations_sha256": "eff68d074014070eee4a403ebe3f5e192c3169014db94db26a24b50ab8834b3e",
+      "report_sha256": "cc828e0ff1854acfdfed8b5277fed1143f32f1729d704478e1063bb468588f2e",
+      "arms": {
+        "base": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 116,
+              "questions": 200,
+              "accuracy": 0.58
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 101,
+              "questions": 200,
+              "accuracy": 0.505
+            },
+            "singular": {
+              "correct": 95,
+              "questions": 200,
+              "accuracy": 0.475
+            }
+          },
+          "accuracy": 0.514018691588785
+        },
+        "prompt": {
+          "correct": 264,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 19,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 245,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 158,
+              "questions": 200,
+              "accuracy": 0.79
+            },
+            "singular": {
+              "correct": 87,
+              "questions": 200,
+              "accuracy": 0.435
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 120,
+              "questions": 200,
+              "accuracy": 0.6
+            },
+            "singular": {
+              "correct": 125,
+              "questions": 200,
+              "accuracy": 0.625
+            }
+          },
+          "accuracy": 0.616822429906542
+        },
+        "adapter": {
+          "correct": 369,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 20,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 349,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 196,
+              "questions": 200,
+              "accuracy": 0.98
+            },
+            "singular": {
+              "correct": 153,
+              "questions": 200,
+              "accuracy": 0.765
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 175,
+              "questions": 200,
+              "accuracy": 0.875
+            },
+            "singular": {
+              "correct": 174,
+              "questions": 200,
+              "accuracy": 0.87
+            }
+          },
+          "accuracy": 0.8621495327102804
+        },
+        "random": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 124,
+              "questions": 200,
+              "accuracy": 0.62
+            },
+            "singular": {
+              "correct": 72,
+              "questions": 200,
+              "accuracy": 0.36
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 98,
+              "questions": 200,
+              "accuracy": 0.49
+            },
+            "singular": {
+              "correct": 98,
+              "questions": 200,
+              "accuracy": 0.49
+            }
+          },
+          "accuracy": 0.514018691588785
+        }
+      },
+      "paired_contrasts": {
+        "adapter_vs_base": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 175,
+          "regressed": 26,
+          "correctness_rate_delta": 0.34813084112149534,
+          "paired_family_bootstrap95": [
+            0.2873831775700935,
+            0.40420560747663553
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.32142857142857145,
+              0.03571428571428571
+            ],
+            "sentence_completion": [
+              0.32,
+              0.4425
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_prompt": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 120,
+          "regressed": 15,
+          "correctness_rate_delta": 0.24532710280373832,
+          "paired_family_bootstrap95": [
+            0.18457943925233647,
+            0.3060747663551402
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.14285714285714285,
+              0.21428571428571427
+            ],
+            "sentence_completion": [
+              0.1975,
+              0.3225
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_random": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 177,
+          "regressed": 28,
+          "correctness_rate_delta": 0.34813084112149534,
+          "paired_family_bootstrap95": [
+            0.28738317757009346,
+            0.40887850467289716
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.32142857142857145,
+              0.03571428571428571
+            ],
+            "sentence_completion": [
+              0.3175,
+              0.445
+            ]
+          },
+          "family_count": 32
+        }
+      }
+    },
+    "seed42_phrase32_sentence32": {
+      "training_updates": {
+        "phrase_completion": 32,
+        "sentence_completion": 32
+      },
+      "training_data_audit": {
+        "training_manifest_sha256": "eade888dba6ac038c42d5dfcb1f288f37a1fed628fecba9ccfbacca596178867",
+        "training_trace_sha256": "bfeea5723a6377abd317ba410282f15a555c2e40c6827d10131301163d05a004",
+        "training_update_log_sha256": "bbfdb84bb8014d378c477c50ecbe2776fcac884b153688b6d7fa6713e2988905",
+        "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+        "optimizer_updates": 64,
+        "task_update_exposures": {
+          "phrase_completion": 32,
+          "sentence_completion": 32
+        },
+        "unique_examples_seen_total": 40,
+        "unique_examples_seen_by_task": {
+          "phrase_completion": 21,
+          "sentence_completion": 19
+        },
+        "max_repeats_of_one_example": 4
+      },
+      "model_generations": 1712,
+      "campaign_elapsed_seconds": 984.308,
+      "spec_sha256": "3b815bb57fc81caa887e14cb336141346cbc9d4c51ec7ac8e82c67bee1bc565f",
+      "observations_sha256": "4dcf89190522a7e7abd4e2e8081f8cc440a2a608357a813723472d92179d9fa4",
+      "report_sha256": "ec40edcd422fb3d09fd3b92458cdb6e0b7e2a58edbd2dba948a05f7184549819",
+      "arms": {
+        "base": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 116,
+              "questions": 200,
+              "accuracy": 0.58
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 101,
+              "questions": 200,
+              "accuracy": 0.505
+            },
+            "singular": {
+              "correct": 95,
+              "questions": 200,
+              "accuracy": 0.475
+            }
+          },
+          "accuracy": 0.514018691588785
+        },
+        "prompt": {
+          "correct": 264,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 19,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 245,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 158,
+              "questions": 200,
+              "accuracy": 0.79
+            },
+            "singular": {
+              "correct": 87,
+              "questions": 200,
+              "accuracy": 0.435
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 120,
+              "questions": 200,
+              "accuracy": 0.6
+            },
+            "singular": {
+              "correct": 125,
+              "questions": 200,
+              "accuracy": 0.625
+            }
+          },
+          "accuracy": 0.616822429906542
+        },
+        "adapter": {
+          "correct": 367,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 18,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 349,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 200,
+              "questions": 200,
+              "accuracy": 1.0
+            },
+            "singular": {
+              "correct": 149,
+              "questions": 200,
+              "accuracy": 0.745
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 173,
+              "questions": 200,
+              "accuracy": 0.865
+            },
+            "singular": {
+              "correct": 176,
+              "questions": 200,
+              "accuracy": 0.88
+            }
+          },
+          "accuracy": 0.8574766355140186
+        },
+        "random": {
+          "correct": 224,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 200,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 125,
+              "questions": 200,
+              "accuracy": 0.625
+            },
+            "singular": {
+              "correct": 75,
+              "questions": 200,
+              "accuracy": 0.375
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 99,
+              "questions": 200,
+              "accuracy": 0.495
+            },
+            "singular": {
+              "correct": 101,
+              "questions": 200,
+              "accuracy": 0.505
+            }
+          },
+          "accuracy": 0.5233644859813084
+        }
+      },
+      "paired_contrasts": {
+        "adapter_vs_base": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 175,
+          "regressed": 28,
+          "correctness_rate_delta": 0.34345794392523366,
+          "paired_family_bootstrap95": [
+            0.29439252336448596,
+            0.3901869158878505
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.4642857142857143,
+              0.0
+            ],
+            "sentence_completion": [
+              0.33,
+              0.435
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_prompt": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 118,
+          "regressed": 15,
+          "correctness_rate_delta": 0.24065420560747663,
+          "paired_family_bootstrap95": [
+            0.19626168224299065,
+            0.28504672897196265
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.25,
+              0.21428571428571427
+            ],
+            "sentence_completion": [
+              0.215,
+              0.3075
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_random": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 170,
+          "regressed": 27,
+          "correctness_rate_delta": 0.3341121495327103,
+          "paired_family_bootstrap95": [
+            0.2827102803738318,
+            0.38551401869158874
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.4642857142857143,
+              0.0
+            ],
+            "sentence_completion": [
+              0.32,
+              0.4275
+            ]
+          },
+          "family_count": 32
+        }
+      }
+    },
+    "seed43_phrase1_sentence63": {
+      "training_updates": {
+        "phrase_completion": 1,
+        "sentence_completion": 63
+      },
+      "training_data_audit": {
+        "training_manifest_sha256": "bf4e0bc3a724d173b35c7d4de6e2d2722f265eade1a90a5823bbec321080dbe3",
+        "training_trace_sha256": "f7d92824db894e263ab6672bd6916d4cfc04a90a4e422b09edb047d04e0d0105",
+        "training_update_log_sha256": "84ef679d2ce939327ddc3ed35e3b35f2585cfdb9808ae16a4b9b1bcba2037147",
+        "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+        "optimizer_updates": 64,
+        "task_update_exposures": {
+          "phrase_completion": 1,
+          "sentence_completion": 63
+        },
+        "unique_examples_seen_total": 27,
+        "unique_examples_seen_by_task": {
+          "phrase_completion": 1,
+          "sentence_completion": 26
+        },
+        "max_repeats_of_one_example": 7
+      },
+      "model_generations": 1712,
+      "campaign_elapsed_seconds": 1056.093,
+      "spec_sha256": "be04f529f77db0872a7160295a9dd1f17070a629597990f59a1f57df0681c6d2",
+      "observations_sha256": "9e2e63f0ec6021d8e7860b276eba4db2ef86cf5cb429742453526b592b281572",
+      "report_sha256": "a79a4ccaba490bb4d580b8ac62d53fc703c2f3a786fe1568ed326a6518415909",
+      "arms": {
+        "base": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 116,
+              "questions": 200,
+              "accuracy": 0.58
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 101,
+              "questions": 200,
+              "accuracy": 0.505
+            },
+            "singular": {
+              "correct": 95,
+              "questions": 200,
+              "accuracy": 0.475
+            }
+          },
+          "accuracy": 0.514018691588785
+        },
+        "prompt": {
+          "correct": 264,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 19,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 245,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 158,
+              "questions": 200,
+              "accuracy": 0.79
+            },
+            "singular": {
+              "correct": 87,
+              "questions": 200,
+              "accuracy": 0.435
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 120,
+              "questions": 200,
+              "accuracy": 0.6
+            },
+            "singular": {
+              "correct": 125,
+              "questions": 200,
+              "accuracy": 0.625
+            }
+          },
+          "accuracy": 0.616822429906542
+        },
+        "adapter": {
+          "correct": 375,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 18,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 357,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 173,
+              "questions": 200,
+              "accuracy": 0.865
+            },
+            "singular": {
+              "correct": 184,
+              "questions": 200,
+              "accuracy": 0.92
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 179,
+              "questions": 200,
+              "accuracy": 0.895
+            },
+            "singular": {
+              "correct": 178,
+              "questions": 200,
+              "accuracy": 0.89
+            }
+          },
+          "accuracy": 0.8761682242990654
+        },
+        "random": {
+          "correct": 208,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 184,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 103,
+              "questions": 200,
+              "accuracy": 0.515
+            },
+            "singular": {
+              "correct": 81,
+              "questions": 200,
+              "accuracy": 0.405
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 92,
+              "questions": 200,
+              "accuracy": 0.46
+            },
+            "singular": {
+              "correct": 92,
+              "questions": 200,
+              "accuracy": 0.46
+            }
+          },
+          "accuracy": 0.48598130841121495
+        }
+      },
+      "paired_contrasts": {
+        "adapter_vs_base": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 181,
+          "regressed": 26,
+          "correctness_rate_delta": 0.3621495327102804,
+          "paired_family_bootstrap95": [
+            0.294392523364486,
+            0.4252336448598131
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.4642857142857143,
+              0.0
+            ],
+            "sentence_completion": [
+              0.3325,
+              0.4625
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_prompt": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 133,
+          "regressed": 22,
+          "correctness_rate_delta": 0.25934579439252337,
+          "paired_family_bootstrap95": [
+            0.20327102803738317,
+            0.31542056074766356
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.21428571428571427,
+              0.10714285714285714
+            ],
+            "sentence_completion": [
+              0.22,
+              0.3375
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_random": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 194,
+          "regressed": 27,
+          "correctness_rate_delta": 0.3901869158878505,
+          "paired_family_bootstrap95": [
+            0.32710280373831774,
+            0.4509345794392523
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.4642857142857143,
+              0.0
+            ],
+            "sentence_completion": [
+              0.3675,
+              0.495
+            ]
+          },
+          "family_count": 32
+        }
+      }
+    },
+    "seed43_phrase16_sentence48": {
+      "training_updates": {
+        "phrase_completion": 16,
+        "sentence_completion": 48
+      },
+      "training_data_audit": {
+        "training_manifest_sha256": "cd60448e0ee7110f33c7ca7b26ebefc6af6dba602450e45e5158034ebb72388b",
+        "training_trace_sha256": "6bc60d664287f296c76a7d3ce0a02afdf4981468921751a3bd03f5c35dba06a5",
+        "training_update_log_sha256": "e96b892217c25a6a42c5c8df35d181775735e86816befb32ff0763d0e363c925",
+        "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+        "optimizer_updates": 64,
+        "task_update_exposures": {
+          "phrase_completion": 16,
+          "sentence_completion": 48
+        },
+        "unique_examples_seen_total": 35,
+        "unique_examples_seen_by_task": {
+          "phrase_completion": 10,
+          "sentence_completion": 25
+        },
+        "max_repeats_of_one_example": 6
+      },
+      "model_generations": 1712,
+      "campaign_elapsed_seconds": 1085.886,
+      "spec_sha256": "a7cbdab81be4c5c277b1580548165ebf335a7a3be65279dd0b7b52743403407f",
+      "observations_sha256": "2aa0aa78d77cd2209c2bd883296cd4aafb7122a85ee089af83f3d62be7bcd24f",
+      "report_sha256": "a30a5029f920beb7f705d34d3b27244872e0a6eb272afab659f964ede60d1fb9",
+      "arms": {
+        "base": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 116,
+              "questions": 200,
+              "accuracy": 0.58
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 101,
+              "questions": 200,
+              "accuracy": 0.505
+            },
+            "singular": {
+              "correct": 95,
+              "questions": 200,
+              "accuracy": 0.475
+            }
+          },
+          "accuracy": 0.514018691588785
+        },
+        "prompt": {
+          "correct": 264,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 19,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 245,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 158,
+              "questions": 200,
+              "accuracy": 0.79
+            },
+            "singular": {
+              "correct": 87,
+              "questions": 200,
+              "accuracy": 0.435
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 120,
+              "questions": 200,
+              "accuracy": 0.6
+            },
+            "singular": {
+              "correct": 125,
+              "questions": 200,
+              "accuracy": 0.625
+            }
+          },
+          "accuracy": 0.616822429906542
+        },
+        "adapter": {
+          "correct": 377,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 20,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 357,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 173,
+              "questions": 200,
+              "accuracy": 0.865
+            },
+            "singular": {
+              "correct": 184,
+              "questions": 200,
+              "accuracy": 0.92
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 178,
+              "questions": 200,
+              "accuracy": 0.89
+            },
+            "singular": {
+              "correct": 179,
+              "questions": 200,
+              "accuracy": 0.895
+            }
+          },
+          "accuracy": 0.8808411214953271
+        },
+        "random": {
+          "correct": 207,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 183,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 103,
+              "questions": 200,
+              "accuracy": 0.515
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 91,
+              "questions": 200,
+              "accuracy": 0.455
+            },
+            "singular": {
+              "correct": 92,
+              "questions": 200,
+              "accuracy": 0.46
+            }
+          },
+          "accuracy": 0.48364485981308414
+        }
+      },
+      "paired_contrasts": {
+        "adapter_vs_base": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 175,
+          "regressed": 18,
+          "correctness_rate_delta": 0.36682242990654207,
+          "paired_family_bootstrap95": [
+            0.30140186915887857,
+            0.4299065420560748
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.32142857142857145,
+              0.03571428571428571
+            ],
+            "sentence_completion": [
+              0.335,
+              0.47
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_prompt": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 133,
+          "regressed": 20,
+          "correctness_rate_delta": 0.26401869158878505,
+          "paired_family_bootstrap95": [
+            0.20794392523364486,
+            0.31775700934579443
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.07142857142857142,
+              0.14285714285714285
+            ],
+            "sentence_completion": [
+              0.22,
+              0.3375
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_random": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 185,
+          "regressed": 15,
+          "correctness_rate_delta": 0.397196261682243,
+          "paired_family_bootstrap95": [
+            0.33644859813084116,
+            0.46028037383177567
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.32142857142857145,
+              0.03571428571428571
+            ],
+            "sentence_completion": [
+              0.37,
+              0.5
+            ]
+          },
+          "family_count": 32
+        }
+      }
+    },
+    "seed43_phrase32_sentence32": {
+      "training_updates": {
+        "phrase_completion": 32,
+        "sentence_completion": 32
+      },
+      "training_data_audit": {
+        "training_manifest_sha256": "eb780855a06ea827dd20199ed6bd9effd8b01b2cf6900a6ca55718b1e55f9ad4",
+        "training_trace_sha256": "24a9309acd1f274c86c79900a5415b60cedb49f448b6c04cb704b1b8914f5c4a",
+        "training_update_log_sha256": "343c23d0fd96becde6e98094a0dee170c97748c6a8444f8d3b92039c7c7215ab",
+        "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+        "optimizer_updates": 64,
+        "task_update_exposures": {
+          "phrase_completion": 32,
+          "sentence_completion": 32
+        },
+        "unique_examples_seen_total": 39,
+        "unique_examples_seen_by_task": {
+          "phrase_completion": 19,
+          "sentence_completion": 20
+        },
+        "max_repeats_of_one_example": 4
+      },
+      "model_generations": 1712,
+      "campaign_elapsed_seconds": 1247.707,
+      "spec_sha256": "979cbaae5f7b8c1edb0ea2bd713ec8429bc4488aa79cd146f22e46e079213fdd",
+      "observations_sha256": "5085900fe3565b7dbeaacef0df38825f3cc67cac3a352fc3acb693907934f9b1",
+      "report_sha256": "684fa24f03d451ad207b4eb10148edf180686b58a8aaac3f7cf7a31fa8feb2eb",
+      "arms": {
+        "base": {
+          "correct": 220,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 196,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 116,
+              "questions": 200,
+              "accuracy": 0.58
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 101,
+              "questions": 200,
+              "accuracy": 0.505
+            },
+            "singular": {
+              "correct": 95,
+              "questions": 200,
+              "accuracy": 0.475
+            }
+          },
+          "accuracy": 0.514018691588785
+        },
+        "prompt": {
+          "correct": 264,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 19,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 245,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 158,
+              "questions": 200,
+              "accuracy": 0.79
+            },
+            "singular": {
+              "correct": 87,
+              "questions": 200,
+              "accuracy": 0.435
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 120,
+              "questions": 200,
+              "accuracy": 0.6
+            },
+            "singular": {
+              "correct": 125,
+              "questions": 200,
+              "accuracy": 0.625
+            }
+          },
+          "accuracy": 0.616822429906542
+        },
+        "adapter": {
+          "correct": 367,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 14,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 353,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 193,
+              "questions": 200,
+              "accuracy": 0.965
+            },
+            "singular": {
+              "correct": 160,
+              "questions": 200,
+              "accuracy": 0.8
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 177,
+              "questions": 200,
+              "accuracy": 0.885
+            },
+            "singular": {
+              "correct": 176,
+              "questions": 200,
+              "accuracy": 0.88
+            }
+          },
+          "accuracy": 0.8574766355140186
+        },
+        "random": {
+          "correct": 209,
+          "questions": 428,
+          "by_task_type": {
+            "phrase_completion": {
+              "correct": 24,
+              "questions": 28,
+              "families": 7
+            },
+            "sentence_completion": {
+              "correct": 185,
+              "questions": 400,
+              "families": 25
+            }
+          },
+          "sentence_by_subject_number": {
+            "plural": {
+              "correct": 105,
+              "questions": 200,
+              "accuracy": 0.525
+            },
+            "singular": {
+              "correct": 80,
+              "questions": 200,
+              "accuracy": 0.4
+            }
+          },
+          "sentence_by_attractor_number": {
+            "plural": {
+              "correct": 92,
+              "questions": 200,
+              "accuracy": 0.46
+            },
+            "singular": {
+              "correct": 93,
+              "questions": 200,
+              "accuracy": 0.465
+            }
+          },
+          "accuracy": 0.4883177570093458
+        }
+      },
+      "paired_contrasts": {
+        "adapter_vs_base": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 179,
+          "regressed": 32,
+          "correctness_rate_delta": 0.34345794392523366,
+          "paired_family_bootstrap95": [
+            0.26401869158878505,
+            0.4182242990654206
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.6071428571428571,
+              -0.10714285714285714
+            ],
+            "sentence_completion": [
+              0.3075,
+              0.4675
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_prompt": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 126,
+          "regressed": 23,
+          "correctness_rate_delta": 0.24065420560747663,
+          "paired_family_bootstrap95": [
+            0.1822429906542056,
+            0.2967289719626168
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.32142857142857145,
+              0.0
+            ],
+            "sentence_completion": [
+              0.2075,
+              0.33
+            ]
+          },
+          "family_count": 32
+        },
+        "adapter_vs_random": {
+          "reference": "reference",
+          "candidate": "candidate",
+          "paired_questions": 428,
+          "improved": 192,
+          "regressed": 34,
+          "correctness_rate_delta": 0.3691588785046729,
+          "paired_family_bootstrap95": [
+            0.3014018691588785,
+            0.4322429906542056
+          ],
+          "paired_family_bootstrap95_by_task_type": {
+            "phrase_completion": [
+              -0.6071428571428571,
+              -0.10714285714285714
+            ],
+            "sentence_completion": [
+              0.35,
+              0.485
+            ]
+          },
+          "family_count": 32
+        }
+      }
+    }
+  },
+  "within_seed_exposure_contrasts": {
+    "seed42_phrase16_sentence48_minus_phrase1_sentence63": {
+      "reference": "reference",
+      "candidate": "candidate",
+      "paired_questions": 428,
+      "improved": 43,
+      "regressed": 8,
+      "correctness_rate_delta": 0.08177570093457943,
+      "paired_family_bootstrap95": [
+        0.042056074766355145,
+        0.12383177570093458
+      ],
+      "paired_family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          0.0,
+          0.10714285714285714
+        ],
+        "sentence_completion": [
+          0.0425,
+          0.13
+        ]
+      },
+      "family_count": 32
+    },
+    "seed42_phrase32_sentence32_minus_phrase16_sentence48": {
+      "reference": "reference",
+      "candidate": "candidate",
+      "paired_questions": 428,
+      "improved": 15,
+      "regressed": 17,
+      "correctness_rate_delta": -0.004672897196261682,
+      "paired_family_bootstrap95": [
+        -0.042056074766355145,
+        0.03037383177570093
+      ],
+      "paired_family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.14285714285714285,
+          0.0
+        ],
+        "sentence_completion": [
+          -0.04,
+          0.035
+        ]
+      },
+      "family_count": 32
+    },
+    "seed42_phrase32_sentence32_minus_phrase1_sentence63": {
+      "reference": "reference",
+      "candidate": "candidate",
+      "paired_questions": 428,
+      "improved": 50,
+      "regressed": 17,
+      "correctness_rate_delta": 0.07710280373831775,
+      "paired_family_bootstrap95": [
+        0.01869158878504673,
+        0.1378504672897196
+      ],
+      "paired_family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.14285714285714285,
+          0.07142857142857142
+        ],
+        "sentence_completion": [
+          0.0225,
+          0.15
+        ]
+      },
+      "family_count": 32
+    },
+    "seed43_phrase16_sentence48_minus_phrase1_sentence63": {
+      "reference": "reference",
+      "candidate": "candidate",
+      "paired_questions": 428,
+      "improved": 20,
+      "regressed": 18,
+      "correctness_rate_delta": 0.004672897196261682,
+      "paired_family_bootstrap95": [
+        -0.018691588785046728,
+        0.02570093457943925
+      ],
+      "paired_family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.07142857142857142,
+          0.25
+        ],
+        "sentence_completion": [
+          -0.0225,
+          0.02
+        ]
+      },
+      "family_count": 32
+    },
+    "seed43_phrase32_sentence32_minus_phrase16_sentence48": {
+      "reference": "reference",
+      "candidate": "candidate",
+      "paired_questions": 428,
+      "improved": 32,
+      "regressed": 42,
+      "correctness_rate_delta": -0.02336448598130841,
+      "paired_family_bootstrap95": [
+        -0.0630841121495327,
+        0.021028037383177572
+      ],
+      "paired_family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.35714285714285715,
+          -0.07142857142857142
+        ],
+        "sentence_completion": [
+          -0.05,
+          0.035
+        ]
+      },
+      "family_count": 32
+    },
+    "seed43_phrase32_sentence32_minus_phrase1_sentence63": {
+      "reference": "reference",
+      "candidate": "candidate",
+      "paired_questions": 428,
+      "improved": 24,
+      "regressed": 32,
+      "correctness_rate_delta": -0.018691588785046728,
+      "paired_family_bootstrap95": [
+        -0.058411214953271035,
+        0.030373831775700934
+      ],
+      "paired_family_bootstrap95_by_task_type": {
+        "phrase_completion": [
+          -0.2857142857142857,
+          0.03571428571428571
+        ],
+        "sentence_completion": [
+          -0.05,
+          0.04
+        ]
+      },
+      "family_count": 32
+    }
+  },
+  "base_and_prompt_repeat_checks": {
+    "seed42_phrase16_sentence48_base": {
+      "identical_responses": 428,
+      "questions": 428
+    },
+    "seed42_phrase16_sentence48_prompt": {
+      "identical_responses": 428,
+      "questions": 428
+    },
+    "seed42_phrase32_sentence32_base": {
+      "identical_responses": 428,
+      "questions": 428
+    },
+    "seed42_phrase32_sentence32_prompt": {
+      "identical_responses": 428,
+      "questions": 428
+    },
+    "seed43_phrase16_sentence48_base": {
+      "identical_responses": 428,
+      "questions": 428
+    },
+    "seed43_phrase16_sentence48_prompt": {
+      "identical_responses": 428,
+      "questions": 428
+    },
+    "seed43_phrase32_sentence32_base": {
+      "identical_responses": 428,
+      "questions": 428
+    },
+    "seed43_phrase32_sentence32_prompt": {
+      "identical_responses": 428,
+      "questions": 428
+    }
+  },
+  "uncertainty_limits": [
+    "Paired family bootstrap resamples benchmark families, not training seeds.",
+    "Only two adapter-training seeds and seven phrase-development families are available.",
+    "All 428 development questions were previously inspected; estimates are exploratory and cannot establish independent generalization.",
+    "The exposure treatment changes the ordered task schedule as well as update counts; optimization-order effects are not separated."
+  ]
+}

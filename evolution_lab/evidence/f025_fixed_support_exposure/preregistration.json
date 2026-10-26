@@ -1,0 +1,102 @@
+{
+  "study_id": "completion-v3-fixed-support-task-exposure-f025",
+  "registered_at_utc": "2026-10-25T21:08:04Z",
+  "status": "preregistered-exploratory-before-training",
+  "question": "When the exact training examples and optimizer budget are fixed, how does allocating updates between phrase completion and sentence completion change each measured behavior?",
+  "hypothesis": "Increasing phrase-completion updates from 1 to 16 to 32 will increase phrase completion performance and may trade off sentence completion. The 1:63 treatment may preserve the strong sentence effect seen in F023 while remaining weak on phrase questions. No monotonicity or aggregate-win claim is assumed.",
+  "design": {
+    "single_changed_factor": "task exposure allocation across a fixed 64-example support cohort",
+    "fixed_support_cohort": "evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json",
+    "cohort_selection_seed": 25025,
+    "cohort_composition": {
+      "unique_examples": 64,
+      "phrase_completion_examples_and_families": 32,
+      "sentence_completion_examples_and_families": 32,
+      "sentence_subject_number": {
+        "singular": 16,
+        "plural": 16
+      },
+      "one_example_per_family": true,
+      "split": "train only"
+    },
+    "treatments": [
+      {
+        "phrase_completion_updates": 1,
+        "sentence_completion_updates": 63
+      },
+      {
+        "phrase_completion_updates": 16,
+        "sentence_completion_updates": 48
+      },
+      {
+        "phrase_completion_updates": 32,
+        "sentence_completion_updates": 32
+      }
+    ],
+    "training_seeds": [42, 43],
+    "paired_seed_rule": "For a given seed and task, all exposure treatments consume prefixes from the same independently seeded per-task example stream; cohort, model revision, LoRA initialization seed, optimizer, update budget and hyperparameters remain fixed.",
+    "training": {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu (MPS unavailable in this process at registration)",
+      "precision": "float32",
+      "steps": 64,
+      "rank": 4,
+      "target_modules": ["q_proj", "v_proj"],
+      "optimizer": "AdamW",
+      "learning_rate": 0.0005,
+      "weight_decay": 0.01,
+      "gradient_clip_norm": 1.0,
+      "max_length": 256,
+      "lora_alpha": 8,
+      "lora_dropout": 0.0,
+      "decoding": "greedy"
+    }
+  },
+  "evaluation": {
+    "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+    "split": "dev",
+    "unique_questions": 428,
+    "families": 32,
+    "prior_inspection": "All F025 development questions were already inspected in F021-F023. This is exploratory mechanism study only; these data cannot establish independent generalization or promote a candidate.",
+    "primary_outcomes": [
+      "trusted-key exact completion accuracy, reported separately for phrase and sentence tasks",
+      "sentence accuracy separately for singular and plural subjects",
+      "paired family-level bootstrap contrasts among the three exposure conditions"
+    ],
+    "controls": [
+      "unedited base arm, recorded in each paired evaluation campaign",
+      "task-matched prompt-only arm, recorded in each paired evaluation campaign",
+      "per-treatment, per-seed layerwise effective-delta-norm-matched random adapter, using the same evaluation questions",
+      "no aggregate-only score will hide phrase/sentence tradeoffs"
+    ],
+    "planned_model_generations": 10272,
+    "planned_arm_question_pairs": "6 trained adapters x (base + prompt + adapter + random) x 428 questions",
+    "independent_confirmation": "None in F025. The v3 confirmation families were consumed and retired by F024. If a pattern is selected for confirmation, generate new lexical and grammatical families before evaluating a frozen treatment."
+  },
+  "analysis_and_limits": {
+    "resampling_unit": "whole benchmark family, paired across arms",
+    "uncertainty": "95% paired family bootstrap intervals; only 7 phrase-development families exist, so phrase estimates are highly uncertain and descriptive",
+    "multiplicity": "three conditions, two seeds, multiple task-specific outcomes; treat intervals as exploratory, not confirmatory",
+    "causal_scope": "The manipulated factor is the complete task-exposure schedule, including its deterministic order; this study does not isolate update count from optimization-order effects.",
+    "promotion": "Not eligible. No training, selection, or tuning on final confirmation data; no transfer claims to other models or Astra."
+  },
+  "controls_for_data_effects": {
+    "example_identity": "The exact same 64 example IDs and trusted answers appear in every condition.",
+    "family_overlap": "One example per family within each task; no dev or confirmation examples enter the cohort.",
+    "repetition": "Sampling is with replacement to reach 64 updates. Per-task streams are seed-specific and nested across the exposure ratios; repeated example IDs are logged per update.",
+    "additional_measured_fields": [
+      "per-update training example ID and task type",
+      "subject and attractor number",
+      "unique examples seen by task",
+      "effective delta norms per adapted layer",
+      "raw model responses and trusted grades"
+    ]
+  },
+  "reproduction": {
+    "cohort": "python -m evolution_lab create-training-cohort evolution_lab/evidence/completion_v3 --phrase-count 32 --sentence-count 32 --seed 25025 --output evolution_lab/evidence/f025_fixed_support_exposure/training_cohort",
+    "train_template": "python -m evolution_lab train-cases evolution_lab/evidence/completion_v3 --model /Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775 --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --steps 64 --rank 4 --seed SEED --sampling-strategy task-ratio --cohort-manifest evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json --task-exposure-ratio phrase_completion=PHRASE,sentence_completion=SENTENCE --output-dir results/evolution_lab/f025/SEED_PHRASE_SENTENCE",
+    "evaluation": "python -m evolution_lab case-eval evolution_lab/evidence/completion_v3 --split dev --model /Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775 --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --arms base prompt adapter random --adapter RUN/adapter_lora --random-adapter RUN/adapter_random --adapter-delta RUN/delta_lora.json --random-delta RUN/delta_random.json --output-dir results/evolution_lab/f025_eval/CONDITION_SEED"
+  },
+  "status_note": "Preregistration written after tests and fixed-cohort selection, before any F025 model training or evaluation generations. The cohort had to be corrected after a pre-training audit found sentence families contained both subject-number variants; the final frozen cohort has 32 unique sentence families and 16 subjects of each number."
+}

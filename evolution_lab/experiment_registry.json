@@ -1320,16 +1320,992 @@
         "Two zero-generation preflight failures were documented before retries: use of model alias instead of recorded local snapshot path for mixture; and use of archived adapter without its sibling run manifest for arithmetic. Retries used the same pinned model and checkpoint hashes."
       ],
       "summary": "Frozen uniform adapter independently confirms strong narrow sentence-completion gains over prompt, base and norm-matched random on 432 untouched questions, while phrase performance remains below base. It exceeds the fixed equal mixture by 4.9 points. On 312 fresh arithmetic questions it scores 99/312: above weak base/random (54/312) but below prompt (155/312) by 17.9 points. The candidate does not meet broad capability-preservation or promotion criteria. Retire both confirmation families; no later tuning on these cases."
+    },
+    {
+      "id": "completion-v3-fixed-support-task-exposure-f025",
+      "status": "completed-exploratory-development-only-no-promotion",
+      "protocol": "evolution_lab/evidence/f025_fixed_support_exposure/preregistration.json",
+      "analysis": "evolution_lab/evidence/f025_fixed_support_exposure/summary.json",
+      "analysis_script": "evolution_lab/evidence/f025_fixed_support_exposure/analyze_f025.py",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu (MPS unavailable in this process)",
+      "precision": "float32",
+      "fixed_training_cohort": {
+        "manifest": "evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json",
+        "cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "unique_examples": 64,
+        "families": 64,
+        "task_counts": {
+          "phrase_completion": 32,
+          "sentence_completion": 32
+        },
+        "sentence_subjects": {
+          "singular": 16,
+          "plural": 16
+        },
+        "source_split": "train",
+        "examples_reused_across_treatments": true,
+        "sampling_with_replacement": true,
+        "all_example_ids_and_per_update_losses_saved": true
+      },
+      "training": {
+        "training_seeds": [
+          42,
+          43
+        ],
+        "task_update_allocations": {
+          "phrase1_sentence63": [
+            1,
+            63
+          ],
+          "phrase16_sentence48": [
+            16,
+            48
+          ],
+          "phrase32_sentence32": [
+            32,
+            32
+          ]
+        },
+        "optimizer_updates_per_run": 64,
+        "total_optimizer_updates": 384,
+        "rank": 4,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "data_factor_scope": "The complete task exposure schedule, including deterministic update order, changes; update count is not isolated from order.",
+        "actual_unique_examples_and_repeat_counts_are_recorded_per_run": true
+      },
+      "evaluation": {
+        "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+        "split": "previously inspected dev; exploratory only",
+        "unique_questions": 428,
+        "new_unique_questions_beyond_prior_evidence": 0,
+        "families": 32,
+        "phrase_questions": 28,
+        "phrase_families": 7,
+        "sentence_questions": 400,
+        "sentence_families": 25,
+        "arms": [
+          "base",
+          "prompt",
+          "adapter",
+          "norm_matched_random"
+        ],
+        "model_response_records": 10272,
+        "unique_prompt_hashes": 428,
+        "conditions": {
+          "seed42_phrase1_sentence63": {
+            "training": {
+              "training_manifest_sha256": "0ea653fa497f1ea69bca334d615c16f9b4f04814167b9b10d68094a81cbe1a9e",
+              "training_trace_sha256": "98d6e0622e5b622351238e27dd90cb63cb0f0c848c32a5f0644ea1c600217dd8",
+              "training_update_log_sha256": "69d0bf09ea3bf8d5bdf6e79fd4f8238eb3e42a1e19e21c3d0f61d9824c7b0a22",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 1,
+                "sentence_completion": 63
+              },
+              "unique_examples_seen_total": 27,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 1,
+                "sentence_completion": 26
+              },
+              "max_repeats_of_one_example": 5
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 334,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 315,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 200,
+                    "questions": 200,
+                    "accuracy": 1.0
+                  },
+                  "singular": {
+                    "correct": 115,
+                    "questions": 200,
+                    "accuracy": 0.575
+                  }
+                }
+              },
+              "random": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 123,
+                    "questions": 200,
+                    "accuracy": 0.615
+                  },
+                  "singular": {
+                    "correct": 73,
+                    "questions": 200,
+                    "accuracy": 0.365
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 16.36,
+              "paired_family_bootstrap95_percentage_points": [
+                8.88,
+                23.36
+              ],
+              "improved": 101,
+              "regressed": 31
+            }
+          },
+          "seed42_phrase16_sentence48": {
+            "training": {
+              "training_manifest_sha256": "1a850ce2f148187bf7a02fc0f4c703b2f8fd27ed9452264567560462ad5604fc",
+              "training_trace_sha256": "f23f17bb600788c0a23c62f26da0e0b36514555627f22fb9fb352be57692a547",
+              "training_update_log_sha256": "c3b6069d34d2cd1f2400b6f9bdb732470e3e7521fb2b50e3c3b1173c78d30754",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 16,
+                "sentence_completion": 48
+              },
+              "unique_examples_seen_total": 36,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 12,
+                "sentence_completion": 24
+              },
+              "max_repeats_of_one_example": 5
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 369,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 20,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 349,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 196,
+                    "questions": 200,
+                    "accuracy": 0.98
+                  },
+                  "singular": {
+                    "correct": 153,
+                    "questions": 200,
+                    "accuracy": 0.765
+                  }
+                }
+              },
+              "random": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 124,
+                    "questions": 200,
+                    "accuracy": 0.62
+                  },
+                  "singular": {
+                    "correct": 72,
+                    "questions": 200,
+                    "accuracy": 0.36
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 24.53,
+              "paired_family_bootstrap95_percentage_points": [
+                18.46,
+                30.61
+              ],
+              "improved": 120,
+              "regressed": 15
+            }
+          },
+          "seed42_phrase32_sentence32": {
+            "training": {
+              "training_manifest_sha256": "eade888dba6ac038c42d5dfcb1f288f37a1fed628fecba9ccfbacca596178867",
+              "training_trace_sha256": "bfeea5723a6377abd317ba410282f15a555c2e40c6827d10131301163d05a004",
+              "training_update_log_sha256": "bbfdb84bb8014d378c477c50ecbe2776fcac884b153688b6d7fa6713e2988905",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 32,
+                "sentence_completion": 32
+              },
+              "unique_examples_seen_total": 40,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 21,
+                "sentence_completion": 19
+              },
+              "max_repeats_of_one_example": 4
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 367,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 18,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 349,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 200,
+                    "questions": 200,
+                    "accuracy": 1.0
+                  },
+                  "singular": {
+                    "correct": 149,
+                    "questions": 200,
+                    "accuracy": 0.745
+                  }
+                }
+              },
+              "random": {
+                "correct": 224,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 200,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 125,
+                    "questions": 200,
+                    "accuracy": 0.625
+                  },
+                  "singular": {
+                    "correct": 75,
+                    "questions": 200,
+                    "accuracy": 0.375
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 24.07,
+              "paired_family_bootstrap95_percentage_points": [
+                19.63,
+                28.5
+              ],
+              "improved": 118,
+              "regressed": 15
+            }
+          },
+          "seed43_phrase1_sentence63": {
+            "training": {
+              "training_manifest_sha256": "bf4e0bc3a724d173b35c7d4de6e2d2722f265eade1a90a5823bbec321080dbe3",
+              "training_trace_sha256": "f7d92824db894e263ab6672bd6916d4cfc04a90a4e422b09edb047d04e0d0105",
+              "training_update_log_sha256": "84ef679d2ce939327ddc3ed35e3b35f2585cfdb9808ae16a4b9b1bcba2037147",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 1,
+                "sentence_completion": 63
+              },
+              "unique_examples_seen_total": 27,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 1,
+                "sentence_completion": 26
+              },
+              "max_repeats_of_one_example": 7
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 375,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 18,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 357,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 173,
+                    "questions": 200,
+                    "accuracy": 0.865
+                  },
+                  "singular": {
+                    "correct": 184,
+                    "questions": 200,
+                    "accuracy": 0.92
+                  }
+                }
+              },
+              "random": {
+                "correct": 208,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 184,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 103,
+                    "questions": 200,
+                    "accuracy": 0.515
+                  },
+                  "singular": {
+                    "correct": 81,
+                    "questions": 200,
+                    "accuracy": 0.405
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 25.93,
+              "paired_family_bootstrap95_percentage_points": [
+                20.33,
+                31.54
+              ],
+              "improved": 133,
+              "regressed": 22
+            }
+          },
+          "seed43_phrase16_sentence48": {
+            "training": {
+              "training_manifest_sha256": "cd60448e0ee7110f33c7ca7b26ebefc6af6dba602450e45e5158034ebb72388b",
+              "training_trace_sha256": "6bc60d664287f296c76a7d3ce0a02afdf4981468921751a3bd03f5c35dba06a5",
+              "training_update_log_sha256": "e96b892217c25a6a42c5c8df35d181775735e86816befb32ff0763d0e363c925",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 16,
+                "sentence_completion": 48
+              },
+              "unique_examples_seen_total": 35,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 10,
+                "sentence_completion": 25
+              },
+              "max_repeats_of_one_example": 6
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 377,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 20,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 357,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 173,
+                    "questions": 200,
+                    "accuracy": 0.865
+                  },
+                  "singular": {
+                    "correct": 184,
+                    "questions": 200,
+                    "accuracy": 0.92
+                  }
+                }
+              },
+              "random": {
+                "correct": 207,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 183,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 103,
+                    "questions": 200,
+                    "accuracy": 0.515
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 26.4,
+              "paired_family_bootstrap95_percentage_points": [
+                20.79,
+                31.78
+              ],
+              "improved": 133,
+              "regressed": 20
+            }
+          },
+          "seed43_phrase32_sentence32": {
+            "training": {
+              "training_manifest_sha256": "eb780855a06ea827dd20199ed6bd9effd8b01b2cf6900a6ca55718b1e55f9ad4",
+              "training_trace_sha256": "24a9309acd1f274c86c79900a5415b60cedb49f448b6c04cb704b1b8914f5c4a",
+              "training_update_log_sha256": "343c23d0fd96becde6e98094a0dee170c97748c6a8444f8d3b92039c7c7215ab",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 32,
+                "sentence_completion": 32
+              },
+              "unique_examples_seen_total": 39,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 19,
+                "sentence_completion": 20
+              },
+              "max_repeats_of_one_example": 4
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 367,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 14,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 353,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 193,
+                    "questions": 200,
+                    "accuracy": 0.965
+                  },
+                  "singular": {
+                    "correct": 160,
+                    "questions": 200,
+                    "accuracy": 0.8
+                  }
+                }
+              },
+              "random": {
+                "correct": 209,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 185,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 105,
+                    "questions": 200,
+                    "accuracy": 0.525
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 24.07,
+              "paired_family_bootstrap95_percentage_points": [
+                18.22,
+                29.67
+              ],
+              "improved": 126,
+              "regressed": 23
+            }
+          }
+        },
+        "within_seed_exposure_contrasts": {
+          "seed42_phrase16_sentence48_minus_phrase1_sentence63": {
+            "percentage_points": 8.18,
+            "paired_family_bootstrap95_percentage_points": [
+              4.21,
+              12.38
+            ]
+          },
+          "seed42_phrase32_sentence32_minus_phrase16_sentence48": {
+            "percentage_points": -0.47,
+            "paired_family_bootstrap95_percentage_points": [
+              -4.21,
+              3.04
+            ]
+          },
+          "seed42_phrase32_sentence32_minus_phrase1_sentence63": {
+            "percentage_points": 7.71,
+            "paired_family_bootstrap95_percentage_points": [
+              1.87,
+              13.79
+            ]
+          },
+          "seed43_phrase16_sentence48_minus_phrase1_sentence63": {
+            "percentage_points": 0.47,
+            "paired_family_bootstrap95_percentage_points": [
+              -1.87,
+              2.57
+            ]
+          },
+          "seed43_phrase32_sentence32_minus_phrase16_sentence48": {
+            "percentage_points": -2.34,
+            "paired_family_bootstrap95_percentage_points": [
+              -6.31,
+              2.1
+            ]
+          },
+          "seed43_phrase32_sentence32_minus_phrase1_sentence63": {
+            "percentage_points": -1.87,
+            "paired_family_bootstrap95_percentage_points": [
+              -5.84,
+              3.04
+            ]
+          }
+        },
+        "base_and_prompt_replay_checks": {
+          "seed42_phrase16_sentence48_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed42_phrase16_sentence48_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed42_phrase32_sentence32_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed42_phrase32_sentence32_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase16_sentence48_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase16_sentence48_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase32_sentence32_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase32_sentence32_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          }
+        },
+        "confirmation_consumed": false,
+        "eligible_for_promotion": false,
+        "candidate_quarantined": true
+      },
+      "conclusion": "All six adapters beat the task-matched prompt on the previously inspected development set, but phrase accuracy stayed below base for every adapter. More phrase updates did not show a consistent dose-response across two seeds; sentence/task tradeoffs varied by seed. The fixed support set removes example-identity changes between ratios, but schedule order remains coupled to update allocation, sampling is with replacement, and only two seeds and seven phrase families are represented. No independent generalization, broad preservation, trait-map or Astra-transfer claim is supported.",
+      "software_tests_passed": 90,
+      "dataset_validation": "8,740-case completion dataset and 8-task CLI suite validation passed",
+      "evidence_root": "evolution_lab/evidence/f025_fixed_support_exposure/"
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
   "response_accounting_snapshot": {
-    "as_of_utc": "2026-10-25T20:57:48Z",
-    "response_ledger_files": 67,
-    "response_records": 29864,
+    "as_of_utc": "2026-10-26T00:54:51Z",
+    "response_ledger_files": 73,
+    "response_records": 40136,
     "unique_normalized_question_prompts": 2300,
     "question_families_with_responses": 328,
-    "method": "Counted JSONL rows in the evidence tree containing a model response, objective metrics, and an arm/condition. Unique prompts are deduplicated by normalized_prompt_sha256. Repeated answers across arms, seeds, or studies remain separate response records; generated-but-unevaluated cases are excluded.",
-    "note": "Includes all completed evidence through F024: 4,704 F024 response records over 744 new unique questions. Arithmetic prompts were checked for overlap with earlier response ledgers; none. Confirmation cases are retired from tuning."
+    "method": "Census of JSONL response ledgers under evolution_lab/evidence containing response, objective metrics, and an arm or condition. Deduplicated prompts by normalized_prompt_sha256 where present; repeated answers across arms, seeds, and studies remain separate response records. Generated but unevaluated examples, training updates, cached repeats, and software tests are counted separately.",
+    "note": "Includes F025: 10,272 response records on 428 previously inspected development questions, adding zero unique normalized question prompts. F025 is exploratory and did not consume confirmation data. Software verification is separate: 90 tests passed."
   }
 }

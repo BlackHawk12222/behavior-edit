@@ -3,41 +3,19 @@
 from __future__ import annotations
 
 import math
+import json
 import random
 import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .case_eval import load_cases
 from .experiment import fit, norm_matched_random, write_json
 from .provenance import checkpoint_hashes, environment, fingerprint
 from .runner import LocalModel
 from .train_adapter import lora_delta_stats
+from .training_cohort import parse_task_exposure_ratio, prepare_training_examples
 
 MODEL_REVISION = re.compile(r"^[0-9a-fA-F]{40}$")
-
-
-def prepare_training_examples(dataset: Path) -> tuple[dict, list[dict]]:
-    """Validate the full dataset, then return only trusted train-split targets."""
-    source, cases = load_cases(Path(dataset), "train")
-    if not cases or any(row.get("split") != "train" for row in cases):
-        raise ValueError("Case training requires non-empty rows from the train split only")
-    seen_ids: set[str] = set()
-    examples = []
-    for row in cases:
-        case_id = row.get("case_id")
-        if not isinstance(case_id, str) or case_id in seen_ids:
-            raise ValueError("Training case IDs must be present and unique")
-        seen_ids.add(case_id)
-        examples.append({
-            "id": case_id,
-            "prompt": row["prompt"],
-            "answer": row["answer"],
-            "family": row["family"],
-            "task_type": row.get("task_type", "arithmetic"),
-            "split": row["split"],
-        })
-    return source, examples
 
 
 def _atomic_manifest(path: Path, manifest: dict) -> None:
@@ -52,10 +30,53 @@ def train_case_adapters(args) -> int:
     if not MODEL_REVISION.fullmatch(args.revision):
         raise ValueError("Case-adapter training requires an immutable 40-character model revision")
 
-    source, examples = prepare_training_examples(args.dataset)
+    source, all_examples = prepare_training_examples(args.dataset)
     sampling_strategy = getattr(args, "sampling_strategy", "uniform")
-    if sampling_strategy not in {"uniform", "task-balanced"}:
-        raise ValueError("Sampling strategy must be uniform or task-balanced")
+    if sampling_strategy not in {"uniform", "task-balanced", "task-ratio"}:
+        raise ValueError("Sampling strategy must be uniform, task-balanced or task-ratio")
+    ratio = parse_task_exposure_ratio(getattr(args, "task_exposure_ratio", None))
+    cohort_path = getattr(args, "cohort_manifest", None)
+    cohort_manifest = None
+    if cohort_path:
+        cohort_path = Path(cohort_path)
+        cohort_manifest = json.loads(cohort_path.read_text())
+        if fingerprint(source["manifest"]) != cohort_manifest.get("source_dataset_manifest_sha256"):
+            raise ValueError("Fixed training cohort belongs to a different dataset manifest")
+        ids = cohort_manifest.get("training_ids")
+        if not isinstance(ids, list) or len(ids) != len(set(ids)):
+            raise ValueError("Fixed training cohort IDs must be a unique list")
+        by_id = {row["id"]: row for row in all_examples}
+        if any(case_id not in by_id for case_id in ids):
+            raise ValueError("Fixed training cohort contains an ID outside the train split")
+        examples = [by_id[case_id] for case_id in ids]
+        if fingerprint(examples) != cohort_manifest.get("training_data_sha256"):
+            raise ValueError("Fixed training cohort content hash does not match its manifest")
+        data_file = cohort_path.parent / cohort_manifest["cohort_examples_file"]
+        if data_file.parent.resolve() != cohort_path.parent.resolve():
+            raise ValueError("Fixed cohort evidence file must be adjacent to its manifest")
+        data_bytes = data_file.read_bytes()
+        data_hash = __import__("hashlib").sha256(data_bytes).hexdigest()
+        if data_hash != cohort_manifest.get("cohort_examples_sha256"):
+            raise ValueError("Fixed cohort evidence file hash does not match its manifest")
+        try:
+            saved_examples = [json.loads(line) for line in data_bytes.decode("utf-8").splitlines()]
+        except (UnicodeDecodeError, json.JSONDecodeError) as error:
+            raise ValueError("Fixed cohort evidence file is not valid UTF-8 JSONL") from error
+        if fingerprint(saved_examples) != cohort_manifest.get("training_data_sha256"):
+            raise ValueError("Fixed cohort evidence rows do not match the cohort content hash")
+        if saved_examples != examples:
+            raise ValueError("Fixed cohort evidence rows differ from the validated dataset train split")
+    else:
+        examples = all_examples
+    if sampling_strategy == "task-ratio":
+        if not cohort_manifest or not ratio:
+            raise ValueError("Task-ratio training requires a fixed cohort and task exposure ratio")
+        if set(ratio) != {row["task_type"] for row in examples}:
+            raise ValueError("Exposure-ratio task names must match the fixed cohort exactly")
+        if sum(ratio.values()) != args.steps:
+            raise ValueError("Exposure-ratio counts must sum to --steps")
+    elif ratio is not None or cohort_manifest is not None:
+        raise ValueError("Fixed cohort and exposure ratio are only supported with task-ratio sampling")
     import torch
     from peft import LoraConfig, TaskType, get_peft_model
 
@@ -80,6 +101,7 @@ def train_case_adapters(args) -> int:
         "precision": args.precision,
         "decoding": "greedy",
         "sampling_strategy": sampling_strategy,
+        "task_exposure_ratio": ratio,
     }
     manifest = {
         "schema_version": 1,
@@ -99,6 +121,7 @@ def train_case_adapters(args) -> int:
         "dataset_manifest_sha256": fingerprint(source["manifest"]),
         "training_sha256": fingerprint(examples),
         "training_count": len(examples),
+        "source_training_count": len(all_examples),
         "training_family_count": len({row["family"] for row in examples}),
         "training_task_type_counts": {
             kind: sum(row["task_type"] == kind for row in examples)
@@ -106,6 +129,13 @@ def train_case_adapters(args) -> int:
         },
         "training_ids": [row["id"] for row in examples],
         "settings": settings,
+        "fixed_training_cohort": ({
+            "cohort_id": cohort_manifest["cohort_id"],
+            "manifest_sha256": __import__("hashlib").sha256(cohort_path.read_bytes()).hexdigest(),
+            "training_data_sha256": cohort_manifest["training_data_sha256"],
+            "training_family_counts": cohort_manifest["training_family_counts"],
+            "sentence_subject_number_counts": cohort_manifest["sentence_subject_number_counts"],
+        } if cohort_manifest else None),
         "controls": ["lora", "norm-matched-random"],
         "warning": "Training provenance only. Evaluate against base, prompt, random and locality controls; this does not establish a useful or general edit.",
     }
@@ -130,12 +160,17 @@ def train_case_adapters(args) -> int:
         ))
         local.model.eval()
         history = fit(local, examples, args.steps, args.learning_rate,
-                      args.max_length, args.seed, sampling_strategy)
+                      args.max_length, args.seed, sampling_strategy,
+                      task_exposure_ratio=ratio)
         write_json(destination / "training.json", history)
         seen_ids = list(dict.fromkeys(row["example_id"] for row in history))
         manifest["training_updates"] = len(history)
         manifest["training_examples_seen_unique"] = len(seen_ids)
         manifest["training_ids_seen"] = seen_ids
+        manifest["training_task_exposure_counts"] = {
+            kind: sum(row["task_type"] == kind for row in history)
+            for kind in sorted({row["task_type"] for row in history})
+        }
         manifest["training_update_log_sha256"] = fingerprint(history)
         delta_lora = lora_delta_stats(local.model, torch)
         write_json(destination / "delta_lora.json", delta_lora)

@@ -46,6 +46,46 @@ class TrainingSamplingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Unsupported sampling"):
             training_sequence(self.examples(), 1, 0, "weighted")
 
+    def test_task_ratio_holds_within_task_streams_constant(self):
+        examples = self.examples()
+        schedules = [
+            training_sequence(examples, 64, 19, "task-ratio", ratio)
+            for ratio in (
+                {"phrase_completion": 1, "sentence_completion": 63},
+                {"phrase_completion": 16, "sentence_completion": 48},
+                {"phrase_completion": 32, "sentence_completion": 32},
+            )
+        ]
+        expected_counts = [(1, 63), (16, 48), (32, 32)]
+        task_streams = []
+        for schedule, (phrases, sentences) in zip(schedules, expected_counts):
+            self.assertEqual(len(schedule), 64)
+            actual = [sum(row["task_type"] == kind for row in schedule)
+                      for kind in ("phrase_completion", "sentence_completion")]
+            self.assertEqual(actual, [phrases, sentences])
+            task_streams.append({kind: [row["id"] for row in schedule
+                                        if row["task_type"] == kind]
+                                 for kind in ("phrase_completion", "sentence_completion")})
+        for task in ("phrase_completion", "sentence_completion"):
+            for left, right in zip(task_streams, task_streams[1:]):
+                shorter = min(len(left[task]), len(right[task]))
+                self.assertEqual(left[task][:shorter], right[task][:shorter])
+
+    def test_task_ratio_is_reproducible_and_rejects_bad_counts(self):
+        examples = self.examples()
+        ratio = {"phrase_completion": 8, "sentence_completion": 56}
+        first = training_sequence(examples, 64, 7, "task-ratio", ratio)
+        second = training_sequence(examples, 64, 7, "task-ratio", ratio)
+        self.assertEqual([row["id"] for row in first], [row["id"] for row in second])
+        for invalid in (
+            {"phrase_completion": 8},
+            {"phrase_completion": 8, "sentence_completion": 55},
+            {"phrase_completion": 0, "sentence_completion": 64},
+            {"phrase_completion": 8.0, "sentence_completion": 56},
+        ):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                training_sequence(examples, 64, 7, "task-ratio", invalid)
+
 
 if __name__ == "__main__":
     unittest.main()

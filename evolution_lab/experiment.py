@@ -43,7 +43,8 @@ def restore(model, state, torch):
             parameter.copy_(state[name].to(parameter.device))
 
 
-def training_sequence(examples, steps, seed, sampling_strategy="uniform"):
+def training_sequence(examples, steps, seed, sampling_strategy="uniform",
+                     task_exposure_ratio=None):
     """Return a deterministic training schedule for ablation-ready sampling."""
     if steps < 1 or not examples:
         raise ValueError("Training schedule requires examples and positive steps")
@@ -58,7 +59,44 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform"):
             sequence.append(order[step % len(order)])
         return sequence
     if sampling_strategy != "task-balanced":
-        raise ValueError(f"Unsupported sampling strategy: {sampling_strategy}")
+        if sampling_strategy != "task-ratio":
+            raise ValueError(f"Unsupported sampling strategy: {sampling_strategy}")
+
+        groups = {}
+        for example in examples:
+            kind = example.get("task_type", "default")
+            groups.setdefault(kind, []).append(example)
+        if len(groups) < 2:
+            raise ValueError("Task-ratio sampling requires at least two task types")
+        if not isinstance(task_exposure_ratio, dict) or set(task_exposure_ratio) != set(groups):
+            raise ValueError("Task-ratio weights must name every cohort task type exactly")
+        if any(type(value) is not int or value < 0 for value in task_exposure_ratio.values()):
+            raise ValueError("Task-ratio weights must be non-negative integers")
+        if sum(task_exposure_ratio.values()) != steps or not all(task_exposure_ratio.values()):
+            raise ValueError("Task-ratio counts must be positive and sum to the optimizer steps")
+
+        # Keep each task's example stream independent of the task ratio. Across
+        # paired conditions with the same seed, the same task-specific examples
+        # are therefore consumed in the same order; the intervention changes
+        # only the number and placement of exposures from each task.
+        import hashlib
+        task_streams = {}
+        task_positions = {kind: 0 for kind in groups}
+        for kind, group in groups.items():
+            digest = hashlib.sha256(f"{seed}:{kind}".encode()).digest()
+            stream_seed = int.from_bytes(digest[:8], "big")
+            stream_rng = random.Random(stream_seed)
+            task_streams[kind] = [group[stream_rng.randrange(len(group))]
+                                  for _ in range(steps)]
+        task_schedule = [kind for kind, count in sorted(task_exposure_ratio.items())
+                         for _ in range(count)]
+        random.Random(seed).shuffle(task_schedule)
+        sequence = []
+        for kind in task_schedule:
+            position = task_positions[kind]
+            sequence.append(task_streams[kind][position])
+            task_positions[kind] += 1
+        return sequence
 
     groups = {}
     for example in examples:
@@ -82,13 +120,14 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform"):
 
 
 def fit(local, examples, steps, learning_rate, max_length, seed,
-        sampling_strategy="uniform"):
+        sampling_strategy="uniform", task_exposure_ratio=None):
     import torch
     params = list(adapter_parameters(local.model).values())
     for p in params:
         p.data = p.data.float()
     optimizer = torch.optim.AdamW(params, lr=learning_rate, foreach=False)
-    schedule = training_sequence(examples, steps, seed, sampling_strategy)
+    schedule = training_sequence(examples, steps, seed, sampling_strategy,
+                                 task_exposure_ratio)
     history = []
     local.model.config.use_cache = False
     local.model.train()
@@ -105,7 +144,8 @@ def fit(local, examples, steps, learning_rate, max_length, seed,
             optimizer.step()
             if any(not torch.isfinite(p).all().item() for p in params):
                 raise RuntimeError(f'Non-finite weights at step {step+1}')
-            history.append({'step':step+1,'example_id':ex['id'], 'loss':float(loss.detach()),
+            history.append({'step':step+1,'example_id':ex['id'], 'task_type':ex.get('task_type','default'),
+                            'loss':float(loss.detach()),
                             'gradient_norm_before_clip':float(norm)})
             print(f'train {step+1}/{steps}: loss={history[-1]["loss"]:.5f}', flush=True)
     finally:
