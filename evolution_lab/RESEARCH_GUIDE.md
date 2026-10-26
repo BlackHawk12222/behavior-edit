@@ -1461,3 +1461,63 @@ PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
 Evidence: preregistration, cohort manifests and exact examples, sequential training/evaluation campaign manifests, 12 adapter checkpoints, per-update traces, raw ledgers, regraded reports, checksums, and analysis are under `evidence/f027_cohort_content_sensitivity/`. Model revision is pinned to `7ae557604adf67be50417f59c2c2f167def9a775`; this run used CPU float32 because MPS was unavailable in this executor. It is not a fresh Apple Silicon GPU result.
 
 **Next:** improve data-quality controls by measuring trusted-label validity and template/family leakage separately from cohort identity, then test a preregistered sampling intervention on fresh family-disjoint confirmation data with unrelated preservation probes. The exposed v3 development and retired confirmation pools cannot serve as fresh confirmation.
+
+### F027 data-coverage addendum
+
+The per-update traces show that task-ratio example sampling was with
+replacement. Although each support had 16 phrase and 48 sentence examples,
+the 64 updates saw only 9–11 unique phrase items and 29–33 unique sentence
+items, or 40–42 unique examples total. Some examples appeared up to 3–4 times.
+This makes "support set" and "examples actually used by updates" different
+quantities.
+
+The displayed answer position is balanced in the full completion-v3 dataset:
+the trusted answer appears first/second 3,851/4,029 times in train, 200/228 in
+development, and 206/226 in confirmation. The stored `options` array puts the
+key first, but that array is not the prompt shown to the model; randomized text
+choices are the relevant distribution. This is a check against a trivial
+position cue, not proof of phrase-label quality.
+
+### F028 — Example repetition versus complete support coverage
+
+Status: completed exploratory development diagnostic; no candidate promoted.
+
+F028 used one fixed 64-example train-split cohort (16 phrase, 48 sentence;
+24 singular and 24 plural subjects) and crossed three initialization seeds
+with two exposure policies. The model revision, support cohort, update ratio,
+task-order seed 2603, optimizer, rank, learning rate, decoding, and evaluation
+cases were held fixed. With replacement, the 64 updates saw 40, 42, and 42
+distinct examples for seeds 42, 43, and 44 (phrase/sentence coverage 11/29,
+10/32, and 9/33). Without replacement, all three saw the full support exactly
+once (16/48). Task order positions matched exactly within each seed.
+
+On the same previously inspected 428-case development set, with-replacement
+adapter scores were 323/428, 332/428, and 340/428. Without-replacement scores
+were 337/428, 333/428, and 336/428. Base and prompt scored 220/428 and 264/428
+for every seed; norm-matched random controls scored 209–225/428. Adapter
+formatting was 428/428 for all six runs. Paired family-bootstrap contrasts
+for without minus with were +3.3 points for seed 42 (95% interval +0.5 to
++6.1), +0.2 for seed 43 (−3.0 to +3.3), and −0.9 for seed 44 (−4.4 to +2.1).
+The tiny, inconsistent policy differences do not support a reliable exposure
+benefit. All six adapters beat the prompt on this narrow task, but phrase
+completion remained only 15–19/28 versus base 24/28; this is not broad
+capability preservation.
+
+F028 generated 5,136 new model responses and reused 5,136 checksum-verified
+base/prompt responses, for 10,272 response records over zero new unique
+questions. It used 384 training updates. The 428 development cases and 32
+families were previously inspected, so this cannot establish independent
+generalization, training-label validity, broad locality, a causal trait map,
+or transfer to Astra. Keep all adapters quarantined. No final confirmation
+data was consumed.
+
+Reproduce the six CPU float32 training runs with
+`python evolution_lab/evidence/f028_example_exposure/run_f028_training.py`
+and the evaluation with
+`python evolution_lab/evidence/f028_example_exposure/run_f028_evaluations.py`;
+both runners accept `--python` and `--model` overrides. The analyzer is
+`python evolution_lab/evidence/f028_example_exposure/analyze_f028.py --output evolution_lab/evidence/f028_example_exposure/summary.json`.
+The preregistration, sampled-ID traces, checkpoints, raw generations, graded
+reports, checksums, and summary are under `evidence/f028_example_exposure/`.
+MPS was built but unavailable in this executor, so F028 is CPU evidence and
+does not add Apple GPU compatibility results.

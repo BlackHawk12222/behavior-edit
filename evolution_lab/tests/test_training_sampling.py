@@ -71,6 +71,57 @@ class TrainingSamplingTests(unittest.TestCase):
                 shorter = min(len(left[task]), len(right[task]))
                 self.assertEqual(left[task][:shorter], right[task][:shorter])
 
+    def test_task_ratio_without_replacement_visits_each_support_example_once(self):
+        examples = [
+            {"id": f"phrase-{index}", "task_type": "phrase_completion"}
+            for index in range(16)
+        ] + [
+            {"id": f"sentence-{index}", "task_type": "sentence_completion"}
+            for index in range(48)
+        ]
+        ratio = {"phrase_completion": 16, "sentence_completion": 48}
+        schedule = training_sequence(
+            examples, 64, 42, "task-ratio", ratio, schedule_seed=2603,
+            example_sampling="without-replacement",
+        )
+        for task, support_size in ratio.items():
+            seen = [row["id"] for row in schedule if row["task_type"] == task]
+            expected = {f"{task.removesuffix('_completion')}-{index}"
+                        for index in range(support_size)}
+            self.assertEqual(len(seen), support_size)
+            self.assertEqual(len(set(seen)), support_size)
+            self.assertEqual(set(seen), expected)
+
+    def test_task_ratio_without_replacement_recycles_only_after_full_epoch(self):
+        examples = [
+            {"id": f"phrase-{index}", "task_type": "phrase_completion"}
+            for index in range(3)
+        ] + [
+            {"id": f"sentence-{index}", "task_type": "sentence_completion"}
+            for index in range(5)
+        ]
+        ratio = {"phrase_completion": 7, "sentence_completion": 9}
+        schedule = training_sequence(
+            examples, 16, 7, "task-ratio", ratio, schedule_seed=903,
+            example_sampling="without-replacement",
+        )
+        for task, support_size in (("phrase_completion", 3), ("sentence_completion", 5)):
+            stream = [row["id"] for row in schedule if row["task_type"] == task]
+            self.assertEqual(len(set(stream[:support_size])), support_size)
+            self.assertEqual(len(stream), ratio[task])
+            self.assertEqual(
+                stream,
+                [row["id"] for row in training_sequence(
+                    examples, 16, 7, "task-ratio", ratio, schedule_seed=903,
+                    example_sampling="without-replacement",
+                ) if row["task_type"] == task],
+            )
+
+    def test_example_sampling_policy_rejected_outside_task_ratio(self):
+        with self.assertRaisesRegex(ValueError, "only configurable for task-ratio"):
+            training_sequence(self.examples(), 8, 0, "uniform",
+                              example_sampling="without-replacement")
+
     def test_explicit_schedule_seed_nests_task_positions_and_keeps_data_streams(self):
         examples = self.examples()
         ratios = (

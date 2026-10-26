@@ -2472,16 +2472,61 @@
       "regression_and_controls": "All 12 adapters passed one-word formatting on 428/428 cases. Random controls scored 208-225/428; base 220/428; prompt 264/428. Phrase accuracy remained 13-22/28 and is not broad capability preservation.",
       "summary_sha256": "6202051e6c6b189e700fe26c4e696fa80df54aaf9c745740aaedd6d4113d52d6",
       "software_tests_passed": 95
+    },
+    {
+      "id": "completion-v3-example-exposure-f028",
+      "status": "complete-development-example-exposure-diagnostic-no-promotion",
+      "preregistration": "evolution_lab/evidence/f028_example_exposure/preregistration.json",
+      "preregistration_sha256": "ae71389eceb15ec0e1219070648f84581b5a2b70ab8750449a11a66474648639",
+      "summary": "evolution_lab/evidence/f028_example_exposure/summary.json",
+      "evidence_root": "evolution_lab/evidence/f028_example_exposure/",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "training_design": "Fixed F027 cohort A; compare with-replacement against without-replacement example exposure, crossed with seeds 42/43/44; fixed 16 phrase/48 sentence updates, task-order seed 2603, optimizer, rank, learning rate and model revision.",
+      "fixed_cohort_manifest_sha256": "1b5fbf9c5e68a30aa3fffa0e0b0fb28c53b7e83459fb155767c67a2a5971eeac",
+      "planned_training_updates": 384,
+      "planned_response_records": 10272,
+      "planned_cached_base_prompt_records": 5136,
+      "planned_new_model_generations": 5136,
+      "planned_new_unique_questions": 0,
+      "training_updates": 384,
+      "response_records": 10272,
+      "cache_hits": 5136,
+      "model_generations": 5136,
+      "unique_questions_added": 0,
+      "base_and_prompt_replay_verified": true,
+      "adapter_accuracy_by_condition": {
+        "with_replacement_seed42": "323/428 (75.5%)",
+        "with_replacement_seed43": "332/428 (77.6%)",
+        "with_replacement_seed44": "340/428 (79.4%)",
+        "without_replacement_seed42": "337/428 (78.7%)",
+        "without_replacement_seed43": "333/428 (77.8%)",
+        "without_replacement_seed44": "336/428 (78.5%)"
+      },
+      "paired_without_minus_with_percentage_points": {
+        "seed42": {"delta": 3.27, "bootstrap_95_interval": [0.47, 6.07]},
+        "seed43": {"delta": 0.23, "bootstrap_95_interval": [-3.04, 3.27]},
+        "seed44": {"delta": -0.93, "bootstrap_95_interval": [-4.44, 2.10]}
+      },
+      "confirmed_observation": "Without-replacement support coverage was exactly 64/64 for every seed, compared with 40/64, 42/64, and 42/64 with replacement. Behavior differences on previously inspected development questions were small and seed-dependent: paired accuracy gains of 3.27, 0.23, and -0.93 percentage points. No consistent exposure-policy benefit was found.",
+      "regression_and_controls": "All adapters passed single-word formatting on 428/428. Base and prompt were 220/428 and 264/428; norm-matched random controls were 208-225/428. Phrase accuracy was 15-19/28 for adapters versus 24/28 base, so broad preservation is not established.",
+      "summary_sha256": "17ac17ae9e4619c49ca60e8a8bb75382ca62a6d297cf39a01e169c9c81921735",
+      "software_tests_passed": 98,
+      "evaluation_split": "Previously inspected completion_v3 dev; 428 questions, 32 families.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "interpretation": "Diagnostic of example repetition/coverage only; development results cannot establish generalization, data label validity, broad preservation, or transfer. No candidate is promoted."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
   "response_accounting_snapshot": {
-    "as_of_utc": "2026-10-26T08:44:58Z",
-    "response_ledger_files": 91,
-    "response_records": 70952,
+    "as_of_utc": "2026-10-26T14:39:08Z",
+    "response_ledger_files": 97,
+    "response_records": 81224,
     "unique_normalized_question_prompts": 2300,
     "question_families_with_responses": 328,
     "method": "Census of JSONL response ledgers under evolution_lab/evidence containing response, objective metrics, and an arm or condition. Deduplicated prompts by normalized_prompt_sha256 where present; repeated answers across arms, seeds, and studies remain separate response records. Generated but unevaluated examples, training updates, cached repeats, and software tests are counted separately.",
-    "note": "Includes F025, F026, and F027: each added 10,272 response records on 428 previously inspected development questions, adding zero unique normalized prompts. F027 has 10,272 new model generations plus 10,272 verified cached base/prompt responses. All are exploratory diagnostics; no confirmation data was used. The current software suite count is tracked separately."
+    "note": "Includes F025, F026, F027, and F028: each added 10,272 response records on 428 previously inspected development questions, adding zero unique normalized prompts. Each study has 5,136 new model generations plus 5,136 verified cached base/prompt responses. All are exploratory diagnostics; no confirmation data was used. The current software suite count is tracked separately."
   }
 }

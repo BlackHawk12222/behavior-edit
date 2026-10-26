@@ -44,10 +44,15 @@ def restore(model, state, torch):
 
 
 def training_sequence(examples, steps, seed, sampling_strategy="uniform",
-                     task_exposure_ratio=None, schedule_seed=None):
+                     task_exposure_ratio=None, schedule_seed=None,
+                     example_sampling="with-replacement"):
     """Return a deterministic training schedule for ablation-ready sampling."""
     if steps < 1 or not examples:
         raise ValueError("Training schedule requires examples and positive steps")
+    if example_sampling not in {"with-replacement", "without-replacement"}:
+        raise ValueError("Example sampling must be with-replacement or without-replacement")
+    if sampling_strategy != "task-ratio" and example_sampling != "with-replacement":
+        raise ValueError("Example sampling policy is only configurable for task-ratio sampling")
     rng = random.Random(seed)
     if sampling_strategy == "uniform":
         # Preserve the historical shuffled-epoch schedule exactly.
@@ -86,8 +91,17 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform",
             digest = hashlib.sha256(f"{seed}:{kind}".encode()).digest()
             stream_seed = int.from_bytes(digest[:8], "big")
             stream_rng = random.Random(stream_seed)
-            task_streams[kind] = [group[stream_rng.randrange(len(group))]
-                                  for _ in range(steps)]
+            if example_sampling == "with-replacement":
+                task_streams[kind] = [group[stream_rng.randrange(len(group))]
+                                      for _ in range(steps)]
+            else:
+                order = list(group)
+                stream = []
+                for position in range(steps):
+                    if position % len(order) == 0:
+                        stream_rng.shuffle(order)
+                    stream.append(order[position % len(order)])
+                task_streams[kind] = stream
         if schedule_seed is None:
             # Preserve the original task-ratio order exactly for old manifests
             # and commands that did not register a separate order seed.
@@ -143,14 +157,15 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform",
 
 def fit(local, examples, steps, learning_rate, max_length, seed,
         sampling_strategy="uniform", task_exposure_ratio=None,
-        schedule_seed=None):
+        schedule_seed=None, example_sampling="with-replacement"):
     import torch
     params = list(adapter_parameters(local.model).values())
     for p in params:
         p.data = p.data.float()
     optimizer = torch.optim.AdamW(params, lr=learning_rate, foreach=False)
     schedule = training_sequence(examples, steps, seed, sampling_strategy,
-                                 task_exposure_ratio, schedule_seed)
+                                 task_exposure_ratio, schedule_seed,
+                                 example_sampling)
     history = []
     local.model.config.use_cache = False
     local.model.train()

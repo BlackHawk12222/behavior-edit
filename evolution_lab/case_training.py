@@ -36,6 +36,10 @@ def train_case_adapters(args) -> int:
         raise ValueError("Sampling strategy must be uniform, task-balanced or task-ratio")
     ratio = parse_task_exposure_ratio(getattr(args, "task_exposure_ratio", None))
     schedule_seed = getattr(args, "schedule_seed", None)
+    requested_example_sampling = getattr(args, "example_sampling", None)
+    if requested_example_sampling is not None and sampling_strategy != "task-ratio":
+        raise ValueError("Example sampling policy is only configurable for task-ratio sampling")
+    example_sampling = requested_example_sampling or "with-replacement"
     if schedule_seed is not None and sampling_strategy != "task-ratio":
         raise ValueError("An independent schedule seed is only supported with task-ratio sampling")
     cohort_path = getattr(args, "cohort_manifest", None)
@@ -105,6 +109,7 @@ def train_case_adapters(args) -> int:
         "decoding": "greedy",
         "sampling_strategy": sampling_strategy,
         "task_exposure_ratio": ratio,
+        "example_sampling": example_sampling if sampling_strategy == "task-ratio" else None,
         "schedule_seed": schedule_seed if sampling_strategy == "task-ratio" else None,
         "task_order_design": (
             ("common-random-task-positions-v1"
@@ -174,7 +179,8 @@ def train_case_adapters(args) -> int:
         local.model.eval()
         history = fit(local, examples, args.steps, args.learning_rate,
                       args.max_length, args.seed, sampling_strategy,
-                      task_exposure_ratio=ratio, schedule_seed=schedule_seed)
+                      task_exposure_ratio=ratio, schedule_seed=schedule_seed,
+                      example_sampling=example_sampling)
         write_json(destination / "training.json", history)
         seen_ids = list(dict.fromkeys(row["example_id"] for row in history))
         manifest["training_updates"] = len(history)

@@ -1,0 +1,67 @@
+{
+  "study_id": "F028-completion-example-exposure",
+  "status": "preregistered-before-training",
+  "question": "With the task ratio, examples, optimizer, model seed, task-order seed, and update count fixed, does sampling training examples with replacement (repeating some and skipping others) produce different phrase/sentence behavior from a shuffled no-replacement pass that visits every support example once?",
+  "design": {
+    "factor": "example_sampling",
+    "levels": ["with-replacement", "without-replacement"],
+    "fixed_cohort_source": "evolution_lab/evidence/f027_cohort_content_sensitivity/cohort_A/manifest.json",
+    "fixed_cohort_manifest_sha256": "1b5fbf9c5e68a30aa3fffa0e0b0fb28c53b7e83459fb155767c67a2a5971eeac",
+    "fixed_cohort_training_data_sha256": "baa08162d5cf3e0d0c98175503eaf4637969fb92bc00fd8284e45c1dee020de1",
+    "fixed_cohort_counts": {
+      "total": 64,
+      "phrase_completion": 16,
+      "sentence_completion": 48,
+      "sentence_subjects": {"singular": 24, "plural": 24}
+    },
+    "training_seeds": [42, 43, 44],
+    "task_order_seed": 2603,
+    "conditions": [
+      "with-replacement_seed42", "without-replacement_seed42",
+      "with-replacement_seed43", "without-replacement_seed43",
+      "with-replacement_seed44", "without-replacement_seed44"
+    ]
+  },
+  "training": {
+    "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "steps": 64,
+    "task_exposure_ratio": {"phrase_completion": 16, "sentence_completion": 48},
+    "rank": 4,
+    "target_modules": ["q_proj", "v_proj"],
+    "learning_rate": 0.0005,
+    "max_length": 256,
+    "optimizer": "AdamW",
+    "device": "cpu",
+    "precision": "float32"
+  },
+  "evaluation": {
+    "dataset": "evolution_lab/evidence/completion_v3",
+    "split": "dev",
+    "questions": 428,
+    "families": 32,
+    "arms": ["base", "prompt", "adapter", "random"],
+    "baseline_cache": "evolution_lab/evidence/f027_cohort_content_sensitivity/evaluations/cohortA_seed42_order901",
+    "new_model_generations_per_condition": 856,
+    "cached_base_prompt_rows_per_condition": 856,
+    "response_records_per_condition": 1712,
+    "analysis": "Regrade every response against the deterministic completion-v3 answer key; report target completion accuracy, phrase/sentence strata, one-word format, and paired without-minus-with replacement contrasts using 5,000 task-stratified family bootstrap resamples per training seed."
+  },
+  "accounting": {
+    "training_updates": 384,
+    "planned_model_generations": 5136,
+    "planned_cached_rows": 5136,
+    "planned_response_records": 10272,
+    "planned_new_unique_questions": 0
+  },
+  "interpretation_limits": [
+    "This is a development-only diagnostic on 428 questions inspected in earlier studies; the v3 confirmation split is retired and will not be used.",
+    "The fixed cohort was selected from the trusted train split before F027 outcomes; it has already been used for training and is not a fresh generalization set.",
+    "Three training seeds and one task-order seed give limited evidence about seed/order interactions.",
+    "The study changes example repetition/coverage policy, not training label correctness, cohort identity, optimizer, task ratio, or total update count.",
+    "No adapter is eligible for promotion; broad capability preservation, locality, and Astra transfer are not tested."
+  ],
+  "confirmation_consumed": false,
+  "eligible_for_promotion": false,
+  "candidate_quarantined": true
+}

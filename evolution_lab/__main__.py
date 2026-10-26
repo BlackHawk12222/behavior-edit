@@ -87,6 +87,10 @@ def build_parser():
                             help="Exact update counts, e.g. phrase_completion=1,sentence_completion=63")
     case_train.add_argument("--schedule-seed", type=int,
                             help="Independent task-order seed for paired task-ratio schedules")
+    case_train.add_argument(
+        "--example-sampling", choices=["with-replacement", "without-replacement"],
+        help="Task-ratio example exposure policy; default is with replacement",
+    )
     case_train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_training"))
     ablate = sub.add_parser(
         "ablate-adapter",
