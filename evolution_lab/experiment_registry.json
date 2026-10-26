@@ -2301,7 +2301,7 @@
       "id": "completion-v3-task-order-sensitivity-f026",
       "status": "preregistered-before-training",
       "preregistration": "evolution_lab/evidence/f026_task_order_sensitivity/preregistration.json",
-      "preregistration_sha256": "481261c46eaec0581637b661ed41a20e4776202b483871f201611d88dcc4b250",
+      "preregistration_sha256": "66bd92b20d53d522205c4509551cb9cbfd0d41ad7dddcde9fe20074292046724",
       "evidence_root": "evolution_lab/evidence/f026_task_order_sensitivity/",
       "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
       "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",

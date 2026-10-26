@@ -60,6 +60,8 @@
     "question_families": 32,
     "status": "previously inspected; exploratory only",
     "arms": ["base", "task-matched prompt", "trained LoRA", "per-layer norm-matched random LoRA"],
+    "max_new_tokens": 16,
+    "decoding": "greedy",
     "primary_outcomes": [
       "correctness by phrase and sentence task type",
       "sentence correctness by singular/plural subject number",
@@ -93,6 +95,13 @@
   },
   "reproduction_template": "python -m evolution_lab train-cases evolution_lab/evidence/completion_v3 --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --seed TRAIN_SEED --schedule-seed SCHEDULE_SEED --steps 64 --sampling-strategy task-ratio --cohort-manifest evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json --task-exposure-ratio phrase_completion=16,sentence_completion=48 --output-dir evolution_lab/evidence/f026_task_order_sensitivity/training/seedTRAIN_SEED_scheduleSCHEDULE_SEED",
   "preregistered_at_utc": "2026-10-26T01:22:53Z",
-  "amendments": [],
+  "amendments": [
+    {
+      "amended_at_utc": "2026-10-26T01:27:33Z",
+      "reason": "The first evaluation preflight was rejected before model load because F025's compatible baseline campaign used max_new_tokens=16 while the current CLI default differed. No response was generated.",
+      "change": "Lock max_new_tokens=16 and greedy decoding to the source baseline campaign for all F026 evaluation arms.",
+      "scope": "Evaluation procedure only; all six training schedules, seeds, training examples, outcomes, and decision rules remain unchanged."
+    }
+  ],
   "evidence_root": "evolution_lab/evidence/f026_task_order_sensitivity/"
 }
