@@ -2306,6 +2306,6 @@
     "unique_normalized_question_prompts": 2300,
     "question_families_with_responses": 328,
     "method": "Census of JSONL response ledgers under evolution_lab/evidence containing response, objective metrics, and an arm or condition. Deduplicated prompts by normalized_prompt_sha256 where present; repeated answers across arms, seeds, and studies remain separate response records. Generated but unevaluated examples, training updates, cached repeats, and software tests are counted separately.",
-    "note": "Includes F025: 10,272 response records on 428 previously inspected development questions, adding zero unique normalized question prompts. F025 is exploratory and did not consume confirmation data. Software verification is separate: 90 tests passed."
+    "note": "Includes F025: 10,272 response records on 428 previously inspected development questions, adding zero unique normalized question prompts. F025 is exploratory and did not consume confirmation data. The current software suite has 95 passing tests; test runs are separate from response counts."
   }
 }

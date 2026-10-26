@@ -1285,3 +1285,35 @@ count separated from order, a general weight-to-trait guide, or transfer to
 Astra. The next valuable step is to design a fresh, larger lexical/grammatical
 confirmation cohort and preserve unrelated capability probes; do not tune on
 the old F025 development questions.
+
+### Engineering follow-up — separate task-order randomness and account for reused baselines
+
+Status: implementation verified by focused software tests; no new model
+behavior result.
+
+`train-cases --schedule-seed` now records a task-order random seed separately
+from the model initialization and within-task example-stream seed. For the
+two-task case, a shared schedule seed creates nested randomized positions when
+the task ratio changes; without this option, the historical seeded shuffle is
+preserved exactly. Multi-task schedules are explicitly labeled as a seeded
+multiset shuffle because the two-task nesting guarantee does not apply. Every
+optimizer update still records the chosen task, exact example ID, and loss.
+
+`case-eval --baseline-cache-from` can import base/prompt responses from a
+completed compatible campaign. It checks the source run, specification,
+ledger/report checksums, question IDs/text/hash, trusted grades, model revision,
+prompts, requested inference settings, and then confirms resolved model,
+device and precision match after loading the target model. Cached rows retain
+source checksums and are counted separately from new generations. A synthetic
+campaign test verified 4 imported rows, zero target generations, and exact
+cache-hit accounting. Focused training-schedule and evaluator tests passed.
+
+These are data-provenance and efficiency improvements, not scientific findings.
+They set up the next development-only order-sensitivity diagnostic: hold the
+F025 support set, 16/48 task ratio, model seeds, task-specific example streams,
+optimizer, and 64 updates fixed while varying only the task-order seed across
+three schedules and two model seeds. Reuse base/prompt answers only when the
+recorded cache compatibility checks pass. The v3 development questions are
+already inspected and the F024 confirmation pool is retired, so this diagnostic
+cannot support generalization or promotion. A later confirmation needs newly
+generated family-disjoint examples and separate capability-preservation checks.

@@ -102,6 +102,26 @@ against the supplied sidecars before any generation starts.
 The runner never trains or self-grades; candidate promotion still needs
 independent confirmation and capability/locality checks.
 
+When only the adapter changes across campaigns, an exact baseline cache can
+reuse base and prompt answers from a completed compatible run:
+
+```sh
+python -m evolution_lab case-eval evolution_lab/evidence/completion_v3 \
+  --split dev --revision MODEL_COMMIT_SHA \
+  --arms base prompt adapter random --adapter ADAPTER_PATH \
+  --random-adapter RANDOM_ADAPTER_PATH --adapter-delta DELTA_JSON \
+  --random-delta RANDOM_DELTA_JSON \
+  --baseline-cache-from results/evolution_lab/prior-compatible-campaign \
+  --output-dir results/evolution_lab/new-adapter-campaign
+```
+
+Reuse is allowed only when the dataset, selected questions, grader, prompts,
+model revision, requested and resolved device/precision, and decoding match.
+The source ledger, report and run specification are checksum-verified. Imported
+base/prompt responses remain in the target ledger with source provenance and
+are counted as `cache_hits` and `response_records`, not new `model_generations`.
+This saves repeated inference; it does not create new evidence or new questions.
+
 Use a Hugging Face commit SHA instead of `main` for reproducible comparisons.
 Treat 8 tasks as a smoke test. Reliable conclusions require much larger,
 held-out, balanced test sets, repeated seeds, and confidence intervals.
@@ -505,6 +525,54 @@ and 204/400 for base. A post-hoc diagnostic found the adapter answered all
 probes; this is a strong agreement-direction bias, not a general completion
 gain. The seed-42 candidate is quarantined. The confirmation split remains
 untouched because this candidate did not clear the prompt-control gate.
+
+For a task-exposure experiment, freeze one family-safe cohort first and use
+`--sampling-strategy task-ratio`. `--seed` controls model initialization and
+the within-task example streams. The optional `--schedule-seed` controls where
+each task appears among optimizer updates; for the two-task case, phrase-update
+positions are nested across ratios with the same schedule seed. This lets
+paired treatments share both example streams and common randomized update
+positions. Omitting `--schedule-seed` preserves the historical seeded-shuffle
+schedule used by older runs. The actual task, example ID and loss for every
+update are saved in the training trace.
+
+```sh
+python -m evolution_lab create-training-cohort evolution_lab/evidence/completion_v3 \
+  --phrase-count 32 --sentence-count 32 --seed 25025 \
+  --output results/evolution_lab/fixed_support_cohort
+python -m evolution_lab train-cases evolution_lab/evidence/completion_v3 \
+  --revision MODEL_COMMIT_SHA --seed 42 --schedule-seed 901 --steps 64 \
+  --sampling-strategy task-ratio \
+  --cohort-manifest results/evolution_lab/fixed_support_cohort/manifest.json \
+  --task-exposure-ratio phrase_completion=16,sentence_completion=48 \
+  --output-dir results/evolution_lab/task_ratio_16_48_seed42_order901
+```
+
+This controls which examples are available to each treatment, but replacement
+sampling can still repeat examples. Report unique examples actually seen and
+per-example exposure counts; an update ratio is not an example-count ratio.
+Treat results on an already inspected development split as exploratory and
+create fresh confirmation families before making generalization claims.
+
+### Planned follow-up: isolate task-update order
+
+F025 changed update allocation and order together. Before making any causal
+claim about timing, hold the hash-bound 32-phrase/32-sentence support set, the
+16-phrase/48-sentence update ratio, model and schedule seeds, optimizer, number
+of steps, and decoding fixed except for a preregistered schedule-seed factor.
+Use the same seed-specific within-task example streams across schedule seeds,
+two model seeds, and at least three schedule seeds. Keep all six adapters,
+training traces and raw controls. First run on the already inspected v3 dev
+set as an order-sensitivity diagnostic only; it adds zero unique questions and
+cannot confirm generalization. Reuse F025 base/prompt rows only after the
+cache's exact inference and actual-device checks pass, and account for those
+rows as cache hits. Score phrases, sentences, singular/plural subjects, and
+separate arithmetic preservation; inspect every pass-to-fail counterexample.
+The seven phrase families make phrase-specific uncertainty weak. Do not train
+on exposed dev failures or tune against the retired confirmation sets. A
+separate candidate confirmation would require newly generated, family-disjoint
+questions, broader capability checks, and the same strong prompt and matched
+random-edit controls.
 
 This first comparison was exploratory rather than preregistered and used one
 training seed. Its raw responses, controls, LoRA checkpoints, effective delta

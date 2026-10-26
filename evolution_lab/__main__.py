@@ -85,6 +85,8 @@ def build_parser():
                             help="Manifest for a frozen cohort created by create-training-cohort")
     case_train.add_argument("--task-exposure-ratio",
                             help="Exact update counts, e.g. phrase_completion=1,sentence_completion=63")
+    case_train.add_argument("--schedule-seed", type=int,
+                            help="Independent task-order seed for paired task-ratio schedules")
     case_train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_training"))
     ablate = sub.add_parser(
         "ablate-adapter",
@@ -116,6 +118,8 @@ def build_parser():
     case_eval.add_argument("--offset", type=int, default=0, help="Skip this many cases within the selected split for bounded shards")
     case_eval.add_argument("--family-limit", type=int, help="Select N complete families using stable hash ranking")
     case_eval.add_argument("--family-seed", type=int, help="Seed for reproducible whole-family sampling; requires --family-limit")
+    case_eval.add_argument("--baseline-cache-from", type=Path,
+                           help="Reuse checksum-verified base and prompt responses from a compatible completed campaign")
     case_eval.add_argument("--checkpoint-every", type=int, default=10)
     case_eval.add_argument("--output-dir", type=Path, required=True)
     case_eval.add_argument("--resume", action="store_true", help="Continue only if the saved run specification matches exactly")

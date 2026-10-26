@@ -152,6 +152,70 @@ class CaseEvaluationTests(unittest.TestCase):
                     "layers": [dict(layer, delta_frobenius_norm=4.0)],
                 })
 
+    def test_baseline_cache_requires_checksum_verified_matching_campaign(self):
+        source, cases = self.cases()
+        current_spec = {
+            "answer_grader_version": case_eval.ANSWER_GRADER_VERSION,
+            "dataset_generator": source["manifest"]["generator"],
+            "dataset_manifest_sha256": case_eval.fingerprint(source["manifest"]),
+            "dataset_seed": source["manifest"]["seed"], "split": "dev",
+            "case_fingerprint": case_eval.fingerprint([
+                {"case_id": row["case_id"], "prompt": row["prompt"],
+                 "answer": row["answer"], "family": row["family"],
+                 "normalized_prompt_sha256": case_eval._text_sha256(
+                     case_eval.normalized_question(row["prompt"]))}
+                for row in cases
+            ]),
+            "unique_questions": len(cases), "split_offset": 0,
+            "family_sampling": None, "model_id": "fixture",
+            "requested_revision": "a" * 40, "requested_device": "cpu",
+            "requested_precision": "float32", "base_system_prompt": case_eval.BASE_SYSTEM,
+            "prompt_system_prompt": "Give one integer.", "max_new_tokens": 8,
+            "decoding": "greedy",
+        }
+        source_spec = dict(current_spec, arms=["base", "prompt"])
+        actual_model = {"resolved_revision": "a" * 40, "device": "cpu",
+                        "precision": "torch.float32"}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            rows = []
+            for arm in ("base", "prompt"):
+                for case in cases:
+                    response = case["answer"]
+                    rows.append({
+                        "case_id": case["case_id"], "family": case["family"],
+                        "split": case["split"], "arm": arm,
+                        "prompt": case["prompt"], "answer_key": case["answer"],
+                        "normalized_prompt_sha256": case_eval._text_sha256(
+                            case_eval.normalized_question(case["prompt"])),
+                        "response": response, "metrics": case_eval.grade_case(case, response),
+                        "resolved_revision": "a" * 40,
+                    })
+            ledger = root / "observations.jsonl"
+            ledger.write_text("".join(json.dumps(row) + "\n" for row in rows))
+            report = root / "report.json"
+            report.write_text("{}\n")
+            run = {
+                "status": "complete", "spec": source_spec,
+                "spec_sha256": case_eval.fingerprint(source_spec),
+                "observations_sha256": case_eval._file_sha256(ledger),
+                "report_sha256": case_eval._file_sha256(report),
+                "actual_model": actual_model,
+            }
+            (root / "run.json").write_text(json.dumps(run))
+
+            cached, provenance = case_eval._load_baseline_cache(root, current_spec, cases)
+            self.assertEqual(len(cached), 2 * len(cases))
+            self.assertEqual(provenance["actual_model"], actual_model)
+
+            mismatch = dict(current_spec, prompt_system_prompt="A different prompt")
+            with self.assertRaisesRegex(ValueError, "inference fields"):
+                case_eval._load_baseline_cache(root, mismatch, cases)
+
+            ledger.write_text(ledger.read_text() + "\n")
+            with self.assertRaisesRegex(ValueError, "ledger checksum"):
+                case_eval._load_baseline_cache(root, current_spec, cases)
+
     def test_adapter_source_is_bound_to_checkpoint_hash_and_model_revision(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "trial"
@@ -222,6 +286,51 @@ class CaseEvaluationTests(unittest.TestCase):
                  patch.object(case_eval, "LocalModel", side_effect=AssertionError("checksum should fail before loading")):
                 with self.assertRaisesRegex(ValueError, "response ledger.*checksum"):
                     case_eval.evaluate_cases(args)
+
+    def test_baseline_cache_reuses_responses_and_counts_hits_separately(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source_output = root / "source"
+            target_output = root / "target"
+            args = self.args(source_output)
+            source = self.cases()
+            generation_counts = {"source": 0, "target": 0}
+
+            class FakeModel:
+                def __init__(self, *unused, **kwargs):
+                    self.resolved_revision = "a" * 40
+                    self.device = "cpu"
+                    self.precision = "torch.float32"
+                    self.role = "source"
+
+                def generate(self, system, prompt, max_tokens):
+                    generation_counts[self.role] += 1
+                    answer = "5" if prompt == "2 + 3" else "7"
+                    return answer, 1, 0.01
+
+            with patch.object(case_eval, "load_cases", return_value=source), \
+                 patch.object(case_eval, "LocalModel", FakeModel):
+                case_eval.evaluate_cases(args)
+                target = self.args(target_output)
+                target.baseline_cache_from = source_output
+                # Mark the second model instance separately; it should load the
+                # same actual model settings but generate no duplicate answers.
+                def model_factory(*unused, **kwargs):
+                    model = FakeModel()
+                    model.role = "target"
+                    return model
+                with patch.object(case_eval, "LocalModel", side_effect=model_factory):
+                    case_eval.evaluate_cases(target)
+
+            self.assertEqual(generation_counts, {"source": 4, "target": 0})
+            target_run = json.loads((target_output / "run.json").read_text())
+            target_report = json.loads((target_output / "report.json").read_text())
+            self.assertEqual(target_run["model_generations"], 0)
+            self.assertEqual(target_run["cache_hits"], 4)
+            self.assertEqual(target_run["response_records"], 4)
+            self.assertEqual(target_report["arms"]["base"]["model_generations"], 0)
+            self.assertEqual(target_report["arms"]["base"]["cache_hits"], 2)
+            self.assertEqual(target_report["arms"]["prompt"]["cache_hits"], 2)
 
 
 if __name__ == "__main__":

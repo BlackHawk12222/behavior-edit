@@ -35,6 +35,9 @@ def train_case_adapters(args) -> int:
     if sampling_strategy not in {"uniform", "task-balanced", "task-ratio"}:
         raise ValueError("Sampling strategy must be uniform, task-balanced or task-ratio")
     ratio = parse_task_exposure_ratio(getattr(args, "task_exposure_ratio", None))
+    schedule_seed = getattr(args, "schedule_seed", None)
+    if schedule_seed is not None and sampling_strategy != "task-ratio":
+        raise ValueError("An independent schedule seed is only supported with task-ratio sampling")
     cohort_path = getattr(args, "cohort_manifest", None)
     cohort_manifest = None
     if cohort_path:
@@ -102,6 +105,15 @@ def train_case_adapters(args) -> int:
         "decoding": "greedy",
         "sampling_strategy": sampling_strategy,
         "task_exposure_ratio": ratio,
+        "schedule_seed": schedule_seed if sampling_strategy == "task-ratio" else None,
+        "task_order_design": (
+            ("common-random-task-positions-v1"
+             if len({row.get("task_type", "default") for row in examples}) == 2
+             else "seeded-multiset-shuffle-v1")
+            if schedule_seed is not None
+            else "legacy-seeded-shuffle-v1" if sampling_strategy == "task-ratio"
+            else None
+        ),
     }
     manifest = {
         "schema_version": 1,
@@ -115,6 +127,7 @@ def train_case_adapters(args) -> int:
         "device": args.device,
         "precision": args.precision,
         "seed": args.seed,
+        "schedule_seed": schedule_seed if sampling_strategy == "task-ratio" else None,
         "behavior": source["manifest"]["generator"],
         "dataset_generator": source["manifest"]["generator"],
         "dataset_seed": source["manifest"]["seed"],
@@ -161,7 +174,7 @@ def train_case_adapters(args) -> int:
         local.model.eval()
         history = fit(local, examples, args.steps, args.learning_rate,
                       args.max_length, args.seed, sampling_strategy,
-                      task_exposure_ratio=ratio)
+                      task_exposure_ratio=ratio, schedule_seed=schedule_seed)
         write_json(destination / "training.json", history)
         seen_ids = list(dict.fromkeys(row["example_id"] for row in history))
         manifest["training_updates"] = len(history)

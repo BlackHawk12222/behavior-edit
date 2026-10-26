@@ -44,7 +44,7 @@ def restore(model, state, torch):
 
 
 def training_sequence(examples, steps, seed, sampling_strategy="uniform",
-                     task_exposure_ratio=None):
+                     task_exposure_ratio=None, schedule_seed=None):
     """Return a deterministic training schedule for ablation-ready sampling."""
     if steps < 1 or not examples:
         raise ValueError("Training schedule requires examples and positive steps")
@@ -88,9 +88,31 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform",
             stream_rng = random.Random(stream_seed)
             task_streams[kind] = [group[stream_rng.randrange(len(group))]
                                   for _ in range(steps)]
-        task_schedule = [kind for kind, count in sorted(task_exposure_ratio.items())
-                         for _ in range(count)]
-        random.Random(seed).shuffle(task_schedule)
+        if schedule_seed is None:
+            # Preserve the original task-ratio order exactly for old manifests
+            # and commands that did not register a separate order seed.
+            task_schedule = [kind for kind, count in sorted(task_exposure_ratio.items())
+                             for _ in range(count)]
+            random.Random(seed).shuffle(task_schedule)
+        else:
+            task_types = sorted(task_exposure_ratio)
+            if len(task_types) == 2:
+                # Common random positions couple paired ratios: the first task
+                # receives a nested prefix of one seeded position permutation.
+                # The model/data seed remains responsible for adapter init and
+                # within-task example streams, independently of task ordering.
+                positions = list(range(steps))
+                random.Random(schedule_seed).shuffle(positions)
+                first, second = task_types
+                first_positions = set(positions[:task_exposure_ratio[first]])
+                task_schedule = [first if position in first_positions else second
+                                 for position in range(steps)]
+            else:
+                # Keep the API usable for future multi-task cohorts. The
+                # two-task nested-position guarantee does not apply here.
+                task_schedule = [kind for kind, count in sorted(task_exposure_ratio.items())
+                                 for _ in range(count)]
+                random.Random(schedule_seed).shuffle(task_schedule)
         sequence = []
         for kind in task_schedule:
             position = task_positions[kind]
@@ -120,14 +142,15 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform",
 
 
 def fit(local, examples, steps, learning_rate, max_length, seed,
-        sampling_strategy="uniform", task_exposure_ratio=None):
+        sampling_strategy="uniform", task_exposure_ratio=None,
+        schedule_seed=None):
     import torch
     params = list(adapter_parameters(local.model).values())
     for p in params:
         p.data = p.data.float()
     optimizer = torch.optim.AdamW(params, lr=learning_rate, foreach=False)
     schedule = training_sequence(examples, steps, seed, sampling_strategy,
-                                 task_exposure_ratio)
+                                 task_exposure_ratio, schedule_seed)
     history = []
     local.model.config.use_cache = False
     local.model.train()

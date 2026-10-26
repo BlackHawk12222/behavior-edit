@@ -71,6 +71,63 @@ class TrainingSamplingTests(unittest.TestCase):
                 shorter = min(len(left[task]), len(right[task]))
                 self.assertEqual(left[task][:shorter], right[task][:shorter])
 
+    def test_explicit_schedule_seed_nests_task_positions_and_keeps_data_streams(self):
+        examples = self.examples()
+        ratios = (
+            {"phrase_completion": 1, "sentence_completion": 63},
+            {"phrase_completion": 16, "sentence_completion": 48},
+            {"phrase_completion": 32, "sentence_completion": 32},
+        )
+        schedules = [training_sequence(examples, 64, 19, "task-ratio", ratio,
+                                       schedule_seed=903) for ratio in ratios]
+        phrase_positions = [
+            {index for index, row in enumerate(schedule)
+             if row["task_type"] == "phrase_completion"}
+            for schedule in schedules
+        ]
+        self.assertTrue(phrase_positions[0] < phrase_positions[1] < phrase_positions[2])
+        for schedule, count in zip(schedules, (1, 16, 32)):
+            self.assertEqual(sum(row["task_type"] == "phrase_completion" for row in schedule), count)
+
+        streams = {
+            task: [[row["id"] for row in schedule if row["task_type"] == task]
+                   for schedule in schedules]
+            for task in ("phrase_completion", "sentence_completion")
+        }
+        for task, values in streams.items():
+            for left, right in zip(values, values[1:]):
+                shorter = min(len(left), len(right))
+                self.assertEqual(left[:shorter], right[:shorter])
+
+    def test_schedule_seed_is_independent_of_training_seed_and_sampled_ids(self):
+        examples = self.examples()
+        ratio = {"phrase_completion": 16, "sentence_completion": 48}
+        first = training_sequence(examples, 64, 19, "task-ratio", ratio,
+                                  schedule_seed=903)
+        repeated = training_sequence(examples, 64, 29, "task-ratio", ratio,
+                                     schedule_seed=903)
+        other_order = training_sequence(examples, 64, 19, "task-ratio", ratio,
+                                        schedule_seed=904)
+        self.assertEqual([row["task_type"] for row in first],
+                         [row["task_type"] for row in repeated])
+        self.assertNotEqual([row["task_type"] for row in first],
+                            [row["task_type"] for row in other_order])
+        for task in ("phrase_completion", "sentence_completion"):
+            self.assertEqual(
+                [row["id"] for row in first if row["task_type"] == task],
+                [row["id"] for row in other_order if row["task_type"] == task],
+            )
+
+    def test_task_ratio_without_schedule_seed_preserves_historical_order(self):
+        examples = self.examples()
+        ratio = {"phrase_completion": 8, "sentence_completion": 56}
+        expected = ["phrase_completion"] * 8 + ["sentence_completion"] * 56
+        random.Random(7).shuffle(expected)
+        actual = [row["task_type"] for row in training_sequence(
+            examples, 64, 7, "task-ratio", ratio,
+        )]
+        self.assertEqual(actual, expected)
+
     def test_task_ratio_is_reproducible_and_rejects_bad_counts(self):
         examples = self.examples()
         ratio = {"phrase_completion": 8, "sentence_completion": 56}
