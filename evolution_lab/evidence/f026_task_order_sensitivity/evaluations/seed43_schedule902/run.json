@@ -1,0 +1,1261 @@
+{
+  "run_id": "20261026T021937_406111Z",
+  "spec": {
+    "schema_version": 1,
+    "answer_grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+    "dataset_generator": "phrase-sentence-completion-v3-attractor",
+    "dataset_manifest_sha256": "a45d11db2616e0fdc9c90a4f89a896dc093bb944c74eb153e8d2b132105f422f",
+    "dataset_seed": 42,
+    "split": "dev",
+    "case_fingerprint": "c7cbc3c6a8f397d1fa7c9dbff55f5864b0b0d710969efeb5bfa8cdf384cb5c12",
+    "unique_questions": 428,
+    "split_offset": 0,
+    "family_sampling": null,
+    "model_id": "/Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775",
+    "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "requested_device": "cpu",
+    "requested_precision": "float32",
+    "arms": [
+      "base",
+      "prompt",
+      "adapter",
+      "random"
+    ],
+    "base_system_prompt": "You are a helpful assistant.",
+    "prompt_system_prompt": "You are a helpful assistant. Select the option that correctly completes the phrase or sentence and reply with only the missing word.",
+    "adapter_hashes": {
+      "adapter": {
+        "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+        "adapter_config.json": "62612864719f5eb99316a6c9006c71da9b336bb30bbc4ea4deb81ff4514de739",
+        "adapter_model.safetensors": "5180f605d258339c1217582f9b472d8e92bd2e5a8d4ff68b42076ac6b5af62ab"
+      },
+      "random": {
+        "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+        "adapter_config.json": "62612864719f5eb99316a6c9006c71da9b336bb30bbc4ea4deb81ff4514de739",
+        "adapter_model.safetensors": "dd50106ff58790300e2a8ed9f73d853bc316bb55b4f247c8f38d5487b73480dd"
+      }
+    },
+    "adapter_sources": {
+      "adapter": {
+        "source_manifest_sha256": "5ab605dc4f87a73a4e75866564b06823ff69c3c77e44f96f0640f46755df6159",
+        "source_run_id": "20261026T012627_256061Z",
+        "behavior": "phrase-sentence-completion-v3-attractor",
+        "seed": 43,
+        "training_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "settings": {
+          "steps": 64,
+          "rank": 4,
+          "lora_alpha": 8,
+          "lora_dropout": 0.0,
+          "target_modules": [
+            "q_proj",
+            "v_proj"
+          ],
+          "optimizer": "AdamW",
+          "learning_rate": 0.0005,
+          "weight_decay": 0.01,
+          "gradient_clip_norm": 1.0,
+          "max_length": 256,
+          "precision": "float32",
+          "decoding": "greedy",
+          "sampling_strategy": "task-ratio",
+          "task_exposure_ratio": {
+            "phrase_completion": 16,
+            "sentence_completion": 48
+          },
+          "schedule_seed": 902,
+          "task_order_design": "common-random-task-positions-v1"
+        }
+      },
+      "random": {
+        "source_manifest_sha256": "5ab605dc4f87a73a4e75866564b06823ff69c3c77e44f96f0640f46755df6159",
+        "source_run_id": "20261026T012627_256061Z",
+        "behavior": "phrase-sentence-completion-v3-attractor",
+        "seed": 43,
+        "training_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "settings": {
+          "steps": 64,
+          "rank": 4,
+          "lora_alpha": 8,
+          "lora_dropout": 0.0,
+          "target_modules": [
+            "q_proj",
+            "v_proj"
+          ],
+          "optimizer": "AdamW",
+          "learning_rate": 0.0005,
+          "weight_decay": 0.01,
+          "gradient_clip_norm": 1.0,
+          "max_length": 256,
+          "precision": "float32",
+          "decoding": "greedy",
+          "sampling_strategy": "task-ratio",
+          "task_exposure_ratio": {
+            "phrase_completion": 16,
+            "sentence_completion": 48
+          },
+          "schedule_seed": 902,
+          "task_order_design": "common-random-task-positions-v1"
+        }
+      }
+    },
+    "adapter_delta_hashes": {
+      "adapter": "080381c9f58d8b8e0617ba290c8c83a227efc92ac3b51b42a04cddbc618d70e5",
+      "random": "4df9c1e6463086e9de1389822f3e9d42f8d11c0bbbc71775bb25eb09b42dd7e9"
+    },
+    "random_norm_match": {
+      "tolerance_relative": 0.0001,
+      "maximum_relative_error": 6.607949815751231e-06,
+      "global_relative_error": 6.543832336496501e-07,
+      "adapted_modules": 48
+    },
+    "max_new_tokens": 16,
+    "decoding": "greedy",
+    "baseline_cache_source": {
+      "run_id": "20261025T232105_770638Z",
+      "spec_sha256": "069a7885da4ce2f9281ddd690074193ff8f804356a96caa632e2998c12b53c90",
+      "observations_sha256": "eff68d074014070eee4a403ebe3f5e192c3169014db94db26a24b50ab8834b3e",
+      "report_sha256": "cc828e0ff1854acfdfed8b5277fed1143f32f1729d704478e1063bb468588f2e",
+      "actual_model": {
+        "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "device": "cpu",
+        "precision": "torch.float32"
+      }
+    }
+  },
+  "spec_sha256": "ef2f064031d616b5d0c7f7ba223c26dd8bc5ff9041f82fec4410a1f5b6226b95",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "4e1c8ea4ef5ce0895200cfe2fbef94a5acae4c89",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": null
+    }
+  },
+  "dataset_census": {
+    "unique_cases": 8740,
+    "unique_prompts": 8740,
+    "unique_families": 583,
+    "split_counts": {
+      "train": 7880,
+      "dev": 428,
+      "confirmation": 432
+    },
+    "task_type_counts": {
+      "phrase_completion": 196,
+      "sentence_completion": 8544
+    }
+  },
+  "records_written": 1712,
+  "model_generations": 856,
+  "cache_hits": 856,
+  "actual_model": {
+    "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "device": "cpu",
+    "precision": "torch.float32"
+  },
+  "verified_delta_stats": {
+    "adapter": {
+      "stats": {
+        "adapted_modules": 48,
+        "delta_global_frobenius_norm": 1.8305214929143885,
+        "layers": [
+          {
+            "name": "base_model.model.model.layers.0.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.29238733649253845,
+            "delta_max_abs": 0.0021544890478253365
+          },
+          {
+            "name": "base_model.model.model.layers.0.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14549219608306885,
+            "delta_max_abs": 0.00308805238455534
+          },
+          {
+            "name": "base_model.model.model.layers.1.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3237465023994446,
+            "delta_max_abs": 0.0025600886438041925
+          },
+          {
+            "name": "base_model.model.model.layers.1.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.12302245944738388,
+            "delta_max_abs": 0.0022506231907755136
+          },
+          {
+            "name": "base_model.model.model.layers.2.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.31713584065437317,
+            "delta_max_abs": 0.0021212673746049404
+          },
+          {
+            "name": "base_model.model.model.layers.2.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13486431539058685,
+            "delta_max_abs": 0.00243919575586915
+          },
+          {
+            "name": "base_model.model.model.layers.3.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.29848721623420715,
+            "delta_max_abs": 0.0022590572480112314
+          },
+          {
+            "name": "base_model.model.model.layers.3.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13342446088790894,
+            "delta_max_abs": 0.0019579899962991476
+          },
+          {
+            "name": "base_model.model.model.layers.4.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.35338094830513,
+            "delta_max_abs": 0.003197432728484273
+          },
+          {
+            "name": "base_model.model.model.layers.4.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13636881113052368,
+            "delta_max_abs": 0.002375028794631362
+          },
+          {
+            "name": "base_model.model.model.layers.5.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.34190425276756287,
+            "delta_max_abs": 0.002685546176508069
+          },
+          {
+            "name": "base_model.model.model.layers.5.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.12979979813098907,
+            "delta_max_abs": 0.0022007504012435675
+          },
+          {
+            "name": "base_model.model.model.layers.6.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.332032710313797,
+            "delta_max_abs": 0.0024559437297284603
+          },
+          {
+            "name": "base_model.model.model.layers.6.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14776092767715454,
+            "delta_max_abs": 0.003495804499834776
+          },
+          {
+            "name": "base_model.model.model.layers.7.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3489362895488739,
+            "delta_max_abs": 0.002764081349596381
+          },
+          {
+            "name": "base_model.model.model.layers.7.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1292102038860321,
+            "delta_max_abs": 0.0024323605466634035
+          },
+          {
+            "name": "base_model.model.model.layers.8.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3402990996837616,
+            "delta_max_abs": 0.0029815449379384518
+          },
+          {
+            "name": "base_model.model.model.layers.8.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1352972835302353,
+            "delta_max_abs": 0.002376269781962037
+          },
+          {
+            "name": "base_model.model.model.layers.9.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3145899474620819,
+            "delta_max_abs": 0.00241179415024817
+          },
+          {
+            "name": "base_model.model.model.layers.9.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14726942777633667,
+            "delta_max_abs": 0.002660055411979556
+          },
+          {
+            "name": "base_model.model.model.layers.10.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3886457681655884,
+            "delta_max_abs": 0.003773618256673217
+          },
+          {
+            "name": "base_model.model.model.layers.10.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.16680271923542023,
+            "delta_max_abs": 0.003328822087496519
+          },
+          {
+            "name": "base_model.model.model.layers.11.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3404920995235443,
+            "delta_max_abs": 0.0026717474684119225
+          },
+          {
+            "name": "base_model.model.model.layers.11.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1850437968969345,
+            "delta_max_abs": 0.00348606682382524
+          },
+          {
+            "name": "base_model.model.model.layers.12.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.2658296823501587,
+            "delta_max_abs": 0.002833766397088766
+          },
+          {
+            "name": "base_model.model.model.layers.12.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.16792254149913788,
+            "delta_max_abs": 0.0035240398719906807
+          },
+          {
+            "name": "base_model.model.model.layers.13.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.40279069542884827,
+            "delta_max_abs": 0.003310265950858593
+          },
+          {
+            "name": "base_model.model.model.layers.13.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1596645712852478,
+            "delta_max_abs": 0.00274702999740839
+          },
+          {
+            "name": "base_model.model.model.layers.14.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3427653908729553,
+            "delta_max_abs": 0.0029533598572015762
+          },
+          {
+            "name": "base_model.model.model.layers.14.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14487892389297485,
+            "delta_max_abs": 0.002687987871468067
+          },
+          {
+            "name": "base_model.model.model.layers.15.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.40863490104675293,
+            "delta_max_abs": 0.0034150348510593176
+          },
+          {
+            "name": "base_model.model.model.layers.15.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1554044783115387,
+            "delta_max_abs": 0.002791999140754342
+          },
+          {
+            "name": "base_model.model.model.layers.16.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.31742173433303833,
+            "delta_max_abs": 0.003017604583874345
+          },
+          {
+            "name": "base_model.model.model.layers.16.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.12532804906368256,
+            "delta_max_abs": 0.002313002245500684
+          },
+          {
+            "name": "base_model.model.model.layers.17.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3334093391895294,
+            "delta_max_abs": 0.0024744332768023014
+          },
+          {
+            "name": "base_model.model.model.layers.17.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.169501394033432,
+            "delta_max_abs": 0.003964642062783241
+          },
+          {
+            "name": "base_model.model.model.layers.18.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.2802596390247345,
+            "delta_max_abs": 0.0024019842967391014
+          },
+          {
+            "name": "base_model.model.model.layers.18.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1423627883195877,
+            "delta_max_abs": 0.0032690169755369425
+          },
+          {
+            "name": "base_model.model.model.layers.19.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.4328238070011139,
+            "delta_max_abs": 0.00338000594638288
+          },
+          {
+            "name": "base_model.model.model.layers.19.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13961710035800934,
+            "delta_max_abs": 0.003151661716401577
+          },
+          {
+            "name": "base_model.model.model.layers.20.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.37711918354034424,
+            "delta_max_abs": 0.0035649146884679794
+          },
+          {
+            "name": "base_model.model.model.layers.20.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.15279878675937653,
+            "delta_max_abs": 0.002407129155471921
+          },
+          {
+            "name": "base_model.model.model.layers.21.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3193182647228241,
+            "delta_max_abs": 0.002908214693889022
+          },
+          {
+            "name": "base_model.model.model.layers.21.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.12676703929901123,
+            "delta_max_abs": 0.002624588320031762
+          },
+          {
+            "name": "base_model.model.model.layers.22.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3947213292121887,
+            "delta_max_abs": 0.0028718234971165657
+          },
+          {
+            "name": "base_model.model.model.layers.22.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.15489700436592102,
+            "delta_max_abs": 0.002464401302859187
+          },
+          {
+            "name": "base_model.model.model.layers.23.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3213823437690735,
+            "delta_max_abs": 0.003344640601426363
+          },
+          {
+            "name": "base_model.model.model.layers.23.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1486361026763916,
+            "delta_max_abs": 0.002795679261907935
+          }
+        ]
+      },
+      "sidecar_check": {
+        "maximum_relative_error": 0.0,
+        "tolerance_relative": 1e-05
+      }
+    },
+    "random": {
+      "stats": {
+        "adapted_modules": 48,
+        "delta_global_frobenius_norm": 1.8305226907769623,
+        "layers": [
+          {
+            "name": "base_model.model.model.layers.0.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.2923867106437683,
+            "delta_max_abs": 0.002574511570855975
+          },
+          {
+            "name": "base_model.model.model.layers.0.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14549224078655243,
+            "delta_max_abs": 0.00280833151191473
+          },
+          {
+            "name": "base_model.model.model.layers.1.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3237469792366028,
+            "delta_max_abs": 0.0028034308925271034
+          },
+          {
+            "name": "base_model.model.model.layers.1.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.12302247434854507,
+            "delta_max_abs": 0.0027176947332918644
+          },
+          {
+            "name": "base_model.model.model.layers.2.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3171361982822418,
+            "delta_max_abs": 0.0031687431037425995
+          },
+          {
+            "name": "base_model.model.model.layers.2.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13486436009407043,
+            "delta_max_abs": 0.0033629366662353277
+          },
+          {
+            "name": "base_model.model.model.layers.3.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.2984866201877594,
+            "delta_max_abs": 0.002467332175001502
+          },
+          {
+            "name": "base_model.model.model.layers.3.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13342435657978058,
+            "delta_max_abs": 0.0028202510438859463
+          },
+          {
+            "name": "base_model.model.model.layers.4.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3533822298049927,
+            "delta_max_abs": 0.0030218935571610928
+          },
+          {
+            "name": "base_model.model.model.layers.4.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13636890053749084,
+            "delta_max_abs": 0.002291593700647354
+          },
+          {
+            "name": "base_model.model.model.layers.5.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.34190478920936584,
+            "delta_max_abs": 0.003338829381391406
+          },
+          {
+            "name": "base_model.model.model.layers.5.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1297997087240219,
+            "delta_max_abs": 0.0026213545352220535
+          },
+          {
+            "name": "base_model.model.model.layers.6.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3320327401161194,
+            "delta_max_abs": 0.002740503055974841
+          },
+          {
+            "name": "base_model.model.model.layers.6.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14776082336902618,
+            "delta_max_abs": 0.003387928707525134
+          },
+          {
+            "name": "base_model.model.model.layers.7.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3489379584789276,
+            "delta_max_abs": 0.003395638195797801
+          },
+          {
+            "name": "base_model.model.model.layers.7.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1292101889848709,
+            "delta_max_abs": 0.002595887752249837
+          },
+          {
+            "name": "base_model.model.model.layers.8.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3403010964393616,
+            "delta_max_abs": 0.0028754801023751497
+          },
+          {
+            "name": "base_model.model.model.layers.8.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13529719412326813,
+            "delta_max_abs": 0.002468748716637492
+          },
+          {
+            "name": "base_model.model.model.layers.9.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.31458887457847595,
+            "delta_max_abs": 0.002903797198086977
+          },
+          {
+            "name": "base_model.model.model.layers.9.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14726923406124115,
+            "delta_max_abs": 0.0026521049439907074
+          },
+          {
+            "name": "base_model.model.model.layers.10.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3886469006538391,
+            "delta_max_abs": 0.003447945462539792
+          },
+          {
+            "name": "base_model.model.model.layers.10.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.16680295765399933,
+            "delta_max_abs": 0.0031226002611219883
+          },
+          {
+            "name": "base_model.model.model.layers.11.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.34049347043037415,
+            "delta_max_abs": 0.0030618878081440926
+          },
+          {
+            "name": "base_model.model.model.layers.11.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.18504363298416138,
+            "delta_max_abs": 0.003850078210234642
+          },
+          {
+            "name": "base_model.model.model.layers.12.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.26583001017570496,
+            "delta_max_abs": 0.002162133576348424
+          },
+          {
+            "name": "base_model.model.model.layers.12.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.16792234778404236,
+            "delta_max_abs": 0.003909219056367874
+          },
+          {
+            "name": "base_model.model.model.layers.13.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.40278875827789307,
+            "delta_max_abs": 0.003393404185771942
+          },
+          {
+            "name": "base_model.model.model.layers.13.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1596648246049881,
+            "delta_max_abs": 0.00292695639654994
+          },
+          {
+            "name": "base_model.model.model.layers.14.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3427676558494568,
+            "delta_max_abs": 0.0034977232571691275
+          },
+          {
+            "name": "base_model.model.model.layers.14.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.1448788344860077,
+            "delta_max_abs": 0.002902308013290167
+          },
+          {
+            "name": "base_model.model.model.layers.15.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.4086337387561798,
+            "delta_max_abs": 0.0035656639374792576
+          },
+          {
+            "name": "base_model.model.model.layers.15.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.15540450811386108,
+            "delta_max_abs": 0.0035650210920721292
+          },
+          {
+            "name": "base_model.model.model.layers.16.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3174229860305786,
+            "delta_max_abs": 0.003062741132453084
+          },
+          {
+            "name": "base_model.model.model.layers.16.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.12532807886600494,
+            "delta_max_abs": 0.0023585387971252203
+          },
+          {
+            "name": "base_model.model.model.layers.17.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.33341071009635925,
+            "delta_max_abs": 0.00357604818418622
+          },
+          {
+            "name": "base_model.model.model.layers.17.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.16950145363807678,
+            "delta_max_abs": 0.0029862727969884872
+          },
+          {
+            "name": "base_model.model.model.layers.18.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.2802605628967285,
+            "delta_max_abs": 0.0023987169843167067
+          },
+          {
+            "name": "base_model.model.model.layers.18.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14236250519752502,
+            "delta_max_abs": 0.0026380098424851894
+          },
+          {
+            "name": "base_model.model.model.layers.19.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.43282201886177063,
+            "delta_max_abs": 0.004457599949091673
+          },
+          {
+            "name": "base_model.model.model.layers.19.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.13961723446846008,
+            "delta_max_abs": 0.0031522742938250303
+          },
+          {
+            "name": "base_model.model.model.layers.20.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.37711742520332336,
+            "delta_max_abs": 0.0036574555560946465
+          },
+          {
+            "name": "base_model.model.model.layers.20.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.15279865264892578,
+            "delta_max_abs": 0.0028574313037097454
+          },
+          {
+            "name": "base_model.model.model.layers.21.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3193187117576599,
+            "delta_max_abs": 0.003330011386424303
+          },
+          {
+            "name": "base_model.model.model.layers.21.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.12676694989204407,
+            "delta_max_abs": 0.002486091572791338
+          },
+          {
+            "name": "base_model.model.model.layers.22.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.3947213292121887,
+            "delta_max_abs": 0.003703279886394739
+          },
+          {
+            "name": "base_model.model.model.layers.22.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.15489712357521057,
+            "delta_max_abs": 0.0033072337973862886
+          },
+          {
+            "name": "base_model.model.model.layers.23.self_attn.q_proj",
+            "matrix_shape": [
+              896,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.32138383388519287,
+            "delta_max_abs": 0.003136404324322939
+          },
+          {
+            "name": "base_model.model.model.layers.23.self_attn.v_proj",
+            "matrix_shape": [
+              128,
+              896
+            ],
+            "rank": 4,
+            "scale": 2.0,
+            "delta_frobenius_norm": 0.14863590896129608,
+            "delta_max_abs": 0.00312041025608778
+          }
+        ]
+      },
+      "sidecar_check": {
+        "maximum_relative_error": 0.0,
+        "tolerance_relative": 1e-05
+      }
+    }
+  },
+  "elapsed_seconds": 464.167,
+  "observations_sha256": "0edda6f9220829dffc11859d5390fa6f326c1ed4a6d64a4d7445a4cddfabe8ed",
+  "report_sha256": "99e04ea7f8e2ba5de7a9fff910ff197d447be52e65835cdb5bb00279ed03e0f1",
+  "response_records": 1712,
+  "completed_arms": {
+    "base": 428,
+    "prompt": 428,
+    "adapter": 428,
+    "random": 428
+  }
+}

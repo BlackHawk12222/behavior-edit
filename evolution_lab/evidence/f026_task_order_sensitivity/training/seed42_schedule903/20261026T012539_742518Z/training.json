@@ -1,0 +1,450 @@
+[
+  {
+    "step": 1,
+    "example_id": "completion-v3-42-0000984",
+    "task_type": "phrase_completion",
+    "loss": 1.5733102560043335,
+    "gradient_norm_before_clip": 16.879467010498047
+  },
+  {
+    "step": 2,
+    "example_id": "completion-v3-42-0007719",
+    "task_type": "sentence_completion",
+    "loss": 1.6840765476226807,
+    "gradient_norm_before_clip": 26.1975040435791
+  },
+  {
+    "step": 3,
+    "example_id": "completion-v3-42-0000962",
+    "task_type": "phrase_completion",
+    "loss": 1.7894777059555054,
+    "gradient_norm_before_clip": 15.823081016540527
+  },
+  {
+    "step": 4,
+    "example_id": "completion-v3-42-0001506",
+    "task_type": "sentence_completion",
+    "loss": 0.7175406217575073,
+    "gradient_norm_before_clip": 11.53250789642334
+  },
+  {
+    "step": 5,
+    "example_id": "completion-v3-42-0008481",
+    "task_type": "sentence_completion",
+    "loss": 2.190113067626953,
+    "gradient_norm_before_clip": 28.98401641845703
+  },
+  {
+    "step": 6,
+    "example_id": "completion-v3-42-0005959",
+    "task_type": "sentence_completion",
+    "loss": 0.4287016987800598,
+    "gradient_norm_before_clip": 13.655730247497559
+  },
+  {
+    "step": 7,
+    "example_id": "completion-v3-42-0006535",
+    "task_type": "sentence_completion",
+    "loss": 0.30110666155815125,
+    "gradient_norm_before_clip": 9.94608211517334
+  },
+  {
+    "step": 8,
+    "example_id": "completion-v3-42-0001566",
+    "task_type": "sentence_completion",
+    "loss": 0.25157731771469116,
+    "gradient_norm_before_clip": 10.258458137512207
+  },
+  {
+    "step": 9,
+    "example_id": "completion-v3-42-0002553",
+    "task_type": "sentence_completion",
+    "loss": 0.32054591178894043,
+    "gradient_norm_before_clip": 12.161818504333496
+  },
+  {
+    "step": 10,
+    "example_id": "completion-v3-42-0000931",
+    "task_type": "phrase_completion",
+    "loss": 0.2842390537261963,
+    "gradient_norm_before_clip": 5.839056491851807
+  },
+  {
+    "step": 11,
+    "example_id": "completion-v3-42-0001995",
+    "task_type": "sentence_completion",
+    "loss": 0.9223735332489014,
+    "gradient_norm_before_clip": 11.79614543914795
+  },
+  {
+    "step": 12,
+    "example_id": "completion-v3-42-0007719",
+    "task_type": "sentence_completion",
+    "loss": 0.0022259533870965242,
+    "gradient_norm_before_clip": 0.07195631414651871
+  },
+  {
+    "step": 13,
+    "example_id": "completion-v3-42-0007593",
+    "task_type": "sentence_completion",
+    "loss": 0.04086391627788544,
+    "gradient_norm_before_clip": 1.5644069910049438
+  },
+  {
+    "step": 14,
+    "example_id": "completion-v3-42-0005092",
+    "task_type": "sentence_completion",
+    "loss": 0.12617304921150208,
+    "gradient_norm_before_clip": 7.9337382316589355
+  },
+  {
+    "step": 15,
+    "example_id": "completion-v3-42-0000873",
+    "task_type": "phrase_completion",
+    "loss": 0.059491317719221115,
+    "gradient_norm_before_clip": 3.8417582511901855
+  },
+  {
+    "step": 16,
+    "example_id": "completion-v3-42-0007375",
+    "task_type": "sentence_completion",
+    "loss": 0.12295927852392197,
+    "gradient_norm_before_clip": 6.83379602432251
+  },
+  {
+    "step": 17,
+    "example_id": "completion-v3-42-0001506",
+    "task_type": "sentence_completion",
+    "loss": 0.05309440568089485,
+    "gradient_norm_before_clip": 1.547674536705017
+  },
+  {
+    "step": 18,
+    "example_id": "completion-v3-42-0006322",
+    "task_type": "sentence_completion",
+    "loss": 0.032836247235536575,
+    "gradient_norm_before_clip": 1.650838017463684
+  },
+  {
+    "step": 19,
+    "example_id": "completion-v3-42-0006535",
+    "task_type": "sentence_completion",
+    "loss": 0.01559529360383749,
+    "gradient_norm_before_clip": 0.49256691336631775
+  },
+  {
+    "step": 20,
+    "example_id": "completion-v3-42-0007719",
+    "task_type": "sentence_completion",
+    "loss": 0.0007122733513824642,
+    "gradient_norm_before_clip": 0.013861719518899918
+  },
+  {
+    "step": 21,
+    "example_id": "completion-v3-42-0000942",
+    "task_type": "phrase_completion",
+    "loss": 0.04629465565085411,
+    "gradient_norm_before_clip": 1.9971297979354858
+  },
+  {
+    "step": 22,
+    "example_id": "completion-v3-42-0000917",
+    "task_type": "phrase_completion",
+    "loss": 0.07269657403230667,
+    "gradient_norm_before_clip": 2.32489275932312
+  },
+  {
+    "step": 23,
+    "example_id": "completion-v3-42-0003024",
+    "task_type": "sentence_completion",
+    "loss": 0.7345999479293823,
+    "gradient_norm_before_clip": 15.454751968383789
+  },
+  {
+    "step": 24,
+    "example_id": "completion-v3-42-0008213",
+    "task_type": "sentence_completion",
+    "loss": 0.5631580948829651,
+    "gradient_norm_before_clip": 13.003210067749023
+  },
+  {
+    "step": 25,
+    "example_id": "completion-v3-42-0006294",
+    "task_type": "sentence_completion",
+    "loss": 0.0033564958721399307,
+    "gradient_norm_before_clip": 0.06788092106580734
+  },
+  {
+    "step": 26,
+    "example_id": "completion-v3-42-0006322",
+    "task_type": "sentence_completion",
+    "loss": 0.004700205288827419,
+    "gradient_norm_before_clip": 0.10401370376348495
+  },
+  {
+    "step": 27,
+    "example_id": "completion-v3-42-0000977",
+    "task_type": "phrase_completion",
+    "loss": 0.19581429660320282,
+    "gradient_norm_before_clip": 7.100814342498779
+  },
+  {
+    "step": 28,
+    "example_id": "completion-v3-42-0000917",
+    "task_type": "phrase_completion",
+    "loss": 0.010104591026902199,
+    "gradient_norm_before_clip": 0.35879188776016235
+  },
+  {
+    "step": 29,
+    "example_id": "completion-v3-42-0008213",
+    "task_type": "sentence_completion",
+    "loss": 0.11762484163045883,
+    "gradient_norm_before_clip": 4.941737174987793
+  },
+  {
+    "step": 30,
+    "example_id": "completion-v3-42-0001506",
+    "task_type": "sentence_completion",
+    "loss": 0.028523996472358704,
+    "gradient_norm_before_clip": 1.1793643236160278
+  },
+  {
+    "step": 31,
+    "example_id": "completion-v3-42-0008704",
+    "task_type": "sentence_completion",
+    "loss": 0.054805684834718704,
+    "gradient_norm_before_clip": 2.3480873107910156
+  },
+  {
+    "step": 32,
+    "example_id": "completion-v3-42-0001995",
+    "task_type": "sentence_completion",
+    "loss": 0.023686997592449188,
+    "gradient_norm_before_clip": 0.5401241779327393
+  },
+  {
+    "step": 33,
+    "example_id": "completion-v3-42-0000942",
+    "task_type": "phrase_completion",
+    "loss": 0.0019303030567243695,
+    "gradient_norm_before_clip": 0.09183454513549805
+  },
+  {
+    "step": 34,
+    "example_id": "completion-v3-42-0006294",
+    "task_type": "sentence_completion",
+    "loss": 0.0024348320439457893,
+    "gradient_norm_before_clip": 0.050745945423841476
+  },
+  {
+    "step": 35,
+    "example_id": "completion-v3-42-0001506",
+    "task_type": "sentence_completion",
+    "loss": 0.008360007777810097,
+    "gradient_norm_before_clip": 0.20072171092033386
+  },
+  {
+    "step": 36,
+    "example_id": "completion-v3-42-0007375",
+    "task_type": "sentence_completion",
+    "loss": 0.004563276655972004,
+    "gradient_norm_before_clip": 0.13409878313541412
+  },
+  {
+    "step": 37,
+    "example_id": "completion-v3-42-0001278",
+    "task_type": "sentence_completion",
+    "loss": 0.7363942265510559,
+    "gradient_norm_before_clip": 9.115550994873047
+  },
+  {
+    "step": 38,
+    "example_id": "completion-v3-42-0003881",
+    "task_type": "sentence_completion",
+    "loss": 0.12336284667253494,
+    "gradient_norm_before_clip": 7.322354793548584
+  },
+  {
+    "step": 39,
+    "example_id": "completion-v3-42-0000882",
+    "task_type": "phrase_completion",
+    "loss": 0.36292365193367004,
+    "gradient_norm_before_clip": 12.828160285949707
+  },
+  {
+    "step": 40,
+    "example_id": "completion-v3-42-0000925",
+    "task_type": "phrase_completion",
+    "loss": 0.41421547532081604,
+    "gradient_norm_before_clip": 13.765021324157715
+  },
+  {
+    "step": 41,
+    "example_id": "completion-v3-42-0000861",
+    "task_type": "phrase_completion",
+    "loss": 1.1490764617919922,
+    "gradient_norm_before_clip": 27.636568069458008
+  },
+  {
+    "step": 42,
+    "example_id": "completion-v3-42-0007920",
+    "task_type": "sentence_completion",
+    "loss": 1.0539772510528564,
+    "gradient_norm_before_clip": 9.74648666381836
+  },
+  {
+    "step": 43,
+    "example_id": "completion-v3-42-0000912",
+    "task_type": "phrase_completion",
+    "loss": 1.2515884637832642,
+    "gradient_norm_before_clip": 27.091297149658203
+  },
+  {
+    "step": 44,
+    "example_id": "completion-v3-42-0007719",
+    "task_type": "sentence_completion",
+    "loss": 0.0003790519549511373,
+    "gradient_norm_before_clip": 0.00833036471158266
+  },
+  {
+    "step": 45,
+    "example_id": "completion-v3-42-0008213",
+    "task_type": "sentence_completion",
+    "loss": 0.044670116156339645,
+    "gradient_norm_before_clip": 1.578126072883606
+  },
+  {
+    "step": 46,
+    "example_id": "completion-v3-42-0003830",
+    "task_type": "sentence_completion",
+    "loss": 0.0014334911247715354,
+    "gradient_norm_before_clip": 0.030956389382481575
+  },
+  {
+    "step": 47,
+    "example_id": "completion-v3-42-0005141",
+    "task_type": "sentence_completion",
+    "loss": 0.012006229721009731,
+    "gradient_norm_before_clip": 0.5844135284423828
+  },
+  {
+    "step": 48,
+    "example_id": "completion-v3-42-0001506",
+    "task_type": "sentence_completion",
+    "loss": 0.003251653164625168,
+    "gradient_norm_before_clip": 0.08635348081588745
+  },
+  {
+    "step": 49,
+    "example_id": "completion-v3-42-0000984",
+    "task_type": "phrase_completion",
+    "loss": 0.10104590654373169,
+    "gradient_norm_before_clip": 8.878763198852539
+  },
+  {
+    "step": 50,
+    "example_id": "completion-v3-42-0000967",
+    "task_type": "phrase_completion",
+    "loss": 0.6350409388542175,
+    "gradient_norm_before_clip": 36.406124114990234
+  },
+  {
+    "step": 51,
+    "example_id": "completion-v3-42-0005141",
+    "task_type": "sentence_completion",
+    "loss": 0.00503810727968812,
+    "gradient_norm_before_clip": 0.22747306525707245
+  },
+  {
+    "step": 52,
+    "example_id": "completion-v3-42-0005141",
+    "task_type": "sentence_completion",
+    "loss": 0.004455606918781996,
+    "gradient_norm_before_clip": 1.4100806713104248
+  },
+  {
+    "step": 53,
+    "example_id": "completion-v3-42-0006535",
+    "task_type": "sentence_completion",
+    "loss": 0.0018830416956916451,
+    "gradient_norm_before_clip": 0.1257108747959137
+  },
+  {
+    "step": 54,
+    "example_id": "completion-v3-42-0005092",
+    "task_type": "sentence_completion",
+    "loss": 0.0743672177195549,
+    "gradient_norm_before_clip": 5.364902019500732
+  },
+  {
+    "step": 55,
+    "example_id": "completion-v3-42-0007593",
+    "task_type": "sentence_completion",
+    "loss": 0.0030241941567510366,
+    "gradient_norm_before_clip": 0.2208639234304428
+  },
+  {
+    "step": 56,
+    "example_id": "completion-v3-42-0007920",
+    "task_type": "sentence_completion",
+    "loss": 0.3905734121799469,
+    "gradient_norm_before_clip": 14.748363494873047
+  },
+  {
+    "step": 57,
+    "example_id": "completion-v3-42-0002416",
+    "task_type": "sentence_completion",
+    "loss": 0.0007221281994134188,
+    "gradient_norm_before_clip": 0.02276710979640484
+  },
+  {
+    "step": 58,
+    "example_id": "completion-v3-42-0002972",
+    "task_type": "sentence_completion",
+    "loss": 0.02680843137204647,
+    "gradient_norm_before_clip": 2.2206058502197266
+  },
+  {
+    "step": 59,
+    "example_id": "completion-v3-42-0002553",
+    "task_type": "sentence_completion",
+    "loss": 0.004900533705949783,
+    "gradient_norm_before_clip": 0.2948666214942932
+  },
+  {
+    "step": 60,
+    "example_id": "completion-v3-42-0005092",
+    "task_type": "sentence_completion",
+    "loss": 0.07716750353574753,
+    "gradient_norm_before_clip": 5.104920864105225
+  },
+  {
+    "step": 61,
+    "example_id": "completion-v3-42-0002416",
+    "task_type": "sentence_completion",
+    "loss": 0.0007161236717365682,
+    "gradient_norm_before_clip": 0.020503200590610504
+  },
+  {
+    "step": 62,
+    "example_id": "completion-v3-42-0001278",
+    "task_type": "sentence_completion",
+    "loss": 0.0852837860584259,
+    "gradient_norm_before_clip": 2.9266791343688965
+  },
+  {
+    "step": 63,
+    "example_id": "completion-v3-42-0000977",
+    "task_type": "phrase_completion",
+    "loss": 0.05083423852920532,
+    "gradient_norm_before_clip": 6.648525714874268
+  },
+  {
+    "step": 64,
+    "example_id": "completion-v3-42-0006632",
+    "task_type": "sentence_completion",
+    "loss": 0.0025567018892616034,
+    "gradient_norm_before_clip": 0.10214602947235107
+  }
+]

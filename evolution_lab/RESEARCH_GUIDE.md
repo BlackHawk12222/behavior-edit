@@ -1317,3 +1317,96 @@ recorded cache compatibility checks pass. The v3 development questions are
 already inspected and the F024 confirmation pool is retired, so this diagnostic
 cannot support generalization or promotion. A later confirmation needs newly
 generated family-disjoint examples and separate capability-preservation checks.
+
+### F026 — Task-order sensitivity interacts with the initialization seed
+
+Status: completed preregistered development diagnostic; adapter candidates remain
+quarantined; confirmation is not available from this study.
+
+F026 held the 64-example, family-disjoint F025 training cohort fixed (32 phrase
+and 32 sentence items; 16 singular and 16 plural sentence subjects), the
+16-phrase/48-sentence update ratio, optimizer, rank-4 q/v LoRA, 64 steps, model
+revision, and each seed's within-task example streams. It varied only the
+schedule seed that places the phrase and sentence updates in the 64-step
+sequence (901, 902, 903), crossed with two LoRA initialization/training seeds
+(42, 43). That produced six adapters and 384 training updates. It is an
+intervention on training sequence, not on example content or task ratio.
+
+All six adapters were evaluated on the same 428 phrase/sentence development
+questions already inspected in F025. The base scored 220/428 and the explicit
+prompt scored 264/428 in every run; those exact answers were checksum-verified
+and reused from cache. The adapter totals by training seed / schedule seed
+were:
+
+| Training seed | Schedule seed | Adapter correct | Random-edit correct | Phrase | Sentence |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 42 | 901 | 63/428 (14.7%) | 221/428 (51.6%) | 1/28 | 62/400 |
+| 42 | 902 | 84/428 (19.6%) | 222/428 (51.9%) | 4/28 | 80/400 |
+| 42 | 903 | 383/428 (89.5%) | 224/428 (52.3%) | 20/28 | 363/400 |
+| 43 | 901 | 384/428 (89.7%) | 207/428 (48.4%) | 20/28 | 364/400 |
+| 43 | 902 | 376/428 (87.9%) | 209/428 (48.8%) | 19/28 | 357/400 |
+| 43 | 903 | 375/428 (87.6%) | 209/428 (48.8%) | 20/28 | 355/400 |
+
+The trained and random adapters were norm matched per layer. Their global
+effective-delta Frobenius norms differed by less than 0.000003 in each run.
+The high-scoring adapters returned a single word on all 428 cases, while the
+low-scoring seed-42 schedules did so on only 4/428 and 17/428. This is
+consistent with broad output disruption under those two runs, not just a few
+wrong completions. The random-edit scores stayed close to the base in all six
+runs. The strong result under seed42/schedule903 and all seed43 schedules is
+therefore not reproduced by a random edit, but is not robust to every adapter
+initialization and order combination.
+
+Within seed 42, paired family bootstrap contrasts (5,000 resamples, 32
+families) showed schedule 903 minus 901 at +74.8 percentage points (324
+questions improved, 4 regressed; 95% interval +69.9 to +79.4), and schedule
+903 minus 902 at +69.9 points (313 improved, 14 regressed; +63.8 to +75.2).
+Schedule 902 minus 901 was +4.9 points (48 improved, 27 regressed; +1.9 to
++7.7). Within seed 43, differences were small: 902 minus 901 was −1.9 points
+(6 improved, 14 regressed; −3.5 to −0.2); 903 minus 901 was −2.1 (8 improved,
+17 regressed; −5.6 to +1.2); and 903 minus 902 was −0.2 (20 improved, 21
+regressed; −3.5 to +3.0). These intervals condition on the exposed question
+families and do not account for the small number of training seeds or schedule
+seeds.
+
+The engineering conclusion is that task order can radically change the
+outcome for this fixed cohort and one initialization, while another
+initialization is comparatively stable across these three orders. This is
+suggestive of an order-by-initialization interaction, not a generally useful
+schedule or a reliable model edit. The study does not compare different
+training-example content or quality; data identity, labeling, balance,
+repetition, and order all need to be tracked separately in future work.
+Only 428 previously inspected questions were used, including 28 phrase cases
+from 7 families. The v3 confirmation cases are retired after F024. No fresh
+generalization, broad preservation, causal neuron/weight explanation, or
+Astra transfer is established. Keep every adapter quarantined and do not tune
+on this exposed development set.
+
+The reproducible analysis validates every training manifest and step trace,
+checks the invariant per-task example streams, re-grades every raw response
+with the trusted answer key, verifies response/report hashes, and computes
+paired family-bootstrap contrasts:
+
+```sh
+PYTHONPATH=. python evolution_lab/evidence/f026_task_order_sensitivity/analyze_f026.py \
+  --output evolution_lab/evidence/f026_task_order_sensitivity/summary.json
+```
+
+All six training checkpoints, exact per-step traces, raw answers, reports,
+checksums, preregistration, and the analysis script are under
+`evidence/f026_task_order_sensitivity/`. The six evaluation campaigns contain
+10,272 response records: 5,136 new model generations and 5,136 verified cached
+base/prompt rows. They add zero unique questions. Software test counts are
+separate. Runs used the locally cached pinned Qwen2.5-0.5B-Instruct revision
+on CPU float32 in this executor; this is not a fresh Apple MPS result.
+
+**Confirmed in this diagnostic:** changing task-update order produced a very
+large score shift under seed 42 with the same examples and per-task streams;
+seed 43 did not show the same shift. **Tentative:** initialization and task
+order interact. **Not established:** which individual weights encode the
+behavior, whether the high-scoring change preserves other abilities, whether
+different data changes would help, or whether this transfers to a larger model.
+**Next:** build a separately preregistered factorial study of training-data
+content/quality and schedule across more training seeds, with family-disjoint
+fresh confirmation and unrelated capability/locality probes. Keep all exposed
+F025/F026 questions out of confirmation.

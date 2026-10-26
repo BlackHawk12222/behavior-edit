@@ -2299,7 +2299,7 @@
     },
     {
       "id": "completion-v3-task-order-sensitivity-f026",
-      "status": "preregistered-before-training",
+      "status": "complete-development-order-interaction-no-promotion",
       "preregistration": "evolution_lab/evidence/f026_task_order_sensitivity/preregistration.json",
       "preregistration_sha256": "98198380c6463a0a1d33b9b5015e113b0fadca535394e95490314259ac7368d9",
       "evidence_root": "evolution_lab/evidence/f026_task_order_sensitivity/",
@@ -2313,17 +2313,59 @@
       "planned_new_unique_questions": 0,
       "confirmation_consumed": false,
       "eligible_for_promotion": false,
-      "interpretation": "Development-only order-sensitivity diagnostic on previously inspected questions. It cannot confirm generalization or justify promotion."
+      "interpretation": "Development-only order-sensitivity diagnostic on previously inspected questions. It cannot confirm generalization or justify promotion.",
+      "completed_device": "cpu",
+      "completed_precision": "float32",
+      "training_seeds": [
+        42,
+        43
+      ],
+      "schedule_seeds": [
+        901,
+        902,
+        903
+      ],
+      "training_updates": 384,
+      "response_records": 10272,
+      "cache_hits": 5136,
+      "model_generations": 5136,
+      "unique_questions_added": 0,
+      "base_and_prompt_replay_verified": true,
+      "adapter_accuracy_by_condition": {
+        "seed42_schedule901": "63/428 (14.7%)",
+        "seed42_schedule902": "84/428 (19.6%)",
+        "seed42_schedule903": "383/428 (89.5%)",
+        "seed43_schedule901": "384/428 (89.7%)",
+        "seed43_schedule902": "376/428 (87.9%)",
+        "seed43_schedule903": "375/428 (87.6%)"
+      },
+      "random_accuracy_by_condition": {
+        "seed42_schedule901": "221/428 (51.6%)",
+        "seed42_schedule902": "222/428 (51.9%)",
+        "seed42_schedule903": "224/428 (52.3%)",
+        "seed43_schedule901": "207/428 (48.4%)",
+        "seed43_schedule902": "209/428 (48.8%)",
+        "seed43_schedule903": "209/428 (48.8%)"
+      },
+      "within_seed_schedule_contrasts": {
+        "seed42_schedule903_minus_901": "74.8 percentage points; paired family bootstrap 95% CI +69.9 to +79.4",
+        "seed42_schedule903_minus_902": "69.9 percentage points; paired family bootstrap 95% CI +63.8 to +75.2",
+        "seed43_schedule_differences": "between -2.1 and -0.2 percentage points; intervals include zero except 902 minus 901 small negative"
+      },
+      "result_summary": "Same fixed data and within-task streams yielded a huge schedule-order shift for seed 42 (14.7%, 19.6%, 89.5%), while seed 43 remained high (87.6%-89.7%). Norm-matched random edits stayed near base; high adapters beat prompt here. Suggestive order-by-initialization interaction only, since all 428 development questions were previously inspected and only two training seeds/three schedules were tested.",
+      "candidate_quarantined": true,
+      "summary": "F026 is a completed development-only diagnostic. It varied schedule seed while holding the fixed F025 cohort, task ratio, per-task example streams, optimizer, model revision and update count constant. Results show strong seed-dependent order sensitivity; do not generalize, promote or transfer.",
+      "software_tests_passed": 95
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
   "response_accounting_snapshot": {
-    "as_of_utc": "2026-10-26T00:54:51Z",
-    "response_ledger_files": 73,
-    "response_records": 40136,
+    "as_of_utc": "2026-10-26T02:36:16Z",
+    "response_ledger_files": 79,
+    "response_records": 50408,
     "unique_normalized_question_prompts": 2300,
     "question_families_with_responses": 328,
     "method": "Census of JSONL response ledgers under evolution_lab/evidence containing response, objective metrics, and an arm or condition. Deduplicated prompts by normalized_prompt_sha256 where present; repeated answers across arms, seeds, and studies remain separate response records. Generated but unevaluated examples, training updates, cached repeats, and software tests are counted separately.",
-    "note": "Includes F025: 10,272 response records on 428 previously inspected development questions, adding zero unique normalized question prompts. F025 is exploratory and did not consume confirmation data. The current software suite has 95 passing tests; test runs are separate from response counts."
+    "note": "Includes F025 and F026: each added 10,272 response records on 428 previously inspected development questions, adding zero unique normalized question prompts. F026 includes 5,136 new model generations plus 5,136 verified cached base/prompt responses. Both studies are exploratory and neither used confirmation data. The current software suite has 95 passing tests; test runs are separate from response counts."
   }
 }
