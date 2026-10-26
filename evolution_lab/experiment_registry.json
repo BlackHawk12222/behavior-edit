@@ -2296,6 +2296,24 @@
       "software_tests_passed": 90,
       "dataset_validation": "8,740-case completion dataset and 8-task CLI suite validation passed",
       "evidence_root": "evolution_lab/evidence/f025_fixed_support_exposure/"
+    },
+    {
+      "id": "completion-v3-task-order-sensitivity-f026",
+      "status": "preregistered-before-training",
+      "preregistration": "evolution_lab/evidence/f026_task_order_sensitivity/preregistration.json",
+      "preregistration_sha256": "481261c46eaec0581637b661ed41a20e4776202b483871f201611d88dcc4b250",
+      "evidence_root": "evolution_lab/evidence/f026_task_order_sensitivity/",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "training_design": "Fixed F025 64-example support, 16/48 phrase/sentence updates, task-specific streams, and optimizer; vary only schedule seed [901,902,903] crossed with training seed [42,43].",
+      "planned_training_updates": 384,
+      "planned_response_records": 10272,
+      "planned_cached_base_prompt_records": 5136,
+      "planned_new_model_generations": 5136,
+      "planned_new_unique_questions": 0,
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "interpretation": "Development-only order-sensitivity diagnostic on previously inspected questions. It cannot confirm generalization or justify promotion."
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
