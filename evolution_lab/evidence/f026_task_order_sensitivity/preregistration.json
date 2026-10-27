@@ -1,0 +1,108 @@
+{
+  "study_id": "completion-v3-task-order-sensitivity-f026",
+  "status": "preregistered-before-training",
+  "question": "With training examples and task exposure counts held fixed, does the order of phrase versus sentence updates change the adapted model's task-specific behavior or preservation profile?",
+  "hypotheses": {
+    "null": "Across randomized schedules, within each training seed the trained adapters have similar development scores and similar per-question outputs; observed differences are not practically stable across both training seeds.",
+    "alternative": "Changing only the schedule seed produces measurable differences in phrase/sentence outcomes or preservation, replicated in direction across both training seeds.",
+    "interpretation_limit": "Because the selected v3 development set has already been inspected, this is an order-sensitivity diagnostic only. It cannot establish generalization, promote an adapter, or validate a broad behavioral trait."
+  },
+  "intervention": {
+    "dataset": "evolution_lab/evidence/completion_v3",
+    "dataset_manifest_sha256": "a45d11db2616e0fdc9c90a4f89a896dc093bb944c74eb153e8d2b132105f422f",
+    "split": "train",
+    "cohort_manifest": "evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json",
+    "cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+    "training_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+    "example_count": 64,
+    "distinct_train_families": 64,
+    "task_type_counts": {
+      "phrase_completion": 32,
+      "sentence_completion": 32
+    },
+    "sentence_subject_number_counts": {
+      "singular": 16,
+      "plural": 16
+    },
+    "task_update_ratio": {
+      "phrase_completion": 16,
+      "sentence_completion": 48
+    },
+    "optimizer_steps": 64,
+    "training_seeds": [42, 43],
+    "schedule_seeds": [901, 902, 903],
+    "factor_varied": "schedule_seed only",
+    "fixed_across_schedule_seeds_within_each_training_seed": [
+      "base model revision",
+      "LoRA initialization seed",
+      "task-specific example streams and their order",
+      "fixed training cohort and update counts",
+      "optimizer and learning rate",
+      "adapter rank and target modules",
+      "maximum sequence length"
+    ],
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "device": "cpu",
+    "precision": "float32",
+    "lora_rank": 4,
+    "lora_alpha": 8,
+    "target_modules": ["q_proj", "v_proj"],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0005,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "max_length": 256
+  },
+  "evaluation": {
+    "split": "dev",
+    "questions": 428,
+    "question_families": 32,
+    "status": "previously inspected; exploratory only",
+    "arms": ["base", "task-matched prompt", "trained LoRA", "per-layer norm-matched random LoRA"],
+    "max_new_tokens": 16,
+    "decoding": "greedy",
+    "primary_outcomes": [
+      "correctness by phrase and sentence task type",
+      "sentence correctness by singular/plural subject number",
+      "paired family-cluster bootstrap contrasts",
+      "pass-to-fail regressions versus base, prompt and prior F025 order",
+      "effective delta norms and per-update example exposure"
+    ],
+    "locality_probe": "The completion-v3 dev split contains no broad arithmetic preservation panel. Reuse cached base/prompt rows for the same 428 prompts only; do not describe these target-task results as broad capability preservation.",
+    "baseline_cache_source": "evolution_lab/evidence/f025_fixed_support_exposure/evaluations/seed42_phrase16_sentence48",
+    "cache_policy": "Use only if checksum, dataset/questions, grader, prompts, model revision, requested settings, and resolved device/precision all match. Count imported rows as cache hits, never model generations.",
+    "confirmation": "Do not consume confirmation. F024 consumed the v3 confirmation families; retire them permanently."
+  },
+  "accounting": {
+    "planned_training_updates": 384,
+    "planned_evaluated_questions_per_campaign": 428,
+    "planned_campaigns": 6,
+    "planned_response_records": 10272,
+    "planned_cached_base_prompt_records": 5136,
+    "planned_new_model_generations": 5136,
+    "planned_new_unique_questions": 0,
+    "software_tests_are_separate": true
+  },
+  "decision_rules": {
+    "no_promotion": true,
+    "no_confirmation": true,
+    "do_not_train_on_dev_errors": true,
+    "do_not_select_schedule_seeds_after_viewing_scores": true,
+    "report_all_six_runs_even_if_unfavorable": true,
+    "claim_schedule_order_sensitivity_only_if": "Within-seed schedule differences exceed paired family uncertainty and show consistent task-specific or output changes across both training seeds; still label the result exploratory because all evaluations use previously inspected development data.",
+    "report_negligible_or_mixed_effects": "State if schedule-order variation is small, inconsistent across seeds, or uncertainty spans zero; do not interpret absence of clear evidence as proof that order never matters."
+  },
+  "reproduction_template": "python -m evolution_lab train-cases evolution_lab/evidence/completion_v3 --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --seed TRAIN_SEED --schedule-seed SCHEDULE_SEED --steps 64 --sampling-strategy task-ratio --cohort-manifest evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json --task-exposure-ratio phrase_completion=16,sentence_completion=48 --output-dir evolution_lab/evidence/f026_task_order_sensitivity/training/seedTRAIN_SEED_scheduleSCHEDULE_SEED",
+  "evaluation_command_template": "python -m evolution_lab case-eval evolution_lab/evidence/completion_v3 --split dev --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --max-new-tokens 16 --arms base prompt adapter random --adapter TRAIN_RUN/adapter_lora --random-adapter TRAIN_RUN/adapter_random --adapter-delta TRAIN_RUN/delta_lora.json --random-delta TRAIN_RUN/delta_random.json --baseline-cache-from evolution_lab/evidence/f025_fixed_support_exposure/evaluations/seed42_phrase16_sentence48 --output-dir evolution_lab/evidence/f026_task_order_sensitivity/evaluations/CONDITION",
+  "preregistered_at_utc": "2026-10-26T01:22:53Z",
+  "amendments": [
+    {
+      "amended_at_utc": "2026-10-26T01:27:33Z",
+      "reason": "The first evaluation preflight was rejected before model load because F025's compatible baseline campaign used max_new_tokens=16 while the current CLI default differed. No response was generated.",
+      "change": "Lock max_new_tokens=16 and greedy decoding to the source baseline campaign for all F026 evaluation arms.",
+      "scope": "Evaluation procedure only; all six training schedules, seeds, training examples, outcomes, and decision rules remain unchanged."
+    }
+  ],
+  "evidence_root": "evolution_lab/evidence/f026_task_order_sensitivity/"
+}

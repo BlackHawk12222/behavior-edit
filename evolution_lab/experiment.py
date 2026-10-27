@@ -43,10 +43,16 @@ def restore(model, state, torch):
             parameter.copy_(state[name].to(parameter.device))
 
 
-def training_sequence(examples, steps, seed, sampling_strategy="uniform"):
+def training_sequence(examples, steps, seed, sampling_strategy="uniform",
+                     task_exposure_ratio=None, schedule_seed=None,
+                     example_sampling="with-replacement"):
     """Return a deterministic training schedule for ablation-ready sampling."""
     if steps < 1 or not examples:
         raise ValueError("Training schedule requires examples and positive steps")
+    if example_sampling not in {"with-replacement", "without-replacement"}:
+        raise ValueError("Example sampling must be with-replacement or without-replacement")
+    if sampling_strategy != "task-ratio" and example_sampling != "with-replacement":
+        raise ValueError("Example sampling policy is only configurable for task-ratio sampling")
     rng = random.Random(seed)
     if sampling_strategy == "uniform":
         # Preserve the historical shuffled-epoch schedule exactly.
@@ -58,7 +64,75 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform"):
             sequence.append(order[step % len(order)])
         return sequence
     if sampling_strategy != "task-balanced":
-        raise ValueError(f"Unsupported sampling strategy: {sampling_strategy}")
+        if sampling_strategy != "task-ratio":
+            raise ValueError(f"Unsupported sampling strategy: {sampling_strategy}")
+
+        groups = {}
+        for example in examples:
+            kind = example.get("task_type", "default")
+            groups.setdefault(kind, []).append(example)
+        if len(groups) < 2:
+            raise ValueError("Task-ratio sampling requires at least two task types")
+        if not isinstance(task_exposure_ratio, dict) or set(task_exposure_ratio) != set(groups):
+            raise ValueError("Task-ratio weights must name every cohort task type exactly")
+        if any(type(value) is not int or value < 0 for value in task_exposure_ratio.values()):
+            raise ValueError("Task-ratio weights must be non-negative integers")
+        if sum(task_exposure_ratio.values()) != steps or not all(task_exposure_ratio.values()):
+            raise ValueError("Task-ratio counts must be positive and sum to the optimizer steps")
+
+        # Keep each task's example stream independent of the task ratio. Across
+        # paired conditions with the same seed, the same task-specific examples
+        # are therefore consumed in the same order; the intervention changes
+        # only the number and placement of exposures from each task.
+        import hashlib
+        task_streams = {}
+        task_positions = {kind: 0 for kind in groups}
+        for kind, group in groups.items():
+            digest = hashlib.sha256(f"{seed}:{kind}".encode()).digest()
+            stream_seed = int.from_bytes(digest[:8], "big")
+            stream_rng = random.Random(stream_seed)
+            if example_sampling == "with-replacement":
+                task_streams[kind] = [group[stream_rng.randrange(len(group))]
+                                      for _ in range(steps)]
+            else:
+                order = list(group)
+                stream = []
+                for position in range(steps):
+                    if position % len(order) == 0:
+                        stream_rng.shuffle(order)
+                    stream.append(order[position % len(order)])
+                task_streams[kind] = stream
+        if schedule_seed is None:
+            # Preserve the original task-ratio order exactly for old manifests
+            # and commands that did not register a separate order seed.
+            task_schedule = [kind for kind, count in sorted(task_exposure_ratio.items())
+                             for _ in range(count)]
+            random.Random(seed).shuffle(task_schedule)
+        else:
+            task_types = sorted(task_exposure_ratio)
+            if len(task_types) == 2:
+                # Common random positions couple paired ratios: the first task
+                # receives a nested prefix of one seeded position permutation.
+                # The model/data seed remains responsible for adapter init and
+                # within-task example streams, independently of task ordering.
+                positions = list(range(steps))
+                random.Random(schedule_seed).shuffle(positions)
+                first, second = task_types
+                first_positions = set(positions[:task_exposure_ratio[first]])
+                task_schedule = [first if position in first_positions else second
+                                 for position in range(steps)]
+            else:
+                # Keep the API usable for future multi-task cohorts. The
+                # two-task nested-position guarantee does not apply here.
+                task_schedule = [kind for kind, count in sorted(task_exposure_ratio.items())
+                                 for _ in range(count)]
+                random.Random(schedule_seed).shuffle(task_schedule)
+        sequence = []
+        for kind in task_schedule:
+            position = task_positions[kind]
+            sequence.append(task_streams[kind][position])
+            task_positions[kind] += 1
+        return sequence
 
     groups = {}
     for example in examples:
@@ -82,13 +156,16 @@ def training_sequence(examples, steps, seed, sampling_strategy="uniform"):
 
 
 def fit(local, examples, steps, learning_rate, max_length, seed,
-        sampling_strategy="uniform"):
+        sampling_strategy="uniform", task_exposure_ratio=None,
+        schedule_seed=None, example_sampling="with-replacement"):
     import torch
     params = list(adapter_parameters(local.model).values())
     for p in params:
         p.data = p.data.float()
     optimizer = torch.optim.AdamW(params, lr=learning_rate, foreach=False)
-    schedule = training_sequence(examples, steps, seed, sampling_strategy)
+    schedule = training_sequence(examples, steps, seed, sampling_strategy,
+                                 task_exposure_ratio, schedule_seed,
+                                 example_sampling)
     history = []
     local.model.config.use_cache = False
     local.model.train()
@@ -105,7 +182,8 @@ def fit(local, examples, steps, learning_rate, max_length, seed,
             optimizer.step()
             if any(not torch.isfinite(p).all().item() for p in params):
                 raise RuntimeError(f'Non-finite weights at step {step+1}')
-            history.append({'step':step+1,'example_id':ex['id'], 'loss':float(loss.detach()),
+            history.append({'step':step+1,'example_id':ex['id'], 'task_type':ex.get('task_type','default'),
+                            'loss':float(loss.detach()),
                             'gradient_norm_before_clip':float(norm)})
             print(f'train {step+1}/{steps}: loss={history[-1]["loss"]:.5f}', flush=True)
     finally:
@@ -114,14 +192,17 @@ def fit(local, examples, steps, learning_rate, max_length, seed,
     return history
 
 
-def norm_matched_random(model, torch, seed):
-    """Replace A/B by random factors, preserving each module's effective ΔW norm."""
+def norm_matched_random(model, torch, seed, adapter_name="default"):
+    """Randomize one adapter while preserving its per-module effective ΔW norms."""
     generator = torch.Generator(device='cpu').manual_seed(seed)
     with torch.no_grad():
         for module in model.modules():
-            if not hasattr(module, 'lora_A') or 'default' not in module.lora_A:
+            if (not hasattr(module, 'lora_A')
+                    or adapter_name not in module.lora_A
+                    or adapter_name not in module.lora_B):
                 continue
-            a, b = module.lora_A['default'].weight, module.lora_B['default'].weight
+            a = module.lora_A[adapter_name].weight
+            b = module.lora_B[adapter_name].weight
             ac, bc = a.detach().float().cpu(), b.detach().float().cpu()
             norm = torch.linalg.vector_norm(bc @ ac)
             ra = torch.randn(ac.shape, generator=generator, dtype=torch.float32)

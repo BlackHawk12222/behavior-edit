@@ -1,0 +1,29 @@
+{
+  "schema_version": 3,
+  "generator": "arithmetic-v3",
+  "seed": 20261026,
+  "shards": [
+    {
+      "file": "cases-confirmation-20261026-001200000-002048.jsonl",
+      "start": 1200000,
+      "count": 332,
+      "split": "confirmation",
+      "sha256": "15a3412c62896de5f0c52a0f388a8b1788e21bb88b0d095936255b6807075545"
+    },
+    {
+      "file": "cases-dev-20261026-001200000-002048.jsonl",
+      "start": 1200000,
+      "count": 312,
+      "split": "dev",
+      "sha256": "d49959545aa2074b990aa2133b56fa49b30a2e9243fb4aa2d6049c6e8784efc4"
+    },
+    {
+      "file": "cases-train-20261026-001200000-002048.jsonl",
+      "start": 1200000,
+      "count": 1404,
+      "split": "train",
+      "sha256": "fe55b224d9a5b32ee87cc8d284a4f0f8e2cd2cb3d73930db8ffe42c279e74755"
+    }
+  ],
+  "unique_cases": 2048
+}

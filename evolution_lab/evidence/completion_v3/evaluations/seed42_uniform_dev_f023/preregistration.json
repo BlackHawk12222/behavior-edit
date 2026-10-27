@@ -1,0 +1,67 @@
+{
+  "id": "F023",
+  "status": "preregistered-development-sampling-ablation-not-independent-confirmation",
+  "registered_at_utc": "2026-10-25T18:34:00+00:00",
+  "question": "Holding model, initialization seed, training pool, optimizer, update budget and evaluation questions fixed, does uniform sampling instead of task-balanced sampling change phrase and sentence behavior?",
+  "hypothesis": "Uniform sampling over the complete v3 train inventory will expose the adapter to far fewer phrase examples than task-balanced sampling; the resulting adapter will differ by task, potentially improving sentence performance while reducing phrase performance. This is a directional development hypothesis, not a promotion criterion.",
+  "single_changed_factor": "Training sampling strategy: uniform versus task-balanced. F021 seed-42 task-balanced is the comparator; F023 trains a seed-42 uniform adapter.",
+  "training_data": "Completion-v3 seed-42 train split only. Archive all sampled IDs, order, family IDs, task types, subject/attractor number and realized counts after training.",
+  "dataset_manifest_sha256": "a45d11db2616e0fdc9c90a4f89a896dc093bb944c74eb153e8d2b132105f422f",
+  "evaluation_data": "Completion-v3 seed-42 dev cases already inspected in F021/F022. Development only, not independent confirmation.",
+  "model": {
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "candidate_training": {
+    "seed": 42,
+    "updates": 64,
+    "rank": 4,
+    "alpha": 8,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0005,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "dropout": 0.0,
+    "max_length": 256,
+    "sampling_strategy": "uniform",
+    "device": "cpu",
+    "precision": "float32"
+  },
+  "comparison": "F021 seed-42 task-balanced adapter with otherwise identical training settings and the same dev cases. F022 verified F021 base and prompt answers exactly on all 428 cases; reuse those archived responses and generate only the F023 adapter and norm-matched random control. Reused rows are not new generations.",
+  "arms": [
+    "F023_base_replay",
+    "F023_prompt_replay",
+    "F023_uniform_adapter",
+    "F023_norm_matched_random"
+  ],
+  "primary_metrics": [
+    "phrase accuracy",
+    "sentence accuracy",
+    "sentence accuracy by subject number",
+    "paired family-bootstrap contrasts versus task-balanced F021, prompt, base and norm-matched random"
+  ],
+  "data_audit": [
+    "exact 64 sampled example IDs and order",
+    "task and family counts",
+    "sentence subject and attractor number counts",
+    "example overlap/unique count",
+    "per-layer effective LoRA delta"
+  ],
+  "analysis_rule": "Retain all responses and regressions; report task-specific outcomes and family-level uncertainty. No changes to candidate, prompt, metrics or settings after evaluation. Any contrast is limited to this model, seed and dev set. Example identities necessarily differ because the schedule determines which examples are sampled.",
+  "confirmation_rule": "Do not evaluate or tune on completion-v3 confirmation in F023. Inspected development questions remain development-only.",
+  "unique_question_accounting": "All 428 questions appeared in F021/F022; F023 adds zero unique questions. The current LoRA evaluator requires all four arms in a single campaign, so F023 will generate 1,712 responses (base, prompt, adapter, random). These are repeated generations on existing questions, not new unique cases. Base/prompt replay is additionally checked against F021/F022 for reproducibility.",
+  "protocol_amendments": [
+    {
+      "registered_at_utc": "2026-10-25T18:36:00+00:00",
+      "reason": "The evaluator enforces a fresh unedited base arm for paired comparisons. To preserve its validated paired-report path, add a base replay; continue reusing the F021 prompt output, which F022 independently replayed exactly across all 428 questions. This amendment precedes all F023 model generations."
+    },
+    {
+      "registered_at_utc": "2026-10-25T18:37:00+00:00",
+      "reason": "The evaluator also enforces prompt as well as base, adapter and random arms in each LoRA campaign. Run the complete four-arm paired campaign to retain its integrity checks. All four arms use the same 428 already inspected development cases; this adds responses but no unique questions. This amendment precedes all F023 model generations."
+    }
+  ]
+}

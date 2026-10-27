@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "kind": "fixed_equal_case_adapter_mixture",
+  "sources": {
+    "source_run_ids": [
+      "20261025T171914_852902Z",
+      "20261025T183332_756576Z"
+    ],
+    "source_sampling_strategies": [
+      "task-balanced",
+      "uniform"
+    ],
+    "source_adapter_hashes": [
+      {
+        "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+        "adapter_config.json": "62612864719f5eb99316a6c9006c71da9b336bb30bbc4ea4deb81ff4514de739",
+        "adapter_model.safetensors": "a7dc6d683d52a663273ab2527659813d5af1f1707942033cbe9cb0e73a3edb88"
+      },
+      {
+        "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+        "adapter_config.json": "5e1b6a8bdca8e357ab2f25ed3e517c09a83dcd28f79b46f7e23882e6ac8344fc",
+        "adapter_model.safetensors": "0b7161db87b66271fdf57dc3b5311ba69d7a1a93914fde94345abd485c82444b"
+      }
+    ],
+    "source_manifest_fingerprints": [
+      "acaab7e0a0ecb8d446207ec066bf48a88ff86d31939ad226669580cfdf3bf829",
+      "9b3593d65f04a3cf1666e7fa2fd5862975681e301a2bb985cc5d73c13e94bdfa"
+    ],
+    "source_training_example_counts": [
+      64,
+      64
+    ],
+    "shared_training_example_ids": 0,
+    "training_example_union": 128,
+    "coefficients": [
+      0.5,
+      0.5
+    ],
+    "combination": "PEFT weighted-adapter concatenation; exact effective-delta sum"
+  },
+  "model_id": "/Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775",
+  "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "634b84b44578ea9e34abf5086ab5cd07948a69b8",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": null
+    }
+  },
+  "mixture_rank": 8,
+  "base_settings": {
+    "steps": 64,
+    "rank": 4,
+    "lora_alpha": 8,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.0005,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "max_length": 256,
+    "precision": "float32",
+    "decoding": "greedy",
+    "sampling_strategy": "task-balanced"
+  },
+  "warning": "Nonlearned equal mixture of two development-trained adapters. Rank is the sum of source ranks; this is a comparator, not an independent result or rank-matched learned model.",
+  "random_norm_match": {
+    "tolerance_relative": 0.0001,
+    "maximum_relative_error": 5.304140229533354e-06,
+    "global_relative_error": 6.052252437045363e-07,
+    "adapted_modules": 48
+  },
+  "adapter_hashes": {
+    "mixture": {
+      "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+      "adapter_config.json": "d3acd42b835941ae33e559f4bdd58435be180eaba1098841969b5e1f92beeeb7",
+      "adapter_model.safetensors": "7ce7b839c60e77a0e4af1f46ffd5cc07ce797bda2f380274a55b0f2979092747"
+    },
+    "random": {
+      "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+      "adapter_config.json": "d3acd42b835941ae33e559f4bdd58435be180eaba1098841969b5e1f92beeeb7",
+      "adapter_model.safetensors": "5dcd46e5a9c1dab663f55cb39f5b4c5c06aa206e19db7687a6bdef01bcd88f19"
+    },
+    "lora": {
+      "README.md": "907e2e6f17831e0f0ce708e3e31366d28c92914f070186d2980901dba9718472",
+      "adapter_config.json": "d3acd42b835941ae33e559f4bdd58435be180eaba1098841969b5e1f92beeeb7",
+      "adapter_model.safetensors": "7ce7b839c60e77a0e4af1f46ffd5cc07ce797bda2f380274a55b0f2979092747"
+    }
+  },
+  "delta_hashes": {
+    "mixture": "9a1cda12b67a73023eb73c8d5ab276fc35f2f722986c63d0bcd4a9ead793a2f6",
+    "random": "b4b28a783f3db78e809f1e488ba575aa041764540b4e53103de80bbb94271276"
+  }
+}

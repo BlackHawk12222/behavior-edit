@@ -1038,7 +1038,1941 @@
       "candidate_quarantined": true,
       "eligible_for_promotion": false,
       "summary": "The edit beat base and the norm-matched random control on aggregate development completion, but did not establish an advantage over the explicit prompt. Phrase accuracy was below base. Post-hoc sentence analysis showed perfect plural-subject agreement and poor singular-subject agreement despite near-balanced sentence training updates. Treat as an exploratory edit-direction bias; do not promote or consume confirmation."
+    },
+    {
+      "id": "completion-v3-balanced-lora-seed-replication-f022",
+      "status": "development-seed-replication-no-independent-confirmation",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 43,
+      "training": {
+        "updates": 64,
+        "rank": 4,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "sampling_strategy": "task-balanced",
+        "actual_task_counts": {
+          "phrase_completion": 32,
+          "sentence_completion": 32
+        },
+        "sentence_subject_number_counts": {
+          "singular": 21,
+          "plural": 11
+        }
+      },
+      "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+      "split": "dev",
+      "unique_questions": 428,
+      "new_unique_questions_beyond_F021": 0,
+      "model_generations": 1712,
+      "scores": {
+        "base": "227/428",
+        "prompt": "264/428",
+        "seed43_adapter": "284/428",
+        "norm_matched_random": "215/428",
+        "adapter_phrase": "14/28",
+        "adapter_sentence": "270/400",
+        "adapter_plural_subject": "200/200",
+        "adapter_singular_subject": "70/200"
+      },
+      "adapter_minus_prompt": {
+        "delta_pp": 4.67,
+        "family_bootstrap95_pp": [
+          -1.64,
+          11.21
+        ],
+        "improved": 69,
+        "regressed": 49
+      },
+      "cross_seed_repeat": {
+        "identical_responses_sentences": "367/400",
+        "identical_responses_phrases": "11/28",
+        "both_plural": "200/200"
+      },
+      "confirmation_consumed": false,
+      "candidate_quarantined": true,
+      "eligible_for_promotion": false,
+      "protocol_registered_before_model_evaluation": true,
+      "evidence": "evolution_lab/evidence/completion_v3/evaluations/seed43_balanced_dev_f022/import_manifest.json",
+      "summary": "On the same already-inspected dev set, seed 43 repeats a strong plural preference despite a training sample with 21 singular and 11 plural subjects. Adapter-versus-prompt uncertainty includes zero and phrase accuracy is below base and prompt. This is a training-seed replication on old dev questions, not new generalization. Counts alone do not explain behavior; exact examples and optimization path also vary."
+    },
+    {
+      "id": "completion-v3-sampling-schedule-ablation-f023",
+      "status": "strong-development-signal-no-independent-confirmation-candidate-quarantined",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "seed": 42,
+      "intervention": "Uniform sampling vs F021 task-balanced sampler at fixed seed and training settings",
+      "training": {
+        "updates": 64,
+        "rank": 4,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "sampling_strategy": "uniform",
+        "actual_task_counts": {
+          "phrase_completion": 1,
+          "sentence_completion": 63
+        },
+        "sentence_subject_number_counts": {
+          "plural": 35,
+          "singular": 28
+        },
+        "sentence_attractor_number_counts": {
+          "plural": 23,
+          "singular": 40
+        },
+        "unique_example_ids": 64,
+        "distinct_families": 60
+      },
+      "comparator": "F021 seed-42 task-balanced; 32 phrase and 32 sentence updates",
+      "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+      "split": "dev",
+      "unique_questions": 428,
+      "new_unique_questions": 0,
+      "planned_model_generations": 1712,
+      "confirmation_consumed": false,
+      "candidate_quarantined": true,
+      "eligible_for_promotion": false,
+      "protocol": "evolution_lab/evidence/completion_v3/evaluations/seed42_uniform_dev_f023/preregistration.json",
+      "training_sample_audit": "evolution_lab/evidence/completion_v3/evaluations/seed42_uniform_dev_f023/training_sample_audit.json",
+      "summary": "Strong preregistered development result: uniform-sample adapter gains 26.2pp over prompt and 23.4pp over seed-42 task-balanced adapter, mostly by improving singular-subject sentences. Phrase performance remains below base. All test questions were already inspected; the samplers chose disjoint exact training samples. This shows the full training schedule can change behavior on this benchmark but does not isolate phrase frequency, generalize independently, show capability preservation or support transfer. Adapter remains quarantined; confirmation untouched.",
+      "model_generations": 1712,
+      "scores": {
+        "base": "227/428",
+        "prompt": "264/428",
+        "uniform_adapter": "376/428",
+        "norm_matched_random": "227/428",
+        "uniform_phrase": "18/28",
+        "uniform_sentence": "358/400",
+        "uniform_singular_subject": "159/200",
+        "uniform_plural_subject": "199/200"
+      },
+      "uniform_minus_prompt": {
+        "delta_pp": 26.17,
+        "family_bootstrap95_pp": [
+          20.79,
+          31.31
+        ],
+        "improved": 129,
+        "regressed": 17
+      },
+      "uniform_minus_balanced_F021": {
+        "delta_pp": 23.36,
+        "family_bootstrap95_pp": [
+          16.36,
+          29.67
+        ],
+        "improved": 109,
+        "regressed": 9,
+        "sentence_delta_pp": 25.25,
+        "sentence_family_bootstrap95_pp": [
+          17.75,
+          32.0
+        ],
+        "phrase_family_bootstrap95_pp": [
+          -25.0,
+          14.29
+        ]
+      },
+      "full_training_inventory": {
+        "total": 7880,
+        "phrase_completion": 136,
+        "sentence_completion": 7744,
+        "phrase_fraction": 0.017258883248730966
+      },
+      "training_example_overlap_with_F021": 0,
+      "baseline_replay_identical_to_F021": {
+        "base": "428/428",
+        "prompt": "428/428"
+      },
+      "evidence": "evolution_lab/evidence/completion_v3/evaluations/seed42_uniform_dev_f023/import_manifest.json",
+      "effective_weight_delta": {
+        "global_frobenius_norm": 1.8941639918142315,
+        "adapted_modules": 48,
+        "random_control_global_frobenius_norm": 1.8941667110736127,
+        "max_per_layer_relative_norm_mismatch": 6.955905825966156e-06
+      },
+      "software_tests_passed": 80
+    },
+    {
+      "id": "completion-v3-frozen-confirmation-f024",
+      "status": "completed-frozen-confirmation-no-promotion-candidate-quarantined",
+      "protocol": "evolution_lab/evidence/f024_frozen_confirmation/preregistration.json",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu",
+      "precision": "float32",
+      "frozen_candidate": "evolution_lab/evidence/completion_v3/evaluations/seed42_uniform_dev_f023/adapter_lora",
+      "completion_confirmation": {
+        "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+        "split": "confirmation",
+        "unique_questions": 432,
+        "phrase_questions": 32,
+        "sentence_questions": 400,
+        "families": 33,
+        "consumed": true,
+        "retire_after_F024": true
+      },
+      "capability_probe": {
+        "dataset": "evolution_lab/evidence/casegen_f024_arithmetic_locality/manifest.json",
+        "seed": 20261025,
+        "start": 1000000,
+        "generated_cases": 2048,
+        "split": "confirmation",
+        "unique_questions": 312,
+        "families": 78,
+        "new_prompt_overlap_with_prior_response_ledgers": 0,
+        "consumed": true
+      },
+      "fixed_mixture": {
+        "sources": [
+          "F021 seed-42 task-balanced",
+          "F023 seed-42 uniform"
+        ],
+        "coefficients": [
+          0.5,
+          0.5
+        ],
+        "rank": 8,
+        "shared_training_ids": 0,
+        "rank_budget_matched": false
+      },
+      "arms": [
+        "base",
+        "prompt",
+        "frozen_candidate",
+        "candidate_norm_matched_random",
+        "fixed_equal_mixture",
+        "mixture_norm_matched_random"
+      ],
+      "planned_model_generations": 4704,
+      "planned_unique_questions": 744,
+      "confirmation_consumed": true,
+      "holdout_retirement": "Completion confirmation families are retired from later candidate tuning once F024 responses are collected.",
+      "model_generations": 4704,
+      "unique_questions": 744,
+      "candidate_quarantined": true,
+      "eligible_for_promotion": false,
+      "evidence": "evolution_lab/evidence/f024_frozen_confirmation/import_manifest.json",
+      "results": {
+        "completion_candidate": {
+          "correct": "409/432",
+          "phrase": "19/32",
+          "sentence": "390/400",
+          "minus_prompt_pp": 33.56,
+          "minus_prompt_family_bootstrap95_pp": [
+            28.7,
+            37.73
+          ],
+          "improved_vs_prompt": 150,
+          "regressed_vs_prompt": 5
+        },
+        "fixed_equal_mixture": {
+          "correct": "388/432",
+          "phrase": "17/32",
+          "sentence": "371/400",
+          "minus_prompt_pp": 28.7,
+          "minus_prompt_family_bootstrap95_pp": [
+            23.61,
+            33.56
+          ]
+        },
+        "candidate_minus_mixture": {
+          "delta_pp": 4.86,
+          "family_bootstrap95_pp": [
+            2.08,
+            8.1
+          ],
+          "improved": 31,
+          "regressed": 10
+        },
+        "base_replays_identical": "432/432",
+        "prompt_replays_identical": "432/432",
+        "arithmetic_candidate": "99/312",
+        "arithmetic_prompt": "155/312",
+        "arithmetic_base": "54/312",
+        "arithmetic_norm_matched_random": "54/312",
+        "arithmetic_candidate_minus_prompt_pp": -17.95,
+        "arithmetic_minus_prompt_family_bootstrap95_pp": [
+          -23.4,
+          -12.82
+        ],
+        "arithmetic_candidate_minus_base_pp": 14.42,
+        "arithmetic_minus_base_family_bootstrap95_pp": [
+          10.58,
+          18.27
+        ]
+      },
+      "protocol_deviations": [
+        "Evaluator progress output exposed base-arm correctness indicators for the first 325/432 completion cases before detection; no protocol or candidate changes followed.",
+        "Two zero-generation preflight failures were documented before retries: use of model alias instead of recorded local snapshot path for mixture; and use of archived adapter without its sibling run manifest for arithmetic. Retries used the same pinned model and checkpoint hashes."
+      ],
+      "summary": "Frozen uniform adapter independently confirms strong narrow sentence-completion gains over prompt, base and norm-matched random on 432 untouched questions, while phrase performance remains below base. It exceeds the fixed equal mixture by 4.9 points. On 312 fresh arithmetic questions it scores 99/312: above weak base/random (54/312) but below prompt (155/312) by 17.9 points. The candidate does not meet broad capability-preservation or promotion criteria. Retire both confirmation families; no later tuning on these cases."
+    },
+    {
+      "id": "completion-v3-fixed-support-task-exposure-f025",
+      "status": "completed-exploratory-development-only-no-promotion",
+      "protocol": "evolution_lab/evidence/f025_fixed_support_exposure/preregistration.json",
+      "analysis": "evolution_lab/evidence/f025_fixed_support_exposure/summary.json",
+      "analysis_script": "evolution_lab/evidence/f025_fixed_support_exposure/analyze_f025.py",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "device": "cpu (MPS unavailable in this process)",
+      "precision": "float32",
+      "fixed_training_cohort": {
+        "manifest": "evolution_lab/evidence/f025_fixed_support_exposure/training_cohort/manifest.json",
+        "cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+        "unique_examples": 64,
+        "families": 64,
+        "task_counts": {
+          "phrase_completion": 32,
+          "sentence_completion": 32
+        },
+        "sentence_subjects": {
+          "singular": 16,
+          "plural": 16
+        },
+        "source_split": "train",
+        "examples_reused_across_treatments": true,
+        "sampling_with_replacement": true,
+        "all_example_ids_and_per_update_losses_saved": true
+      },
+      "training": {
+        "training_seeds": [
+          42,
+          43
+        ],
+        "task_update_allocations": {
+          "phrase1_sentence63": [
+            1,
+            63
+          ],
+          "phrase16_sentence48": [
+            16,
+            48
+          ],
+          "phrase32_sentence32": [
+            32,
+            32
+          ]
+        },
+        "optimizer_updates_per_run": 64,
+        "total_optimizer_updates": 384,
+        "rank": 4,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "optimizer": "AdamW",
+        "learning_rate": 0.0005,
+        "data_factor_scope": "The complete task exposure schedule, including deterministic update order, changes; update count is not isolated from order.",
+        "actual_unique_examples_and_repeat_counts_are_recorded_per_run": true
+      },
+      "evaluation": {
+        "dataset": "evolution_lab/evidence/completion_v3/manifest.json",
+        "split": "previously inspected dev; exploratory only",
+        "unique_questions": 428,
+        "new_unique_questions_beyond_prior_evidence": 0,
+        "families": 32,
+        "phrase_questions": 28,
+        "phrase_families": 7,
+        "sentence_questions": 400,
+        "sentence_families": 25,
+        "arms": [
+          "base",
+          "prompt",
+          "adapter",
+          "norm_matched_random"
+        ],
+        "model_response_records": 10272,
+        "unique_prompt_hashes": 428,
+        "conditions": {
+          "seed42_phrase1_sentence63": {
+            "training": {
+              "training_manifest_sha256": "0ea653fa497f1ea69bca334d615c16f9b4f04814167b9b10d68094a81cbe1a9e",
+              "training_trace_sha256": "98d6e0622e5b622351238e27dd90cb63cb0f0c848c32a5f0644ea1c600217dd8",
+              "training_update_log_sha256": "69d0bf09ea3bf8d5bdf6e79fd4f8238eb3e42a1e19e21c3d0f61d9824c7b0a22",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 1,
+                "sentence_completion": 63
+              },
+              "unique_examples_seen_total": 27,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 1,
+                "sentence_completion": 26
+              },
+              "max_repeats_of_one_example": 5
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 334,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 315,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 200,
+                    "questions": 200,
+                    "accuracy": 1.0
+                  },
+                  "singular": {
+                    "correct": 115,
+                    "questions": 200,
+                    "accuracy": 0.575
+                  }
+                }
+              },
+              "random": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 123,
+                    "questions": 200,
+                    "accuracy": 0.615
+                  },
+                  "singular": {
+                    "correct": 73,
+                    "questions": 200,
+                    "accuracy": 0.365
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 16.36,
+              "paired_family_bootstrap95_percentage_points": [
+                8.88,
+                23.36
+              ],
+              "improved": 101,
+              "regressed": 31
+            }
+          },
+          "seed42_phrase16_sentence48": {
+            "training": {
+              "training_manifest_sha256": "1a850ce2f148187bf7a02fc0f4c703b2f8fd27ed9452264567560462ad5604fc",
+              "training_trace_sha256": "f23f17bb600788c0a23c62f26da0e0b36514555627f22fb9fb352be57692a547",
+              "training_update_log_sha256": "c3b6069d34d2cd1f2400b6f9bdb732470e3e7521fb2b50e3c3b1173c78d30754",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 16,
+                "sentence_completion": 48
+              },
+              "unique_examples_seen_total": 36,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 12,
+                "sentence_completion": 24
+              },
+              "max_repeats_of_one_example": 5
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 369,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 20,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 349,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 196,
+                    "questions": 200,
+                    "accuracy": 0.98
+                  },
+                  "singular": {
+                    "correct": 153,
+                    "questions": 200,
+                    "accuracy": 0.765
+                  }
+                }
+              },
+              "random": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 124,
+                    "questions": 200,
+                    "accuracy": 0.62
+                  },
+                  "singular": {
+                    "correct": 72,
+                    "questions": 200,
+                    "accuracy": 0.36
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 24.53,
+              "paired_family_bootstrap95_percentage_points": [
+                18.46,
+                30.61
+              ],
+              "improved": 120,
+              "regressed": 15
+            }
+          },
+          "seed42_phrase32_sentence32": {
+            "training": {
+              "training_manifest_sha256": "eade888dba6ac038c42d5dfcb1f288f37a1fed628fecba9ccfbacca596178867",
+              "training_trace_sha256": "bfeea5723a6377abd317ba410282f15a555c2e40c6827d10131301163d05a004",
+              "training_update_log_sha256": "bbfdb84bb8014d378c477c50ecbe2776fcac884b153688b6d7fa6713e2988905",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 32,
+                "sentence_completion": 32
+              },
+              "unique_examples_seen_total": 40,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 21,
+                "sentence_completion": 19
+              },
+              "max_repeats_of_one_example": 4
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 367,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 18,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 349,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 200,
+                    "questions": 200,
+                    "accuracy": 1.0
+                  },
+                  "singular": {
+                    "correct": 149,
+                    "questions": 200,
+                    "accuracy": 0.745
+                  }
+                }
+              },
+              "random": {
+                "correct": 224,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 200,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 125,
+                    "questions": 200,
+                    "accuracy": 0.625
+                  },
+                  "singular": {
+                    "correct": 75,
+                    "questions": 200,
+                    "accuracy": 0.375
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 24.07,
+              "paired_family_bootstrap95_percentage_points": [
+                19.63,
+                28.5
+              ],
+              "improved": 118,
+              "regressed": 15
+            }
+          },
+          "seed43_phrase1_sentence63": {
+            "training": {
+              "training_manifest_sha256": "bf4e0bc3a724d173b35c7d4de6e2d2722f265eade1a90a5823bbec321080dbe3",
+              "training_trace_sha256": "f7d92824db894e263ab6672bd6916d4cfc04a90a4e422b09edb047d04e0d0105",
+              "training_update_log_sha256": "84ef679d2ce939327ddc3ed35e3b35f2585cfdb9808ae16a4b9b1bcba2037147",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 1,
+                "sentence_completion": 63
+              },
+              "unique_examples_seen_total": 27,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 1,
+                "sentence_completion": 26
+              },
+              "max_repeats_of_one_example": 7
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 375,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 18,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 357,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 173,
+                    "questions": 200,
+                    "accuracy": 0.865
+                  },
+                  "singular": {
+                    "correct": 184,
+                    "questions": 200,
+                    "accuracy": 0.92
+                  }
+                }
+              },
+              "random": {
+                "correct": 208,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 184,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 103,
+                    "questions": 200,
+                    "accuracy": 0.515
+                  },
+                  "singular": {
+                    "correct": 81,
+                    "questions": 200,
+                    "accuracy": 0.405
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 25.93,
+              "paired_family_bootstrap95_percentage_points": [
+                20.33,
+                31.54
+              ],
+              "improved": 133,
+              "regressed": 22
+            }
+          },
+          "seed43_phrase16_sentence48": {
+            "training": {
+              "training_manifest_sha256": "cd60448e0ee7110f33c7ca7b26ebefc6af6dba602450e45e5158034ebb72388b",
+              "training_trace_sha256": "6bc60d664287f296c76a7d3ce0a02afdf4981468921751a3bd03f5c35dba06a5",
+              "training_update_log_sha256": "e96b892217c25a6a42c5c8df35d181775735e86816befb32ff0763d0e363c925",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 16,
+                "sentence_completion": 48
+              },
+              "unique_examples_seen_total": 35,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 10,
+                "sentence_completion": 25
+              },
+              "max_repeats_of_one_example": 6
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 377,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 20,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 357,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 173,
+                    "questions": 200,
+                    "accuracy": 0.865
+                  },
+                  "singular": {
+                    "correct": 184,
+                    "questions": 200,
+                    "accuracy": 0.92
+                  }
+                }
+              },
+              "random": {
+                "correct": 207,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 183,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 103,
+                    "questions": 200,
+                    "accuracy": 0.515
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 26.4,
+              "paired_family_bootstrap95_percentage_points": [
+                20.79,
+                31.78
+              ],
+              "improved": 133,
+              "regressed": 20
+            }
+          },
+          "seed43_phrase32_sentence32": {
+            "training": {
+              "training_manifest_sha256": "eb780855a06ea827dd20199ed6bd9effd8b01b2cf6900a6ca55718b1e55f9ad4",
+              "training_trace_sha256": "24a9309acd1f274c86c79900a5415b60cedb49f448b6c04cb704b1b8914f5c4a",
+              "training_update_log_sha256": "343c23d0fd96becde6e98094a0dee170c97748c6a8444f8d3b92039c7c7215ab",
+              "fixed_cohort_data_sha256": "26b95e5363bbb52ceb2edfdffb4eaf89320a265ae4abab598d7157d6c0d6454c",
+              "fixed_cohort_manifest_sha256": "8316100e4a1caf90bebd9bc4d354ac3035d68258b7924be662616dfd38305f9e",
+              "optimizer_updates": 64,
+              "task_update_exposures": {
+                "phrase_completion": 32,
+                "sentence_completion": 32
+              },
+              "unique_examples_seen_total": 39,
+              "unique_examples_seen_by_task": {
+                "phrase_completion": 19,
+                "sentence_completion": 20
+              },
+              "max_repeats_of_one_example": 4
+            },
+            "scores": {
+              "base": {
+                "correct": 220,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 196,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 116,
+                    "questions": 200,
+                    "accuracy": 0.58
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              },
+              "prompt": {
+                "correct": 264,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 19,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 245,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 158,
+                    "questions": 200,
+                    "accuracy": 0.79
+                  },
+                  "singular": {
+                    "correct": 87,
+                    "questions": 200,
+                    "accuracy": 0.435
+                  }
+                }
+              },
+              "adapter": {
+                "correct": 367,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 14,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 353,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 193,
+                    "questions": 200,
+                    "accuracy": 0.965
+                  },
+                  "singular": {
+                    "correct": 160,
+                    "questions": 200,
+                    "accuracy": 0.8
+                  }
+                }
+              },
+              "random": {
+                "correct": 209,
+                "questions": 428,
+                "by_task_type": {
+                  "phrase_completion": {
+                    "correct": 24,
+                    "questions": 28
+                  },
+                  "sentence_completion": {
+                    "correct": 185,
+                    "questions": 400
+                  }
+                },
+                "sentence_by_subject_number": {
+                  "plural": {
+                    "correct": 105,
+                    "questions": 200,
+                    "accuracy": 0.525
+                  },
+                  "singular": {
+                    "correct": 80,
+                    "questions": 200,
+                    "accuracy": 0.4
+                  }
+                }
+              }
+            },
+            "adapter_minus_prompt": {
+              "percentage_points": 24.07,
+              "paired_family_bootstrap95_percentage_points": [
+                18.22,
+                29.67
+              ],
+              "improved": 126,
+              "regressed": 23
+            }
+          }
+        },
+        "within_seed_exposure_contrasts": {
+          "seed42_phrase16_sentence48_minus_phrase1_sentence63": {
+            "percentage_points": 8.18,
+            "paired_family_bootstrap95_percentage_points": [
+              4.21,
+              12.38
+            ]
+          },
+          "seed42_phrase32_sentence32_minus_phrase16_sentence48": {
+            "percentage_points": -0.47,
+            "paired_family_bootstrap95_percentage_points": [
+              -4.21,
+              3.04
+            ]
+          },
+          "seed42_phrase32_sentence32_minus_phrase1_sentence63": {
+            "percentage_points": 7.71,
+            "paired_family_bootstrap95_percentage_points": [
+              1.87,
+              13.79
+            ]
+          },
+          "seed43_phrase16_sentence48_minus_phrase1_sentence63": {
+            "percentage_points": 0.47,
+            "paired_family_bootstrap95_percentage_points": [
+              -1.87,
+              2.57
+            ]
+          },
+          "seed43_phrase32_sentence32_minus_phrase16_sentence48": {
+            "percentage_points": -2.34,
+            "paired_family_bootstrap95_percentage_points": [
+              -6.31,
+              2.1
+            ]
+          },
+          "seed43_phrase32_sentence32_minus_phrase1_sentence63": {
+            "percentage_points": -1.87,
+            "paired_family_bootstrap95_percentage_points": [
+              -5.84,
+              3.04
+            ]
+          }
+        },
+        "base_and_prompt_replay_checks": {
+          "seed42_phrase16_sentence48_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed42_phrase16_sentence48_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed42_phrase32_sentence32_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed42_phrase32_sentence32_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase16_sentence48_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase16_sentence48_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase32_sentence32_base": {
+            "identical_responses": 428,
+            "questions": 428
+          },
+          "seed43_phrase32_sentence32_prompt": {
+            "identical_responses": 428,
+            "questions": 428
+          }
+        },
+        "confirmation_consumed": false,
+        "eligible_for_promotion": false,
+        "candidate_quarantined": true
+      },
+      "conclusion": "All six adapters beat the task-matched prompt on the previously inspected development set, but phrase accuracy stayed below base for every adapter. More phrase updates did not show a consistent dose-response across two seeds; sentence/task tradeoffs varied by seed. The fixed support set removes example-identity changes between ratios, but schedule order remains coupled to update allocation, sampling is with replacement, and only two seeds and seven phrase families are represented. No independent generalization, broad preservation, trait-map or Astra-transfer claim is supported.",
+      "software_tests_passed": 90,
+      "dataset_validation": "8,740-case completion dataset and 8-task CLI suite validation passed",
+      "evidence_root": "evolution_lab/evidence/f025_fixed_support_exposure/"
+    },
+    {
+      "id": "completion-v3-task-order-sensitivity-f026",
+      "status": "complete-development-order-interaction-no-promotion",
+      "preregistration": "evolution_lab/evidence/f026_task_order_sensitivity/preregistration.json",
+      "preregistration_sha256": "98198380c6463a0a1d33b9b5015e113b0fadca535394e95490314259ac7368d9",
+      "evidence_root": "evolution_lab/evidence/f026_task_order_sensitivity/",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "training_design": "Fixed F025 64-example support, 16/48 phrase/sentence updates, task-specific streams, and optimizer; vary only schedule seed [901,902,903] crossed with training seed [42,43].",
+      "planned_training_updates": 384,
+      "planned_response_records": 10272,
+      "planned_cached_base_prompt_records": 5136,
+      "planned_new_model_generations": 5136,
+      "planned_new_unique_questions": 0,
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "interpretation": "Development-only order-sensitivity diagnostic on previously inspected questions. It cannot confirm generalization or justify promotion.",
+      "completed_device": "cpu",
+      "completed_precision": "float32",
+      "training_seeds": [
+        42,
+        43
+      ],
+      "schedule_seeds": [
+        901,
+        902,
+        903
+      ],
+      "training_updates": 384,
+      "response_records": 10272,
+      "cache_hits": 5136,
+      "model_generations": 5136,
+      "unique_questions_added": 0,
+      "base_and_prompt_replay_verified": true,
+      "adapter_accuracy_by_condition": {
+        "seed42_schedule901": "63/428 (14.7%)",
+        "seed42_schedule902": "84/428 (19.6%)",
+        "seed42_schedule903": "383/428 (89.5%)",
+        "seed43_schedule901": "384/428 (89.7%)",
+        "seed43_schedule902": "376/428 (87.9%)",
+        "seed43_schedule903": "375/428 (87.6%)"
+      },
+      "random_accuracy_by_condition": {
+        "seed42_schedule901": "221/428 (51.6%)",
+        "seed42_schedule902": "222/428 (51.9%)",
+        "seed42_schedule903": "224/428 (52.3%)",
+        "seed43_schedule901": "207/428 (48.4%)",
+        "seed43_schedule902": "209/428 (48.8%)",
+        "seed43_schedule903": "209/428 (48.8%)"
+      },
+      "within_seed_schedule_contrasts": {
+        "seed42_schedule903_minus_901": "74.8 percentage points; paired family bootstrap 95% CI +69.9 to +79.4",
+        "seed42_schedule903_minus_902": "69.9 percentage points; paired family bootstrap 95% CI +63.8 to +75.2",
+        "seed43_schedule_differences": "between -2.1 and -0.2 percentage points; intervals include zero except 902 minus 901 small negative"
+      },
+      "result_summary": "Same fixed data and within-task streams yielded a huge schedule-order shift for seed 42 (14.7%, 19.6%, 89.5%), while seed 43 remained high (87.6%-89.7%). Norm-matched random edits stayed near base; high adapters beat prompt here. Suggestive order-by-initialization interaction only, since all 428 development questions were previously inspected and only two training seeds/three schedules were tested.",
+      "candidate_quarantined": true,
+      "summary": "F026 is a completed development-only diagnostic. It varied schedule seed while holding the fixed F025 cohort, task ratio, per-task example streams, optimizer, model revision and update count constant. Results show strong seed-dependent order sensitivity; do not generalize, promote or transfer.",
+      "software_tests_passed": 95
+    },
+    {
+      "id": "completion-v3-cohort-content-sensitivity-f027",
+      "status": "complete-development-cohort-content-diagnostic-no-promotion",
+      "preregistration": "evolution_lab/evidence/f027_cohort_content_sensitivity/preregistration.json",
+      "preregistration_sha256": "c6185a70fae9550e0cc83e3d162d64529e192539d33629f3cb7d24bdc4190fd5",
+      "evidence_root": "evolution_lab/evidence/f027_cohort_content_sensitivity/",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "training_design": "Two family-disjoint cohorts with the same 16/48 task counts and balanced sentence subjects, crossed with training seeds 42/43/44 and task-order seeds 901/903.",
+      "cohort_data_sha256": {
+        "A": "baa08162d5cf3e0d0c98175503eaf4637969fb92bc00fd8284e45c1dee020de1",
+        "B": "e82b1c5c49e682105b491afcef55d62124638da773aa6046565a8a3c229665d5"
+      },
+      "cohort_manifest_sha256": {
+        "A": "1b5fbf9c5e68a30aa3fffa0e0b0fb28c53b7e83459fb155767c67a2a5971eeac",
+        "B": "6753c0fbfa14adcbe9733d0c7c4d9de21d2b042a7341cc9a2b39799d24eaa6ab"
+      },
+      "cohort_overlap": {
+        "total_exact_ids": 3,
+        "phrase_exact_ids": 3,
+        "sentence_exact_ids": 0,
+        "phrase_only_A": 13,
+        "phrase_only_B": 13,
+        "sentence_only_A": 48,
+        "sentence_only_B": 48
+      },
+      "planned_training_updates": 768,
+      "planned_response_records": 20544,
+      "planned_cached_records": 10272,
+      "planned_model_generations": 10272,
+      "planned_new_unique_questions": 0,
+      "evaluation_split": "Previously inspected completion_v3 dev; 428 questions, 32 families.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "summary": "evolution_lab/evidence/f027_cohort_content_sensitivity/summary.json",
+      "completed_device": "cpu",
+      "completed_precision": "float32",
+      "training_seeds": [
+        42,
+        43,
+        44
+      ],
+      "schedule_seeds": [
+        901,
+        903
+      ],
+      "training_updates": 768,
+      "response_records": 20544,
+      "cache_hits": 10272,
+      "model_generations": 10272,
+      "unique_questions_added": 0,
+      "base_and_prompt_replay_verified": true,
+      "adapter_accuracy_by_condition": {
+        "cohortA_seed42_order901": "329/428 (76.9%)",
+        "cohortA_seed42_order903": "330/428 (77.1%)",
+        "cohortA_seed43_order901": "326/428 (76.2%)",
+        "cohortA_seed43_order903": "335/428 (78.3%)",
+        "cohortA_seed44_order901": "343/428 (80.1%)",
+        "cohortA_seed44_order903": "345/428 (80.6%)",
+        "cohortB_seed42_order901": "361/428 (84.3%)",
+        "cohortB_seed42_order903": "368/428 (86.0%)",
+        "cohortB_seed43_order901": "324/428 (75.7%)",
+        "cohortB_seed43_order903": "335/428 (78.3%)",
+        "cohortB_seed44_order901": "343/428 (80.1%)",
+        "cohortB_seed44_order903": "327/428 (76.4%)"
+      },
+      "paired_cohort_B_minus_A": {
+        "seed42_order901": {
+          "percentage_points": 7.48,
+          "bootstrap_95_interval_percentage_points": [
+            0.7,
+            14.72
+          ]
+        },
+        "seed42_order903": {
+          "percentage_points": 8.88,
+          "bootstrap_95_interval_percentage_points": [
+            2.1,
+            16.36
+          ]
+        },
+        "seed43_order901": {
+          "percentage_points": -0.47,
+          "bootstrap_95_interval_percentage_points": [
+            -7.94,
+            6.54
+          ]
+        },
+        "seed43_order903": {
+          "percentage_points": 0.0,
+          "bootstrap_95_interval_percentage_points": [
+            -3.5,
+            3.74
+          ]
+        },
+        "seed44_order901": {
+          "percentage_points": 0.0,
+          "bootstrap_95_interval_percentage_points": [
+            -5.14,
+            5.37
+          ]
+        },
+        "seed44_order903": {
+          "percentage_points": -4.21,
+          "bootstrap_95_interval_percentage_points": [
+            -8.41,
+            -0.23
+          ]
+        }
+      },
+      "confirmed_observation": "Cohort B led cohort A by 7.5 and 8.9 percentage points for training seed 42 under orders 901 and 903; seed 43 contrasts were near zero, and seed 44/order903 favored A by 4.2 points. All six intervals and the small family count are in the analysis; effects are seed/order dependent.",
+      "regression_and_controls": "All 12 adapters passed one-word formatting on 428/428 cases. Random controls scored 208-225/428; base 220/428; prompt 264/428. Phrase accuracy remained 13-22/28 and is not broad capability preservation.",
+      "summary_sha256": "6202051e6c6b189e700fe26c4e696fa80df54aaf9c745740aaedd6d4113d52d6",
+      "software_tests_passed": 95
+    },
+    {
+      "id": "completion-v3-example-exposure-f028",
+      "status": "complete-development-example-exposure-diagnostic-no-promotion",
+      "preregistration": "evolution_lab/evidence/f028_example_exposure/preregistration.json",
+      "preregistration_sha256": "ae71389eceb15ec0e1219070648f84581b5a2b70ab8750449a11a66474648639",
+      "summary": "evolution_lab/evidence/f028_example_exposure/summary.json",
+      "evidence_root": "evolution_lab/evidence/f028_example_exposure/",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "training_design": "Fixed F027 cohort A; compare with-replacement against without-replacement example exposure, crossed with seeds 42/43/44; fixed 16 phrase/48 sentence updates, task-order seed 2603, optimizer, rank, learning rate and model revision.",
+      "fixed_cohort_manifest_sha256": "1b5fbf9c5e68a30aa3fffa0e0b0fb28c53b7e83459fb155767c67a2a5971eeac",
+      "planned_training_updates": 384,
+      "planned_response_records": 10272,
+      "planned_cached_base_prompt_records": 5136,
+      "planned_new_model_generations": 5136,
+      "planned_new_unique_questions": 0,
+      "training_updates": 384,
+      "response_records": 10272,
+      "cache_hits": 5136,
+      "model_generations": 5136,
+      "unique_questions_added": 0,
+      "base_and_prompt_replay_verified": true,
+      "adapter_accuracy_by_condition": {
+        "with_replacement_seed42": "323/428 (75.5%)",
+        "with_replacement_seed43": "332/428 (77.6%)",
+        "with_replacement_seed44": "340/428 (79.4%)",
+        "without_replacement_seed42": "337/428 (78.7%)",
+        "without_replacement_seed43": "333/428 (77.8%)",
+        "without_replacement_seed44": "336/428 (78.5%)"
+      },
+      "paired_without_minus_with_percentage_points": {
+        "seed42": {
+          "delta": 3.27,
+          "bootstrap_95_interval": [
+            0.47,
+            6.07
+          ]
+        },
+        "seed43": {
+          "delta": 0.23,
+          "bootstrap_95_interval": [
+            -3.04,
+            3.27
+          ]
+        },
+        "seed44": {
+          "delta": -0.93,
+          "bootstrap_95_interval": [
+            -4.44,
+            2.1
+          ]
+        }
+      },
+      "confirmed_observation": "Without-replacement support coverage was exactly 64/64 for every seed, compared with 40/64, 42/64, and 42/64 with replacement. Behavior differences on previously inspected development questions were small and seed-dependent: paired accuracy gains of 3.27, 0.23, and -0.93 percentage points. No consistent exposure-policy benefit was found.",
+      "regression_and_controls": "All adapters passed single-word formatting on 428/428. Base and prompt were 220/428 and 264/428; norm-matched random controls were 208-225/428. Phrase accuracy was 15-19/28 for adapters versus 24/28 base, so broad preservation is not established.",
+      "summary_sha256": "17ac17ae9e4619c49ca60e8a8bb75382ca62a6d297cf39a01e169c9c81921735",
+      "software_tests_passed": 98,
+      "evaluation_split": "Previously inspected completion_v3 dev; 428 questions, 32 families.",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "candidate_quarantined": true,
+      "interpretation": "Diagnostic of example repetition/coverage only; development results cannot establish generalization, data label validity, broad preservation, or transfer. No candidate is promoted."
+    },
+    {
+      "id": "f029-fresh-lexicon-transfer",
+      "status": "completed-independent-confirmation-no-promotion",
+      "question": "Do six already-trained completion adapters transfer their phrase/sentence behavior to independently held-out lexical families, and what happens to arithmetic locality?",
+      "hypothesis": "Most fixed adapters will score above a task-matched strong prompt on new completion families; the effect may vary by training seed/exposure policy. Arithmetic performance may regress, so target transfer alone is insufficient for promotion.",
+      "design": "Frozen candidate set: all six F028 adapters, paired with their own layerwise effective-delta norm-matched random control. No training, choosing, threshold tuning, or hyperparameter changes after inspecting confirmation responses. Compare each candidate to same-question base, strong prompt, and paired random. Then independently run all four arms on fresh arithmetic locality cases.",
+      "model": {
+        "id": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "runtime": "CPU float32 unless the verified MPS backend is available; record actual selection"
+      },
+      "completion_dataset": {
+        "path": "evolution_lab/evidence/completion_v4",
+        "generator": "phrase-sentence-completion-v4-fresh-lexicon",
+        "manifest_sha256": "2dd1d06a8106b60acdd7e04479f42acebebf3dd5bd11fccb9f973b85207b62c5",
+        "split": "confirmation",
+        "shard": "completion-v4-cases-confirmation-84-part01.jsonl",
+        "shard_sha256": "6cbce207054d8353bb2147bb159aff786fbf63fefd5f206de540cbe4cb5f07d6",
+        "unique_questions": 464,
+        "family_count": 33,
+        "question_mix": {
+          "phrase_completion": 64,
+          "sentence_completion": 400
+        },
+        "family_mix": {
+          "phrase_families": 8,
+          "sentence_families": 25
+        },
+        "lexical_family_splits_disjoint": true,
+        "known_limit": "Phrases are researcher-curated common expressions and may have cultural/dialect variation; sentence tasks test a narrow agreement pattern, not broad language ability."
+      },
+      "locality_dataset": {
+        "path": "evolution_lab/evidence/f029_fresh_lexicon_transfer/arithmetic_locality",
+        "generator": "arithmetic-v3",
+        "seed": 20261026,
+        "start": 1200000,
+        "generated_count": 2048,
+        "manifest_sha256": "046ce55f14be79995721d97c3c73f9a26fdd5a40314e09db4aa0da56e7ed515e",
+        "split": "confirmation",
+        "shard": "cases-confirmation-20261026-001200000-002048.jsonl",
+        "shard_sha256": "15a3412c62896de5f0c52a0f388a8b1788e21bb88b0d095936255b6807075545",
+        "unique_questions": 332,
+        "family_count": 83
+      },
+      "novelty_preflight": {
+        "existing_response_ledgers": 97,
+        "existing_response_records_with_prompt_hash": 77488,
+        "existing_unique_prompt_hashes": 2300,
+        "completion_confirmation_overlap": 0,
+        "arithmetic_confirmation_overlap": 0,
+        "within_split_duplicate_prompts": 0,
+        "note": "Prompt hashes were checked against every prior observations.jsonl ledger before registration; both confirmation pools remain unconsumed."
+      },
+      "fixed_conditions": [
+        {
+          "condition": "with-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/manifest.json",
+          "source_manifest_sha256": "6ab0e27018111be73abb7fdfff4339a25ef5f5e97ea0bbed5b0199d0b188f111",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/adapter_lora",
+          "lora_weights_sha256": "098ce0b9e0425edc7c8253f85a77c9d66b40fb35c5ee9e74a19967af112c2a2d",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/delta_lora.json",
+          "lora_delta_stats_sha256": "72a79c432a963e4213bc76dbda1b504a43112e4f3ada907d14354a32a30a798a",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/adapter_random",
+          "random_weights_sha256": "1d1b4f80c633e55e6283c7d5d41a82e18517d96c9dd079a2560a18aba5545c35",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/delta_random.json",
+          "random_delta_stats_sha256": "fac340aa6226b28477420f630c2e5a8e440fbc3debf7f0f7e1e25a0cc4fcb91f"
+        },
+        {
+          "condition": "with-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/manifest.json",
+          "source_manifest_sha256": "ddf9891c95ee0ba43e3258a3b3e6944c23ff1cb632787f6a41939a38d49c8f7e",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/adapter_lora",
+          "lora_weights_sha256": "3493648113f586ef403b22d52e0847260c8acf2eb93f3ca2857318f535de8720",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/delta_lora.json",
+          "lora_delta_stats_sha256": "349ac397f090c4212a88c00ff0f2a84acb371de43d0729f1ddf83b049510fd10",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/adapter_random",
+          "random_weights_sha256": "02007b695e0c453b739ca85ab5de6152525fa55c899383c9f897e2c824563ef4",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/delta_random.json",
+          "random_delta_stats_sha256": "0965c5a67837fdd46d40e63ea840f917bbcf5b9595e4b73a0899663fa919687c"
+        },
+        {
+          "condition": "with-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/manifest.json",
+          "source_manifest_sha256": "c000cd47e06c1500ba4e5fbcc07e309a78e510601eedaa56f0859d7e1ddbb316",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/adapter_lora",
+          "lora_weights_sha256": "ae87e0b935e01d883689e67d05dc17207ca067f313d128865d33cb2d12ee17d4",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/delta_lora.json",
+          "lora_delta_stats_sha256": "e7fc7b29ea99a69c3966b3955f8b7e5e8d49f62dd5e3376a3cc9926823dd38ab",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/adapter_random",
+          "random_weights_sha256": "6e95ac699a7df944c59e7f76ee3386f949248ea3c10ea2847367b3b071bb7879",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/delta_random.json",
+          "random_delta_stats_sha256": "5bc47a03d3908724b4f6b896409255750543f1e6f382c36fe329919acdec9edd"
+        },
+        {
+          "condition": "without-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/manifest.json",
+          "source_manifest_sha256": "03a73a102a652b0e209399ffab03cf6eb137ea2acbfad62cbae6faf53c4a4c98",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/adapter_lora",
+          "lora_weights_sha256": "48fd8688eb5553d1a18d2dea487a5b4a8fd0b98749d482db678acfae3e171794",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/delta_lora.json",
+          "lora_delta_stats_sha256": "f40b96a65ede2e1b99a2b231b3ab4287deafade76fd55514c05863ca9b87db31",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/adapter_random",
+          "random_weights_sha256": "80803b8670f72aa72d9c2604d3d35b78f0270c3d6f5124da47b7678310d17fcb",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/delta_random.json",
+          "random_delta_stats_sha256": "b47c886e013ed4e9c9c1921976491f61eaeeb67c1947729ef6d77c34c08a1161"
+        },
+        {
+          "condition": "without-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/manifest.json",
+          "source_manifest_sha256": "a9e12a832474feeb190b593017fdfaac654c6928960f15b264369f23feba3ec2",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/adapter_lora",
+          "lora_weights_sha256": "f7c2fa3d65a9ee9c7cd7f920cd2ee23e25b5e6c43d8d73ffb495689eb779a13b",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/delta_lora.json",
+          "lora_delta_stats_sha256": "d27cc014aed88449dfd4ae10eb3c4bdec92607331d4c64d28f8f16e52488f36b",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/adapter_random",
+          "random_weights_sha256": "ce794fe2d26113e66274f3fd91a6b4d4e326ff4ce142c27c3920d3c46450fc10",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/delta_random.json",
+          "random_delta_stats_sha256": "bac8c8fa9d13173376ad2ef6087f65b8eba77fb38da1419ab0c5ea4fbe3f7b65"
+        },
+        {
+          "condition": "without-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/manifest.json",
+          "source_manifest_sha256": "2bbc2b0a44aef993931f6945ee18797844f929963fc2055ecf13b0202943bb48",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/adapter_lora",
+          "lora_weights_sha256": "a0af88b0659f6793ea0d2c771997484c6d0dd3b65ab1f8d3c8e9e59b90ac3d54",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/delta_lora.json",
+          "lora_delta_stats_sha256": "acc9b93156aff7233526bcf059c695952ba7da8fb78ff0d1897638f4022d394f",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/adapter_random",
+          "random_weights_sha256": "1672320ce5fc1ec559ca8800b26d3cd0bd18c6e0b99ab8b1e4b902124e215931",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/delta_random.json",
+          "random_delta_stats_sha256": "8131f63fa74e14cc8ea663106bd433986214a3baf83c6cae608aab11eba59038"
+        }
+      ],
+      "evaluation": {
+        "completion_primary": "Per-question exact-key correctness, reported separately for phrase and sentence task types. Paired family bootstrap 95% intervals by task type, and all six adapter-minus-prompt and adapter-minus-random contrasts. Report counts, no broad-trait labels.",
+        "locality": "Trusted integer answer correctness plus formatting, report base/prompt/adapter/random and every adapter separately. Arithmetic is a narrow capability-preservation probe.",
+        "decoding": {
+          "max_new_tokens": 16,
+          "greedy": true
+        },
+        "total_unique_confirmation_questions": 796,
+        "planned_new_model_generations": 11144,
+        "planned_cached_base_prompt_reuses": 9552,
+        "planned_response_records_including_cache_rows": 20696,
+        "software_tests_are_not_model_generations": true
+      },
+      "decision_rule": "No candidate is promoted in this experiment. A positive result may support only transfer to these held-out phrase/sentence families for this model/revision and training setup. Any adapter with arithmetic regressions is quarantined. Confirmation families are retired after evaluation and cannot be used for tuning.",
+      "controls": [
+        "unedited base",
+        "task-matched prompt-only",
+        "the six frozen F028 LoRA adapters",
+        "six paired layerwise norm-matched random edits"
+      ],
+      "reproduction_commands": [
+        "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python evolution_lab/evidence/f029_fresh_lexicon_transfer/run_f029_confirmation.py",
+        "PYTHONPATH=. python evolution_lab/evidence/f029_fresh_lexicon_transfer/analyze_f029.py",
+        "python -m unittest discover -s evolution_lab/tests -p \"test_*.py\""
+      ],
+      "candidate_conditions_source": "evolution_lab/evidence/f028_example_exposure/training/",
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "preregistration_sha256": "2b526ec4ce6e9123574e05f18592925ac65f7e31ced2f7e98751a47e4f46517f",
+      "deviations_and_progress": [
+        {
+          "event": "initial_baseline_load_failed",
+          "detail": "First attempt used online hub resolution in a network-isolated executor. It wrote zero responses and made zero model generations; retained at completion_baseline/run.json."
+        },
+        {
+          "event": "adapter_validation_preflight_failed",
+          "detail": "Before any adapter generation, evaluator rejected F028 adapters because manifests recorded the exact cached snapshot path while this evaluation used the canonical Hub model ID. The error was traced to strict alias comparison; exact model repository and full revision matching support was added and covered by tests. No candidate outputs were viewed or generated before this fix."
+        },
+        {
+          "event": "completion_base_prompt_confirmation_completed",
+          "detail": "The fixed base and prompt arms were evaluated offline from the locally cached immutable checkpoint. Candidate set remains all six preregistered F028 LoRA/random pairs; no condition was selected or changed after seeing these controls."
+        },
+        {
+          "event": "planned_count_correction",
+          "detail": "The initial preregistration undercounted new model generations by omitting six candidate adapter arms and six matched-random arms. Corrected before final analyses: 14 generations per question (base, prompt, six adapters, six random), 11,144 planned new generations, 9,552 cache reuses, and 20,696 response rows. This accounting correction does not change conditions or decision rules."
+        }
+      ],
+      "completion_confirmation_consumed": true,
+      "locality_confirmation_consumed": true,
+      "completion_baseline_result": {
+        "run_dir": "evolution_lab/evidence/f029_fresh_lexicon_transfer/completion_baseline_offline",
+        "run_id": "20261027T004845_676022Z",
+        "status": "complete",
+        "model_generations": 928,
+        "unique_questions": 464,
+        "device": "cpu",
+        "precision": "float32",
+        "base": {
+          "overall": "244/464 (52.6%)",
+          "phrase": "39/64 (60.9%)",
+          "sentence": "205/400 (51.3%)",
+          "single_word_format": "141/464"
+        },
+        "prompt": {
+          "overall": "302/464 (65.1%)",
+          "phrase": "31/64 (48.4%)",
+          "sentence": "271/400 (67.8%)",
+          "single_word_format": "437/464"
+        },
+        "observations_sha256": "14cb1d54a8ae2c3373cb10ca6ac2a739036225a27f14ef17f7042f48eb10ba0f",
+        "report_sha256": "587a811b8f5be17729cce9e9afdfda1459ae7d5157d0640ec24e7df671b2f655",
+        "spec_sha256": "0b68f0cf96cc570b30d164dbd31ce0766339937f22b8e5ceb74d07384f6a190b",
+        "interpretation": "Descriptive controls only. Prompt helps sentence agreement while base is better on phrase choices. Only 8 phrase and 25 sentence families; no general language claim."
+      },
+      "planned_new_model_generations": 11144,
+      "unique_confirmation_questions": 796,
+      "planned_response_records": 20696,
+      "planned_cached_baseline_records": 9552,
+      "actual_progress": {
+        "campaigns_found": 15,
+        "response_campaigns_complete": 14,
+        "completion_campaigns_complete": 7,
+        "arithmetic_campaigns_complete": 7,
+        "campaigns_failed_before_generation": 1,
+        "new_model_generations": 11144,
+        "cache_hits": 9552,
+        "response_records": 20696,
+        "unique_confirmation_questions": 796,
+        "all_confirmation_campaigns_complete": true,
+        "summary_path": "evolution_lab/evidence/f029_fresh_lexicon_transfer/summary.json",
+        "summary_sha256": "d966719236fc66ec2931c2800a3f0ab50a224b2acfa91bb7fe0e5ea7d62b77d5",
+        "analysis_method": "Checksum-verified raw ledgers; each answer regraded from trusted dataset keys; paired family bootstrap by task type; base/prompt cache exact-match checked across all six candidates.",
+        "runtime": "Python 3.11.17; PyTorch 2.14.1; CPU float32; MPS built=True, available=False in this execution context.",
+        "software_tests_passed": 101,
+        "response_storage": "Lossless gzip JSONL; summary lists compressed and decompressed SHA-256 values per campaign."
+      },
+      "cumulative_unique_questions_added": 796,
+      "results": {
+        "completion": {
+          "unique_questions": 464,
+          "families": 33,
+          "phrase_questions": 64,
+          "sentence_questions": 400,
+          "base": "244/464 (52.6%)",
+          "prompt": "302/464 (65.1%)",
+          "adapter_total_range": "357–386/464 (76.9–83.2%) across six fixed adapters",
+          "adapter_phrase_range": "19–33/64 (29.7–51.6%); every adapter below base at 39/64 (60.9%)",
+          "adapter_sentence_range": "332–357/400 (83.0–89.2%); every adapter above prompt at 271/400 (67.8%)",
+          "phrase_uncertainty": "All six paired family-bootstrap 95% intervals include zero; only 8 phrase families.",
+          "sentence_uncertainty": "All six paired family-bootstrap 95% intervals for adapter minus prompt exceed zero; only 25 sentence families."
+        },
+        "arithmetic_locality": {
+          "unique_questions": 332,
+          "families": 83,
+          "base": "67/332 (20.2%)",
+          "prompt": "36/332 (10.8%)",
+          "with_replacement_adapter_range": "71–75/332 (21.4–22.6%), near base and random controls",
+          "without_replacement_adapters": "135/332 (40.7%), 185/332 (55.7%), 186/332 (56.0%)",
+          "without_replacement_minus_random_pp": "+20.5, +35.2, +35.5; paired family-bootstrap 95% intervals above zero",
+          "limit": "Short 16-token greedy output cap; adapter outputs are often terse while base/prompt can truncate unfinished explanations. This is not evidence of improved arithmetic reasoning."
+        },
+        "decision": "Quarantine all six adapters: transfer is sentence-specific and every adapter is below base on phrase completion. Confirmation pools are retired; no tuning on these responses."
+      }
+    },
+    {
+      "id": "f030-arithmetic-token-budget-robustness",
+      "status": "complete-no-promotion",
+      "question": "Do the arithmetic score increases observed for F029 without-replacement completion adapters persist when generation has enough room for a complete explanation, or are they mainly a short-output/token-cap artifact?",
+      "hypotheses": {
+        "H1": "At 64 new tokens, base and prompt scores rise while adapter-vs-base and adapter-vs-random arithmetic gains shrink substantially, indicating F029 was partly a verbosity/truncation artifact.",
+        "H2": "Without-replacement adapters retain a positive exact-answer advantage over base and their matched random edits at 64 tokens; this would be a narrow transfer observation requiring further operation families and independent seeds, not a reasoning or trait claim."
+      },
+      "design": "No training, candidate selection, coefficient fitting, or threshold tuning. Evaluate the same whole-family fresh confirmation sample at 16 and 64 greedy new tokens. The 16-token arm is an internal replication; 64 tokens is the primary cap-robustness contrast. All six fixed F029 adapter/random pairs are tested at both budgets; base and prompt are separately run and then checksum-reused within each budget.",
+      "model": {
+        "id": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "runtime": "CPU float32; MPS built but unavailable in this execution context."
+      },
+      "dataset": {
+        "path": "evolution_lab/evidence/f030_token_budget_robustness/arithmetic_dataset",
+        "generator": "arithmetic-v3",
+        "seed": 20261027,
+        "start": 1202048,
+        "generated_count": 2048,
+        "manifest_sha256": "2358e611e48acf875f8b05fb2b036d4aea4d756c0a7458430e393dc87173caa9",
+        "split": "confirmation",
+        "shard": "cases-confirmation-20261027-001202048-002048.jsonl",
+        "shard_sha256": "c71e8484d7bb33869554ec157742e501d61e2b3b5d213b2c1072ac958a2ed55f",
+        "sample_method": "sha256-rank-whole-families-v1",
+        "family_limit": 24,
+        "family_seed": 20261027,
+        "unique_questions": 96,
+        "unique_families": 24,
+        "selected_family_ids": [
+          "addition-fact-band-30-pair-1004",
+          "addition-fact-band-30-pair-1013",
+          "addition-fact-band-30-pair-516",
+          "addition-fact-band-30-pair-524",
+          "addition-fact-band-30-pair-589",
+          "addition-fact-band-30-pair-610",
+          "addition-fact-band-30-pair-614",
+          "addition-fact-band-30-pair-620",
+          "addition-fact-band-30-pair-653",
+          "addition-fact-band-30-pair-677",
+          "addition-fact-band-30-pair-695",
+          "addition-fact-band-30-pair-707",
+          "addition-fact-band-30-pair-720",
+          "addition-fact-band-30-pair-747",
+          "addition-fact-band-30-pair-759",
+          "addition-fact-band-30-pair-764",
+          "addition-fact-band-30-pair-788",
+          "addition-fact-band-30-pair-830",
+          "addition-fact-band-30-pair-908",
+          "addition-fact-band-30-pair-975",
+          "addition-fact-band-30-pair-985",
+          "addition-fact-band-30-pair-986",
+          "addition-fact-band-30-pair-990",
+          "addition-fact-band-30-pair-992"
+        ],
+        "selected_case_fingerprint": "1b58d5a6f1db0b473d6cd91341a07d76464acbc10bafbdad8abc0832f0071554"
+      },
+      "novelty_preflight": {
+        "response_ledger_files": 111,
+        "prior_response_records": 101920,
+        "prior_unique_prompt_hashes": 3096,
+        "selected_prompt_overlap": 0,
+        "selected_family_overlap": 0,
+        "note": "Preflight scanned every JSONL and gzip JSONL ledger under evolution_lab/evidence and retained only records with raw response, objective grade, and arm/condition. Exact normalized prompt hashes and deterministic family IDs were disjoint."
+      },
+      "fixed_conditions": [
+        {
+          "condition": "with-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/manifest.json",
+          "source_manifest_sha256": "6ab0e27018111be73abb7fdfff4339a25ef5f5e97ea0bbed5b0199d0b188f111",
+          "lora_weights_sha256": "098ce0b9e0425edc7c8253f85a77c9d66b40fb35c5ee9e74a19967af112c2a2d",
+          "random_weights_sha256": "1d1b4f80c633e55e6283c7d5d41a82e18517d96c9dd079a2560a18aba5545c35",
+          "lora_delta_stats_sha256": "72a79c432a963e4213bc76dbda1b504a43112e4f3ada907d14354a32a30a798a",
+          "random_delta_stats_sha256": "fac340aa6226b28477420f630c2e5a8e440fbc3debf7f0f7e1e25a0cc4fcb91f"
+        },
+        {
+          "condition": "with-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/manifest.json",
+          "source_manifest_sha256": "ddf9891c95ee0ba43e3258a3b3e6944c23ff1cb632787f6a41939a38d49c8f7e",
+          "lora_weights_sha256": "3493648113f586ef403b22d52e0847260c8acf2eb93f3ca2857318f535de8720",
+          "random_weights_sha256": "02007b695e0c453b739ca85ab5de6152525fa55c899383c9f897e2c824563ef4",
+          "lora_delta_stats_sha256": "349ac397f090c4212a88c00ff0f2a84acb371de43d0729f1ddf83b049510fd10",
+          "random_delta_stats_sha256": "0965c5a67837fdd46d40e63ea840f917bbcf5b9595e4b73a0899663fa919687c"
+        },
+        {
+          "condition": "with-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/manifest.json",
+          "source_manifest_sha256": "c000cd47e06c1500ba4e5fbcc07e309a78e510601eedaa56f0859d7e1ddbb316",
+          "lora_weights_sha256": "ae87e0b935e01d883689e67d05dc17207ca067f313d128865d33cb2d12ee17d4",
+          "random_weights_sha256": "6e95ac699a7df944c59e7f76ee3386f949248ea3c10ea2847367b3b071bb7879",
+          "lora_delta_stats_sha256": "e7fc7b29ea99a69c3966b3955f8b7e5e8d49f62dd5e3376a3cc9926823dd38ab",
+          "random_delta_stats_sha256": "5bc47a03d3908724b4f6b896409255750543f1e6f382c36fe329919acdec9edd"
+        },
+        {
+          "condition": "without-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/manifest.json",
+          "source_manifest_sha256": "03a73a102a652b0e209399ffab03cf6eb137ea2acbfad62cbae6faf53c4a4c98",
+          "lora_weights_sha256": "48fd8688eb5553d1a18d2dea487a5b4a8fd0b98749d482db678acfae3e171794",
+          "random_weights_sha256": "80803b8670f72aa72d9c2604d3d35b78f0270c3d6f5124da47b7678310d17fcb",
+          "lora_delta_stats_sha256": "f40b96a65ede2e1b99a2b231b3ab4287deafade76fd55514c05863ca9b87db31",
+          "random_delta_stats_sha256": "b47c886e013ed4e9c9c1921976491f61eaeeb67c1947729ef6d77c34c08a1161"
+        },
+        {
+          "condition": "without-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/manifest.json",
+          "source_manifest_sha256": "a9e12a832474feeb190b593017fdfaac654c6928960f15b264369f23feba3ec2",
+          "lora_weights_sha256": "f7c2fa3d65a9ee9c7cd7f920cd2ee23e25b5e6c43d8d73ffb495689eb779a13b",
+          "random_weights_sha256": "ce794fe2d26113e66274f3fd91a6b4d4e326ff4ce142c27c3920d3c46450fc10",
+          "lora_delta_stats_sha256": "d27cc014aed88449dfd4ae10eb3c4bdec92607331d4c64d28f8f16e52488f36b",
+          "random_delta_stats_sha256": "bac8c8fa9d13173376ad2ef6087f65b8eba77fb38da1419ab0c5ea4fbe3f7b65"
+        },
+        {
+          "condition": "without-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/manifest.json",
+          "source_manifest_sha256": "2bbc2b0a44aef993931f6945ee18797844f929963fc2055ecf13b0202943bb48",
+          "lora_weights_sha256": "a0af88b0659f6793ea0d2c771997484c6d0dd3b65ab1f8d3c8e9e59b90ac3d54",
+          "random_weights_sha256": "1672320ce5fc1ec559ca8800b26d3cd0bd18c6e0b99ab8b1e4b902124e215931",
+          "lora_delta_stats_sha256": "acc9b93156aff7233526bcf059c695952ba7da8fb78ff0d1897638f4022d394f",
+          "random_delta_stats_sha256": "8131f63fa74e14cc8ea663106bd433986214a3baf83c6cae608aab11eba59038"
+        }
+      ],
+      "controls": [
+        "unedited base",
+        "task-matched arithmetic prompt",
+        "all six frozen F028 LoRA adapters",
+        "each adapter paired with its F028 layerwise norm-matched random edit"
+      ],
+      "evaluation": {
+        "budgets": [
+          16,
+          64
+        ],
+        "decoding": "greedy",
+        "unique_confirmation_questions": 96,
+        "family_count": 24,
+        "planned_new_generations_per_budget": 1344,
+        "planned_new_generations_total": 2688,
+        "planned_cached_baseline_rows_total": 2304,
+        "planned_response_records_total": 4992,
+        "primary_metric": "Final integer equals independently computed operand sum; strict single-integer format reported separately.",
+        "secondary_metrics": [
+          "generated token count",
+          "fraction of responses reaching at least 90% of max_new_tokens",
+          "paired family-bootstrap change in correctness from 16 to 64 tokens per arm",
+          "paired family-bootstrap adapter minus base, prompt, and norm-matched random at each budget."
+        ],
+        "uncertainty": "Paired bootstrap resamples 24 complete arithmetic families. This is exploratory; family count limits precision."
+      },
+      "decision_rule": "No adapter is promoted by F030. If extended generation removes an apparent adapter gain, record the cap/verbosity confound. If a gain persists, treat it as narrow and require new operation families, more independent adapters and capability-preservation checks before any promotion.",
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "reproduction_commands": [
+        "python -m evolution_lab generate-cases --seed 20261027 --start 1202048 --count 2048 --output evolution_lab/evidence/f030_token_budget_robustness/arithmetic_dataset",
+        "PYTHONPATH=. python evolution_lab/evidence/f030_token_budget_robustness/run_f030.py",
+        "PYTHONPATH=. python evolution_lab/evidence/f030_token_budget_robustness/analyze_f030.py"
+      ],
+      "preregistration_sha256": "f54ee76163dfdfd0a54270095aa776b6b53ded01c5172b65aaeac4811257bb79",
+      "actual_progress": {
+        "status": "complete-no-promotion",
+        "model_generations": 2688,
+        "cache_hits": 2304,
+        "response_records": 4992,
+        "unique_confirmation_questions": 96,
+        "confirmation_families": 24,
+        "summary_path": "evolution_lab/evidence/f030_token_budget_robustness/summary.json",
+        "summary_sha256": "26c5b46cf8b6a16efa756cfca8759fee865db8d43bbf5a574edf95d783a3dd37",
+        "note": "All preregistered campaigns completed and raw outputs were regraded against deterministic integer-sum keys. At 16 tokens, the three without-replacement adapters scored 39/96, 58/96, and 50/96 versus base 18/96 and matched random edits 19/96, 18/96, and 18/96. At 64 tokens, base scored 75/96, prompt 81/96, and adapters 71–84/96; adapter gains over the matched prompt were mixed or null. These results indicate strong output-budget sensitivity, not a general reasoning gain. No candidate promoted."
+      }
     }
   ],
-  "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior."
+  "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
+  "response_accounting_snapshot": {
+    "as_of_utc": "2026-10-27T16:20:00Z",
+    "response_ledger_files": 125,
+    "response_records": 106912,
+    "unique_normalized_question_prompts": 3192,
+    "question_families_with_responses": 468,
+    "method": "Census of JSONL response ledgers under evolution_lab/evidence containing raw response, objective metrics/grade, and arm or condition. Deduplicated by normalized prompt hash; repeated answers across arms, seeds, studies and caps remain separate response records. Generated but unevaluated examples, training updates, cache hits, and software tests are counted separately.",
+    "model_generations": 74512,
+    "cache_hit_rows": 32400,
+    "note": "F030 added 2,688 model generations and 2,304 verified cached baseline rows over 96 new confirmation prompts and 24 new arithmetic families. Token-budget results are highly budget-sensitive and do not show robust advantage over the task-matched prompt at 64 tokens. No adapter is promoted. Counts re-censused from every JSONL and gzip JSONL evidence file after F030 completion."
+  }
 }

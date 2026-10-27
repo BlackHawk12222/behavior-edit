@@ -173,6 +173,10 @@ def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int 
         from .completiongen_v3 import solve as solve_completion, validate_dataset as validate_completion_dataset
         census = validate_completion_dataset(dataset)
         answer_for = solve_completion
+    elif generator == "phrase-sentence-completion-v4-fresh-lexicon":
+        from .completiongen_v4 import solve as solve_completion, validate_dataset as validate_completion_dataset
+        census = validate_completion_dataset(dataset)
+        answer_for = solve_completion
     else:
         raise ValueError(f"Unsupported case dataset generator: {generator}")
     rows = []
@@ -288,10 +292,30 @@ def validate_adapter_source(path: Path, arm: str, model_id: str, revision: str) 
     config = json.loads(config_path.read_text())
     if manifest.get("status") != "complete" or manifest.get("smoke_only"):
         raise ValueError(f"{arm} adapter must come from a complete, non-smoke experiment")
-    if manifest.get("model_id") != model_id or manifest.get("resolved_revision", "").lower() != revision.lower():
+    def same_model_reference(value: str | None) -> bool:
+        if value == model_id:
+            return True
+        # Offline runs record the exact Hugging Face cache snapshot as the
+        # model ID. Accept that alias only when both repository and immutable
+        # revision are encoded in the canonical cache path.
+        if not value:
+            return False
+        cached = Path(value)
+        if cached.name.lower() != revision.lower():
+            return False
+        repo_component = next(
+            (parent.name for parent in cached.parents if parent.name.startswith("models--")),
+            None,
+        )
+        if repo_component is None:
+            return False
+        cached_repo = repo_component.removeprefix("models--").replace("--", "/")
+        return cached_repo == model_id
+
+    if not same_model_reference(manifest.get("model_id")) or manifest.get("resolved_revision", "").lower() != revision.lower():
         raise ValueError(f"{arm} adapter base model or immutable revision does not match the requested model")
     adapter_base = config.get("base_model_name_or_path")
-    if adapter_base and adapter_base != model_id:
+    if adapter_base and not same_model_reference(adapter_base):
         raise ValueError(f"{arm} adapter targets {adapter_base}, not requested base model {model_id}")
     manifest_arm = "lora" if arm == "adapter" else arm
     recorded = manifest.get("adapter_hashes", {}).get(manifest_arm)
@@ -318,6 +342,79 @@ def _file_sha256(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def _load_baseline_cache(source_dir: Path, current_spec: dict,
+                         cases: list[dict]) -> tuple[dict[tuple[str, str], dict], dict]:
+    """Load exact base/prompt records from a checksum-verified compatible run."""
+    source_dir = Path(source_dir)
+    run_path = source_dir / "run.json"
+    observations_path = source_dir / "observations.jsonl"
+    report_path = source_dir / "report.json"
+    if not run_path.is_file() or not observations_path.is_file() or not report_path.is_file():
+        raise ValueError("Baseline cache source must be a completed case-evaluation campaign")
+    source_run = json.loads(run_path.read_text())
+    if source_run.get("status") != "complete":
+        raise ValueError("Baseline cache source campaign is not complete")
+    actual_model = source_run.get("actual_model")
+    if not isinstance(actual_model, dict):
+        raise ValueError("Baseline cache source is missing its resolved model settings")
+    if _file_sha256(observations_path) != source_run.get("observations_sha256"):
+        raise ValueError("Baseline cache source ledger checksum mismatch")
+    if _file_sha256(report_path) != source_run.get("report_sha256"):
+        raise ValueError("Baseline cache source report checksum mismatch")
+    source_spec = source_run.get("spec", {})
+    if source_run.get("spec_sha256") != fingerprint(source_spec):
+        raise ValueError("Baseline cache source specification checksum mismatch")
+    if not {"base", "prompt"}.issubset(source_spec.get("arms", [])):
+        raise ValueError("Baseline cache source must contain both base and prompt arms")
+    shared_fields = (
+        "answer_grader_version", "dataset_generator", "dataset_manifest_sha256",
+        "dataset_seed", "split", "case_fingerprint", "unique_questions",
+        "split_offset", "family_sampling", "model_id", "requested_revision",
+        "requested_device", "requested_precision", "base_system_prompt",
+        "prompt_system_prompt", "max_new_tokens", "decoding",
+    )
+    mismatches = [field for field in shared_fields
+                  if source_spec.get(field) != current_spec.get(field)]
+    if mismatches:
+        raise ValueError("Baseline cache source differs in required inference fields: "
+                         + ", ".join(mismatches))
+
+    case_map = {row["case_id"]: row for row in cases}
+    cached: dict[tuple[str, str], dict] = {}
+    for line in observations_path.read_text().splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        arm = row.get("arm")
+        if arm not in {"base", "prompt"}:
+            continue
+        case_id = row.get("case_id")
+        key = (arm, case_id)
+        case = case_map.get(case_id)
+        if key in cached or case is None:
+            raise ValueError("Baseline cache source has duplicate or unexpected case records")
+        if row.get("prompt") != case["prompt"] or row.get("answer_key") != case["answer"]:
+            raise ValueError("Baseline cache source response does not match the selected question")
+        if row.get("normalized_prompt_sha256") != _text_sha256(normalized_question(case["prompt"])):
+            raise ValueError("Baseline cache source prompt hash does not match the selected question")
+        if row.get("metrics") != grade_case(case, row.get("response", "")):
+            raise ValueError("Baseline cache source trusted-key grade mismatch")
+        if row.get("resolved_revision") != current_spec.get("requested_revision"):
+            raise ValueError("Baseline cache source resolved model revision mismatch")
+        cached[key] = row
+    expected = {(arm, case_id) for arm in ("base", "prompt") for case_id in case_map}
+    if cached.keys() != expected:
+        raise ValueError("Baseline cache source is missing base/prompt responses for selected questions")
+    provenance = {
+        "run_id": source_run.get("run_id"),
+        "spec_sha256": source_run["spec_sha256"],
+        "observations_sha256": source_run["observations_sha256"],
+        "report_sha256": source_run["report_sha256"],
+        "actual_model": actual_model,
+    }
+    return cached, provenance
+
+
 def _text_sha256(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
@@ -340,6 +437,7 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
     summaries = {}
     for arm, records in by_arm.items():
         n = len(records)
+        cache_hits = sum(bool(row.get("cache_hit")) for row in records)
         correct = sum(row["metrics"]["correct"] for row in records)
         format_key = (
             "single_word_format"
@@ -349,7 +447,9 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
         formatted = sum(row["metrics"].get(format_key, False) for row in records)
         families = {row["family"] for row in records}
         summary = {
-            "model_generations": n,
+            "model_generations": n - cache_hits,
+            "cache_hits": cache_hits,
+            "response_records": n,
             "unique_questions": len({row["case_id"] for row in records}),
             "unique_normalized_prompts": len({row.get("normalized_prompt_sha256", _text_sha256(normalized_question(row["prompt"]))) for row in records}),
             "correct": correct,
@@ -369,7 +469,9 @@ def _summary(rows: list[dict], arms: list[str], seed: int = 42) -> dict:
             for task_type in task_types:
                 task_rows = [row for row in records if row.get("task_type", "arithmetic") == task_type]
                 summary["by_task_type"][task_type] = {
-                    "model_generations": len(task_rows),
+                    "model_generations": len(task_rows) - sum(bool(row.get("cache_hit")) for row in task_rows),
+                    "cache_hits": sum(bool(row.get("cache_hit")) for row in task_rows),
+                    "response_records": len(task_rows),
                     "unique_questions": len({row["case_id"] for row in task_rows}),
                     "correct": sum(row["metrics"]["correct"] for row in task_rows),
                     "accuracy": sum(row["metrics"]["correct"] for row in task_rows) / len(task_rows),
@@ -554,6 +656,16 @@ def _evaluate_cases_locked(args) -> int:
         "max_new_tokens": args.max_new_tokens,
         "decoding": "greedy",
     }
+    baseline_cached = {}
+    baseline_cache_source = None
+    baseline_cache_from = getattr(args, "baseline_cache_from", None)
+    if baseline_cache_from is not None:
+        if not {"base", "prompt"}.issubset(arms):
+            raise ValueError("Baseline cache reuse requires both base and prompt arms")
+        baseline_cached, baseline_cache_source = _load_baseline_cache(
+            baseline_cache_from, spec, cases
+        )
+        spec["baseline_cache_source"] = baseline_cache_source
     spec_hash = fingerprint(spec)
     output = Path(args.output_dir)
     run_path = output / "run.json"
@@ -578,6 +690,8 @@ def _evaluate_cases_locked(args) -> int:
             "environment": environment(),
             "dataset_census": source["census"],
             "records_written": 0,
+            "model_generations": 0,
+            "cache_hits": 0,
         }
         _atomic_json(run_path, run)
 
@@ -607,12 +721,42 @@ def _evaluate_cases_locked(args) -> int:
             raise ValueError("Cached normalized prompt hash does not match the selected dataset")
         if row.get("metrics") != grade_case(case, row.get("response", "")):
             raise ValueError("Cached objective grade is inconsistent with the raw response")
+        if row.get("cache_hit"):
+            if (baseline_cache_source is None
+                    or row.get("cache_source_spec_sha256") != baseline_cache_source["spec_sha256"]
+                    or row.get("cache_source_observations_sha256") != baseline_cache_source["observations_sha256"]):
+                raise ValueError("Reused response does not match the registered baseline cache source")
     if run.get("status") == "complete":
         expected_keys = {(arm, row["case_id"]) for arm in arms for row in cases}
         if existing.keys() != expected_keys:
             raise ValueError("Completed response ledger is missing or contains unexpected arm/question pairs")
         print(f"Case campaign already complete: {output}", flush=True)
         return 0
+
+    if baseline_cached:
+        imported = []
+        for key in sorted(baseline_cached):
+            if key in existing:
+                continue
+            row = dict(baseline_cached[key])
+            row["cache_hit"] = True
+            row["cache_source_spec_sha256"] = baseline_cache_source["spec_sha256"]
+            row["cache_source_observations_sha256"] = baseline_cache_source["observations_sha256"]
+            imported.append(row)
+        if imported:
+            with observations_path.open("a", encoding="utf-8") as stream:
+                for row in imported:
+                    stream.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n")
+                    existing[(row["arm"], row["case_id"])] = row
+                stream.flush()
+                os.fsync(stream.fileno())
+            records_written = len(existing)
+            run.update(
+                records_written=records_written,
+                model_generations=sum(not bool(row.get("cache_hit")) for row in existing.values()),
+                cache_hits=sum(bool(row.get("cache_hit")) for row in existing.values()),
+            )
+            _atomic_json(run_path, run)
 
     try:
         local = LocalModel(args.model, revision=args.revision, device=args.device,
@@ -623,6 +767,10 @@ def _evaluate_cases_locked(args) -> int:
         raise
     actual = {"resolved_revision": local.resolved_revision, "device": local.device,
               "precision": local.precision}
+    if baseline_cache_source is not None and baseline_cache_source["actual_model"] != actual:
+        run.update(status="cache_source_mismatch", actual_model_observed=actual)
+        _atomic_json(run_path, run)
+        raise ValueError("Baseline cache source resolved device, precision, or model revision differs")
     if "actual_model" in run and run["actual_model"] != actual:
         run.update(status="resume_mismatch", actual_model_observed=actual)
         _atomic_json(run_path, run)
@@ -695,9 +843,15 @@ def _evaluate_cases_locked(args) -> int:
                     completed_by_arm[arm] += 1
                     if records_written % args.checkpoint_every == 0:
                         os.fsync(stream.fileno())
-                        run["records_written"] = records_written
+                        run.update(
+                            records_written=records_written,
+                            model_generations=sum(not bool(row.get("cache_hit")) for row in existing.values()),
+                            cache_hits=sum(bool(row.get("cache_hit")) for row in existing.values()),
+                        )
                         _atomic_json(run_path, run)
-                    print(f"{arm} {completed_by_arm[arm]}/{len(cases)}: {row['metrics']['correct']} {case['case_id']}", flush=True)
+                    # Progress output must not reveal held-out correctness before
+                    # the campaign is complete; raw grades stay in the ledger.
+                    print(f"{arm}: recorded {completed_by_arm[arm]}/{len(cases)}", flush=True)
             os.fsync(stream.fileno())
         report = _summary(list(existing.values()), arms)
         report_path = output / "report.json"
@@ -706,7 +860,9 @@ def _evaluate_cases_locked(args) -> int:
                    elapsed_seconds=round(time.monotonic() - started, 3),
                    observations_sha256=_file_sha256(observations_path),
                    report_sha256=_file_sha256(report_path),
-                   model_generations=records_written,
+                   model_generations=sum(not bool(row.get("cache_hit")) for row in existing.values()),
+                   cache_hits=sum(bool(row.get("cache_hit")) for row in existing.values()),
+                   response_records=records_written,
                    completed_arms={arm: sum(key[0] == arm for key in existing) for arm in arms})
         _atomic_json(run_path, run)
     except BaseException as error:

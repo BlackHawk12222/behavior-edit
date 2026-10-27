@@ -88,7 +88,17 @@ class TensorTests(unittest.TestCase):
         for name,module in model.named_modules():
             if name in originals:
                 self.assertTrue(torch.allclose(module.get_delta_weight('mixture'),originals[name],atol=1e-6))
-        self.assertEqual(lora_delta_stats(model,torch,'mixture')['adapted_modules'],2)
+        mixture_delta=lora_delta_stats(model,torch,'mixture')
+        self.assertEqual(mixture_delta['adapted_modules'],2)
+        source_deltas={name:module.get_delta_weight('first').clone()
+                       for name,module in model.named_modules() if hasattr(module,'lora_A')}
+        norm_matched_random(model,torch,101,adapter_name='mixture')
+        random_delta=lora_delta_stats(model,torch,'mixture')
+        for left,right in zip(mixture_delta['layers'],random_delta['layers']):
+            self.assertAlmostEqual(left['delta_frobenius_norm'],right['delta_frobenius_norm'],places=6)
+        for name,module in model.named_modules():
+            if name in source_deltas:
+                self.assertTrue(torch.equal(module.get_delta_weight('first'),source_deltas[name]))
 
     def test_prompt_demonstrations_are_chat_turns(self):
         from evolution_lab.runner import LocalModel

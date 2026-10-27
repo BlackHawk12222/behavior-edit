@@ -1,0 +1,87 @@
+{
+  "id": "F023",
+  "status": "strong-development-signal-no-independent-confirmation-candidate-quarantined",
+  "protocol_registered_before_model_evaluation": true,
+  "confirmation_consumed": false,
+  "candidate_quarantined": true,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "device": "cpu",
+  "precision": "torch.float32",
+  "seed": 42,
+  "training_sampling_strategy": "uniform",
+  "training_updates": 64,
+  "unique_training_examples": 64,
+  "training_sample": {
+    "phrase_completion": 1,
+    "sentence_completion": 63,
+    "sentence_subject_number": {
+      "plural": 35,
+      "singular": 28
+    },
+    "sentence_attractor_number": {
+      "plural": 23,
+      "singular": 40
+    },
+    "distinct_families": 60,
+    "overlap_with_F021_example_ids": 0
+  },
+  "full_train_inventory": {
+    "total": 7880,
+    "phrase_completion": 136,
+    "sentence_completion": 7744,
+    "phrase_fraction": 0.017258883248730966
+  },
+  "unique_questions": 428,
+  "new_unique_questions_beyond_F021_F022": 0,
+  "model_generations_this_run": 1712,
+  "baseline_replay": {
+    "base_identical_to_F021": "428/428",
+    "prompt_identical_to_F021": "428/428"
+  },
+  "arms": {
+    "base": "227/428",
+    "prompt": "264/428",
+    "uniform_adapter": "376/428",
+    "norm_matched_random": "227/428",
+    "uniform_phrase": "18/28",
+    "uniform_sentence": "358/400",
+    "uniform_singular_subject": "159/200",
+    "uniform_plural_subject": "199/200"
+  },
+  "uniform_minus_prompt": {
+    "delta_pp": 26.16822429906542,
+    "family_bootstrap95_pp": [
+      20.794392523364486,
+      31.308411214953274
+    ],
+    "improved": 129,
+    "regressed": 17
+  },
+  "uniform_minus_task_balanced_F021": {
+    "delta_pp": 23.36448598130841,
+    "family_bootstrap95_pp": [
+      16.355140186915886,
+      29.67289719626168
+    ],
+    "improved": 109,
+    "regressed": 9,
+    "sentence_delta_pp": 25.25,
+    "sentence_family_bootstrap95_pp": [
+      17.75,
+      32.0
+    ],
+    "phrase_family_bootstrap95_pp": [
+      -25.0,
+      14.285714285714285
+    ]
+  },
+  "limits": "All questions are previously inspected development items. One training seed. Uniform and task-balanced samplers selected disjoint sets of 64 training examples, so this is a comparison of complete schedules and their selected content, not an isolated task-ratio intervention. Phrase score remains below base. No capability-preservation confirmation or transfer evidence.",
+  "evidence": "evolution_lab/evidence/completion_v3/evaluations/seed42_uniform_dev_f023/import_manifest.json",
+  "effective_weight_delta": {
+    "global_frobenius_norm": 1.8941639918142315,
+    "adapted_modules": 48,
+    "norm_matched_random_global_frobenius_norm": 1.8941667110736127,
+    "max_layer_relative_norm_mismatch": 6.955905825966156e-06
+  }
+}

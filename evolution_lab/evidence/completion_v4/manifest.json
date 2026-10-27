@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "generator": "phrase-sentence-completion-v4-fresh-lexicon",
+  "seed": 84,
+  "unique_cases": 8144,
+  "unique_families": 533,
+  "subject_and_verb_lexicons_disjoint_across_splits": true,
+  "phrase_source_note": "Researcher-curated familiar expressions; labels may vary by dialect and are not a culturally representative sample.",
+  "shards": [
+    {
+      "file": "completion-v4-cases-train-84-part01.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "c2e0a0f75bc3fcf39093948df1df35237cec539a40040f8a4b8d877745483ca3"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part02.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "50f56db99d77eafe4f6509abecd476f6ef66d30cf92c2118aed22f733aadd915"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part03.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "548acd7f108d768951550f21180db981122daf01095278c37f061938dbeb1250"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part04.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "2efb9084963791ff2768a335b9e23fcdda4ca84391768d9e1a6ef4d1da6abaa2"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part05.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "f81bab63b79c17bfe00526509ac75b1d8bf0b2fa51f4d23b6441a3ed51087aa0"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part06.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "3bb8b9e341e5b21374ce031a12a1086934abeca6c91a1859ce0317c5bda2a658"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part07.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "6b29b66b311aeb1720614a28d18e97fa9d50ddf07ba3c9146966ebf7a4e9fd12"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part08.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "3213419348ffd06a6b5b95c6705db4f2f32365212477d1a084b364807e524d65"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part09.jsonl",
+      "count": 750,
+      "split": "train",
+      "sha256": "d15deddc62b5bcf864f29622172bae24ce592ca00300d7ea18f227bb3cec6309"
+    },
+    {
+      "file": "completion-v4-cases-train-84-part10.jsonl",
+      "count": 554,
+      "split": "train",
+      "sha256": "2dc0b3bd6e6557a61622da72455520ba05f59a5ee304f361f38893b36fb9e41d"
+    },
+    {
+      "file": "completion-v4-cases-dev-84-part01.jsonl",
+      "count": 376,
+      "split": "dev",
+      "sha256": "32bb867989d335a3bf7b01ff5febaf8710bfe86f4006599d912352faf5783753"
+    },
+    {
+      "file": "completion-v4-cases-confirmation-84-part01.jsonl",
+      "count": 464,
+      "split": "confirmation",
+      "sha256": "6cbce207054d8353bb2147bb159aff786fbf63fefd5f206de540cbe4cb5f07d6"
+    }
+  ]
+}

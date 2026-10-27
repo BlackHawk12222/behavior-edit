@@ -57,6 +57,19 @@ def build_parser():
     completions_v3.add_argument("--seed", type=int, default=42)
     completions_v3.add_argument("--output", type=Path, required=True)
     completions_v3.add_argument("--validate-only", action="store_true", help="Validate an existing v3 completion dataset")
+    completions_v4 = sub.add_parser("generate-completions-v4", help="Generate fresh phrase and lexically disjoint agreement families")
+    completions_v4.add_argument("--seed", type=int, default=84)
+    completions_v4.add_argument("--output", type=Path, required=True)
+    completions_v4.add_argument("--validate-only", action="store_true", help="Validate an existing v4 completion dataset")
+    cohort = sub.add_parser(
+        "create-training-cohort",
+        help="Freeze one family-safe set of training examples for controlled exposure experiments",
+    )
+    cohort.add_argument("dataset", type=Path)
+    cohort.add_argument("--phrase-count", type=int, default=32)
+    cohort.add_argument("--sentence-count", type=int, default=32)
+    cohort.add_argument("--seed", type=int, default=42)
+    cohort.add_argument("--output", type=Path, required=True)
     case_train = sub.add_parser("train-cases", help="Train LoRA and norm-matched random controls on generated training cases")
     case_train.add_argument("dataset", type=Path)
     case_train.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
@@ -69,8 +82,18 @@ def build_parser():
     case_train.add_argument("--max-length", type=int, default=256)
     case_train.add_argument("--seed", type=int, default=42)
     case_train.add_argument(
-        "--sampling-strategy", choices=["uniform", "task-balanced"], default="uniform",
-        help="Choose the historical uniform schedule or equalized task-type sampling",
+        "--sampling-strategy", choices=["uniform", "task-balanced", "task-ratio"], default="uniform",
+        help="Choose uniform, equalized task-type, or fixed-cohort exposure-ratio sampling",
+    )
+    case_train.add_argument("--cohort-manifest", type=Path,
+                            help="Manifest for a frozen cohort created by create-training-cohort")
+    case_train.add_argument("--task-exposure-ratio",
+                            help="Exact update counts, e.g. phrase_completion=1,sentence_completion=63")
+    case_train.add_argument("--schedule-seed", type=int,
+                            help="Independent task-order seed for paired task-ratio schedules")
+    case_train.add_argument(
+        "--example-sampling", choices=["with-replacement", "without-replacement"],
+        help="Task-ratio example exposure policy; default is with replacement",
     )
     case_train.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_training"))
     ablate = sub.add_parser(
@@ -103,9 +126,19 @@ def build_parser():
     case_eval.add_argument("--offset", type=int, default=0, help="Skip this many cases within the selected split for bounded shards")
     case_eval.add_argument("--family-limit", type=int, help="Select N complete families using stable hash ranking")
     case_eval.add_argument("--family-seed", type=int, help="Seed for reproducible whole-family sampling; requires --family-limit")
+    case_eval.add_argument("--baseline-cache-from", type=Path,
+                           help="Reuse checksum-verified base and prompt responses from a compatible completed campaign")
     case_eval.add_argument("--checkpoint-every", type=int, default=10)
     case_eval.add_argument("--output-dir", type=Path, required=True)
     case_eval.add_argument("--resume", action="store_true", help="Continue only if the saved run specification matches exactly")
+    case_mixture = sub.add_parser(
+        "case-mixture",
+        help="Create an exact fixed 50/50 mixture and norm-matched random control from two compatible case adapters",
+    )
+    case_mixture.add_argument("run_dirs", nargs=2, type=Path)
+    case_mixture.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
+    case_mixture.add_argument("--seed", type=int, default=42)
+    case_mixture.add_argument("--output-dir", type=Path, default=Path("results/evolution_lab/case_mixtures"))
     run = sub.add_parser("run", help="Run controlled evaluations with a local model")
     run.add_argument("--tasks", type=Path, default=TASK_FILE)
     run.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
@@ -231,6 +264,24 @@ def main(argv=None):
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"V3 completion dataset validation failed: {error}", file=sys.stderr)
             return 2
+    if args.command == "generate-completions-v4":
+        from .completiongen_v4 import validate_dataset, write_dataset
+        try:
+            if not args.validate_only:
+                manifest = write_dataset(args.output, args.seed)
+                print(json.dumps({"shards": len(manifest["shards"]), "unique_cases": manifest["unique_cases"]}, indent=2))
+            print(json.dumps(validate_dataset(args.output), indent=2))
+            return 0
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            print(f"V4 completion dataset validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "create-training-cohort":
+        from .training_cohort import create_training_cohort
+        try:
+            return create_training_cohort(args)
+        except (ValueError, OSError, KeyError, TypeError, FileExistsError) as error:
+            print(f"Training cohort creation failed: {error}", file=sys.stderr)
+            return 2
     if args.command == "train-cases":
         from .case_training import train_case_adapters
         try:
@@ -253,6 +304,13 @@ def main(argv=None):
             return evaluate_cases(args)
         except (ValueError, OSError, KeyError, TypeError, FileExistsError, FileNotFoundError, RuntimeError) as error:
             print(f"Case campaign failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "case-mixture":
+        from .case_mixture import create_case_mixture
+        try:
+            return create_case_mixture(args)
+        except (ValueError, OSError, KeyError, TypeError, FileExistsError, FileNotFoundError, RuntimeError) as error:
+            print(f"Case mixture failed: {error}", file=sys.stderr)
             return 2
     if args.command == "fewshot-control":
         from .fewshot import evaluate_fewshot

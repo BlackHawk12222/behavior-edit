@@ -29,11 +29,30 @@ or self-graded answers are not millions of independent experiments. Scale
 cumulatively through bounded, checkpointed, deduplicated campaigns that fit the
 available hardware and execution session.
 
+### Treat training data as an experimental variable
+
+An adapter's behavior depends on which examples it sees, how often each kind
+appears, how examples are phrased, and which families are held out. Record the
+exact sampled example IDs and their split, family, task type, answer class,
+subject number, distractor number, and lexical family where applicable. Report
+both the full training-set distribution and the realized examples used at each
+update. Check exact duplicates and near-duplicate templates across splits.
+
+When studying data effects, keep the model revision, LoRA initialization seed,
+optimizer, update count, prompt, decoding and evaluation questions fixed while
+changing one data factor at a time: for example, uniform versus task-balanced
+sampling, singular/plural proportions, or phrase-family inclusion. If several
+factors change together, describe the result as a combined treatment rather
+than crediting one data property. Do not infer that a near-balanced update
+count means the semantic content or phrase families were balanced.
+
 ## Entry format
 
 For every finding or failure, record:
 
 - Question and falsifiable hypothesis.
+- Exact training data source, sampled IDs, family/answer-class distribution,
+  duplicates, and sampling schedule.
 - Base checkpoint, exact intervention (modules, layers, rank, direction and norm),
   seed, training pool, optimizer and decoding settings.
 - Prompt, random-edit, ordinary-LoRA and nonlearned mixture controls as relevant.
@@ -204,6 +223,83 @@ training families, and compare it with strong prompt, norm-matched random, and
 fixed-mixture controls on development families. Keep a new confirmation family
 pool untouched until the protocol is frozen. Add causal ablations before
 attempting a hypernetwork or claiming transfer to a large model.
+
+### F029 — Completion adapters transfer strongly to sentence agreement, while phrases regress
+
+Status: independent confirmation completed; no adapter passes the preservation gate.
+
+The frozen study tested all six F028 completion adapters (three with-replacement
+and three without-replacement training schedules) on 464 new lexical-family
+completion questions, plus 332 new arithmetic questions as a narrow locality
+check. The 33 completion families (8 curated phrase families and 25 sentence
+families) and 83 arithmetic families were checked for overlap against earlier
+response ledgers before registration. Candidate weights and controls were fixed
+before any confirmation answers were generated. Each adapter was compared on
+the exact same questions to the base, a task-matched prompt, and its own
+layerwise norm-matched random edit. The evaluator later regraded every raw
+answer from the trusted dataset keys and verified campaign checksums. The raw
+JSONL ledgers are stored losslessly as gzip to keep the GitHub evidence compact;
+the analysis index records both compressed-file checksums and checksums of the
+decompressed original ledgers.
+
+Across the six adapters, sentence accuracy was 83.0–89.2% (332–357/400),
+above the prompt control at 67.8% for every seed; all six paired family-bootstrap
+95% intervals for adapter minus prompt were positive. Phrase accuracy was only
+29.7–51.6% (19–33/64), below the base at 60.9% for all six candidates. Phrase
+intervals were wide and included zero in all six comparisons. Overall completion
+scores ranged from 76.9% to 83.2% versus 65.1% for the prompt. These are narrow
+completion-task transfer results, not evidence of general language ability.
+
+The arithmetic check exposed a striking training-schedule/seed interaction.
+With-replacement adapters scored 21.4–22.6% (71–75/332), similar to the base at
+20.2% and paired random edits at 20.2–21.1%. Without-replacement adapters scored
+40.7%, 55.7%, and 56.0% (135, 185, and 186/332); their paired gains over random
+were +20.5, +35.2, and +35.5 percentage points, with family-bootstrap intervals
+above zero. The raw answers show many base/prompt outputs spending the 16-token
+generation budget on unfinished explanations while adapters often return a
+bare number. This may be a response-length/format effect that improves exact-key
+grading under this fixed token limit; it does not establish improved arithmetic
+reasoning. Arithmetic transfer was not predicted as a target outcome, the
+schedule result has only three seeds per arm, and this single addition dataset
+is not a broad capability test.
+
+Exact intervention and controls: no new training was done for F029. It evaluated
+the six hash-identified F028 rank-4 adapters and their paired layerwise
+norm-matched random deltas. Base and prompt responses were held identical across
+all adapter comparisons through verified cache reuse. Greedy decoding used
+16 new tokens. The prompt-only score was 31/64 on phrases and 271/400 on
+sentences; arithmetic prompt accuracy was 36/332, below the base's 67/332.
+Paired family bootstrap results are in `evidence/f029_fresh_lexicon_transfer/summary.json`;
+all raw responses, campaign checksums, model revisions, delta sidecars,
+preregistration and failed preflight record are retained beside it.
+
+Decision: quarantine all six candidates from promotion. Their phrase regressions
+break the preservation gate even though sentence transfer is strong. Retire both
+confirmation pools; do not use their failures to tune and then reuse them as
+independent tests. Next, investigate the terse-output confound with a separately
+preregistered, longer-token arithmetic confirmation set, length-matched scoring,
+and fresh phrase families. Compare controlled training-data exposure and
+sentence-task edits to nonlearned output-format controls before attributing
+changes to a behavior or weight region. No layer-specific cause or predictor was
+tested, and nothing here transfers Qwen tensors or behavior claims to Astra.
+
+Reproduce from the repository root with the pinned local snapshot available:
+
+```sh
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python evolution_lab/evidence/f029_fresh_lexicon_transfer/run_f029_confirmation.py
+PYTHONPATH=. python evolution_lab/evidence/f029_fresh_lexicon_transfer/analyze_f029.py
+python -m unittest discover -s evolution_lab/tests -p 'test_*.py'
+```
+
+This run used Python 3.11.17 and PyTorch 2.14.1 on CPU float32. MPS was built
+into this PyTorch package but was unavailable to the current execution context,
+so F029 records no new MPS hardware result. The full software suite passed 101
+tests; these are software checks, not model questions. F029 adds 11,144 model
+generations and 796 unique confirmation prompts, plus 9,552 verified cached
+baseline rows. Across checked-in evaluation ledgers, the updated census is
+101,920 response records, 71,824 model generations, 30,096 cache-hit rows, and
+3,096 unique normalized prompts. Counts do not include generated-but-unevaluated
+cases, training updates or software tests.
 
 ### F007 — Deterministic arithmetic case generation is now auditable
 
@@ -949,8 +1045,9 @@ confirmation, training-seed replication and transfer to other models.
 
 ### F020 — Fresh phrase and long-distance agreement benchmark added
 
-Status: deterministic benchmark infrastructure verified; no model behavior
-results yet.
+Status: deterministic benchmark infrastructure verified. The first exploratory
+development results are recorded separately under F021; confirmation remains
+untouched.
 
 The new v3 generator records 8,740 cases: 196 completions from 49 curated
 phrase families and 8,544 subject–verb completion sentences. Sentence prompts
@@ -967,11 +1064,10 @@ will be wide; sentence results must be reported separately.
 Validation confirms all 8,740 prompt IDs are unique, answer choices and solver
 keys are consistent, family assignments stay intact, and shard hashes match.
 Exact v3 phrase-prefix/answer pairs do not overlap the earlier v1/v2 inventories.
-This result only validates data generation; no v3 model generations or edit
-effects are claimed. The holdout has not been consumed. Train the candidate and
-select prompt, random-edit and LoRA controls on training/development data,
-pre-register the comparison, then use fresh confirmation at most once. Preserve
-phrase completion and subject–verb agreement as separate outcomes.
+The benchmark validation itself makes no model behavior claim. F021 records the
+first development campaign; it is exploratory, with no independent confirmation
+or edit promotion. The holdout has not been consumed. Preserve phrase
+completion and subject–verb agreement as separate outcomes.
 
 Reproduce or validate with `python -m evolution_lab generate-completions-v3
 --seed 42 --output evolution_lab/evidence/completion_v3` and the corresponding
@@ -980,11 +1076,12 @@ Reproduce or validate with `python -m evolution_lab generate-completions-v3
 the completion-specific prompt and objective word-choice grader.
 
 **Confirmed:** generator-level determinism, trusted keys, and disjoint
-sentence subject/verb inventories. **Not measured:** any model score, edit
-benefit, locality, capability preservation, or generalization. **Open:** train
-a task-balanced LoRA, compare against base/prompt/norm-matched random and a
-nonlearned adapter mixture, quantify phrase and sentence results separately,
-and consume the fresh confirmation only after preregistration.
+sentence subject/verb inventories. **Not confirmed:** general model behavior,
+edit benefit, locality, capability preservation, or generalization. **Open:**
+replicate the F021 bias across training seeds on development, compare
+nonlearned adapter mixtures, quantify phrase and sentence results separately,
+and consume fresh confirmation only after preregistration and a stronger
+development candidate.
 
 ### F021 — Balanced completion LoRA shifts sentence behavior toward plural forms
 
@@ -1041,3 +1138,487 @@ singular errors and weight/module contributions; compare explicit number-
 balanced objectives and nonlearned mixtures on development; do not claim an
 edit guide or consume confirmation until a candidate clears the prompt and
 preservation gates.
+
+
+### F022 — Second training seed repeats the plural pattern on the same development set
+
+Status: preregistered seed replication on previously inspected development
+questions; no independent confirmation; both candidates remain quarantined.
+
+The seed-43 adapter used the same 7,880-case training inventory, 64 updates,
+rank-4 q/v LoRA, AdamW learning rate 0.0005, and task-balanced sampling as
+F021. It ran on pinned Qwen2.5-0.5B-Instruct revision
+`7ae557604adf67be50417f59c2c2f167def9a775`, CPU float32. Its actual 64
+training examples included 32 phrase and 32 sentence cases, but the sampled
+sentence subjects were 21 singular and 11 plural. F021's seed-42 sample had
+32 phrase and 32 sentence cases, with 15 singular and 17 plural subjects.
+Both exact update lists and family distributions are retained in the evidence.
+
+On the same 428 development questions, F022 scored 284/428 (66.4%) for the
+adapter, 264/428 (61.7%) for prompt, 227/428 (53.0%) for base, and 215/428
+(50.2%) for the norm-matched random adapter. Adapter minus prompt was +4.7
+points, with family-bootstrap 95% interval −1.6 to +11.2; this remains
+inconclusive. Phrase accuracy was 14/28, below base (23/28) and prompt (19/28).
+Sentence accuracy was 270/400 versus prompt's 245/400 and base's 204/400.
+Both training seeds answered all 200 plural-subject sentence probes correctly;
+F022 answered 70/200 singular probes. The two adapters produced the same
+answer on 367/400 sentence cases and 11/28 phrase cases, but this is still a
+repeated development set, not new generalization evidence.
+
+This repeat does not show that class counts alone cause the plural preference:
+F022 had more singular than plural subject examples, yet retained the same
+plural ceiling. Example identities, lexical families, presentation order and
+gradient trajectories also differ; seed and sample content are intertwined.
+The result supports a recurring measured behavior on this benchmark, not a
+causal explanation of particular weights or a useful general edit. F022 adds
+1,712 generations and **zero new unique questions** beyond F021. Confirmation
+remains untouched. See
+`evidence/completion_v3/evaluations/seed43_balanced_dev_f022/`.
+
+**Observed:** both balanced-seed adapters favor plural sentence completions;
+phrase outcomes and overall adapter-versus-prompt margins remain mixed.
+**Rejected:** simple explanation that the number of singular/plural training
+updates alone determines the bias. **Open:** isolate schedule and example
+content, inspect targeted module/layer interventions, and run only a frozen
+candidate on fresh confirmation after broader preservation checks.
+
+### F023 — Training schedule changes the measured sentence behavior
+
+Status: strong preregistered development result; no independent confirmation;
+uniform adapter frozen as a candidate for possible confirmation, but still
+quarantined.
+
+F023 fixed the seed at 42 and compared uniform sampling with F021's
+task-balanced schedule. It used the same pinned Qwen2.5-0.5B-Instruct
+revision, training pool, rank-4 q/v LoRA, 64 updates, AdamW at 0.0005, and
+CPU float32. The 7,880-case training pool contains 136 phrase examples
+(1.73%) and 7,744 sentence examples. Uniform sampling selected 1 phrase and
+63 sentences; task-balanced sampling selected 32 of each. Uniform and
+balanced selected disjoint sets of 64 exact training examples, so the contrast
+is between full sampling schedules including the resulting example content,
+not a pure isolated phrase-count change.
+
+On the same previously inspected 428 development questions, the uniform
+adapter scored 376/428 (87.9%), versus 264/428 (61.7%) for the explicit prompt,
+227/428 (53.0%) for base, and 227/428 for the per-layer norm-matched random
+edit. The trained and random controls both changed 48 q/v modules; their
+effective global delta Frobenius norms were 1.894164 and 1.894167, with a
+maximum per-layer relative norm mismatch of 6.96e-6. Uniform-minus-prompt was
++26.2 percentage points (129 improved, 17 regressed; paired family-bootstrap
+95% interval +20.8 to +31.3). Uniform
+minus the seed-42 task-balanced adapter was +23.4 points (109 improved, 9
+regressed; interval +16.4 to +29.7). The sentence score drove this contrast:
+358/400 for uniform versus 257/400 for task-balanced, with sentence-only
+interval +17.8 to +32.0 points. By subject number, uniform scored 159/200
+singular and 199/200 plural, compared with balanced's 57/200 singular and
+200/200 plural. Phrase accuracy was 18/28 for uniform, 19/28 task-balanced,
+19/28 prompt, and 23/28 base. The phrase-only uniform-minus-balanced interval
+was −25.0 to +14.3 points, so this small phrase sample is inconclusive.
+
+The evaluator reran all four arms: base and prompt responses matched F021
+exactly on all 428 cases each. The campaign generated 1,712 responses on 428
+questions but added **zero new unique questions**. The development set was
+already inspected in F021/F022, so these strong margins are not independent
+generalization. The training sample identities also changed completely between
+the two schedules. The result supports the claim that the implemented training
+schedule can substantially alter this model's behavior on this benchmark; it
+does not show that the phrase-example count alone caused the difference, that
+specific weights encode a general grammatical trait, or that the behavior
+transfers to Astra.
+
+The adapter remains quarantined. Phrase performance is below base, one seed
+was trained, and broader capability/locality checks were absent at the time of
+F023. F024 has since consumed and retired the v3 confirmation families. Exact
+training IDs, split, raw responses, checkpoints, effective-delta summaries,
+paired analysis, run settings and hashes are under
+`evidence/completion_v3/evaluations/seed42_uniform_dev_f023/`.
+
+Reproduce the training with the immutable model revision and
+`--sampling-strategy uniform`; evaluate with `case-eval --split dev --arms base
+prompt adapter random` and the archived adapter/delta paths. The recorded
+environment used Python 3.11.17, torch 2.14.1, Transformers 4.57.6 and PEFT
+0.18.1. MPS was built into torch but unavailable; this run used CPU float32.
+
+**Observed on exposed development data:** uniform-schedule training changes
+sentence completion substantially relative to task-balanced training and the
+strong prompt, chiefly by improving singular subjects; phrase performance
+remains lower than base. **Tentative:** the composition and selection of
+training examples are major drivers of this LoRA's behavior. **Rejected:**
+“this proves phrase frequency alone caused the change” and “the edit is ready
+to transfer.” **Open:** independent confirmation, a fixed-pool composition
+dose-response, wider capability/locality tests, seed replication, and precise
+module/layer interventions.
+
+### F024 — Frozen candidate confirmation and arithmetic preservation
+
+Status: completed preregistered confirmation; both confirmation families are
+retired. The F023 uniform adapter remains quarantined and is not eligible for
+promotion.
+
+On 432 untouched completion questions (32 phrase items and 400 sentence items
+across 33 families), the frozen candidate scored 409/432 (94.7%): 19/32
+phrases and 390/400 sentences. The task-matched prompt scored 264/432, base
+200/432, and the per-layer norm-matched random edit 205/432. Candidate minus
+prompt was +33.6 percentage points (150 improved, 5 regressed; paired
+family-bootstrap 95% interval +28.7 to +37.7). The sentence result was 390/400
+versus prompt 249/400; however, phrase score 19/32 remained below base 26/32.
+This is strong independent evidence for this narrow sentence-completion
+behavior on this model and dataset, with an explicit phrase trade-off.
+
+The fixed 50/50 concatenation of the balanced and uniform adapters scored
+388/432 (17/32 phrases, 371/400 sentences). Uniform candidate minus mixture
+was +4.9 points (31 improved, 10 regressed; paired family-bootstrap 95%
+interval +2.1 to +8.1). Base and prompt responses replayed exactly on 432/432
+questions each. The mixture is rank 8 while the candidates are rank 4, so this
+is not an equal-capacity comparison.
+
+On a separate 312-question, 78-family addition probe, the candidate scored
+99/312 (31.7%), versus 155/312 prompt (49.7%), 54/312 base, and 54/312
+norm-matched random. Candidate minus prompt was −17.9 points (25 improved, 81
+regressed; family-bootstrap 95% interval −23.4 to −12.8). It beat base by
+14.4 points (95% interval +10.6 to +18.3), but remained far below the strong
+prompt. This narrow check does not establish broad capability preservation.
+
+The three campaigns recorded 4,704 generations on 744 unique questions. The
+completion data were replayed for the mixture comparison; repeated answers
+count as generations, not additional questions. A progress-log defect exposed
+base-arm correctness indicators for the first 325/432 completion cases before
+detection. No candidate, case, or analysis choice changed in response, and the
+deviation remains in the preregistration and archived analysis. Two additional
+preflight command errors generated zero responses and were documented before
+retry: local model-path identity and archived adapter-manifest validation.
+
+All raw observations, run specifications, reports, mixture and random
+checkpoints, direct paired comparisons, preregistration amendments, and SHA-256
+manifest are under `evidence/f024_frozen_confirmation/`. The result does not
+show Astra transfer, general reasoning improvement, broad locality, or a
+weight-to-trait map. Do not tune on either retired confirmation family.
+
+### F025 — Fixed training examples, changed task exposure schedule
+
+Status: completed two-seed development study; no independent confirmation and
+no candidate promotion. This study records a concrete training-data result and
+also exposes why task update counts are only part of the data story.
+
+F023 shows why training-data provenance must be treated as a causal variable:
+uniform sampling selected 1 phrase and 63 sentence examples, while the balanced
+schedule selected 32 of each, and the two 64-example sets had no examples in
+common. Their behavior difference cannot be assigned to the task ratio alone.
+F024's confirmation sets were not used to choose or tune F025.
+
+The preregistered F025 cohort fixes 64 train-split examples from 64 distinct
+families: 32 phrase examples and 32 sentence examples, with 16 singular and 16
+plural sentence subjects. Its hash-bound manifest is
+`evidence/f025_fixed_support_exposure/training_cohort/manifest.json`. Six
+adapters used this same support set, three task-update allocations (phrase /
+sentence: 1/63, 16/48, 32/32) and two paired training seeds. They shared the
+pinned Qwen2.5-0.5B-Instruct revision, 64 total optimizer steps, rank-4 q/v
+LoRA, AdamW and learning rate 0.0005. Each task draws with replacement from
+its own seed-specific stream. The exact per-step IDs, loss trace and repeated
+example counts are saved under `evidence/f025_fixed_support_exposure/training/`.
+
+This makes one important distinction visible: a nominal 32/32 update split
+does not mean 32 unique examples of each kind were learned once. Across the
+six runs, only 27–40 distinct examples were encountered in total; the 1/63
+runs saw one unique phrase item and 26 unique sentence items, while individual
+examples repeated up to seven times. Both the full cohort distribution and
+actual sampled IDs matter when interpreting an edit.
+
+On the already-inspected 428-question development split (28 phrase items from
+7 families and 400 sentence items from 25 families), adapters scored 334–377
+correct. Each beat the task-matched prompt (264/428) by 16.4–26.4 percentage
+points in paired family-bootstrap intervals that excluded zero. The base
+scored 220/428 and norm-matched random edits scored 207–224/428. However,
+every adapter scored below the base on phrase completion: 14–20/28 versus
+24/28. The observed gains came from sentence completion, not a broad uplift.
+Base and prompt responses replayed identically in all six runs.
+
+The training-ratio comparisons do not establish a reliable dose-response.
+Moving from 1/63 to 16/48 changed total accuracy by +8.2 points for seed 42
+(family-bootstrap interval +4.2 to +12.4) but only +0.5 for seed 43 (−1.9 to
++2.6). Moving from 16/48 to 32/32 changed it by −0.5 for seed 42 (−4.2 to
++3.0) and −2.3 for seed 43 (−6.3 to +2.1). Higher phrase exposure did not
+consistently improve phrase scores: the 32/32 treatment underperformed 16/48
+on phrases in both seeds. Only two training seeds and seven phrase families
+were available, and the compared treatment includes schedule order as well as
+the number of task updates. These are exploratory estimates, not confirmation.
+
+The exact complete raw-ledger audit and reproducible paired-family analysis
+are in `evidence/f025_fixed_support_exposure/summary.json` and
+`evidence/f025_fixed_support_exposure/analyze_f025.py`; all six campaigns
+contain base, prompt, trained-adapter and per-layer norm-matched random arms.
+Recompute with:
+
+```sh
+PYTHONPATH=. python evolution_lab/evidence/f025_fixed_support_exposure/analyze_f025.py \
+  --output evolution_lab/evidence/f025_fixed_support_exposure/summary.json
+```
+
+F025 adds 10,272 model response records but no new unique questions: its 428
+questions and 32 families had already been inspected. The v3 confirmation
+families remain retired after F024. Do not use F025 to claim independent
+generalization, broad capability preservation, a causal effect of update
+count separated from order, a general weight-to-trait guide, or transfer to
+Astra. The next valuable step is to design a fresh, larger lexical/grammatical
+confirmation cohort and preserve unrelated capability probes; do not tune on
+the old F025 development questions.
+
+### Engineering follow-up — separate task-order randomness and account for reused baselines
+
+Status: implementation verified by focused software tests; no new model
+behavior result.
+
+`train-cases --schedule-seed` now records a task-order random seed separately
+from the model initialization and within-task example-stream seed. For the
+two-task case, a shared schedule seed creates nested randomized positions when
+the task ratio changes; without this option, the historical seeded shuffle is
+preserved exactly. Multi-task schedules are explicitly labeled as a seeded
+multiset shuffle because the two-task nesting guarantee does not apply. Every
+optimizer update still records the chosen task, exact example ID, and loss.
+
+`case-eval --baseline-cache-from` can import base/prompt responses from a
+completed compatible campaign. It checks the source run, specification,
+ledger/report checksums, question IDs/text/hash, trusted grades, model revision,
+prompts, requested inference settings, and then confirms resolved model,
+device and precision match after loading the target model. Cached rows retain
+source checksums and are counted separately from new generations. A synthetic
+campaign test verified 4 imported rows, zero target generations, and exact
+cache-hit accounting. Focused training-schedule and evaluator tests passed.
+
+These are data-provenance and efficiency improvements, not scientific findings.
+They set up the next development-only order-sensitivity diagnostic: hold the
+F025 support set, 16/48 task ratio, model seeds, task-specific example streams,
+optimizer, and 64 updates fixed while varying only the task-order seed across
+three schedules and two model seeds. Reuse base/prompt answers only when the
+recorded cache compatibility checks pass. The v3 development questions are
+already inspected and the F024 confirmation pool is retired, so this diagnostic
+cannot support generalization or promotion. A later confirmation needs newly
+generated family-disjoint examples and separate capability-preservation checks.
+
+### F026 — Task-order sensitivity interacts with the initialization seed
+
+Status: completed preregistered development diagnostic; adapter candidates remain
+quarantined; confirmation is not available from this study.
+
+F026 held the 64-example, family-disjoint F025 training cohort fixed (32 phrase
+and 32 sentence items; 16 singular and 16 plural sentence subjects), the
+16-phrase/48-sentence update ratio, optimizer, rank-4 q/v LoRA, 64 steps, model
+revision, and each seed's within-task example streams. It varied only the
+schedule seed that places the phrase and sentence updates in the 64-step
+sequence (901, 902, 903), crossed with two LoRA initialization/training seeds
+(42, 43). That produced six adapters and 384 training updates. It is an
+intervention on training sequence, not on example content or task ratio.
+
+All six adapters were evaluated on the same 428 phrase/sentence development
+questions already inspected in F025. The base scored 220/428 and the explicit
+prompt scored 264/428 in every run; those exact answers were checksum-verified
+and reused from cache. The adapter totals by training seed / schedule seed
+were:
+
+| Training seed | Schedule seed | Adapter correct | Random-edit correct | Phrase | Sentence |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 42 | 901 | 63/428 (14.7%) | 221/428 (51.6%) | 1/28 | 62/400 |
+| 42 | 902 | 84/428 (19.6%) | 222/428 (51.9%) | 4/28 | 80/400 |
+| 42 | 903 | 383/428 (89.5%) | 224/428 (52.3%) | 20/28 | 363/400 |
+| 43 | 901 | 384/428 (89.7%) | 207/428 (48.4%) | 20/28 | 364/400 |
+| 43 | 902 | 376/428 (87.9%) | 209/428 (48.8%) | 19/28 | 357/400 |
+| 43 | 903 | 375/428 (87.6%) | 209/428 (48.8%) | 20/28 | 355/400 |
+
+The trained and random adapters were norm matched per layer. Their global
+effective-delta Frobenius norms differed by less than 0.000003 in each run.
+The high-scoring adapters returned a single word on all 428 cases, while the
+low-scoring seed-42 schedules did so on only 4/428 and 17/428. This is
+consistent with broad output disruption under those two runs, not just a few
+wrong completions. The random-edit scores stayed close to the base in all six
+runs. The strong result under seed42/schedule903 and all seed43 schedules is
+therefore not reproduced by a random edit, but is not robust to every adapter
+initialization and order combination.
+
+Within seed 42, paired family bootstrap contrasts (5,000 resamples, 32
+families) showed schedule 903 minus 901 at +74.8 percentage points (324
+questions improved, 4 regressed; 95% interval +69.9 to +79.4), and schedule
+903 minus 902 at +69.9 points (313 improved, 14 regressed; +63.8 to +75.2).
+Schedule 902 minus 901 was +4.9 points (48 improved, 27 regressed; +1.9 to
++7.7). Within seed 43, differences were small: 902 minus 901 was −1.9 points
+(6 improved, 14 regressed; −3.5 to −0.2); 903 minus 901 was −2.1 (8 improved,
+17 regressed; −5.6 to +1.2); and 903 minus 902 was −0.2 (20 improved, 21
+regressed; −3.5 to +3.0). These intervals condition on the exposed question
+families and do not account for the small number of training seeds or schedule
+seeds.
+
+The engineering conclusion is that task order can radically change the
+outcome for this fixed cohort and one initialization, while another
+initialization is comparatively stable across these three orders. This is
+suggestive of an order-by-initialization interaction, not a generally useful
+schedule or a reliable model edit. The study does not compare different
+training-example content or quality; data identity, labeling, balance,
+repetition, and order all need to be tracked separately in future work.
+Only 428 previously inspected questions were used, including 28 phrase cases
+from 7 families. The v3 confirmation cases are retired after F024. No fresh
+generalization, broad preservation, causal neuron/weight explanation, or
+Astra transfer is established. Keep every adapter quarantined and do not tune
+on this exposed development set.
+
+The reproducible analysis validates every training manifest and step trace,
+checks the invariant per-task example streams, re-grades every raw response
+with the trusted answer key, verifies response/report hashes, and computes
+paired family-bootstrap contrasts:
+
+```sh
+PYTHONPATH=. python evolution_lab/evidence/f026_task_order_sensitivity/analyze_f026.py \
+  --output evolution_lab/evidence/f026_task_order_sensitivity/summary.json
+```
+
+All six training checkpoints, exact per-step traces, raw answers, reports,
+checksums, preregistration, and the analysis script are under
+`evidence/f026_task_order_sensitivity/`. The six evaluation campaigns contain
+10,272 response records: 5,136 new model generations and 5,136 verified cached
+base/prompt rows. They add zero unique questions. Software test counts are
+separate. Runs used the locally cached pinned Qwen2.5-0.5B-Instruct revision
+on CPU float32 in this executor; this is not a fresh Apple MPS result.
+
+**Confirmed in this diagnostic:** changing task-update order produced a very
+large score shift under seed 42 with the same examples and per-task streams;
+seed 43 did not show the same shift. **Tentative:** initialization and task
+order interact. **Not established:** which individual weights encode the
+behavior, whether the high-scoring change preserves other abilities, whether
+different data changes would help, or whether this transfers to a larger model.
+**Next:** build a separately preregistered factorial study of training-data
+content/quality and schedule across more training seeds, with family-disjoint
+fresh confirmation and unrelated capability/locality probes. Keep all exposed
+F025/F026 questions out of confirmation.
+
+### F027 — Training-example content changes completion behavior, with seed-dependent effects
+
+Status: completed preregistered development diagnostic; no candidate is promoted.
+
+**Question and intervention.** Holding the pinned Qwen2.5-0.5B-Instruct revision, task ratio, optimizer, LoRA settings, update count, training seeds and task-order seeds fixed, does using different valid phrase/sentence examples change completion behavior? Two 64-example cohorts were sampled from the trusted completion-v3 train split: each had 16 phrase and 48 sentence items, and balanced singular/plural sentence subjects. The cohorts shared only 3 exact examples (all phrases); they differed on 13 phrase and all 48 sentence examples apiece. The content treatment therefore changes example identity and family coverage together; this is not a test of label quality.
+
+The 2 cohorts were crossed with training seeds 42, 43 and 44, and task-order seeds 901 and 903 (12 adapters, 768 training updates). Training used 64 updates, rank-4 q/v LoRA, AdamW learning rate 0.0005, max sequence length 256 and CPU float32. Each adapter was evaluated against the same 428 previously inspected development questions (28 phrase, 400 sentence, 32 families). This is development evidence only; the final completion-v3 confirmation pool remained unused and retired.
+
+| Cohort | Seed | Order | Adapter | Base | Prompt | Random edit | Phrase | Sentence |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| A | 42 | 901 | 329/428 (76.9%) | 220 | 264 | 222 | 18/28 | 311/400 |
+| A | 42 | 903 | 330/428 (77.1%) | 220 | 264 | 220 | 16/28 | 314/400 |
+| A | 43 | 901 | 326/428 (76.2%) | 220 | 264 | 208 | 19/28 | 307/400 |
+| A | 43 | 903 | 335/428 (78.3%) | 220 | 264 | 209 | 15/28 | 320/400 |
+| A | 44 | 901 | 343/428 (80.1%) | 220 | 264 | 223 | 19/28 | 324/400 |
+| A | 44 | 903 | 345/428 (80.6%) | 220 | 264 | 224 | 19/28 | 326/400 |
+| B | 42 | 901 | 361/428 (84.3%) | 220 | 264 | 221 | 21/28 | 340/400 |
+| B | 42 | 903 | 368/428 (86.0%) | 220 | 264 | 220 | 22/28 | 346/400 |
+| B | 43 | 901 | 324/428 (75.7%) | 220 | 264 | 208 | 14/28 | 310/400 |
+| B | 43 | 903 | 335/428 (78.3%) | 220 | 264 | 212 | 13/28 | 322/400 |
+| B | 44 | 901 | 343/428 (80.1%) | 220 | 264 | 224 | 19/28 | 324/400 |
+| B | 44 | 903 | 327/428 (76.4%) | 220 | 264 | 225 | 20/28 | 307/400 |
+
+Base and prompt were checksum-verified cached responses, identical across all 12 campaigns. The norm-matched random-edit controls stayed at 208–225/428. Every trained adapter passed the one-word output-format check on all 428 items. These controls show the measured differences were not simply a different prompt, random weight noise, or malformed output. However, all questions had already been inspected, and these completion-only tasks are not a broad capability/locality check.
+
+The preregistered paired family-bootstrap contrasts (32 families, including only 7 phrase families) show that cohort B exceeded A for seed 42 by +7.5 points under order 901 (95% interval +0.7 to +14.7) and +8.9 under order 903 (+2.1 to +16.4). For seed 43, the contrasts were −0.5 (−7.9 to +6.5) and 0.0 (−3.5 to +3.7). For seed 44, they were 0.0 (−5.1 to +5.4) and −4.2 (−8.4 to −0.2). The intervals are exploratory, conditional on the exposed families, and not multiplicity-adjusted. Thus the content difference mattered in some matched conditions, but did not produce a consistent cohort winner; it interacted with the training seed/order. The study does not isolate which lexical/family property caused the differences.
+
+**Supports:** training example identity can be behaviorally consequential even with the task ratio and broad subject balance held fixed; documenting data and sample IDs is necessary for reproducibility.
+
+**Does not support:** a general claim that cohort B is better, a claim about label correctness or data quality, a durable trait/weight map, independent generalization, broad capability preservation, or transfer to Astra. No candidate meets the promotion gate. Keep all adapters quarantined.
+
+The study records 20,544 response rows: 10,272 newly generated model responses and 10,272 verified cached baseline responses, across 2,300 unique normalized question prompts overall with zero new unique prompts. It uses 768 training updates. Software tests are a separate count. Reproduce/analyze with:
+
+```sh
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f027_cohort_content_sensitivity/run_f027_training.py \
+  --python /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  --model /Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f027_cohort_content_sensitivity/run_f027_evaluations.py \
+  --python /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  --model /Users/archerjohnson/.cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f027_cohort_content_sensitivity/analyze_f027.py \
+  --output evolution_lab/evidence/f027_cohort_content_sensitivity/summary.json
+```
+
+Evidence: preregistration, cohort manifests and exact examples, sequential training/evaluation campaign manifests, 12 adapter checkpoints, per-update traces, raw ledgers, regraded reports, checksums, and analysis are under `evidence/f027_cohort_content_sensitivity/`. Model revision is pinned to `7ae557604adf67be50417f59c2c2f167def9a775`; this run used CPU float32 because MPS was unavailable in this executor. It is not a fresh Apple Silicon GPU result.
+
+**Next:** improve data-quality controls by measuring trusted-label validity and template/family leakage separately from cohort identity, then test a preregistered sampling intervention on fresh family-disjoint confirmation data with unrelated preservation probes. The exposed v3 development and retired confirmation pools cannot serve as fresh confirmation.
+
+### F027 data-coverage addendum
+
+The per-update traces show that task-ratio example sampling was with
+replacement. Although each support had 16 phrase and 48 sentence examples,
+the 64 updates saw only 9–11 unique phrase items and 29–33 unique sentence
+items, or 40–42 unique examples total. Some examples appeared up to 3–4 times.
+This makes "support set" and "examples actually used by updates" different
+quantities.
+
+The displayed answer position is balanced in the full completion-v3 dataset:
+the trusted answer appears first/second 3,851/4,029 times in train, 200/228 in
+development, and 206/226 in confirmation. The stored `options` array puts the
+key first, but that array is not the prompt shown to the model; randomized text
+choices are the relevant distribution. This is a check against a trivial
+position cue, not proof of phrase-label quality.
+
+### F028 — Example repetition versus complete support coverage
+
+Status: completed exploratory development diagnostic; no candidate promoted.
+
+F028 used one fixed 64-example train-split cohort (16 phrase, 48 sentence;
+24 singular and 24 plural subjects) and crossed three initialization seeds
+with two exposure policies. The model revision, support cohort, update ratio,
+task-order seed 2603, optimizer, rank, learning rate, decoding, and evaluation
+cases were held fixed. With replacement, the 64 updates saw 40, 42, and 42
+distinct examples for seeds 42, 43, and 44 (phrase/sentence coverage 11/29,
+10/32, and 9/33). Without replacement, all three saw the full support exactly
+once (16/48). Task order positions matched exactly within each seed.
+
+On the same previously inspected 428-case development set, with-replacement
+adapter scores were 323/428, 332/428, and 340/428. Without-replacement scores
+were 337/428, 333/428, and 336/428. Base and prompt scored 220/428 and 264/428
+for every seed; norm-matched random controls scored 209–225/428. Adapter
+formatting was 428/428 for all six runs. Paired family-bootstrap contrasts
+for without minus with were +3.3 points for seed 42 (95% interval +0.5 to
++6.1), +0.2 for seed 43 (−3.0 to +3.3), and −0.9 for seed 44 (−4.4 to +2.1).
+The tiny, inconsistent policy differences do not support a reliable exposure
+benefit. All six adapters beat the prompt on this narrow task, but phrase
+completion remained only 15–19/28 versus base 24/28; this is not broad
+capability preservation.
+
+F028 generated 5,136 new model responses and reused 5,136 checksum-verified
+base/prompt responses, for 10,272 response records over zero new unique
+questions. It used 384 training updates. The 428 development cases and 32
+families were previously inspected, so this cannot establish independent
+generalization, training-label validity, broad locality, a causal trait map,
+or transfer to Astra. Keep all adapters quarantined. No final confirmation
+data was consumed.
+
+Reproduce the six CPU float32 training runs with
+`python evolution_lab/evidence/f028_example_exposure/run_f028_training.py`
+and the evaluation with
+`python evolution_lab/evidence/f028_example_exposure/run_f028_evaluations.py`;
+both runners accept `--python` and `--model` overrides. The analyzer is
+`python evolution_lab/evidence/f028_example_exposure/analyze_f028.py --output evolution_lab/evidence/f028_example_exposure/summary.json`.
+The preregistration, sampled-ID traces, checkpoints, raw generations, graded
+reports, checksums, and summary are under `evidence/f028_example_exposure/`.
+MPS was built but unavailable in this executor, so F028 is CPU evidence and
+does not add Apple GPU compatibility results.
+
+
+## F030 — arithmetic output-budget robustness (2026-10-27)
+
+**Question and hypothesis.** F029's without-replacement adapters scored unusually well on held-out addition under a 16-new-token cap. F030 asked whether this advantage survives when the base and prompt can finish longer answers. The primary intervention was the same greedy evaluation at 16 versus 64 new tokens; no training, candidate selection, threshold fitting, or adapter promotion occurred.
+
+**Data and controls.** We preregistered 96 unique questions from 24 whole arithmetic families, selected from a fresh deterministic `arithmetic-v3` confirmation shard (seed 20261027); exact prompt and family overlap with all earlier response ledgers was zero. Six frozen F028 LoRA adapters were tested with their layerwise norm-matched random-edit counterparts, plus the unedited base and a task-matched arithmetic prompt. All responses were graded after generation against independently computed sums. Family-paired bootstrap intervals resampled the 24 complete families. The 16-token arm is an internal replication; the 64-token arm tests cap sensitivity.
+
+**Result.** At 16 tokens the unedited base scored 18/96 (18.8%) and the task-matched prompt 10/96 (10.4%). The three without-replacement adapters scored 39/96, 58/96, and 50/96; their matched random edits scored 19/96, 18/96, and 18/96. Adapter-minus-base paired family-bootstrap 95% intervals were respectively +13.5 to +31.3, +32.3 to +51.0, and +25.0 to +40.6 percentage points. At 64 tokens, base scored 75/96 (78.1%) and prompt 81/96 (84.4%); adapter scores ranged 71–84/96 and matched random edits 71–80/96. Each without-replacement adapter was close to the prompt: +1.0 points (95% CI −3.1 to +5.2), +3.1 (−3.1 to +9.4), and 0.0 (−6.2 to +5.2). Comparisons with random edits were mixed: +11.5 points (5.2 to 16.7), +4.2 (−2.1 to 10.4), and +9.4 (1.0 to 17.7). With-replacement adapters were also mixed and did not consistently beat the prompt or random edits. These are exploratory intervals on 24 related arithmetic families, not multiplicity-adjusted evidence.
+
+The base and prompt themselves improved sharply with the larger output allowance (base: 18.8% to 78.1%; prompt: 10.4% to 84.4%). Without-replacement adapters remained more concise and saturated the 64-token allowance on only 1–4% of cases, while the base saturated it on 58%. This supports an output-budget interaction: a short cap suppresses the base/prompt more than these terse adapters. It does **not** establish improved arithmetic reasoning, a general trait change, or a causal mapping from particular weights to behavior. No adapter passes the broader preservation/promotion gate.
+
+**Reproduction and evidence.** Run the exact sequential campaigns and deterministic regrader from the repository root:
+
+```sh
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f030_token_budget_robustness/run_f030.py
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f030_token_budget_robustness/analyze_f030.py
+```
+
+The preregistration, generated dataset and hashes, all 14 run directories and response ledgers, score reports, and paired-family analysis are in `evidence/f030_token_budget_robustness/`. The analysis rechecks run/spec/adapter/delta hashes and regrades raw answers; `summary.json` records 96 unique questions, 24 families, 2,688 new generations, 2,304 verified cache rows, and 4,992 total response records. This run used CPU float32; Torch reported MPS built but unavailable in the execution context, so it is not new GPU evidence.
+
+**Interpretation and next step.** F030 supports the narrow conclusion that measured edit effects depend strongly on the generation budget. The apparent short-cap arithmetic improvement does not reliably exceed a fair task prompt when the latter has enough room to answer. Keep all candidates quarantined. A fresh follow-up should compare exact-answer-at-first-token and fixed-output-format behavior across new operation families, while preserving an untouched confirmation set and the same prompt/random/LoRA controls. Do not reuse F030's exposed questions for tuning or final confirmation.

@@ -1,0 +1,87 @@
+{
+  "run_id": "20261027T014254_134022Z",
+  "spec": {
+    "schema_version": 1,
+    "answer_grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+    "dataset_generator": "arithmetic-v3",
+    "dataset_manifest_sha256": "09501007376e67befcf95a40edb0c62068978b47be5947e582b7864b7f0b3377",
+    "dataset_seed": 20261026,
+    "split": "confirmation",
+    "case_fingerprint": "751f49ae947c588773ccee90110da4906e0653b0bc5557560e83a520720e4363",
+    "unique_questions": 332,
+    "split_offset": 0,
+    "family_sampling": null,
+    "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "requested_device": "cpu",
+    "requested_precision": "float32",
+    "arms": [
+      "base",
+      "prompt"
+    ],
+    "base_system_prompt": "You are a helpful assistant.",
+    "prompt_system_prompt": "You are a helpful assistant. Solve the arithmetic problem carefully and reply with one integer.",
+    "adapter_hashes": {},
+    "adapter_sources": {},
+    "adapter_delta_hashes": {
+      "adapter": null,
+      "random": null
+    },
+    "random_norm_match": null,
+    "max_new_tokens": 16,
+    "decoding": "greedy"
+  },
+  "spec_sha256": "4e2f99a8a7388b6ceb7d3c7f8d0f2ff29e00731bd50a957f03158913876508b1",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "a55d5634a6a9847423397c4ea015907890412c17",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "dataset_census": {
+    "unique_cases": 2048,
+    "unique_prompts": 2048,
+    "split_counts": {
+      "confirmation": 332,
+      "dev": 312,
+      "train": 1404
+    }
+  },
+  "records_written": 664,
+  "model_generations": 664,
+  "cache_hits": 0,
+  "actual_model": {
+    "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "device": "cpu",
+    "precision": "torch.float32"
+  },
+  "elapsed_seconds": 691.71,
+  "observations_sha256": "00e36610f6cc9f53e9dcd9c1fdcee962e58a393a44d9dee3446fb9e9525d5131",
+  "report_sha256": "07aef690e015fe68b6c2cf58d2737630b011b548795b87763cba9f1f9f221100",
+  "response_records": 664,
+  "completed_arms": {
+    "base": 332,
+    "prompt": 332
+  },
+  "observations_storage": {
+    "path": "observations.jsonl.gz",
+    "encoding": "gzip",
+    "compressed_sha256": "0f1dd07a6a966ed4d23bb4c9c0e976db077c4a7a628c59ed9a7230d3f30d4146",
+    "uncompressed_sha256": "00e36610f6cc9f53e9dcd9c1fdcee962e58a393a44d9dee3446fb9e9525d5131",
+    "uncompressed_bytes": 407803
+  }
+}

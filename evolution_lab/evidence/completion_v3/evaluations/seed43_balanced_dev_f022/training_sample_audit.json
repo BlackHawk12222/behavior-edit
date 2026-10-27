@@ -1,0 +1,17 @@
+{
+  "updates": 64,
+  "task_type_counts": {
+    "phrase_completion": 32,
+    "sentence_completion": 32
+  },
+  "sentence_subject_number_counts": {
+    "plural": 11,
+    "singular": 21
+  },
+  "sentence_attractor_number_counts": {
+    "singular": 17,
+    "plural": 15
+  },
+  "distinct_training_families": 54,
+  "source": "Recomputed by joining every recorded training example_id to the checked-in train shard."
+}
