@@ -2504,9 +2504,27 @@
         "without_replacement_seed44": "336/428 (78.5%)"
       },
       "paired_without_minus_with_percentage_points": {
-        "seed42": {"delta": 3.27, "bootstrap_95_interval": [0.47, 6.07]},
-        "seed43": {"delta": 0.23, "bootstrap_95_interval": [-3.04, 3.27]},
-        "seed44": {"delta": -0.93, "bootstrap_95_interval": [-4.44, 2.10]}
+        "seed42": {
+          "delta": 3.27,
+          "bootstrap_95_interval": [
+            0.47,
+            6.07
+          ]
+        },
+        "seed43": {
+          "delta": 0.23,
+          "bootstrap_95_interval": [
+            -3.04,
+            3.27
+          ]
+        },
+        "seed44": {
+          "delta": -0.93,
+          "bootstrap_95_interval": [
+            -4.44,
+            2.1
+          ]
+        }
       },
       "confirmed_observation": "Without-replacement support coverage was exactly 64/64 for every seed, compared with 40/64, 42/64, and 42/64 with replacement. Behavior differences on previously inspected development questions were small and seed-dependent: paired accuracy gains of 3.27, 0.23, and -0.93 percentage points. No consistent exposure-policy benefit was found.",
       "regression_and_controls": "All adapters passed single-word formatting on 428/428. Base and prompt were 220/428 and 264/428; norm-matched random controls were 208-225/428. Phrase accuracy was 15-19/28 for adapters versus 24/28 base, so broad preservation is not established.",
@@ -2517,6 +2535,168 @@
       "eligible_for_promotion": false,
       "candidate_quarantined": true,
       "interpretation": "Diagnostic of example repetition/coverage only; development results cannot establish generalization, data label validity, broad preservation, or transfer. No candidate is promoted."
+    },
+    {
+      "id": "f029-fresh-lexicon-transfer",
+      "status": "preregistered-not-run",
+      "question": "Do six already-trained completion adapters transfer their phrase/sentence behavior to independently held-out lexical families, and what happens to arithmetic locality?",
+      "hypothesis": "Most fixed adapters will score above a task-matched strong prompt on new completion families; the effect may vary by training seed/exposure policy. Arithmetic performance may regress, so target transfer alone is insufficient for promotion.",
+      "design": "Frozen candidate set: all six F028 adapters, paired with their own layerwise effective-delta norm-matched random control. No training, choosing, threshold tuning, or hyperparameter changes after inspecting confirmation responses. Compare each candidate to same-question base, strong prompt, and paired random. Then independently run all four arms on fresh arithmetic locality cases.",
+      "model": {
+        "id": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "runtime": "CPU float32 unless the verified MPS backend is available; record actual selection"
+      },
+      "completion_dataset": {
+        "path": "evolution_lab/evidence/completion_v4",
+        "generator": "phrase-sentence-completion-v4-fresh-lexicon",
+        "manifest_sha256": "2dd1d06a8106b60acdd7e04479f42acebebf3dd5bd11fccb9f973b85207b62c5",
+        "split": "confirmation",
+        "shard": "completion-v4-cases-confirmation-84-part01.jsonl",
+        "shard_sha256": "6cbce207054d8353bb2147bb159aff786fbf63fefd5f206de540cbe4cb5f07d6",
+        "unique_questions": 464,
+        "family_count": 33,
+        "question_mix": {
+          "phrase_completion": 64,
+          "sentence_completion": 400
+        },
+        "family_mix": {
+          "phrase_families": 8,
+          "sentence_families": 25
+        },
+        "lexical_family_splits_disjoint": true,
+        "known_limit": "Phrases are researcher-curated common expressions and may have cultural/dialect variation; sentence tasks test a narrow agreement pattern, not broad language ability."
+      },
+      "locality_dataset": {
+        "path": "evolution_lab/evidence/f029_fresh_lexicon_transfer/arithmetic_locality",
+        "generator": "arithmetic-v3",
+        "seed": 20261026,
+        "start": 1200000,
+        "generated_count": 2048,
+        "manifest_sha256": "046ce55f14be79995721d97c3c73f9a26fdd5a40314e09db4aa0da56e7ed515e",
+        "split": "confirmation",
+        "shard": "cases-confirmation-20261026-001200000-002048.jsonl",
+        "shard_sha256": "15a3412c62896de5f0c52a0f388a8b1788e21bb88b0d095936255b6807075545",
+        "unique_questions": 332,
+        "family_count": 83
+      },
+      "novelty_preflight": {
+        "existing_response_ledgers": 97,
+        "existing_response_records_with_prompt_hash": 77488,
+        "existing_unique_prompt_hashes": 2300,
+        "completion_confirmation_overlap": 0,
+        "arithmetic_confirmation_overlap": 0,
+        "within_split_duplicate_prompts": 0,
+        "note": "Prompt hashes were checked against every prior observations.jsonl ledger before registration; both confirmation pools remain unconsumed."
+      },
+      "fixed_conditions": [
+        {
+          "condition": "with-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/manifest.json",
+          "source_manifest_sha256": "6ab0e27018111be73abb7fdfff4339a25ef5f5e97ea0bbed5b0199d0b188f111",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/adapter_lora",
+          "lora_weights_sha256": "098ce0b9e0425edc7c8253f85a77c9d66b40fb35c5ee9e74a19967af112c2a2d",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/delta_lora.json",
+          "lora_delta_stats_sha256": "72a79c432a963e4213bc76dbda1b504a43112e4f3ada907d14354a32a30a798a",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/adapter_random",
+          "random_weights_sha256": "1d1b4f80c633e55e6283c7d5d41a82e18517d96c9dd079a2560a18aba5545c35",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/delta_random.json",
+          "random_delta_stats_sha256": "fac340aa6226b28477420f630c2e5a8e440fbc3debf7f0f7e1e25a0cc4fcb91f"
+        },
+        {
+          "condition": "with-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/manifest.json",
+          "source_manifest_sha256": "ddf9891c95ee0ba43e3258a3b3e6944c23ff1cb632787f6a41939a38d49c8f7e",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/adapter_lora",
+          "lora_weights_sha256": "3493648113f586ef403b22d52e0847260c8acf2eb93f3ca2857318f535de8720",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/delta_lora.json",
+          "lora_delta_stats_sha256": "349ac397f090c4212a88c00ff0f2a84acb371de43d0729f1ddf83b049510fd10",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/adapter_random",
+          "random_weights_sha256": "02007b695e0c453b739ca85ab5de6152525fa55c899383c9f897e2c824563ef4",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/delta_random.json",
+          "random_delta_stats_sha256": "0965c5a67837fdd46d40e63ea840f917bbcf5b9595e4b73a0899663fa919687c"
+        },
+        {
+          "condition": "with-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/manifest.json",
+          "source_manifest_sha256": "c000cd47e06c1500ba4e5fbcc07e309a78e510601eedaa56f0859d7e1ddbb316",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/adapter_lora",
+          "lora_weights_sha256": "ae87e0b935e01d883689e67d05dc17207ca067f313d128865d33cb2d12ee17d4",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/delta_lora.json",
+          "lora_delta_stats_sha256": "e7fc7b29ea99a69c3966b3955f8b7e5e8d49f62dd5e3376a3cc9926823dd38ab",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/adapter_random",
+          "random_weights_sha256": "6e95ac699a7df944c59e7f76ee3386f949248ea3c10ea2847367b3b071bb7879",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/delta_random.json",
+          "random_delta_stats_sha256": "5bc47a03d3908724b4f6b896409255750543f1e6f382c36fe329919acdec9edd"
+        },
+        {
+          "condition": "without-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/manifest.json",
+          "source_manifest_sha256": "03a73a102a652b0e209399ffab03cf6eb137ea2acbfad62cbae6faf53c4a4c98",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/adapter_lora",
+          "lora_weights_sha256": "48fd8688eb5553d1a18d2dea487a5b4a8fd0b98749d482db678acfae3e171794",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/delta_lora.json",
+          "lora_delta_stats_sha256": "f40b96a65ede2e1b99a2b231b3ab4287deafade76fd55514c05863ca9b87db31",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/adapter_random",
+          "random_weights_sha256": "80803b8670f72aa72d9c2604d3d35b78f0270c3d6f5124da47b7678310d17fcb",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/delta_random.json",
+          "random_delta_stats_sha256": "b47c886e013ed4e9c9c1921976491f61eaeeb67c1947729ef6d77c34c08a1161"
+        },
+        {
+          "condition": "without-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/manifest.json",
+          "source_manifest_sha256": "a9e12a832474feeb190b593017fdfaac654c6928960f15b264369f23feba3ec2",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/adapter_lora",
+          "lora_weights_sha256": "f7c2fa3d65a9ee9c7cd7f920cd2ee23e25b5e6c43d8d73ffb495689eb779a13b",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/delta_lora.json",
+          "lora_delta_stats_sha256": "d27cc014aed88449dfd4ae10eb3c4bdec92607331d4c64d28f8f16e52488f36b",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/adapter_random",
+          "random_weights_sha256": "ce794fe2d26113e66274f3fd91a6b4d4e326ff4ce142c27c3920d3c46450fc10",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/delta_random.json",
+          "random_delta_stats_sha256": "bac8c8fa9d13173376ad2ef6087f65b8eba77fb38da1419ab0c5ea4fbe3f7b65"
+        },
+        {
+          "condition": "without-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/manifest.json",
+          "source_manifest_sha256": "2bbc2b0a44aef993931f6945ee18797844f929963fc2055ecf13b0202943bb48",
+          "lora_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/adapter_lora",
+          "lora_weights_sha256": "a0af88b0659f6793ea0d2c771997484c6d0dd3b65ab1f8d3c8e9e59b90ac3d54",
+          "lora_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/delta_lora.json",
+          "lora_delta_stats_sha256": "acc9b93156aff7233526bcf059c695952ba7da8fb78ff0d1897638f4022d394f",
+          "random_adapter": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/adapter_random",
+          "random_weights_sha256": "1672320ce5fc1ec559ca8800b26d3cd0bd18c6e0b99ab8b1e4b902124e215931",
+          "random_delta_stats": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/delta_random.json",
+          "random_delta_stats_sha256": "8131f63fa74e14cc8ea663106bd433986214a3baf83c6cae608aab11eba59038"
+        }
+      ],
+      "evaluation": {
+        "completion_primary": "Per-question exact-key correctness, reported separately for phrase and sentence task types. Paired family bootstrap 95% intervals by task type, and all six adapter-minus-prompt and adapter-minus-random contrasts. Report counts, no broad-trait labels.",
+        "locality": "Trusted integer answer correctness plus formatting, report base/prompt/adapter/random and every adapter separately. Arithmetic is a narrow capability-preservation probe.",
+        "decoding": {
+          "max_new_tokens": 16,
+          "greedy": true
+        },
+        "total_unique_confirmation_questions": 796,
+        "planned_new_model_generations": 6368,
+        "planned_cached_base_prompt_reuses": 9552,
+        "planned_response_records_including_cache_rows": 20696,
+        "software_tests_are_not_model_generations": true
+      },
+      "decision_rule": "No candidate is promoted in this experiment. A positive result may support only transfer to these held-out phrase/sentence families for this model/revision and training setup. Any adapter with arithmetic regressions is quarantined. Confirmation families are retired after evaluation and cannot be used for tuning.",
+      "controls": [
+        "unedited base",
+        "task-matched prompt-only",
+        "the six frozen F028 LoRA adapters",
+        "six paired layerwise norm-matched random edits"
+      ],
+      "reproduction_commands": [
+        "python -m evolution_lab case-eval evolution_lab/evidence/completion_v4 --split confirmation --allow-confirmation --model Qwen/Qwen2.5-0.5B-Instruct --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --arms base prompt --output-dir ...",
+        "Run same frozen completion confirmation for each F028 adapter/random pair, reusing only the completed checksum-verified base/prompt cache. Repeat for the arithmetic confirmation dataset."
+      ],
+      "candidate_conditions_source": "evolution_lab/evidence/f028_example_exposure/training/",
+      "confirmation_consumed": false,
+      "eligible_for_promotion": false,
+      "preregistration_sha256": "1d50362b6ebf3de6b73d23f83d93fcd2c71e001accd50475f39f23b7d4b6e4f9"
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",

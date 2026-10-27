@@ -173,6 +173,10 @@ def load_cases(dataset: Path, split: str, limit: int | None = None, offset: int 
         from .completiongen_v3 import solve as solve_completion, validate_dataset as validate_completion_dataset
         census = validate_completion_dataset(dataset)
         answer_for = solve_completion
+    elif generator == "phrase-sentence-completion-v4-fresh-lexicon":
+        from .completiongen_v4 import solve as solve_completion, validate_dataset as validate_completion_dataset
+        census = validate_completion_dataset(dataset)
+        answer_for = solve_completion
     else:
         raise ValueError(f"Unsupported case dataset generator: {generator}")
     rows = []

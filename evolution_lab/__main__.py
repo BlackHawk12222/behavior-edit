@@ -57,6 +57,10 @@ def build_parser():
     completions_v3.add_argument("--seed", type=int, default=42)
     completions_v3.add_argument("--output", type=Path, required=True)
     completions_v3.add_argument("--validate-only", action="store_true", help="Validate an existing v3 completion dataset")
+    completions_v4 = sub.add_parser("generate-completions-v4", help="Generate fresh phrase and lexically disjoint agreement families")
+    completions_v4.add_argument("--seed", type=int, default=84)
+    completions_v4.add_argument("--output", type=Path, required=True)
+    completions_v4.add_argument("--validate-only", action="store_true", help="Validate an existing v4 completion dataset")
     cohort = sub.add_parser(
         "create-training-cohort",
         help="Freeze one family-safe set of training examples for controlled exposure experiments",
@@ -259,6 +263,17 @@ def main(argv=None):
             return 0
         except (ValueError, OSError, KeyError, TypeError) as error:
             print(f"V3 completion dataset validation failed: {error}", file=sys.stderr)
+            return 2
+    if args.command == "generate-completions-v4":
+        from .completiongen_v4 import validate_dataset, write_dataset
+        try:
+            if not args.validate_only:
+                manifest = write_dataset(args.output, args.seed)
+                print(json.dumps({"shards": len(manifest["shards"]), "unique_cases": manifest["unique_cases"]}, indent=2))
+            print(json.dumps(validate_dataset(args.output), indent=2))
+            return 0
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            print(f"V4 completion dataset validation failed: {error}", file=sys.stderr)
             return 2
     if args.command == "create-training-cohort":
         from .training_cohort import create_training_cohort
