@@ -2792,18 +2792,187 @@
         },
         "decision": "Quarantine all six adapters: transfer is sentence-specific and every adapter is below base on phrase completion. Confirmation pools are retired; no tuning on these responses."
       }
+    },
+    {
+      "id": "f030-arithmetic-token-budget-robustness",
+      "status": "complete-no-promotion",
+      "question": "Do the arithmetic score increases observed for F029 without-replacement completion adapters persist when generation has enough room for a complete explanation, or are they mainly a short-output/token-cap artifact?",
+      "hypotheses": {
+        "H1": "At 64 new tokens, base and prompt scores rise while adapter-vs-base and adapter-vs-random arithmetic gains shrink substantially, indicating F029 was partly a verbosity/truncation artifact.",
+        "H2": "Without-replacement adapters retain a positive exact-answer advantage over base and their matched random edits at 64 tokens; this would be a narrow transfer observation requiring further operation families and independent seeds, not a reasoning or trait claim."
+      },
+      "design": "No training, candidate selection, coefficient fitting, or threshold tuning. Evaluate the same whole-family fresh confirmation sample at 16 and 64 greedy new tokens. The 16-token arm is an internal replication; 64 tokens is the primary cap-robustness contrast. All six fixed F029 adapter/random pairs are tested at both budgets; base and prompt are separately run and then checksum-reused within each budget.",
+      "model": {
+        "id": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "runtime": "CPU float32; MPS built but unavailable in this execution context."
+      },
+      "dataset": {
+        "path": "evolution_lab/evidence/f030_token_budget_robustness/arithmetic_dataset",
+        "generator": "arithmetic-v3",
+        "seed": 20261027,
+        "start": 1202048,
+        "generated_count": 2048,
+        "manifest_sha256": "2358e611e48acf875f8b05fb2b036d4aea4d756c0a7458430e393dc87173caa9",
+        "split": "confirmation",
+        "shard": "cases-confirmation-20261027-001202048-002048.jsonl",
+        "shard_sha256": "c71e8484d7bb33869554ec157742e501d61e2b3b5d213b2c1072ac958a2ed55f",
+        "sample_method": "sha256-rank-whole-families-v1",
+        "family_limit": 24,
+        "family_seed": 20261027,
+        "unique_questions": 96,
+        "unique_families": 24,
+        "selected_family_ids": [
+          "addition-fact-band-30-pair-1004",
+          "addition-fact-band-30-pair-1013",
+          "addition-fact-band-30-pair-516",
+          "addition-fact-band-30-pair-524",
+          "addition-fact-band-30-pair-589",
+          "addition-fact-band-30-pair-610",
+          "addition-fact-band-30-pair-614",
+          "addition-fact-band-30-pair-620",
+          "addition-fact-band-30-pair-653",
+          "addition-fact-band-30-pair-677",
+          "addition-fact-band-30-pair-695",
+          "addition-fact-band-30-pair-707",
+          "addition-fact-band-30-pair-720",
+          "addition-fact-band-30-pair-747",
+          "addition-fact-band-30-pair-759",
+          "addition-fact-band-30-pair-764",
+          "addition-fact-band-30-pair-788",
+          "addition-fact-band-30-pair-830",
+          "addition-fact-band-30-pair-908",
+          "addition-fact-band-30-pair-975",
+          "addition-fact-band-30-pair-985",
+          "addition-fact-band-30-pair-986",
+          "addition-fact-band-30-pair-990",
+          "addition-fact-band-30-pair-992"
+        ],
+        "selected_case_fingerprint": "1b58d5a6f1db0b473d6cd91341a07d76464acbc10bafbdad8abc0832f0071554"
+      },
+      "novelty_preflight": {
+        "response_ledger_files": 111,
+        "prior_response_records": 101920,
+        "prior_unique_prompt_hashes": 3096,
+        "selected_prompt_overlap": 0,
+        "selected_family_overlap": 0,
+        "note": "Preflight scanned every JSONL and gzip JSONL ledger under evolution_lab/evidence and retained only records with raw response, objective grade, and arm/condition. Exact normalized prompt hashes and deterministic family IDs were disjoint."
+      },
+      "fixed_conditions": [
+        {
+          "condition": "with-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed42/20261026T135143_203320Z/manifest.json",
+          "source_manifest_sha256": "6ab0e27018111be73abb7fdfff4339a25ef5f5e97ea0bbed5b0199d0b188f111",
+          "lora_weights_sha256": "098ce0b9e0425edc7c8253f85a77c9d66b40fb35c5ee9e74a19967af112c2a2d",
+          "random_weights_sha256": "1d1b4f80c633e55e6283c7d5d41a82e18517d96c9dd079a2560a18aba5545c35",
+          "lora_delta_stats_sha256": "72a79c432a963e4213bc76dbda1b504a43112e4f3ada907d14354a32a30a798a",
+          "random_delta_stats_sha256": "fac340aa6226b28477420f630c2e5a8e440fbc3debf7f0f7e1e25a0cc4fcb91f"
+        },
+        {
+          "condition": "with-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed43/20261026T135233_347717Z/manifest.json",
+          "source_manifest_sha256": "ddf9891c95ee0ba43e3258a3b3e6944c23ff1cb632787f6a41939a38d49c8f7e",
+          "lora_weights_sha256": "3493648113f586ef403b22d52e0847260c8acf2eb93f3ca2857318f535de8720",
+          "random_weights_sha256": "02007b695e0c453b739ca85ab5de6152525fa55c899383c9f897e2c824563ef4",
+          "lora_delta_stats_sha256": "349ac397f090c4212a88c00ff0f2a84acb371de43d0729f1ddf83b049510fd10",
+          "random_delta_stats_sha256": "0965c5a67837fdd46d40e63ea840f917bbcf5b9595e4b73a0899663fa919687c"
+        },
+        {
+          "condition": "with-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/with-replacement_seed44/20261026T135319_728270Z/manifest.json",
+          "source_manifest_sha256": "c000cd47e06c1500ba4e5fbcc07e309a78e510601eedaa56f0859d7e1ddbb316",
+          "lora_weights_sha256": "ae87e0b935e01d883689e67d05dc17207ca067f313d128865d33cb2d12ee17d4",
+          "random_weights_sha256": "6e95ac699a7df944c59e7f76ee3386f949248ea3c10ea2847367b3b071bb7879",
+          "lora_delta_stats_sha256": "e7fc7b29ea99a69c3966b3955f8b7e5e8d49f62dd5e3376a3cc9926823dd38ab",
+          "random_delta_stats_sha256": "5bc47a03d3908724b4f6b896409255750543f1e6f382c36fe329919acdec9edd"
+        },
+        {
+          "condition": "without-replacement_seed42",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed42/20261026T135211_507933Z/manifest.json",
+          "source_manifest_sha256": "03a73a102a652b0e209399ffab03cf6eb137ea2acbfad62cbae6faf53c4a4c98",
+          "lora_weights_sha256": "48fd8688eb5553d1a18d2dea487a5b4a8fd0b98749d482db678acfae3e171794",
+          "random_weights_sha256": "80803b8670f72aa72d9c2604d3d35b78f0270c3d6f5124da47b7678310d17fcb",
+          "lora_delta_stats_sha256": "f40b96a65ede2e1b99a2b231b3ab4287deafade76fd55514c05863ca9b87db31",
+          "random_delta_stats_sha256": "b47c886e013ed4e9c9c1921976491f61eaeeb67c1947729ef6d77c34c08a1161"
+        },
+        {
+          "condition": "without-replacement_seed43",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed43/20261026T135256_102680Z/manifest.json",
+          "source_manifest_sha256": "a9e12a832474feeb190b593017fdfaac654c6928960f15b264369f23feba3ec2",
+          "lora_weights_sha256": "f7c2fa3d65a9ee9c7cd7f920cd2ee23e25b5e6c43d8d73ffb495689eb779a13b",
+          "random_weights_sha256": "ce794fe2d26113e66274f3fd91a6b4d4e326ff4ce142c27c3920d3c46450fc10",
+          "lora_delta_stats_sha256": "d27cc014aed88449dfd4ae10eb3c4bdec92607331d4c64d28f8f16e52488f36b",
+          "random_delta_stats_sha256": "bac8c8fa9d13173376ad2ef6087f65b8eba77fb38da1419ab0c5ea4fbe3f7b65"
+        },
+        {
+          "condition": "without-replacement_seed44",
+          "source_manifest": "evolution_lab/evidence/f028_example_exposure/training/without-replacement_seed44/20261026T135342_816561Z/manifest.json",
+          "source_manifest_sha256": "2bbc2b0a44aef993931f6945ee18797844f929963fc2055ecf13b0202943bb48",
+          "lora_weights_sha256": "a0af88b0659f6793ea0d2c771997484c6d0dd3b65ab1f8d3c8e9e59b90ac3d54",
+          "random_weights_sha256": "1672320ce5fc1ec559ca8800b26d3cd0bd18c6e0b99ab8b1e4b902124e215931",
+          "lora_delta_stats_sha256": "acc9b93156aff7233526bcf059c695952ba7da8fb78ff0d1897638f4022d394f",
+          "random_delta_stats_sha256": "8131f63fa74e14cc8ea663106bd433986214a3baf83c6cae608aab11eba59038"
+        }
+      ],
+      "controls": [
+        "unedited base",
+        "task-matched arithmetic prompt",
+        "all six frozen F028 LoRA adapters",
+        "each adapter paired with its F028 layerwise norm-matched random edit"
+      ],
+      "evaluation": {
+        "budgets": [
+          16,
+          64
+        ],
+        "decoding": "greedy",
+        "unique_confirmation_questions": 96,
+        "family_count": 24,
+        "planned_new_generations_per_budget": 1344,
+        "planned_new_generations_total": 2688,
+        "planned_cached_baseline_rows_total": 2304,
+        "planned_response_records_total": 4992,
+        "primary_metric": "Final integer equals independently computed operand sum; strict single-integer format reported separately.",
+        "secondary_metrics": [
+          "generated token count",
+          "fraction of responses reaching at least 90% of max_new_tokens",
+          "paired family-bootstrap change in correctness from 16 to 64 tokens per arm",
+          "paired family-bootstrap adapter minus base, prompt, and norm-matched random at each budget."
+        ],
+        "uncertainty": "Paired bootstrap resamples 24 complete arithmetic families. This is exploratory; family count limits precision."
+      },
+      "decision_rule": "No adapter is promoted by F030. If extended generation removes an apparent adapter gain, record the cap/verbosity confound. If a gain persists, treat it as narrow and require new operation families, more independent adapters and capability-preservation checks before any promotion.",
+      "confirmation_consumed": true,
+      "eligible_for_promotion": false,
+      "reproduction_commands": [
+        "python -m evolution_lab generate-cases --seed 20261027 --start 1202048 --count 2048 --output evolution_lab/evidence/f030_token_budget_robustness/arithmetic_dataset",
+        "PYTHONPATH=. python evolution_lab/evidence/f030_token_budget_robustness/run_f030.py",
+        "PYTHONPATH=. python evolution_lab/evidence/f030_token_budget_robustness/analyze_f030.py"
+      ],
+      "preregistration_sha256": "f54ee76163dfdfd0a54270095aa776b6b53ded01c5172b65aaeac4811257bb79",
+      "actual_progress": {
+        "status": "complete-no-promotion",
+        "model_generations": 2688,
+        "cache_hits": 2304,
+        "response_records": 4992,
+        "unique_confirmation_questions": 96,
+        "confirmation_families": 24,
+        "summary_path": "evolution_lab/evidence/f030_token_budget_robustness/summary.json",
+        "summary_sha256": "26c5b46cf8b6a16efa756cfca8759fee865db8d43bbf5a574edf95d783a3dd37",
+        "note": "All preregistered campaigns completed and raw outputs were regraded against deterministic integer-sum keys. At 16 tokens, the three without-replacement adapters scored 39/96, 58/96, and 50/96 versus base 18/96 and matched random edits 19/96, 18/96, and 18/96. At 64 tokens, base scored 75/96, prompt 81/96, and adapters 71–84/96; adapter gains over the matched prompt were mixed or null. These results indicate strong output-budget sensitivity, not a general reasoning gain. No candidate promoted."
+      }
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
   "response_accounting_snapshot": {
-    "as_of_utc": "2026-10-27T07:31:17Z",
-    "response_ledger_files": 111,
-    "response_records": 101920,
-    "unique_normalized_question_prompts": 3096,
-    "question_families_with_responses": 444,
-    "method": "Census of JSONL response ledgers under evolution_lab/evidence containing response, objective metrics, and an arm or condition. Deduplicated prompts by normalized_prompt_sha256 where present; repeated answers across arms, seeds, and studies remain separate response records. Generated but unevaluated examples, training updates, cached repeats, and software tests are counted separately.",
-    "note": "Census rescanned all JSONL response ledgers under evolution_lab/evidence. F029 is complete: 11,144 model generations across 796 new confirmation prompts, 9,552 verified cached base/prompt rows, and 20,696 response records. All F029 confirmation arms are fixed and complete; phrase preservation failed for every adapter, so no candidate is promoted. The F029 arithmetic score increase for the without-replacement arms is confounded by the 16-token output cap and terse answers, and is not interpreted as improved reasoning.",
-    "model_generations": 71824,
-    "cache_hit_rows": 30096
+    "as_of_utc": "2026-10-27T16:20:00Z",
+    "response_ledger_files": 125,
+    "response_records": 106912,
+    "unique_normalized_question_prompts": 3192,
+    "question_families_with_responses": 468,
+    "method": "Census of JSONL response ledgers under evolution_lab/evidence containing raw response, objective metrics/grade, and arm or condition. Deduplicated by normalized prompt hash; repeated answers across arms, seeds, studies and caps remain separate response records. Generated but unevaluated examples, training updates, cache hits, and software tests are counted separately.",
+    "model_generations": 74512,
+    "cache_hit_rows": 32400,
+    "note": "F030 added 2,688 model generations and 2,304 verified cached baseline rows over 96 new confirmation prompts and 24 new arithmetic families. Token-budget results are highly budget-sensitive and do not show robust advantage over the task-matched prompt at 64 tokens. No adapter is promoted. Counts re-censused from every JSONL and gzip JSONL evidence file after F030 completion."
   }
 }

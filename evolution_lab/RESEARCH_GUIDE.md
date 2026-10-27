@@ -1598,3 +1598,27 @@ The preregistration, sampled-ID traces, checkpoints, raw generations, graded
 reports, checksums, and summary are under `evidence/f028_example_exposure/`.
 MPS was built but unavailable in this executor, so F028 is CPU evidence and
 does not add Apple GPU compatibility results.
+
+
+## F030 — arithmetic output-budget robustness (2026-10-27)
+
+**Question and hypothesis.** F029's without-replacement adapters scored unusually well on held-out addition under a 16-new-token cap. F030 asked whether this advantage survives when the base and prompt can finish longer answers. The primary intervention was the same greedy evaluation at 16 versus 64 new tokens; no training, candidate selection, threshold fitting, or adapter promotion occurred.
+
+**Data and controls.** We preregistered 96 unique questions from 24 whole arithmetic families, selected from a fresh deterministic `arithmetic-v3` confirmation shard (seed 20261027); exact prompt and family overlap with all earlier response ledgers was zero. Six frozen F028 LoRA adapters were tested with their layerwise norm-matched random-edit counterparts, plus the unedited base and a task-matched arithmetic prompt. All responses were graded after generation against independently computed sums. Family-paired bootstrap intervals resampled the 24 complete families. The 16-token arm is an internal replication; the 64-token arm tests cap sensitivity.
+
+**Result.** At 16 tokens the unedited base scored 18/96 (18.8%) and the task-matched prompt 10/96 (10.4%). The three without-replacement adapters scored 39/96, 58/96, and 50/96; their matched random edits scored 19/96, 18/96, and 18/96. Adapter-minus-base paired family-bootstrap 95% intervals were respectively +13.5 to +31.3, +32.3 to +51.0, and +25.0 to +40.6 percentage points. At 64 tokens, base scored 75/96 (78.1%) and prompt 81/96 (84.4%); adapter scores ranged 71–84/96 and matched random edits 71–80/96. Each without-replacement adapter was close to the prompt: +1.0 points (95% CI −3.1 to +5.2), +3.1 (−3.1 to +9.4), and 0.0 (−6.2 to +5.2). Comparisons with random edits were mixed: +11.5 points (5.2 to 16.7), +4.2 (−2.1 to 10.4), and +9.4 (1.0 to 17.7). With-replacement adapters were also mixed and did not consistently beat the prompt or random edits. These are exploratory intervals on 24 related arithmetic families, not multiplicity-adjusted evidence.
+
+The base and prompt themselves improved sharply with the larger output allowance (base: 18.8% to 78.1%; prompt: 10.4% to 84.4%). Without-replacement adapters remained more concise and saturated the 64-token allowance on only 1–4% of cases, while the base saturated it on 58%. This supports an output-budget interaction: a short cap suppresses the base/prompt more than these terse adapters. It does **not** establish improved arithmetic reasoning, a general trait change, or a causal mapping from particular weights to behavior. No adapter passes the broader preservation/promotion gate.
+
+**Reproduction and evidence.** Run the exact sequential campaigns and deterministic regrader from the repository root:
+
+```sh
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f030_token_budget_robustness/run_f030.py
+PYTHONPATH=. /Users/archerjohnson/behavior-edit/.venv/bin/python \
+  evolution_lab/evidence/f030_token_budget_robustness/analyze_f030.py
+```
+
+The preregistration, generated dataset and hashes, all 14 run directories and response ledgers, score reports, and paired-family analysis are in `evidence/f030_token_budget_robustness/`. The analysis rechecks run/spec/adapter/delta hashes and regrades raw answers; `summary.json` records 96 unique questions, 24 families, 2,688 new generations, 2,304 verified cache rows, and 4,992 total response records. This run used CPU float32; Torch reported MPS built but unavailable in the execution context, so it is not new GPU evidence.
+
+**Interpretation and next step.** F030 supports the narrow conclusion that measured edit effects depend strongly on the generation budget. The apparent short-cap arithmetic improvement does not reliably exceed a fair task prompt when the latter has enough room to answer. Keep all candidates quarantined. A fresh follow-up should compare exact-answer-at-first-token and fixed-output-format behavior across new operation families, while preserving an untouched confirmation set and the same prompt/random/LoRA controls. Do not reuse F030's exposed questions for tuning or final confirmation.

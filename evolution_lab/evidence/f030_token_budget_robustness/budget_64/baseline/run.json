@@ -1,0 +1,110 @@
+{
+  "run_id": "20261027T125139_168573Z",
+  "spec": {
+    "schema_version": 1,
+    "answer_grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+    "dataset_generator": "arithmetic-v3",
+    "dataset_manifest_sha256": "49a72dc412c272839d03be3230f05bbd30d47edbb5e33b23a7d42900b8743036",
+    "dataset_seed": 20261027,
+    "split": "confirmation",
+    "case_fingerprint": "27d5c22b3a6c4022cdac0411357d367bfe5b1c7f5273bca47be765fa349f9d09",
+    "unique_questions": 96,
+    "split_offset": 0,
+    "family_sampling": {
+      "method": "sha256-rank-whole-families-v1",
+      "family_limit": 24,
+      "family_seed": 20261027,
+      "selected_families": [
+        "addition-fact-band-30-pair-985",
+        "addition-fact-band-30-pair-614",
+        "addition-fact-band-30-pair-720",
+        "addition-fact-band-30-pair-747",
+        "addition-fact-band-30-pair-788",
+        "addition-fact-band-30-pair-986",
+        "addition-fact-band-30-pair-990",
+        "addition-fact-band-30-pair-1004",
+        "addition-fact-band-30-pair-610",
+        "addition-fact-band-30-pair-707",
+        "addition-fact-band-30-pair-975",
+        "addition-fact-band-30-pair-677",
+        "addition-fact-band-30-pair-589",
+        "addition-fact-band-30-pair-695",
+        "addition-fact-band-30-pair-516",
+        "addition-fact-band-30-pair-830",
+        "addition-fact-band-30-pair-764",
+        "addition-fact-band-30-pair-759",
+        "addition-fact-band-30-pair-524",
+        "addition-fact-band-30-pair-992",
+        "addition-fact-band-30-pair-653",
+        "addition-fact-band-30-pair-620",
+        "addition-fact-band-30-pair-908",
+        "addition-fact-band-30-pair-1013"
+      ]
+    },
+    "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "requested_device": "cpu",
+    "requested_precision": "float32",
+    "arms": [
+      "base",
+      "prompt"
+    ],
+    "base_system_prompt": "You are a helpful assistant.",
+    "prompt_system_prompt": "You are a helpful assistant. Solve the arithmetic problem carefully and reply with one integer.",
+    "adapter_hashes": {},
+    "adapter_sources": {},
+    "adapter_delta_hashes": {
+      "adapter": null,
+      "random": null
+    },
+    "random_norm_match": null,
+    "max_new_tokens": 64,
+    "decoding": "greedy"
+  },
+  "spec_sha256": "7ae25fd4c3520d505a559306c9a3f4abe90fdfa7e5193a62af2252af5fcaac16",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "6cf9da3e92f1722c8103f1df5b92f320f407eca7",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "dataset_census": {
+    "unique_cases": 2048,
+    "unique_prompts": 2048,
+    "split_counts": {
+      "confirmation": 252,
+      "dev": 328,
+      "train": 1468
+    }
+  },
+  "records_written": 192,
+  "model_generations": 192,
+  "cache_hits": 0,
+  "actual_model": {
+    "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "device": "cpu",
+    "precision": "torch.float32"
+  },
+  "elapsed_seconds": 631.238,
+  "observations_sha256": "856d3175f915f0b5f60e9e0c56ac16c9e61e9c6bbd180deddd832638d54aa20a",
+  "report_sha256": "2757e4f9f3139c32ab331ab2b0ee16775472767ec190fc9f6a6ef45adc5e427a",
+  "response_records": 192,
+  "completed_arms": {
+    "base": 96,
+    "prompt": 96
+  }
+}
