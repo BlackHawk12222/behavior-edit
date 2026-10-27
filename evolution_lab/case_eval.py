@@ -292,10 +292,30 @@ def validate_adapter_source(path: Path, arm: str, model_id: str, revision: str) 
     config = json.loads(config_path.read_text())
     if manifest.get("status") != "complete" or manifest.get("smoke_only"):
         raise ValueError(f"{arm} adapter must come from a complete, non-smoke experiment")
-    if manifest.get("model_id") != model_id or manifest.get("resolved_revision", "").lower() != revision.lower():
+    def same_model_reference(value: str | None) -> bool:
+        if value == model_id:
+            return True
+        # Offline runs record the exact Hugging Face cache snapshot as the
+        # model ID. Accept that alias only when both repository and immutable
+        # revision are encoded in the canonical cache path.
+        if not value:
+            return False
+        cached = Path(value)
+        if cached.name.lower() != revision.lower():
+            return False
+        repo_component = next(
+            (parent.name for parent in cached.parents if parent.name.startswith("models--")),
+            None,
+        )
+        if repo_component is None:
+            return False
+        cached_repo = repo_component.removeprefix("models--").replace("--", "/")
+        return cached_repo == model_id
+
+    if not same_model_reference(manifest.get("model_id")) or manifest.get("resolved_revision", "").lower() != revision.lower():
         raise ValueError(f"{arm} adapter base model or immutable revision does not match the requested model")
     adapter_base = config.get("base_model_name_or_path")
-    if adapter_base and adapter_base != model_id:
+    if adapter_base and not same_model_reference(adapter_base):
         raise ValueError(f"{arm} adapter targets {adapter_base}, not requested base model {model_id}")
     manifest_arm = "lora" if arm == "adapter" else arm
     recorded = manifest.get("adapter_hashes", {}).get(manifest_arm)

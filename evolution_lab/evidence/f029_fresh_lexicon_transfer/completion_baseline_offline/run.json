@@ -1,0 +1,85 @@
+{
+  "run_id": "20261027T004928_489853Z",
+  "spec": {
+    "schema_version": 1,
+    "answer_grader_version": "final-integer-token-v2+unique-completion-choice-v1",
+    "dataset_generator": "phrase-sentence-completion-v4-fresh-lexicon",
+    "dataset_manifest_sha256": "152d27046b9e5de7977aa10291d734ab0977721aa9a9f26535c4829b6fe40941",
+    "dataset_seed": 84,
+    "split": "confirmation",
+    "case_fingerprint": "ace9ffc33ec2a919968e76b4b171d7de14bf6287bf8d7133ffacc124120c82ad",
+    "unique_questions": 464,
+    "split_offset": 0,
+    "family_sampling": null,
+    "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "requested_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "requested_device": "cpu",
+    "requested_precision": "float32",
+    "arms": [
+      "base",
+      "prompt"
+    ],
+    "base_system_prompt": "You are a helpful assistant.",
+    "prompt_system_prompt": "You are a helpful assistant. Select the option that correctly completes the phrase or sentence and reply with only the missing word.",
+    "adapter_hashes": {},
+    "adapter_sources": {},
+    "adapter_delta_hashes": {
+      "adapter": null,
+      "random": null
+    },
+    "random_norm_match": null,
+    "max_new_tokens": 16,
+    "decoding": "greedy"
+  },
+  "spec_sha256": "0b68f0cf96cc570b30d164dbd31ce0766339937f22b8e5ceb74d07384f6a190b",
+  "status": "complete",
+  "environment": {
+    "python": "3.11.17",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "peft": "0.18.1",
+      "numpy": "2.4.6",
+      "safetensors": "0.8.0"
+    },
+    "git_commit": "a55d5634a6a9847423397c4ea015907890412c17",
+    "git_dirty": true,
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "TOKENIZERS_PARALLELISM": null,
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "dataset_census": {
+    "unique_cases": 8144,
+    "unique_prompts": 8144,
+    "unique_families": 533,
+    "split_counts": {
+      "train": 7304,
+      "dev": 376,
+      "confirmation": 464
+    },
+    "task_type_counts": {
+      "phrase_completion": 384,
+      "sentence_completion": 7760
+    }
+  },
+  "records_written": 928,
+  "model_generations": 928,
+  "cache_hits": 0,
+  "actual_model": {
+    "resolved_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "device": "cpu",
+    "precision": "torch.float32"
+  },
+  "elapsed_seconds": 376.403,
+  "observations_sha256": "14cb1d54a8ae2c3373cb10ca6ac2a739036225a27f14ef17f7042f48eb10ba0f",
+  "report_sha256": "587a811b8f5be17729cce9e9afdfda1459ae7d5157d0640ec24e7df671b2f655",
+  "response_records": 928,
+  "completed_arms": {
+    "base": 464,
+    "prompt": 464
+  }
+}

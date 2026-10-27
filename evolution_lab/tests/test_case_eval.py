@@ -232,9 +232,23 @@ class CaseEvaluationTests(unittest.TestCase):
             (root / "manifest.json").write_text(json.dumps(manifest))
             result = case_eval.validate_adapter_source(adapter, "adapter", "fixture", "a" * 40)
             self.assertEqual(result["seed"], 4)
+            cached_model = (
+                "/tmp/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/" + "b" * 40
+            )
+            (adapter / "adapter_config.json").write_text(json.dumps({"base_model_name_or_path": cached_model}))
+            manifest["model_id"] = cached_model
+            manifest["resolved_revision"] = "b" * 40
+            manifest["adapter_hashes"]["lora"] = checkpoint_hashes(adapter)
+            (root / "manifest.json").write_text(json.dumps(manifest))
+            result = case_eval.validate_adapter_source(
+                adapter, "adapter", "Qwen/Qwen2.5-0.5B-Instruct", "b" * 40
+            )
+            self.assertEqual(result["seed"], 4)
+            with self.assertRaisesRegex(ValueError, "base model or immutable revision"):
+                case_eval.validate_adapter_source(adapter, "adapter", "Qwen/Qwen2.5-1.5B-Instruct", "b" * 40)
             (adapter / "adapter_model.safetensors").write_bytes(b"modified weights")
             with self.assertRaisesRegex(ValueError, "do not match hashes"):
-                case_eval.validate_adapter_source(adapter, "adapter", "fixture", "a" * 40)
+                case_eval.validate_adapter_source(adapter, "adapter", "Qwen/Qwen2.5-0.5B-Instruct", "b" * 40)
 
     def test_resumes_without_duplicate_generations_and_keeps_raw_scores(self):
         with tempfile.TemporaryDirectory() as directory:
