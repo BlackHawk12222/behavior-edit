@@ -224,6 +224,83 @@ fixed-mixture controls on development families. Keep a new confirmation family
 pool untouched until the protocol is frozen. Add causal ablations before
 attempting a hypernetwork or claiming transfer to a large model.
 
+### F029 — Completion adapters transfer strongly to sentence agreement, while phrases regress
+
+Status: independent confirmation completed; no adapter passes the preservation gate.
+
+The frozen study tested all six F028 completion adapters (three with-replacement
+and three without-replacement training schedules) on 464 new lexical-family
+completion questions, plus 332 new arithmetic questions as a narrow locality
+check. The 33 completion families (8 curated phrase families and 25 sentence
+families) and 83 arithmetic families were checked for overlap against earlier
+response ledgers before registration. Candidate weights and controls were fixed
+before any confirmation answers were generated. Each adapter was compared on
+the exact same questions to the base, a task-matched prompt, and its own
+layerwise norm-matched random edit. The evaluator later regraded every raw
+answer from the trusted dataset keys and verified campaign checksums. The raw
+JSONL ledgers are stored losslessly as gzip to keep the GitHub evidence compact;
+the analysis index records both compressed-file checksums and checksums of the
+decompressed original ledgers.
+
+Across the six adapters, sentence accuracy was 83.0–89.2% (332–357/400),
+above the prompt control at 67.8% for every seed; all six paired family-bootstrap
+95% intervals for adapter minus prompt were positive. Phrase accuracy was only
+29.7–51.6% (19–33/64), below the base at 60.9% for all six candidates. Phrase
+intervals were wide and included zero in all six comparisons. Overall completion
+scores ranged from 76.9% to 83.2% versus 65.1% for the prompt. These are narrow
+completion-task transfer results, not evidence of general language ability.
+
+The arithmetic check exposed a striking training-schedule/seed interaction.
+With-replacement adapters scored 21.4–22.6% (71–75/332), similar to the base at
+20.2% and paired random edits at 20.2–21.1%. Without-replacement adapters scored
+40.7%, 55.7%, and 56.0% (135, 185, and 186/332); their paired gains over random
+were +20.5, +35.2, and +35.5 percentage points, with family-bootstrap intervals
+above zero. The raw answers show many base/prompt outputs spending the 16-token
+generation budget on unfinished explanations while adapters often return a
+bare number. This may be a response-length/format effect that improves exact-key
+grading under this fixed token limit; it does not establish improved arithmetic
+reasoning. Arithmetic transfer was not predicted as a target outcome, the
+schedule result has only three seeds per arm, and this single addition dataset
+is not a broad capability test.
+
+Exact intervention and controls: no new training was done for F029. It evaluated
+the six hash-identified F028 rank-4 adapters and their paired layerwise
+norm-matched random deltas. Base and prompt responses were held identical across
+all adapter comparisons through verified cache reuse. Greedy decoding used
+16 new tokens. The prompt-only score was 31/64 on phrases and 271/400 on
+sentences; arithmetic prompt accuracy was 36/332, below the base's 67/332.
+Paired family bootstrap results are in `evidence/f029_fresh_lexicon_transfer/summary.json`;
+all raw responses, campaign checksums, model revisions, delta sidecars,
+preregistration and failed preflight record are retained beside it.
+
+Decision: quarantine all six candidates from promotion. Their phrase regressions
+break the preservation gate even though sentence transfer is strong. Retire both
+confirmation pools; do not use their failures to tune and then reuse them as
+independent tests. Next, investigate the terse-output confound with a separately
+preregistered, longer-token arithmetic confirmation set, length-matched scoring,
+and fresh phrase families. Compare controlled training-data exposure and
+sentence-task edits to nonlearned output-format controls before attributing
+changes to a behavior or weight region. No layer-specific cause or predictor was
+tested, and nothing here transfers Qwen tensors or behavior claims to Astra.
+
+Reproduce from the repository root with the pinned local snapshot available:
+
+```sh
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python evolution_lab/evidence/f029_fresh_lexicon_transfer/run_f029_confirmation.py
+PYTHONPATH=. python evolution_lab/evidence/f029_fresh_lexicon_transfer/analyze_f029.py
+python -m unittest discover -s evolution_lab/tests -p 'test_*.py'
+```
+
+This run used Python 3.11.17 and PyTorch 2.14.1 on CPU float32. MPS was built
+into this PyTorch package but was unavailable to the current execution context,
+so F029 records no new MPS hardware result. The full software suite passed 101
+tests; these are software checks, not model questions. F029 adds 11,144 model
+generations and 796 unique confirmation prompts, plus 9,552 verified cached
+baseline rows. Across checked-in evaluation ledgers, the updated census is
+101,920 response records, 71,824 model generations, 30,096 cache-hit rows, and
+3,096 unique normalized prompts. Counts do not include generated-but-unevaluated
+cases, training updates or software tests.
+
 ### F007 — Deterministic arithmetic case generation is now auditable
 
 Status: infrastructure verified; no model behavior result.

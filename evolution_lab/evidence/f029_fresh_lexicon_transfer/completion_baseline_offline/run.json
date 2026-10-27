@@ -81,5 +81,12 @@
   "completed_arms": {
     "base": 464,
     "prompt": 464
+  },
+  "observations_storage": {
+    "path": "observations.jsonl.gz",
+    "encoding": "gzip",
+    "compressed_sha256": "328ba392bf389e9c5d0894f962508bde567dc2a7236dac4d20214f7bd88bf367",
+    "uncompressed_sha256": "14cb1d54a8ae2c3373cb10ca6ac2a739036225a27f14ef17f7042f48eb10ba0f",
+    "uncompressed_bytes": 663065
   }
 }

@@ -2538,7 +2538,7 @@
     },
     {
       "id": "f029-fresh-lexicon-transfer",
-      "status": "running-confirmation-candidates-pending",
+      "status": "completed-independent-confirmation-no-promotion",
       "question": "Do six already-trained completion adapters transfer their phrase/sentence behavior to independently held-out lexical families, and what happens to arithmetic locality?",
       "hypothesis": "Most fixed adapters will score above a task-matched strong prompt on new completion families; the effect may vary by training seed/exposure policy. Arithmetic performance may regress, so target transfer alone is insufficient for promotion.",
       "design": "Frozen candidate set: all six F028 adapters, paired with their own layerwise effective-delta norm-matched random control. No training, choosing, threshold tuning, or hyperparameter changes after inspecting confirmation responses. Compare each candidate to same-question base, strong prompt, and paired random. Then independently run all four arms on fresh arithmetic locality cases.",
@@ -2677,7 +2677,7 @@
           "greedy": true
         },
         "total_unique_confirmation_questions": 796,
-        "planned_new_model_generations": 6368,
+        "planned_new_model_generations": 11144,
         "planned_cached_base_prompt_reuses": 9552,
         "planned_response_records_including_cache_rows": 20696,
         "software_tests_are_not_model_generations": true
@@ -2690,13 +2690,14 @@
         "six paired layerwise norm-matched random edits"
       ],
       "reproduction_commands": [
-        "python -m evolution_lab case-eval evolution_lab/evidence/completion_v4 --split confirmation --allow-confirmation --model Qwen/Qwen2.5-0.5B-Instruct --revision 7ae557604adf67be50417f59c2c2f167def9a775 --device cpu --precision float32 --arms base prompt --output-dir ...",
-        "Run same frozen completion confirmation for each F028 adapter/random pair, reusing only the completed checksum-verified base/prompt cache. Repeat for the arithmetic confirmation dataset."
+        "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python evolution_lab/evidence/f029_fresh_lexicon_transfer/run_f029_confirmation.py",
+        "PYTHONPATH=. python evolution_lab/evidence/f029_fresh_lexicon_transfer/analyze_f029.py",
+        "python -m unittest discover -s evolution_lab/tests -p \"test_*.py\""
       ],
       "candidate_conditions_source": "evolution_lab/evidence/f028_example_exposure/training/",
-      "confirmation_consumed": false,
+      "confirmation_consumed": true,
       "eligible_for_promotion": false,
-      "preregistration_sha256": "db981fad0713acea09b5925dab0e266ceb59a3eb84a2147df584e5a4bcfe276b",
+      "preregistration_sha256": "2b526ec4ce6e9123574e05f18592925ac65f7e31ced2f7e98751a47e4f46517f",
       "deviations_and_progress": [
         {
           "event": "initial_baseline_load_failed",
@@ -2709,10 +2710,14 @@
         {
           "event": "completion_base_prompt_confirmation_completed",
           "detail": "The fixed base and prompt arms were evaluated offline from the locally cached immutable checkpoint. Candidate set remains all six preregistered F028 LoRA/random pairs; no condition was selected or changed after seeing these controls."
+        },
+        {
+          "event": "planned_count_correction",
+          "detail": "The initial preregistration undercounted new model generations by omitting six candidate adapter arms and six matched-random arms. Corrected before final analyses: 14 generations per question (base, prompt, six adapters, six random), 11,144 planned new generations, 9,552 cache reuses, and 20,696 response rows. This accounting correction does not change conditions or decision rules."
         }
       ],
       "completion_confirmation_consumed": true,
-      "locality_confirmation_consumed": false,
+      "locality_confirmation_consumed": true,
       "completion_baseline_result": {
         "run_dir": "evolution_lab/evidence/f029_fresh_lexicon_transfer/completion_baseline_offline",
         "run_id": "20261027T004845_676022Z",
@@ -2738,18 +2743,67 @@
         "spec_sha256": "0b68f0cf96cc570b30d164dbd31ce0766339937f22b8e5ceb74d07384f6a190b",
         "interpretation": "Descriptive controls only. Prompt helps sentence agreement while base is better on phrase choices. Only 8 phrase and 25 sentence families; no general language claim."
       },
-      "planned_new_model_generations": 6368,
-      "unique_confirmation_questions": 796
+      "planned_new_model_generations": 11144,
+      "unique_confirmation_questions": 796,
+      "planned_response_records": 20696,
+      "planned_cached_baseline_records": 9552,
+      "actual_progress": {
+        "campaigns_found": 15,
+        "response_campaigns_complete": 14,
+        "completion_campaigns_complete": 7,
+        "arithmetic_campaigns_complete": 7,
+        "campaigns_failed_before_generation": 1,
+        "new_model_generations": 11144,
+        "cache_hits": 9552,
+        "response_records": 20696,
+        "unique_confirmation_questions": 796,
+        "all_confirmation_campaigns_complete": true,
+        "summary_path": "evolution_lab/evidence/f029_fresh_lexicon_transfer/summary.json",
+        "summary_sha256": "d966719236fc66ec2931c2800a3f0ab50a224b2acfa91bb7fe0e5ea7d62b77d5",
+        "analysis_method": "Checksum-verified raw ledgers; each answer regraded from trusted dataset keys; paired family bootstrap by task type; base/prompt cache exact-match checked across all six candidates.",
+        "runtime": "Python 3.11.17; PyTorch 2.14.1; CPU float32; MPS built=True, available=False in this execution context.",
+        "software_tests_passed": 101,
+        "response_storage": "Lossless gzip JSONL; summary lists compressed and decompressed SHA-256 values per campaign."
+      },
+      "cumulative_unique_questions_added": 796,
+      "results": {
+        "completion": {
+          "unique_questions": 464,
+          "families": 33,
+          "phrase_questions": 64,
+          "sentence_questions": 400,
+          "base": "244/464 (52.6%)",
+          "prompt": "302/464 (65.1%)",
+          "adapter_total_range": "357–386/464 (76.9–83.2%) across six fixed adapters",
+          "adapter_phrase_range": "19–33/64 (29.7–51.6%); every adapter below base at 39/64 (60.9%)",
+          "adapter_sentence_range": "332–357/400 (83.0–89.2%); every adapter above prompt at 271/400 (67.8%)",
+          "phrase_uncertainty": "All six paired family-bootstrap 95% intervals include zero; only 8 phrase families.",
+          "sentence_uncertainty": "All six paired family-bootstrap 95% intervals for adapter minus prompt exceed zero; only 25 sentence families."
+        },
+        "arithmetic_locality": {
+          "unique_questions": 332,
+          "families": 83,
+          "base": "67/332 (20.2%)",
+          "prompt": "36/332 (10.8%)",
+          "with_replacement_adapter_range": "71–75/332 (21.4–22.6%), near base and random controls",
+          "without_replacement_adapters": "135/332 (40.7%), 185/332 (55.7%), 186/332 (56.0%)",
+          "without_replacement_minus_random_pp": "+20.5, +35.2, +35.5; paired family-bootstrap 95% intervals above zero",
+          "limit": "Short 16-token greedy output cap; adapter outputs are often terse while base/prompt can truncate unfinished explanations. This is not evidence of improved arithmetic reasoning."
+        },
+        "decision": "Quarantine all six adapters: transfer is sentence-specific and every adapter is below base on phrase completion. Confirmation pools are retired; no tuning on these responses."
+      }
     }
   ],
   "counting_note": "Keep unique questions, response records, training updates, software tests and cached repetitions separate. Deduplicate normalized prompts across studies before claiming cumulative unique-question counts. Casegen questions are generated records and do not count as model generations or tests of model behavior.",
   "response_accounting_snapshot": {
-    "as_of_utc": "2026-10-26T14:39:08Z",
-    "response_ledger_files": 97,
-    "response_records": 81224,
-    "unique_normalized_question_prompts": 2300,
-    "question_families_with_responses": 328,
+    "as_of_utc": "2026-10-27T07:31:17Z",
+    "response_ledger_files": 111,
+    "response_records": 101920,
+    "unique_normalized_question_prompts": 3096,
+    "question_families_with_responses": 444,
     "method": "Census of JSONL response ledgers under evolution_lab/evidence containing response, objective metrics, and an arm or condition. Deduplicated prompts by normalized_prompt_sha256 where present; repeated answers across arms, seeds, and studies remain separate response records. Generated but unevaluated examples, training updates, cached repeats, and software tests are counted separately.",
-    "note": "Includes F025, F026, F027, and F028: each added 10,272 response records on 428 previously inspected development questions, adding zero unique normalized prompts. Each study has 5,136 new model generations plus 5,136 verified cached base/prompt responses. All are exploratory diagnostics; no confirmation data was used. The current software suite count is tracked separately."
+    "note": "Census rescanned all JSONL response ledgers under evolution_lab/evidence. F029 is complete: 11,144 model generations across 796 new confirmation prompts, 9,552 verified cached base/prompt rows, and 20,696 response records. All F029 confirmation arms are fixed and complete; phrase preservation failed for every adapter, so no candidate is promoted. The F029 arithmetic score increase for the without-replacement arms is confounded by the 16-token output cap and terse answers, and is not interpreted as improved reasoning.",
+    "model_generations": 71824,
+    "cache_hit_rows": 30096
   }
 }
